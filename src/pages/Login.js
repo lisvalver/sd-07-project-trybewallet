@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import addEmail from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -13,9 +16,8 @@ class Login extends React.Component {
     this.validateEmail = this.validateEmail.bind(this);
   }
 
-  async handleChanger({ target: { name, value } }) {
-    await this.setState({ [name]: value });
-    this.validateEmail();
+  handleChanger({ target: { name, value } }) {
+    this.setState({ [name]: value }, this.validateEmail);
   }
 
   validateEmail() {
@@ -29,6 +31,7 @@ class Login extends React.Component {
 
   render() {
     const { email, password, validate } = this.state;
+    const { saveEmail } = this.props;
     return (
       <div>
         <input
@@ -48,11 +51,27 @@ class Login extends React.Component {
           onChange={ (e) => this.handleChanger(e) }
         />
         <Link to="/carteira">
-          <input type="button" value="Entrar" disabled={ validate } />
+          <input
+            type="button"
+            value="Entrar"
+            disabled={ validate }
+            src="/carteira"
+            onClick={ () => saveEmail(email) }
+          />
         </Link>
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  saveEmail: (email) => dispatch(addEmail(email)),
+});
+
+Login.propTypes = {
+  saveEmail: PropTypes.shape({
+    saveEmail: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
