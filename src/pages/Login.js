@@ -6,24 +6,35 @@ import addUser from '../actions';
 class Login extends React.Component {
   constructor() {
     super();
+    this.buttonClick = this.buttonClick.bind(this);
     this.state = {
       inputEmail: '',
       inputPass: '',
+      disabled: true,
     };
   }
 
-  render() {
+  buttonClick(inputEmail, inputPass) {
     const { saveUser, history } = this.props;
-    const { inputEmail, inputPass } = this.state;
+    saveUser(inputEmail, inputPass);
+    const regexEmail = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+    const tamanhoSenha = 6;
+    if (regexEmail.test(email) && inputPass.length < tamanhoSenha) {
+      this.setState({ disabled: false });
+    } return history.push('/carteira');
+  }
+
+  render() {
+    const { inputEmail, inputPass, disabled } = this.state;
     return (
-      <div>
+      <div id="login-box">
         <h1>Trybe Wallet</h1>
         <input
           type="email"
           data-testid="email-input"
           placeholder="Insira seu e-mail"
           className="inputLogin"
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           value={ inputEmail }
           onChange={ (event) => this.setState({ inputEmail: event.target.value }) }
         />
@@ -38,10 +49,8 @@ class Login extends React.Component {
         <button
           type="button"
           className="buttonLogin"
-          onClick={ () => {
-            saveUser(inputEmail, inputPass);
-            history.push('/carteira');
-          } }
+          disabled={ disabled }
+          onClick={ () => { buttonClick(inputEmail, inputPass); } }
         >
           Entrar
         </button>
