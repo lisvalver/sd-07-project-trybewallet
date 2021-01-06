@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { addExpense, editExpense, getData, delExpense, currencyIdIncrement } from '../actions';
+import { addExpense, editExpense, getData,
+  delExpense, currencyIdIncrement } from '../actions';
 
 const AddForm = (props) => {
   const [formDespesa, setFormDespesa] = useState('');
@@ -8,16 +9,31 @@ const AddForm = (props) => {
   const [formDesc, setFormDesc] = useState('');
   const [formPagamento, setFormPagamento] = useState('Cartão de crédito');
   const [formTag, setFormTag] = useState('Lazer');
+  const { editById, data } = props;
 
   const adicionar = async () => {
     await props.getData();
-    props.addExpense({ value: formDespesa, currency: formMoeda, description: formDesc, method: formPagamento, tag: formTag, id: props.currencyId, exchangeRates: props.data[0] });
+    props.addExpense({
+      value: formDespesa,
+      currency: formMoeda,
+      description: formDesc,
+      method: formPagamento,
+      tag: formTag,
+      id: props.currencyId,
+      exchangeRates: data[0] });
     props.currencyIdIncrement();
   };
 
   const editar = async () => {
     await props.getData();
-    props.editExpense(props.editById, { value: formDespesa, currency: formMoeda, description: formDesc, method: formPagamento, tag: formTag, id: props.editById, exchangeRates: props.data[0] });
+    props.editExpense(props.editById, {
+      value: formDespesa,
+      currency: formMoeda,
+      description: formDesc,
+      method: formPagamento,
+      tag: formTag,
+      id: editById,
+      exchangeRates: data[0] });
   };
 
   return (
@@ -43,8 +59,8 @@ const AddForm = (props) => {
             data-testid="currency-input"
             onChange={ (e) => setFormMoeda(e.target.value) }
           >
-            {props.data.length > 0
-              && Object.keys(props.data[0]).map((e, i) => <option key={ i } data-testid={ e } value={ e }>{e}</option>)}
+            {data.length > 0
+              && Object.keys(data[0]).map((e, i) => <option key={ i } data-testid={ e } value={ e }>{e}</option>)}
           </select>
         </label>
         <label htmlFor="desc">
@@ -92,7 +108,7 @@ const AddForm = (props) => {
             <option value="Alimentação">Alimentação</option>
           </select>
         </label>
-        {props.editById == -1
+        {editById === -1
           ? <button type="button" onClick={ adicionar }>Adicionar despesa</button>
           : <button type="button" onClick={ editar }>Editar despesa</button>}
       </form>
@@ -119,3 +135,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddForm);
+
+AddForm.propTypes = {
+  getData: PropTypes.func.isRequired,
+  addExpense: PropTypes.func.isRequired,
+  currencyId: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf.isRequired,
+  currencyIdIncrement: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
+  editById: PropTypes.func.isRequired,
+};
