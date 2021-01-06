@@ -1,4 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { addLoginAction } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -18,13 +22,12 @@ class Login extends React.Component {
     }, () => this.verifyInput());
   }
 
-  //  https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+  // Email verification: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
   verifyInput() {
     const { email, password } = this.state;
     const regEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.+-]+\.com$/;
     const num = 5;
     if (regEx.test(email) && password.length > num) {
-      console.log('ksdjk');
       this.setState({
         disableButton: false,
       });
@@ -36,7 +39,8 @@ class Login extends React.Component {
   }
 
   render() {
-    const { disableButton } = this.state;
+    const { disableButton, email } = this.state;
+    const { addLogin } = this.props;
     return (
       <div>
         <input
@@ -49,15 +53,26 @@ class Login extends React.Component {
           name="password"
           onChange={ this.handleChange }
         />
-        <button
-          type="button"
-          disabled={ disableButton }
-        >
-          Entrar
-        </button>
+        <Link to="/carteira">
+          <button
+            type="button"
+            disabled={ disableButton }
+            onClick={ () => addLogin(email) }
+          >
+            Entrar
+          </button>
+        </Link>
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  addLogin: (email) => dispatch(addLoginAction(email)),
+});
+
+Login.propTypes = {
+  addLogin: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
