@@ -5,7 +5,12 @@ import WalletHeader from '../../components/WalletHeader';
 class Wallet extends React.Component {
   render() {
     return (
-      <WalletHeader />
+      <>
+        <WalletHeader />
+        <main>
+          <p>Wallet</p>
+        </main>
+      </>
     );
   }
 }

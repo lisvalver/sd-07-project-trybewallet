@@ -65,6 +65,7 @@ class FormExpense extends Component {
                 name="value"
                 value={ value }
                 onChange={ ({ target }) => this.handleInputChange(target) }
+                className="expense__input"
                 type="number"
                 min="0.01"
                 step="0.01"
@@ -81,6 +82,7 @@ class FormExpense extends Component {
                 name="currency"
                 value={ currency }
                 onChange={ ({ target }) => this.handleInputChange(target) }
+                className="expense__input"
                 data-testid="currency-input"
               >
                 {currencies.map((cur) => (
@@ -97,6 +99,7 @@ class FormExpense extends Component {
                 name="method"
                 value={ method }
                 onChange={ ({ target }) => this.handleInputChange(target) }
+                className="expense__input"
                 data-testid="method-input"
               >
                 <option value="Dinheiro">Dinheiro</option>
@@ -113,6 +116,7 @@ class FormExpense extends Component {
                 name="tag"
                 value={ tag }
                 onChange={ ({ target }) => this.handleInputChange(target) }
+                className="expense__input"
                 data-testid="tag-input"
               >
                 <option value="Alimentação">Alimentação</option>
@@ -131,13 +135,14 @@ class FormExpense extends Component {
                 name="description"
                 value={ description }
                 onChange={ ({ target }) => this.handleInputChange(target) }
+                className="expense__input"
                 data-testid="description-input"
                 type="text"
               />
             </label>
           </div>
           <div className="expense__field">
-            <button type="submit">Adicionar despesa</button>
+            <button type="submit" className="expense__input">Adicionar despesa</button>
           </div>
         </form>
       </section>
