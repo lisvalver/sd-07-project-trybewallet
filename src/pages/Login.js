@@ -14,19 +14,26 @@ class Login extends React.Component {
     };
   }
 
-  buttonClick() {
-    const { email, history } = this.props;
-    history.push('/carteira');
-    console.log(email);
+  componentDidMount() {
+    const { email, password } = this.state;
+    console.log(email, password);
+    this.enableDisable();
   }
 
   enableDisable() {
-    const { email, password } = this.state;
-    console.log(password);
     const regEx = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     const seis = 6;
     const button = document.querySelector('button');
-    button.disabled = !(regEx.test(email) && password.length > seis);
+    const campoEmail = document.getElementById('email').value;
+    const campoPassword = document.getElementById('password').value;
+    button.disabled = !(regEx.test(campoEmail) && campoPassword.length >= seis);
+  }
+
+  buttonClick() {
+    console.log('clicou');
+    const { email, history } = this.props;
+    history.push('/carteira');
+    console.log(email);
   }
 
   render() {
@@ -69,8 +76,10 @@ class Login extends React.Component {
           </label>
           <button
             type="button"
-            disabled="true"
-            onClick={ () => this.buttonClick() }
+            onClick={ () => {
+              console.log('clicou2');
+              this.buttonClick();
+            } }
           >
             Entrar
           </button>
