@@ -1,20 +1,7 @@
-const INITIAL_STATE = {
-  user: {
-    email: '',
-  },
-  wallet: {
-    currencies: [],
-    expenses: [],
-  },
-};
+import { combineReducers } from 'redux';
+import user from './user';
+import wallet from './wallet';
 
-function listReducer(state = INITIAL_STATE, action) {
-  switch (action.type) {
-  case 'LOGIN':
-    return { ...state, user: { email: action.email } };
-  default:
-    return state;
-  }
-}
+const reducer = combineReducers({ user, wallet });
 
-export default listReducer;
+export default reducer;

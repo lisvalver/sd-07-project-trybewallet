@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import login from '../actions';
 
 class Login extends React.Component {
@@ -72,5 +73,10 @@ class Login extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   handleLogin: (email) => dispatch(login(email)),
 });
+
+Login.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+  history: PropTypes.func.isRequired,
+};
 
 export default withRouter(connect(null, mapDispatchToProps)(Login));
