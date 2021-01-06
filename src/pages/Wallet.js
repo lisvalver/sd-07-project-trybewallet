@@ -13,6 +13,12 @@ class Wallet extends React.Component {
             Email:
             {login}
           </h1>
+          <h1 data-testid="total-field">
+            0
+          </h1>
+          <h1 data-testid="header-currency-field">
+            BRL
+          </h1>
         </div>
         TrybeWallet
       </div>
