@@ -1,9 +1,8 @@
-import { createStore, combineReducers } from 'redux';
-import { userReducer, walletReducer } from './reducers';
+import reducer  from './reducers';
+import { createStore } from 'redux';
 
-const rootReducer = combineReducers({ userReducer, walletReducer });
 const store = createStore(
-  rootReducer,
+  reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 

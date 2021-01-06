@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { sendEmail } from '../actions';
 
 class Login extends React.Component {
@@ -15,7 +16,7 @@ class Login extends React.Component {
   }
 
   validateEmail = (email) => {
-    const emailRegex = /^\w+[\W_]?\w*@[a-z]+.com(?:.br)?$/;
+    const emailRegex = /^\w+[\W_]?\w*@[a-z]+\.[a-z]{2,3}(?:.br)?$/;
 
     return emailRegex.test(email);
   }
@@ -30,8 +31,7 @@ class Login extends React.Component {
   }
 
   validatePassword = (password) => {
-    const passRegex = /^[\Wa-zA-z]{6,}$/
-    console.log(passRegex.test(password));
+    const passRegex = /^\w{6,}$/
 
     return passRegex.test(password);
   }
@@ -55,7 +55,7 @@ class Login extends React.Component {
           <input
             id="email-input"
             type="email"
-            testid="email-input"
+            data-testid="email-input"
             onChange={this.allowEmail}
             required
           />
@@ -70,12 +70,14 @@ class Login extends React.Component {
             required
           />
         </section>
-        <button
-          onClick={() => sendEmail(email)}
-          disabled={!(emailValid && passValid)}
-        >
-          Entrar
+        <Link to='/carteira'>
+          <button
+            onClick={() => sendEmail(email)}
+            disabled={!(emailValid && passValid)}
+          >
+            Entrar
         </button>
+        </Link>
       </article>
     );
   }
@@ -88,5 +90,5 @@ const mapDispatchToProps = dispatch => ({
 export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
-  sendEmail: PropTypes.func.isRequired,
+  sendEmail: PropTypes.func,
 };
