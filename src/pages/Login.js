@@ -6,7 +6,6 @@ class Login extends React.Component {
       <div>
         <input type="email" data data-testid="email-input" />
         <input type="password" minLength="6" data-testid="password-input" />
-        <button></button>
       </div>
     );
   }
