@@ -78,5 +78,5 @@ export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   emailLogged: PropTypes.func.isRequired,
-  history: PropTypes.string.isRequired,
+  history: PropTypes.shape.isRequired,
 };
