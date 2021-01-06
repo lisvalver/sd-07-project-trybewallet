@@ -10,8 +10,8 @@ const LoginForm = ({ email, addUser }) => {
   const [isValid, setIsValid] = useState(false);
   const six = 6;
 
-  const validateAll = (password = '') => {
-    if (email) addUser(email);
+  const validateAll = (login = '', password = '') => {
+    if (login) addUser(login);
     if (regex.test(String(email)) && password.length >= six) return setIsValid(true);
     return setIsValid(false);
   };
@@ -25,7 +25,7 @@ const LoginForm = ({ email, addUser }) => {
             type="text"
             id="email-input"
             data-testid="email-input"
-            onChange={ validateAll() }
+            onChange={ ({ target: { value } }) => validateAll(value) }
           />
         </label>
         <label htmlFor="password-input">
@@ -34,7 +34,7 @@ const LoginForm = ({ email, addUser }) => {
             type="password"
             id="password-input"
             data-testid="password-input"
-            onChange={ ({ target: { value } }) => validateAll(value) }
+            onChange={ ({ target: { value } }) => validateAll(email, value) }
           />
         </label>
       </form>
