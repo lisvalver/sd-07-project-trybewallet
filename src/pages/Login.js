@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor() {
@@ -46,7 +47,14 @@ class Login extends React.Component {
           placeholder="senha"
           onChange={ (e) => this.handleChanger(e) }
         />
-        <input type="button" value="Entrar" disabled={ validate } />
+        <Link to="/carteira">
+          <input
+            type="button"
+            value="Entrar"
+            disabled={ validate }
+            src="/carteira"
+          />
+        </Link>
       </div>);
   }
 }
