@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Login, Wallet, NotFound} from './pages';
+import { Login, Wallet, NotFound } from './pages';
 
 function App() {
   return (
