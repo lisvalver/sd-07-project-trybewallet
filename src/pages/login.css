@@ -1,4 +1,4 @@
-/* Css retirado de https://bootsnipp.com/snippets/P3OB7 */
+/* Css retirado de https://bootsnipp.com/snippets/P3OB7
 
 .card-container.card {
   padding: 40px 40px;
@@ -106,7 +106,7 @@
 }
 
 .btn-signin:hover, 
-.btn-signin:active, 
+.btn-signin:active,  
 .btn-signin:focus {
   background-color: rgb(12, 97, 33);
 }
@@ -119,4 +119,4 @@
 .forgot-password:active, 
 .forgot-password:focus {
   color: rgb(253, 253, 253);
-}
+} */

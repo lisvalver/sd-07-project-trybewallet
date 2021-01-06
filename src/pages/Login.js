@@ -5,7 +5,7 @@ import './login.css';
 class Login extends React.Component {
   render() {
     return (
-      <div className="login">
+      <div>
         <link
           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
           rel="stylesheet"
