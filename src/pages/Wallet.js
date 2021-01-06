@@ -8,6 +8,15 @@ class Wallet extends React.Component {
     super();
 
     this.fetchCurrencies = this.fetchCurrencies.bind(this);
+    this.setInputState = this.setInputState.bind(this);
+
+    this.state = {
+      value: '',
+      description: '',
+      currency: 'USD',
+      method: '',
+      category: '',
+    }
   }
 
   async fetchCurrencies() {
@@ -18,13 +27,23 @@ class Wallet extends React.Component {
       const response = await fetch(API);
       const json = await response.json();
       getCurrencies(
-        Object.entries(json).filter(currency => currency[0] !== 'USDT')
-        );
-      console.log(Object.entries(json).filter(currency => currency[0] !== 'USDT'));
+        Object.entries(json)
+          .filter(currency => currency[0] !== 'USDT')
+          .map(currency => currency[1])
+      );
+      // console.log(Object.entries(json)
+      // .filter(currency => currency[0] !== 'USDT')
+      // .map(currency => currency[1]));
     } catch (error) {
       throw new Error(error);
     }
 
+  }
+
+  setInputState({ target }) {
+    this.setState({
+      [target.name]: target.value,
+    })
   }
 
   componentDidMount() {
@@ -39,7 +58,7 @@ class Wallet extends React.Component {
         <header>
           <h2 data-testid="email-field">
             Email:
-            { email }
+            {email}
           </h2>
           <h2 data-testid="total-field">Despesa total: 0</h2>
           <h2 data-testid="header-currency-field">BRL</h2>
@@ -49,6 +68,8 @@ class Wallet extends React.Component {
             <label htmlFor="value-input">
               Valor da despesa
               <input
+                onChange={this.setInputState}
+                name="value"
                 id="value-input"
                 data-testid="value-input"
                 type="number"
@@ -59,6 +80,8 @@ class Wallet extends React.Component {
             <label htmlFor="description-input">
               Descrição da despesa
               <input
+                onChange={this.setInputState}
+                name="description"
                 id="description-input"
                 data-testid="description-input"
                 type="text"
@@ -68,12 +91,37 @@ class Wallet extends React.Component {
           <section>
             <label htmlFor="description-input">
               Moeda
-              <select data-testid="currency-input">
-                { currencies.map(currency => {
-                  return <option key={currency[0]} data-testid={currency[0]}>{currency[0]}</option>
-                }) }
+              <select onChange={this.setInputState} name="currency" data-testid="currency-input">
+                {currencies.map(currency => {
+                  return <option key={currency.code} data-testid={currency.code}>{currency.code}</option>
+                })}
               </select>
             </label>
+          </section>
+          <section>
+            <label htmlFor="">
+              Método de pagamento
+              <select onChange={this.setInputState} name="method" data-testid="method-input">
+                <option>Dinheiro</option>
+                <option>Cartão de crédito</option>
+                <option>Cartão de débito</option>
+              </select>
+            </label>
+          </section>
+          <section>
+            <label htmlFor="">
+              Categoria
+              <select onChange={this.setInputState} name="category" data-testid="tag-input">
+                <option>Alimentação</option>
+                <option>Lazer</option>
+                <option>Trabalho</option>
+                <option>Transporte</option>
+                <option>Saúde</option>
+              </select>
+            </label>
+          </section>
+          <section>
+            <button>Adicionar despesa</button>
           </section>
         </form>
       </div>
