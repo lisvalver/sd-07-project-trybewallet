@@ -51,10 +51,7 @@ class Login extends React.Component {
           type="button"
           className="buttonLogin"
           disabled={ disabled }
-          onClick={ () => {
-            saveUser(inputEmail, inputPass);
-            history.push('/carteira');
-          } }
+          onClick={ () => saveUser(inputEmail, inputPass) && history.push('/carteira') }
         >
           Entrar
         </button>
