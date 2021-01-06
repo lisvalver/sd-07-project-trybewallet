@@ -13,9 +13,8 @@ class Login extends React.Component {
     this.validateEmail = this.validateEmail.bind(this);
   }
 
-  async handleChanger({ target: { name, value } }) {
-    await this.setState({ [name]: value });
-    this.validateEmail();
+  handleChanger({ target: { name, value } }) {
+    this.setState({ [name]: value }, this.validateEmail);
   }
 
   validateEmail() {
