@@ -1,3 +1,5 @@
+// TrybeCrypto Wallet
+
 import React from 'react';
 
 function App() {
