@@ -2,14 +2,14 @@ form {
   display: flex;
 }
 
-button, input, select {
+button , input , select {
   background-color: aliceblue;
   border-radius: 5px;
   border-width: 0;
   font-family: Ubuntu, sans-serif;
   font-size: 1.1em;
-  margin-right: 5px;
   margin-bottom: 15px;
+  margin-right: 5px;
   outline-color: rgb(149, 203, 250);
   padding: 8px 12px;
 }
@@ -23,8 +23,7 @@ button {
   flex-grow: 1;
 }
 
-.edit-mode input,
-.edit-mode select {
+.edit-mode input , .edit-mode select {
   background-color: rgb(98, 148, 96);
   color: white;
   outline-color: white;
