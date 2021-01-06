@@ -1,9 +1,12 @@
 import React from 'react';
+import { WalletHeader, WalletForm, WalletTable } from '../components';
 
-class Wallet extends React.Component {
-  render() {
-    return <div>TrybeWallet - Iniciando o projeto</div>;
-  }
-}
+const Wallet = () => (
+  <>
+    <WalletHeader />
+    <WalletForm />
+    <WalletTable />
+  </>
+);
 
 export default Wallet;
