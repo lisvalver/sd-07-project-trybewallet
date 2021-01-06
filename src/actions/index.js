@@ -11,8 +11,8 @@ export const addUser = (user) => ({
 export const addExpense = (expense) => ({
   type: ADD_EXPENSE,
   expense,
-})
+});
 export const removeExpense = (expense) => ({
   type: REMOVE_EXPENSE,
   expense,
-})
+});
