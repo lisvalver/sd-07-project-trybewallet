@@ -1,7 +1,37 @@
 import React from 'react';
 
 class Login extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      emailValid: false,
+      email: '',
+    }
+  }
+
+  validateEmail = (email) => {
+    const emailRegex = /^\w+[\W_]?\w*@[a-z]+.com(?:.br)?$/;
+    
+    return emailRegex.test(email);
+  }
+
+  validatePassword = (password) => {
+
+  }
+
+  setEmailToState = ({ target: { value } }) => {
+    const emailValid = this.validateEmail(value);
+
+    this.setState({
+      email: value,
+      emailValid,
+    })
+  }
+
   render() {
+    const { emailValid } = this.state;
+
     return (
       <article>
         <section>
@@ -10,6 +40,7 @@ class Login extends React.Component {
             id="email-input"
             type="email"
             testid="email-input"
+            onChange={ this.setEmailToState }
             required
           />
         </section>
@@ -22,7 +53,7 @@ class Login extends React.Component {
             required
           />
         </section>
-        <button>Entrar</button>
+        <button disabled={ !emailValid }>Entrar</button>
       </article>
     );
   }
