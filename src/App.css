@@ -49,17 +49,17 @@
   margin-right: 5px;
 }
 
-.form input, select {
-  border-radius: 5px;
+.form input , select {
   border: 1px solid #ccc;
+  border-radius: 5px;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   padding: 0.2em;
 }
 
 .form button {
   background: rgba(46, 105, 11, 0.952);
-  border-radius: 10px;
   border: 0;
+  border-radius: 10px;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   color: white;
   cursor: pointer;
@@ -71,8 +71,8 @@
 
 .form-login button {
   background: rgba(11, 38, 88, 0.952);
-  border-radius: 10px;
   border: 0;
+  border-radius: 10px;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   color: white;
   cursor: auto;
@@ -84,8 +84,8 @@
 
 .form-edit button {
   background: rgba(5, 53, 68, 0.952);
-  border-radius: 10px;
   border: 0;
+  border-radius: 10px;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   color: white;
   cursor: pointer;
@@ -111,6 +111,12 @@
   max-width: 15px;
 }
 
+.table-data td {
+  background-color: rgb(241, 232, 241);
+  height: 20px;
+  max-width: 15px;
+}
+
 .table-header tr td {
   background-color: teal;
 }
@@ -119,12 +125,6 @@
   height: 30px;
   text-align: center;
   width: 100%;
-}
-
-.table-data td {
-  background-color: rgb(241, 232, 241);
-  height: 20px;
-  max-width: 15px;
 }
 
 .form-login {
@@ -164,9 +164,9 @@
   margin-right: 5px;
 }
 
-.form-edit input, select {
-  border-radius: 5px;
+.form-edit input , select {
   border: 1px solid #ccc;
+  border-radius: 5px;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   padding: 0.2em;
 }
