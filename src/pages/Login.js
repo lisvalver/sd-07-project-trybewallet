@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { email } from '../actions';
 
 class Login extends React.Component {
@@ -15,10 +16,9 @@ class Login extends React.Component {
   async change(event) {
     await this.setState({ password: event.target.value });
   }
-  // regexEmail.test(emailstate) && password.length >= number
 
   render() {
-    const { email, addemail } = this.props;
+    const { emailS, addemail } = this.props;
     const { password } = this.state;
     const number = 6;
     const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.+-]+\.com$/;
@@ -28,7 +28,7 @@ class Login extends React.Component {
           <input
             data-testid="email-input"
             type="email"
-            value={ email }
+            value={ emailS }
             onChange={ (event) => addemail(event.target.value) }
           />
           <input
@@ -39,7 +39,7 @@ class Login extends React.Component {
           />
         </form>
         <button
-          disabled={ !regexEmail.test(email) || password.length < number }
+          disabled={ !regexEmail.test(emailS) || password.length < number }
           type="button"
         >
           <Link to="/carteira">Entrar</Link>
@@ -49,8 +49,13 @@ class Login extends React.Component {
   }
 }
 
+Login.propTypes = {
+  addemail: PropTypes.functio().isRequired,
+  emailS: PropTypes.string.isRequired,
+};
+
 const mapStateToProps = (state) => ({
-  email: state.user.email,
+  emailS: state.user.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
