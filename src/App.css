@@ -18,8 +18,8 @@
   color: white;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   font-size: calc(10px + 2vmin);
+  min-height: 100vh;
   justify-content: center;
 }
 
