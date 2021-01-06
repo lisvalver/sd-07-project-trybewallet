@@ -8,87 +8,97 @@ class Login extends React.Component {
   constructor() {
     super();
 
+    this.validateEmail = this.validateEmail.bind(this);
+    this.allowEmail = this.allowEmail.bind(this);
+    this.validatePassword = this.validatePassword.bind(this);
+    this.allowPassword = this.allowPassword.bind(this);
+
     this.state = {
       emailValid: false,
       passValid: false,
       email: '',
-    }
+    };
   }
 
-  validateEmail = (email) => {
+  validateEmail(email) {
     const emailRegex = /^\w+[\W_]?\w*@[a-z]+\.[a-z]{2,3}(?:.br)?$/;
 
     return emailRegex.test(email);
   }
 
-  allowEmail = ({ target: { value } }) => {
+  allowEmail({ target: { value } }) {
     const emailValid = this.validateEmail(value);
 
     this.setState({
       emailValid,
-      email: value
-    })
+      email: value,
+    });
   }
 
-  validatePassword = (password) => {
-    const passRegex = /^\w{6,}$/
+  validatePassword(password) {
+    const passRegex = /^\w{6,}$/;
 
     return passRegex.test(password);
   }
 
-  allowPassword = ({ target: { value } }) => {
+  allowPassword({ target: { value } }) {
     const passValid = this.validatePassword(value);
 
     this.setState({
       passValid,
-    })
+    });
   }
 
   render() {
     const { emailValid, passValid, email } = this.state;
-    const { sendEmail } = this.props;
+    const { sendEmailFromProps } = this.props;
 
     return (
-      <article>
+      <form>
         <section>
-          <label htmlFor="email-input">Email</label>
-          <input
-            id="email-input"
-            type="email"
-            data-testid="email-input"
-            onChange={this.allowEmail}
-            required
-          />
+          <label htmlFor="email-input">
+            Email
+            <input
+              id="email-input"
+              type="email"
+              data-testid="email-input"
+              onChange={ this.allowEmail }
+              required
+            />
+          </label>
         </section>
         <section>
-          <label htmlFor="password-input">Senha</label>
-          <input
-            id="password-input"
-            type="password"
-            data-testid="password-input"
-            onChange={this.allowPassword}
-            required
-          />
+          <label htmlFor="password-input">
+            Senha
+            <input
+              id="password-input"
+              type="password"
+              data-testid="password-input"
+              onChange={ this.allowPassword }
+              required
+            />
+          </label>
         </section>
-        <Link to='/carteira'>
+        <Link to="/carteira">
           <button
-            onClick={() => sendEmail(email)}
-            disabled={!(emailValid && passValid)}
+            type="button"
+            onClick={ () => sendEmailFromProps(email) }
+            disabled={ !(emailValid && passValid) }
           >
             Entrar
-        </button>
+          </button>
         </Link>
-      </article>
+      </form>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  sendEmail: email => dispatch(sendEmail(email))
-})
-
-export default connect(null, mapDispatchToProps)(Login);
+const mapDispatchToProps = (dispatch) => ({
+  sendEmailFromProps: (email) => dispatch(sendEmail(email)),
+});
 
 Login.propTypes = {
-  sendEmail: PropTypes.func,
+  sendEmailFromProps: PropTypes.func.isRequired,
 };
+
+export default connect(null, mapDispatchToProps)(Login);
