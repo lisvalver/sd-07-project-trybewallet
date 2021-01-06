@@ -9,7 +9,7 @@ import Login from './pages/Login';
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route exact path="/" component={Login} />
+      <Route exact path="/" component={ Login } />
       <App />
     </Switch>
   </BrowserRouter>,
