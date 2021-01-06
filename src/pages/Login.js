@@ -6,25 +6,24 @@ import addUser from '../actions';
 class Login extends React.Component {
   constructor() {
     super();
-    this.changeState = this.changeState.bind(this);
+    this.desableButton = this.desableButton.bind(this);
     this.state = {
       inputEmail: '',
       inputPass: '',
-      disabled: true,
     };
   }
 
-  changeState(inputEmail, inputPass) {
+  desableButton(inputEmail, inputPass) {
     const regexEmail = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
     const tamanhoSenha = 6;
     if (regexEmail.test(inputEmail) && inputPass.length >= tamanhoSenha) {
-      this.setState({ disabled: false });
-    }
+      return false;
+    } return true;
   }
 
   render() {
     const { saveUser, history } = this.props;
-    const { inputEmail, inputPass, disabled } = this.state;
+    const { inputEmail, inputPass } = this.state;
     return (
       <div id="login-box">
         <h1>Trybe Wallet</h1>
@@ -35,8 +34,7 @@ class Login extends React.Component {
           className="inputLogin"
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           value={ inputEmail }
-          onChange={ (event) => this.setState({ inputEmail: event.target.value },
-            this.changeState(inputEmail, inputPass)) }
+          onChange={ (event) => this.setState({ inputEmail: event.target.value }) }
         />
         <input
           type="password"
@@ -44,13 +42,12 @@ class Login extends React.Component {
           className="inputLogin"
           pattern=".{6,}"
           value={ inputPass }
-          onChange={ (event) => this.setState({ inputPass: event.target.value },
-            this.changeState(inputEmail, inputPass)) }
+          onChange={ (event) => this.setState({ inputPass: event.target.value }) }
         />
         <button
           type="button"
           className="buttonLogin"
-          disabled={ disabled }
+          disabled={ this.desableButton(inputEmail, inputPass) }
           onClick={ () => saveUser(inputEmail, inputPass) && history.push('/carteira') }
         >
           Entrar
