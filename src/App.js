@@ -11,7 +11,7 @@ function App() {
           <Route path="/carteira" component={ Wallet } />
         </Switch>
     </div>
-  )
+  );
 }
 
 export default App;
