@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
 import { delExpense, setEditById } from '../actions';
 
-const { expenses: expensesProps } = props;
-
-const TabelaGastos = (props) => (
+const TabelaGastos = ({
+  expenses: expensesProps,
+  setEditById: setEditByIdProps,
+  delExpense: delExpenseProps,
+}) => (
   <table>
     <thead>
       <tr>
@@ -37,21 +38,20 @@ const TabelaGastos = (props) => (
             <td>
               <button
                 type="button"
-                onClick={ () => props.setEditById(d.id) }
+                onClick={ () => setEditByIdProps(d.id) }
                 data-testid="edit-btn"
               >
                 editar
               </button>
               <button
                 type="button"
-                onClick={ () => props.delExpense(d.id) }
+                onClick={ () => delExpenseProps(d.id) }
                 data-testid="delete-btn"
               >
                 delete
               </button>
             </td>
-          </tr>
-        );
+          </tr>);
       })}
     </tbody>
   </table>
@@ -71,4 +71,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(TabelaGastos);
 TabelaGastos.propTypes = {
   setEditById: PropTypes.func.isRequired,
   delExpense: PropTypes.func.isRequired,
+  expenses: PropTypes.func.isRequired,
 };

@@ -5,14 +5,14 @@ import AddForm from './AddForm';
 import TabelaGastos from './TabelaGastos';
 import { getData } from '../actions';
 
-const {
-  expenses: expensesProps,
-  editById: editByIdProps,
-  email: emailProps,
-} = props;
-
 const Wallet = (props) => {
   const [total, setTotal] = useState(0);
+
+  const {
+    expenses: expensesProps,
+    editById: editByIdProps,
+    email: emailProps,
+  } = props;
 
   const atualizarTotal = () => {
     setTotal(
@@ -20,9 +20,8 @@ const Wallet = (props) => {
         const valorDespesa = despesa.value;
         const moedaDespesa = despesa.currency;
         const valorMoedaDespesa = (
-          Object.entries(despesa.exchangeRates).find((e) => (
-            e[1].code === moedaDespesa)[1].ask)
-        );
+          Object.entries(despesa.exchangeRates)
+            .find((e) => e[1].code === moedaDespesa)[1].ask);
         acc += valorMoedaDespesa * valorDespesa;
         return acc;
       }, 0),
@@ -72,4 +71,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
 
 Wallet.propTypes = {
   getData: PropTypes.func.isRequired,
+  editById: PropTypes.func.isRequired,
+  expenses: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
 };

@@ -9,12 +9,9 @@ const Login = (props) => {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const passMin = 6;
-  const { stateEmail, setEmail: setEmailProps } = props;
-
+  const { setEmail: setEmailProps, stateEmail: stateEmailProps } = props;
   useEffect(() => {
-    setLoginOk(!!(
-      inputPassword.length >= passMin && inputEmail === 'alguem@email.com'
-    ));
+    setLoginOk(!!(inputPassword.length >= passMin && inputEmail === 'alguem@email.com'));
   }, [inputPassword, inputEmail]);
 
   return (
@@ -59,9 +56,8 @@ const Login = (props) => {
           )
           : <button type="button" disabled>Entrar</button>}
       </form>
-      {stateEmail !== '' && <Redirect to="/carteira" />}
-    </div>
-  );
+      {stateEmailProps !== '' && <Redirect to="/carteira" />}
+    </div>);
 };
 
 const mapStateToProps = (state) => ({
