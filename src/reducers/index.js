@@ -10,8 +10,8 @@ const INITIAL_STATE = {
 
 function listReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'CHANGE_NAME':
-    return { ...state, characterName: action.value };
+  case 'LOGIN':
+    return { ...state, user: { email: action.email } };
   default:
     return state;
   }
