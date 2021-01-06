@@ -2,43 +2,32 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
+  align-items: center;
   background-color: #282c34;
-  min-height: 100vh;
+  color: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .container-header {
+  background-color: rgb(112, 230, 134);
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: Times New Roman, Times, serif;
   font-size: 1.1rem;
   font-weight: 600;
-  background-color: rgb(112, 230, 134);
+  justify-content: space-between;
+  padding: 10px;
 }
 
 .container-info {
+  align-items: center;
   display: flex;
   justify-content: space-between;
   width: 450px;
-  align-items: center;
 }
 
 .container-amount {
@@ -47,10 +36,10 @@
 }
 
 .form {
+  background-color: rgb(72, 79, 73);
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  background-color: rgb(72, 79, 73);
 }
 
 .form label {
@@ -61,16 +50,42 @@
 }
 
 .form input, select {
+  border-radius: 5px;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   padding: 0.2em;
-  border-radius: 5px;
 }
 
 .form button {
   background: rgba(46, 105, 11, 0.952);
-  border: 0;
   border-radius: 10px;
+  border: 0;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  color: white;
+  cursor: pointer;
+  font-size: 1.2em;
+  justify-content: center;
+  padding: 0.2em 0.6em;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.form-login button {
+  background: rgba(11, 38, 88, 0.952);
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  color: white;
+  cursor: auto;
+  font-size: 1.2em;
+  justify-content: center;
+  padding: 0.2em 0.6em;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.form-edit button {
+  background: rgba(5, 53, 68, 0.952);
+  border-radius: 10px;
+  border: 0;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   color: white;
   cursor: pointer;
@@ -87,50 +102,37 @@
 }
 
 .table-header {
-  width: 100%;
-  text-align: center;
   height: 30px;
-}
-
-.table-header tr td {
-  background-color: teal;
+  text-align: center;
+  width: 100%;
 }
 
 .table-header td {
   max-width: 15px;
 }
 
+.table-header tr td {
+  background-color: teal;
+}
+
 .table-data {
-  width: 100%;
-  text-align: center;
   height: 30px;
+  text-align: center;
+  width: 100%;
 }
 
 .table-data td {
   background-color: rgb(241, 232, 241);
-  max-width: 15px;
   height: 20px;
+  max-width: 15px;
 }
 
 .form-login {
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
+  height: 100%;
   padding: 30px;
   width: 100%;
-  height: 100%;
-}
-
-.form-login button {
-  background: rgba(11, 38, 88, 0.952);
-  border: 0;
-  border-radius: 10px;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-  color: white;
-  font-size: 1.2em;
-  justify-content: center;
-  padding: 0.2em 0.6em;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-  cursor: auto;
 }
 
 .form-login button:disabled {
@@ -139,9 +141,9 @@
 }
 
 .container-login h1 {
-  text-align: center;
-  font-size: 2.5rem;
   font-family: fantasy;
+  font-size: 2.5rem;
+  text-align: center;
 }
 
 .form-login input {
@@ -149,10 +151,10 @@
 }
 
 .form-edit {
+  background-color: rgb(179, 183, 185);
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  background-color: rgb(179, 183, 185);
 }
 
 .form-edit label {
@@ -163,23 +165,10 @@
 }
 
 .form-edit input, select {
+  border-radius: 5px;
   border: 1px solid #ccc;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   padding: 0.2em;
-  border-radius: 5px;
-}
-
-.form-edit button {
-  background: rgba(5, 53, 68, 0.952);
-  border: 0;
-  border-radius: 10px;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-  color: white;
-  cursor: pointer;
-  font-size: 1.2em;
-  justify-content: center;
-  padding: 0.2em 0.6em;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .form-edit button:hover {
