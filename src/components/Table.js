@@ -54,7 +54,8 @@ function TableComp({
                   data-testid="edit-btn"
                   type="button"
                   onClick={ () => {
-                    edit();
+                    edit(true);
+                    console.log('id editado: ', id);
                     editStatus(id);
                   } }
                 >

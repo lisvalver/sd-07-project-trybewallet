@@ -19,9 +19,10 @@ const initialState = {
 export default function reducer(state = initialState, { type, expense }) {
   const { expenses } = state;
   const newExpenses = expenses;
-  let index;
-  let exchangeRates;
-  if (newExpenses.id) {
+  let index = 1;
+  let exchangeRates = 1;
+  if (type === EDIT_EXP || type === DELETE_EXP) {
+    console.log('cond: ', expense.id);
     index = expenses.findIndex(({ id }) => id === expense.id);
     exchangeRates = newExpenses[index].exchangeRates;
   }
@@ -46,16 +47,17 @@ export default function reducer(state = initialState, { type, expense }) {
     };
   case EDIT_EXP:
     newExpenses[index] = { ...expense, exchangeRates };
-
+    console.log(state);
     return {
       ...state,
       expenses: [...newExpenses],
       isFetching: false,
     };
   case EDIT_STATE_CHANGE:
+    console.log(state);
     return {
       ...state,
-      editor: !state.editor,
+      editor: expense, // true or false
     };
   case CHANGE_ID:
     return {

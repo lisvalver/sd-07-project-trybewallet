@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fetchAPI from '../services/fetchAPI';
-import { actionAPI, actionEdit } from '../actions';
+import { actionAPI, actionEdit, actionChangeEditState } from '../actions';
 
 class Form extends Component {
   constructor() {
@@ -42,8 +42,8 @@ class Form extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { ActionAPI, ActionEdit, editingMode, editingId } = this.props;
-    console.log(editingId);
+    const { ActionAPI, ActionEdit, editingMode, editingId, exitEditMode } = this.props;
+    // console.log(editingId);
     const { currency, value, description, method, tag } = this.state;
     const id = this.counter;
     if (editingMode) {
@@ -51,6 +51,7 @@ class Form extends Component {
     } else {
       ActionAPI({ currency, value, description, method, tag, id });
     }
+    exitEditMode(false);
     this.counter += 1;
   }
 
@@ -64,7 +65,6 @@ class Form extends Component {
       tag,
     } = this.state;
     const { editingMode } = this.props;
-    console.log(editingMode);
     return (
       <div>
         <form onSubmit={ this.handleSubmit }>
@@ -145,7 +145,11 @@ const mapStateToProps = (store) => ({
   editingId: store.wallet.idToEdit,
 });
 
-const mapDispatchToProps = { ActionAPI: actionAPI, ActionEdit: actionEdit };
+const mapDispatchToProps = {
+  ActionAPI: actionAPI,
+  ActionEdit: actionEdit,
+  exitEditMode: actionChangeEditState,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
 
@@ -154,4 +158,5 @@ Form.propTypes = {
   ActionEdit: PropTypes.func.isRequired,
   editingMode: PropTypes.bool.isRequired,
   editingId: PropTypes.number.isRequired,
+  exitEditMode: PropTypes.func.isRequired,
 };
