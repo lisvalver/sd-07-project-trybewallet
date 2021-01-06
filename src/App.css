@@ -1,16 +1,16 @@
 header {
+  background-color: black;
+  color: white;
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  background-color: black;
-  color: white;
 }
 
 form {
+  background-color: #000000c7;
   display: flex;
   justify-content: space-between;
   padding: 15px 20px;
-  background-color: #000000c7;
 }
 
 .login {
@@ -22,16 +22,16 @@ form {
 }
 
 label {
-  margin: 5px;
   color: white;
+  margin: 5px;
 }
 
 .header-expenses {
+  background-color: gray;
+  color: white;
   display: flex;
   justify-content: space-evenly;
-  background-color: gray;
   padding: 10px 0;
-  color: white;
 }
 
 .header-expenses div {
