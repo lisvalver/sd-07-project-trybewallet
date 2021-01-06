@@ -39,6 +39,8 @@ class Login extends React.Component {
 
   render() {
     const { email, password } = this.state;
+    const { userIsLogged } = this.props;
+    if (userIsLogged) return <Redirect to="/carteira" />;
     return (
       <div>
         <form>
@@ -74,7 +76,7 @@ class Login extends React.Component {
             Entrar
           </button>
         </form>
-    </div>
+      </div>
     );
   }
 }
