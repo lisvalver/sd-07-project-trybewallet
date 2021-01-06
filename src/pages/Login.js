@@ -34,11 +34,12 @@ class Login extends React.Component {
   }
 
   loginAndRedirect(e) {
-    const { updateUser } = this.props;
-    const { emailInput } = this.state;
     e.preventDefault();
-    console.log('redirecionando...');
+    const { updateUser, loginEmail } = this.props;
+    const { emailInput } = this.state;
+    console.log('redirect');
     updateUser(emailInput);
+    console.log(loginEmail);
   }
 
   render() {
@@ -63,8 +64,8 @@ class Login extends React.Component {
         />
         <button
           id="submit-button"
-          type="submit"
-          onClick={ (e) => this.loginAndRedirect(e) }
+          type="button"
+          onClick={ this.loginAndRedirect }
           disabled
         >
           Entrar
@@ -78,8 +79,13 @@ const mapDispatchToProps = (dispatch) => ({
   updateUser: (value) => dispatch(changeUser(value)),
 });
 
+const mapStateToProps = (state) => ({
+  loginEmail: state.user.email,
+});
+
 Login.propTypes = {
   updateUser: PropTypes.func.isRequired,
+  loginEmail: PropTypes.string.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
