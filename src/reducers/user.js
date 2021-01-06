@@ -8,17 +8,17 @@ const INITIAL_STATE = {
 
 export default function user(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case 'LOGIN': {
-      console.log(state);
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          email: action.payload,
-        },
-      };
-    }
-    default:
-      return state;
+  case 'LOGIN': {
+    console.log(state);
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        email: action.payload,
+      },
+    };
+  }
+  default:
+    return state;
   }
 }
