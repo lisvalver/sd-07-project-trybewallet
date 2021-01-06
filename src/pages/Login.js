@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import changeUser from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -20,7 +23,7 @@ class Login extends React.Component {
 
   validateInput() {
     const { emailInput, passwordInput } = this.state;
-    const maxChar = 6;
+    const maxChar = 5;
     const button = document.querySelector('#submit-button');
     const regex = /^([\w.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/;
     if (regex.test(emailInput) && passwordInput.length >= maxChar) {
@@ -31,8 +34,11 @@ class Login extends React.Component {
   }
 
   loginAndRedirect(e) {
+    const { updateUser } = this.props;
+    const { emailInput } = this.state;
     e.preventDefault();
     console.log('redirecionando...');
+    updateUser(emailInput);
   }
 
   render() {
@@ -59,6 +65,7 @@ class Login extends React.Component {
           id="submit-button"
           type="submit"
           onClick={ (e) => this.loginAndRedirect(e) }
+          disabled
         >
           Entrar
         </button>
@@ -67,4 +74,12 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  updateUser: (value) => dispatch(changeUser(value)),
+});
+
+Login.propTypes = {
+  updateUser: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
