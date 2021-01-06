@@ -1,1 +1,10 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
+// const walletInitialState = {
+//   currencies: [],
+//   expenses: [],
+// };
+
+// function walletReducer(state = walletInitialState, action) {
+//   return state;
+// }
+
+// export default walletReducer;

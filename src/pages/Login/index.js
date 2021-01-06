@@ -44,7 +44,7 @@ class Login extends Component {
     const { email, password, isDisabled } = this.state;
 
     return (
-      <main className="section">
+      <main>
         <form onSubmit={ (e) => this.handleSubmit(e) }>
           <div className="field">
             <label htmlFor="email-input">
