@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { walletActions } from '../../store/ducks/wallet';
 
@@ -28,21 +27,21 @@ class WalletTable extends Component {
   render() {
     const { expenses, editMode, currentExpense } = this.props;
     return (
-      <Table celled color="blue" inverted selectable>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell textAlign="center">Descrição</Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Tag</Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Método de pagamento</Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Valor</Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Moeda</Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Câmbio utilizado</Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Valor convertido</Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Moeda de conversão</Table.HeaderCell>
-            <Table.HeaderCell textAlign="center">Editar/Excluir</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
+      <table className="ui blue celled inverted selectable table">
+        <thead>
+          <tr>
+            <th className="center aligned">Descrição</th>
+            <th className="center aligned">Tag</th>
+            <th className="center aligned">Método de pagamento</th>
+            <th className="center aligned">Valor</th>
+            <th className="center aligned">Moeda</th>
+            <th className="center aligned">Câmbio utilizado</th>
+            <th className="center aligned">Valor convertido</th>
+            <th className="center aligned">Moeda de conversão</th>
+            <th className="center aligned">Editar/Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
           {
             expenses.map((expense) => {
               const {
@@ -55,56 +54,63 @@ class WalletTable extends Component {
                 exchangeRates,
               } = expense;
               return (
-                <Table.Row key={ id } active={ id === currentExpense.id }>
-                  <Table.Cell textAlign="center">{description}</Table.Cell>
-                  <Table.Cell textAlign="center">{tag}</Table.Cell>
-                  <Table.Cell textAlign="center">{method}</Table.Cell>
-                  <Table.Cell textAlign="center">
+                <tr
+                  key={ id }
+                  className={ id === currentExpense.id ? 'active' : undefined }
+                >
+                  <td className="center aligned">{description}</td>
+                  <td className="center aligned">{tag}</td>
+                  <td className="center aligned">{method}</td>
+                  <td className="center aligned">
                     {new Intl.NumberFormat('pt-BR', {
                       maximumFractionDigits: 2,
                     }).format(value)}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
+                  </td>
+                  <td className="center aligned">
                     {exchangeRates[currency].name}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
+                  </td>
+                  <td className="center aligned">
                     {new Intl.NumberFormat('pt-BR', {
                       maximumFractionDigits: 2,
                       minimumFractionDigits: 2,
                     }).format((exchangeRates[currency].ask))}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">
+                  </td>
+                  <td className="center aligned">
                     {new Intl.NumberFormat('pt-BR', {
                       maximumFractionDigits: 2,
                       minimumFractionDigits: 2,
                     }).format(
                       parseFloat(value) * parseFloat(exchangeRates[currency].ask),
                     )}
-                  </Table.Cell>
-                  <Table.Cell textAlign="center">Real</Table.Cell>
-                  <Table.Cell textAlign="center">
-                    <Button
+                  </td>
+                  <td className="center aligned">Real</td>
+                  <td className="center aligned">
+                    <button
+                      className="ui yellow icon button"
+                      type="button"
                       disabled={ editMode }
-                      color="yellow"
-                      icon="edit"
                       data-testid="edit-btn"
                       onClick={ (event) => this.handleEdit(event, expense) }
-                    />
+                    >
+                      <i aria-hidden="true" className="edit icon" />
+                    </button>
                     <span>{'  '}</span>
-                    <Button
+                    <button
+                      className="ui red icon button"
+                      type="button"
                       disabled={ editMode }
-                      color="red"
-                      icon="eraser"
                       data-testid="delete-btn"
                       onClick={ (event) => this.handleDelete(event, id) }
-                    />
-                  </Table.Cell>
-                </Table.Row>
+                    >
+                      <i aria-hidden="true" className="eraser icon" />
+                    </button>
+                  </td>
+                </tr>
               );
             })
           }
-        </Table.Body>
-      </Table>
+        </tbody>
+      </table>
     );
   }
 }

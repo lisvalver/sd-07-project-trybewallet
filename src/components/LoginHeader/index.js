@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, Icon } from 'semantic-ui-react';
 
 const LoginHeader = ({ message }) => (
-  <Header as="h1" color="green" icon>
-    <Icon name="money bill alternate" />
+  <h1 className="ui green icon header">
+    <i aria-hidden="true" className="money bill alternate icon" />
     {message}
-  </Header>
+  </h1>
 );
 
 LoginHeader.propTypes = {

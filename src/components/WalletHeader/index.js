@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Menu, Image, Segment, Header, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 const WalletHeader = ({
@@ -14,36 +13,40 @@ const WalletHeader = ({
     { style: 'currency', currency: 'BRL' },
   ).format(totalExpense);
   return (
-    <Segment color="black" inverted>
-      <Menu color="black" size="massive" inverted>
-        <Menu.Item>
-          <Image src={ LOGO_TRYBE } size="tiny" verticalAlign="middle" />
-        </Menu.Item>
-        <Menu.Item>
-          <Header as="h2" inverted color="grey">
-            <Icon name="money bill alternate outline" />
-            <Header.Content>PROJECT TRYBE WALLET</Header.Content>
-          </Header>
-        </Menu.Item>
-        <Menu.Menu position="right">
-          <Menu.Item>
+    <div className="ui black inverted segment">
+      <div className="ui black massive inverted menu">
+        <div className="item">
+          <img
+            src={ LOGO_TRYBE }
+            className="ui tiny middle aligned image"
+            alt="Logo da Trybe"
+          />
+        </div>
+        <div className="item">
+          <h2 className="ui grey inverted header">
+            <i aria-hidden="true" className="money bill alternate outline icon" />
+            <div className="content">PROJECT TRYBE WALLET</div>
+          </h2>
+        </div>
+        <div className="right menu">
+          <div className="item">
             <span data-testid="email-field">
               { userEmail }
             </span>
-          </Menu.Item>
-          <Menu.Item>
+          </div>
+          <div className="item">
             <span data-testid="total-field">
               { `Despesa Total: ${total}` }
             </span>
-          </Menu.Item>
-          <Menu.Item>
+          </div>
+          <div className="item">
             <span data-testid="header-currency-field">
               { `Câmbio: ${currentExchange}` }
             </span>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
-    </Segment>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

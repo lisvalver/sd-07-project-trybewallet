@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Segment } from 'semantic-ui-react';
 
 const LoginForm = ({
   formData: { email, password },
@@ -8,36 +7,37 @@ const LoginForm = ({
   onSubmit,
   disabled,
 }) => (
-  <Form size="large">
-    <Segment stacked>
-      <Form.Field
-        control="input"
-        value={ email }
-        name="email"
-        placeholder="E-mail"
-        data-testid="email-input"
-        onChange={ (event) => onInputChange(event) }
-      />
-      <Form.Field
-        control="input"
-        name="password"
-        value={ password }
-        placeholder="Senha"
-        type="password"
-        data-testid="password-input"
-        onChange={ (event) => onInputChange(event) }
-      />
-      <Button
+  <form className="ui large form">
+    <div className="ui stacked segment">
+      <div className="field">
+        <input
+          name="email"
+          value={ email }
+          placeholder="E-mail"
+          onChange={ (event) => onInputChange(event) }
+          data-testid="email-input"
+        />
+      </div>
+      <div className="field">
+        <input
+          type="password"
+          name="password"
+          value={ password }
+          placeholder="Senha"
+          onChange={ (event) => onInputChange(event) }
+          data-testid="password-input"
+        />
+      </div>
+      <button
+        type="button"
         onClick={ (event) => onSubmit(event) }
         disabled={ disabled }
-        color="green"
-        fluid
-        size="large"
+        className="ui green large fluid button"
       >
         Entrar
-      </Button>
-    </Segment>
-  </Form>
+      </button>
+    </div>
+  </form>
 );
 
 LoginForm.propTypes = {

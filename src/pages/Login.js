@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Grid } from 'semantic-ui-react';
 import { LoginForm, LoginHeader } from '../components';
 import { signIn } from '../store/ducks/user';
 
@@ -54,13 +53,21 @@ class Login extends Component {
 
   render() {
     const { disabledButton } = this.state;
+    const styleGrid = {
+      height: '100vh',
+    };
+    const styleColumn = {
+      maxWidth: '450px',
+    };
     return (
-      <Grid
-        textAlign="center"
-        style={ { height: '100vh' } }
-        verticalAlign="middle"
+      <div
+        style={ styleGrid }
+        className="ui center aligned middle aligned grid"
       >
-        <Grid.Column style={ { maxWidth: 450 } }>
+        <div
+          style={ styleColumn }
+          className="column"
+        >
           <LoginHeader message="Trybe Wallet" />
           <LoginForm
             formData={ this.state }
@@ -68,8 +75,8 @@ class Login extends Component {
             onSubmit={ this.handleSubmit }
             disabled={ disabledButton }
           />
-        </Grid.Column>
-      </Grid>
+        </div>
+      </div>
     );
   }
 }

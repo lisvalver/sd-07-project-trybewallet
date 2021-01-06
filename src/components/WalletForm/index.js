@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Form, Grid } from 'semantic-ui-react';
 import { fetchCurrency, walletActions } from '../../store/ducks/wallet';
 import * as data from '../../services/data';
 
@@ -85,128 +84,148 @@ class WalletForm extends Component {
     } = data;
 
     return (
-      <Grid>
-        <Grid.Row
-          color={ editMode ? 'green' : 'grey' }
-          verticalAlign="middle"
-          centered
+      <div className="ui grid">
+        <div
           inverted="true"
+          className={ editMode
+            ? 'green centered middle aligned row'
+            : 'grey centered middle aligned row' }
         >
-          <Form loading={ isFetching } size="large">
-            <Form.Group widths="equal">
-              <Form.Field
-                name="value"
-                control="input"
-                error={ canValidate
-                  && !validateExpense.value.status }
-                /* ? validateExpense.value.msg : false  */
-                value={ value }
-                placeholder="Valor"
-                data-testid="value-input"
-                type="number"
-                onChange={ (event) => this.handleInputChange(event) }
-              />
-              <Form.Field
-                name="description"
-                control="input"
-                error={ canValidate
-                  && !validateExpense.description.status }
-                /* ? validateExpense.description.msg : false */
-                value={ description }
-                placeholder="Descrição"
-                data-testid="description-input"
-                onChange={ (event) => this.handleInputChange(event) }
-              />
-              <Form.Field
-                name="currency"
-                control="select"
-                error={ canValidate
-                  && !validateExpense.currency.status }
-                /* ? validateExpense.currency.msg : false */
-                value={ currency }
-                data-testid="currency-input"
-                onChange={ (event) => this.handleInputChange(event) }
+          <form
+            className={ isFetching
+              ? 'ui large loading form'
+              : 'ui large form' }
+          >
+            <div className="equal width fields">
+              <div
+                className={ canValidate
+                  && !validateExpense.value.status
+                  ? 'field error'
+                  : 'field' }
               >
-                <option value="" disabled defaultValue hidden>[Moeda]</option>
-                { currencies && currencies.map((key) => (
-                  <option
-                    key={ key }
-                    data-testid={ key }
-                    value={ key }
-                  >
-                    { key }
+                <input
+                  name="value"
+                  value={ value }
+                  placeholder="Valor"
+                  data-testid="value-input"
+                  type="number"
+                  onChange={ (event) => this.handleInputChange(event) }
+                />
+              </div>
+              <div
+                className={ canValidate
+                  && !validateExpense.description.status
+                  ? 'field error'
+                  : 'field' }
+              >
+                <input
+                  type="text"
+                  name="description"
+                  value={ description }
+                  placeholder="Descrição"
+                  data-testid="description-input"
+                  onChange={ (event) => this.handleInputChange(event) }
+                />
+              </div>
+              <div
+                className={ canValidate
+                  && !validateExpense.currency.status
+                  ? 'field error'
+                  : 'field' }
+              >
+                <select
+                  name="currency"
+                  value={ currency }
+                  data-testid="currency-input"
+                  onChange={ (event) => this.handleInputChange(event) }
+                >
+                  <option value="" disabled defaultValue hidden>[Moeda]</option>
+                  { currencies && currencies.map((key) => (
+                    <option
+                      key={ key }
+                      data-testid={ key }
+                      value={ key }
+                    >
+                      { key }
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div
+                className={ canValidate
+                  && !validateExpense.method.status
+                  ? 'field error'
+                  : 'field' }
+              >
+                <select
+                  name="method"
+                  value={ method }
+                  data-testid="method-input"
+                  onChange={ (event) => this.handleInputChange(event) }
+                >
+                  <option value="" disabled defaultValue hidden>
+                    [Forma de Pagamento]
                   </option>
-                ))}
-
-              </Form.Field>
-              <Form.Field
-                name="method"
-                control="select"
-                error={ canValidate
-                  && !validateExpense.method.status }
-                /* ? validateExpense.method.msg : false  */
-                value={ method }
-                data-testid="method-input"
-                onChange={ (event) => this.handleInputChange(event) }
+                  {
+                    optionsMethod.map((item) => (
+                      <option key={ item } value={ item }>{ item }</option>
+                    ))
+                  }
+                </select>
+              </div>
+              <div
+                className={ canValidate
+                  && !validateExpense.tag.status
+                  ? 'field error'
+                  : 'field' }
               >
-                <option value="" disabled defaultValue hidden>
-                  [Forma de Pagamento]
-                </option>
-                {
-                  optionsMethod.map((item) => (
-                    <option key={ item } value={ item }>{ item }</option>
-                  ))
-                }
-              </Form.Field>
-              <Form.Field
-                name="tag"
-                control="select"
-                error={ canValidate
-                  && !validateExpense.tag.status }
-                /* ? validateExpense.tag.msg : false */
-                value={ tag }
-                data-testid="tag-input"
-                onChange={ (event) => this.handleInputChange(event) }
-              >
-                <option value="" disabled defaultValue hidden>[Categoria]</option>
-                {
-                  optionsTag.map((item) => (
-                    <option key={ item } value={ item }>{ item }</option>
-                  ))
-                }
-              </Form.Field>
+                <select
+                  name="tag"
+                  value={ tag }
+                  data-testid="tag-input"
+                  onChange={ (event) => this.handleInputChange(event) }
+                >
+                  <option value="" disabled defaultValue hidden>[Categoria]</option>
+                  {
+                    optionsTag.map((item) => (
+                      <option key={ item } value={ item }>{ item }</option>
+                    ))
+                  }
+                </select>
+              </div>
               { editMode
                 ? (
-                  <Button.Group size="large">
-                    <Button
+                  <div className="ui large buttons">
+                    <button
+                      type="submit"
+                      className="ui button"
                       onClick={ (event) => this.handleCancel(event) }
                     >
                       Cancelar
-                    </Button>
-                    <Button.Or text="ou" />
-                    <Button
+                    </button>
+                    <div className="or" />
+                    <button
+                      type="submit"
+                      className="ui blue fluid button"
                       onClick={ (event) => this.handleSubmit(event) }
-                      color="blue"
-                      fluid
                     >
                       Editar despesa
-                    </Button>
-                  </Button.Group>
+                    </button>
+                  </div>
                 )
                 : (
-                  <Button
+                  <button
+                    type="submit"
                     onClick={ (event) => this.handleSubmit(event) }
-                    color="green"
-                    size="large"
-                    fluid
+                    className="ui green large fluid button"
                   >
                     Adicionar despesa
-                  </Button>
+                  </button>
                 )}
-            </Form.Group>
-          </Form>
-        </Grid.Row>
-      </Grid>
+            </div>
+          </form>
+        </div>
+      </div>
     );
   }
 }
