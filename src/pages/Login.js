@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { sendEmail } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -7,12 +10,13 @@ class Login extends React.Component {
     this.state = {
       emailValid: false,
       passValid: false,
+      email: '',
     }
   }
 
   validateEmail = (email) => {
     const emailRegex = /^\w+[\W_]?\w*@[a-z]+.com(?:.br)?$/;
-    
+
     return emailRegex.test(email);
   }
 
@@ -21,6 +25,7 @@ class Login extends React.Component {
 
     this.setState({
       emailValid,
+      email: value
     })
   }
 
@@ -40,7 +45,8 @@ class Login extends React.Component {
   }
 
   render() {
-    const { emailValid, passValid } = this.state;
+    const { emailValid, passValid, email } = this.state;
+    const { sendEmail } = this.props;
 
     return (
       <article>
@@ -50,7 +56,7 @@ class Login extends React.Component {
             id="email-input"
             type="email"
             testid="email-input"
-            onChange={ this.allowEmail }
+            onChange={this.allowEmail}
             required
           />
         </section>
@@ -60,14 +66,27 @@ class Login extends React.Component {
             id="password-input"
             type="password"
             data-testid="password-input"
-            onChange={ this.allowPassword }
+            onChange={this.allowPassword}
             required
           />
         </section>
-        <button disabled={ !(emailValid && passValid) }>Entrar</button>
+        <button
+          onClick={() => sendEmail(email)}
+          disabled={!(emailValid && passValid)}
+        >
+          Entrar
+        </button>
       </article>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => ({
+  sendEmail: email => dispatch(sendEmail(email))
+})
+
+export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  sendEmail: PropTypes.func.isRequired,
+};
