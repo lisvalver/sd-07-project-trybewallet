@@ -66,7 +66,7 @@ class Login extends React.Component {
     // prettier-ignore
     return (
       <div className="App">
-        Login - Trybe Wallets
+        Login - Trybe Wallet
         <form>
           <input
             data-testid="email-input"
