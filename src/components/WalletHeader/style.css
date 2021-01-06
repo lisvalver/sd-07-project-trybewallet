@@ -1,0 +1,9 @@
+.header__login {
+  display: flex;
+  padding: 15px 30px;
+  justify-content: flex-end;
+}
+
+.header__login p {
+  margin-right: 30px;
+}

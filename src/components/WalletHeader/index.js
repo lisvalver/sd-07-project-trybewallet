@@ -2,21 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-class WalletHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { total: 10, currency: 'BRL' };
-  }
+import FormExpense from '../FormExpense';
+import './style.css';
 
+class WalletHeader extends Component {
   render() {
-    const { email } = this.props;
-    const { total, currency } = this.state;
+    const { email, expenses } = this.props;
+
+    const formatedExpenses = expenses.reduce(
+      (acc, curr) => {
+        const ask = parseFloat(curr.exchangeRates[curr.currency].ask);
+        const formatedValue = parseFloat(curr.value) * ask;
+        return acc + formatedValue;
+      },
+      0,
+    );
 
     return (
-      <header>
-        <p data-testid="email-field">{`E-mail: ${email}`}</p>
-        <p data-testid="total-field">{`Despesa Total: R$ ${total}`}</p>
-        <p data-testid="header-currency-field">{currency}</p>
+      <header className="header__contianer">
+        <section className="header__login">
+          <p data-testid="email-field">{`E-mail: ${email}`}</p>
+          <p data-testid="total-field">{`Despesa Total: R$ ${formatedExpenses}`}</p>
+          <p data-testid="header-currency-field">BRL</p>
+        </section>
+        <FormExpense />
       </header>
     );
   }
@@ -24,9 +33,13 @@ class WalletHeader extends Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expenses: state.wallet.expenses,
 });
 
 WalletHeader.defaultProps = { email: 'ada@lovelace.com' };
-WalletHeader.propTypes = { email: PropTypes.string };
+WalletHeader.propTypes = {
+  email: PropTypes.string,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default connect(mapStateToProps)(WalletHeader);
