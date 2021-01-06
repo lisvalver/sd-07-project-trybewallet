@@ -6,7 +6,7 @@ class Login extends React.Component {
 
     this.state = {
       emailValid: false,
-      email: '',
+      passValid: false,
     }
   }
 
@@ -16,21 +16,31 @@ class Login extends React.Component {
     return emailRegex.test(email);
   }
 
-  validatePassword = (password) => {
-
-  }
-
-  setEmailToState = ({ target: { value } }) => {
+  allowEmail = ({ target: { value } }) => {
     const emailValid = this.validateEmail(value);
 
     this.setState({
-      email: value,
       emailValid,
     })
   }
 
+  validatePassword = (password) => {
+    const passRegex = /^[\Wa-zA-z]{6,}$/
+    console.log(passRegex.test(password));
+
+    return passRegex.test(password);
+  }
+
+  allowPassword = ({ target: { value } }) => {
+    const passValid = this.validatePassword(value);
+
+    this.setState({
+      passValid,
+    })
+  }
+
   render() {
-    const { emailValid } = this.state;
+    const { emailValid, passValid } = this.state;
 
     return (
       <article>
@@ -40,7 +50,7 @@ class Login extends React.Component {
             id="email-input"
             type="email"
             testid="email-input"
-            onChange={ this.setEmailToState }
+            onChange={ this.allowEmail }
             required
           />
         </section>
@@ -50,10 +60,11 @@ class Login extends React.Component {
             id="password-input"
             type="password"
             data-testid="password-input"
+            onChange={ this.allowPassword }
             required
           />
         </section>
-        <button disabled={ !emailValid }>Entrar</button>
+        <button disabled={ !(emailValid && passValid) }>Entrar</button>
       </article>
     );
   }
