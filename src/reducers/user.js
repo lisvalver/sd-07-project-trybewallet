@@ -1,3 +1,5 @@
+import { LOGIN } from '../actions';
+
 const INITIAL_STATE = {
   email: '',
   logged: false,
