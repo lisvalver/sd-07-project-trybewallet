@@ -5,16 +5,27 @@ class Login extends React.Component {
     super();
 
     this.handleChangeInput = this.handleChangeInput.bind(this);
+    this.validateInputs = this.validateInputs.bind(this);
 
     this.state = {
       email: '',
       password: '',
     };
+  }
 
+  validateInputs() {
+    const { email, password } = this.state;
+    const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    const minChars = 5;
+    if (emailRegex.test(email) && password.length > minChars) {
+      return false;
+    }
+    return true;
   }
 
   handleChangeInput(field, newValue) {
     this.setState({ [field]: newValue });
+    this.validateInputs();
   }
 
   render() {
@@ -38,7 +49,7 @@ class Login extends React.Component {
           onChange={ (e) => this.handleChangeInput('password', e.target.value) }
         />
 
-        <button type="button">Entrar</button>
+        <button type="button" disabled={ this.validateInputs() }>Entrar</button>
       </div>
     );
   }
