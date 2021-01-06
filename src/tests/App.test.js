@@ -141,7 +141,7 @@ describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira co
   });
 });
 
-describe.skip('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma despesa contendo as seguintes características:', () => {
+describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma despesa contendo as seguintes características:', () => {
   test('Um campo para adicionar o valor da despesa', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const valueInput = await screen.findByTestId('value-input');
@@ -208,7 +208,7 @@ describe.skip('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adiciona
     expect(debitOption).toBeInTheDocument();
   });
 
-  test('Um campo para selecionar uma categoria (tag) para a despesa.', async () => {
+  test.skip('Um campo para selecionar uma categoria (tag) para a despesa.', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const tagInput = await screen.findByTestId('tag-input');
     const foodOption = screen.getByText(/Alimentação/);
@@ -225,7 +225,7 @@ describe.skip('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adiciona
     expect(healthOption).toBeInTheDocument();
   });
 
-  test('Um botão com o texto \'Adicionar despesa\' que salva as informações da despesa no estado global e atualiza a soma de despesas no header', async () => {
+  test.skip('Um botão com o texto \'Adicionar despesa\' que salva as informações da despesa no estado global e atualiza a soma de despesas no header', async () => {
     const { store } = renderWithRouterAndStore(<Wallet />, '/carteira');
     const addButton = await screen.findByText(/Adicionar despesa/i);
     const valueInput = await screen.findByTestId('value-input');
