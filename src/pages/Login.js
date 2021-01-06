@@ -9,7 +9,7 @@ class Login extends React.Component {
           id="profile-img"
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
         />
-        <form class="form-signin">
+        <form>
           <input
             type="email"
             id="email"
