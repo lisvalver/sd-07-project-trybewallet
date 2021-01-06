@@ -7,35 +7,183 @@
   pointer-events: none;
 }
 
-@media ( prefers-reduced-motion : no-preference ) {
-
+@media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
 .App-header {
-  align-items: center;
   background-color: #282c34;
-  color: white;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.container-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: rgb(112, 230, 134);
 }
 
-@keyframes App-logo-spin {
+.container-info {
+  display: flex;
+  justify-content: space-between;
+  width: 450px;
+  align-items: center;
+}
 
-  from {
-    transform: rotate(0deg);
-  }
+.container-amount {
+  display: flex;
+  justify-content: end;
+}
 
-  to {
-    transform: rotate(360deg);
-  }
+.form {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: rgb(72, 79, 73);
+}
+
+.form label {
+  color: white;
+  left: 19px;
+  margin-bottom: 0.2em;
+  margin-right: 5px;
+}
+
+.form input, select {
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  padding: 0.2em;
+  border-radius: 5px;
+}
+
+.form button {
+  background: rgba(46, 105, 11, 0.952);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  color: white;
+  cursor: pointer;
+  font-size: 1.2em;
+  justify-content: center;
+  padding: 0.2em 0.6em;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.form button:hover {
+  background: rgb(30, 139, 20);
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: none;
+}
+
+.table-header {
+  width: 100%;
+  text-align: center;
+  height: 30px;
+}
+
+.table-header tr td {
+  background-color: teal;
+}
+
+.table-header td {
+  max-width: 15px;
+}
+
+.table-data {
+  width: 100%;
+  text-align: center;
+  height: 30px;
+}
+
+.table-data td {
+  background-color: rgb(241, 232, 241);
+  max-width: 15px;
+  height: 20px;
+}
+
+.form-login {
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  width: 100%;
+  height: 100%;
+}
+
+.form-login button {
+  background: rgba(11, 38, 88, 0.952);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  color: white;
+  font-size: 1.2em;
+  justify-content: center;
+  padding: 0.2em 0.6em;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  cursor: auto;
+}
+
+.form-login button:disabled {
+  background: rgb(104, 109, 114);
+  text-decoration: none;
+}
+
+.container-login h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-family: fantasy;
+}
+
+.form-login input {
+  padding-right: 200px;
+}
+
+.form-edit {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: rgb(179, 183, 185);
+}
+
+.form-edit label {
+  color: rgb(10, 5, 5);
+  left: 19px;
+  margin-bottom: 0.2em;
+  margin-right: 5px;
+}
+
+.form-edit input, select {
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  padding: 0.2em;
+  border-radius: 5px;
+}
+
+.form-edit button {
+  background: rgba(5, 53, 68, 0.952);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  color: white;
+  cursor: pointer;
+  font-size: 1.2em;
+  justify-content: center;
+  padding: 0.2em 0.6em;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.form-edit button:hover {
+  background: rgb(26, 130, 190);
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: none;
 }

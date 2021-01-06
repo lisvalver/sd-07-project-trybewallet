@@ -3,17 +3,12 @@ import {
   CURRENCY_QUERY,
   ADD_EXPENSES,
   DELETE_EXPENSE,
-  EDIT_EXPENSE,
   EDITING,
 } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
-  inEditing: {
-    edit: false,
-    expenseEdit: {},
-  },
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -40,14 +35,6 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       expenses: state.expenses.filter((expense) => expense.id !== action.id),
-    };
-  case EDIT_EXPENSE:
-    return {
-      ...state,
-      inEditing: {
-        edit: !state.inEditing.edit,
-        expenseEdit: action.expenseEdit,
-      },
     };
   case EDITING:
     return {

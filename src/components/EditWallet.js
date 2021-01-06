@@ -1,18 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fecthAwesome, addExpenses } from '../actions';
+import { fecthAwesome, addExpenses, editExpense, editing } from '../actions';
 
-class FormWallet extends Component {
+class EditWallet extends React.Component {
   constructor(props) {
     super(props);
 
     this.changeValue = this.changeValue.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.editWallet = this.editWallet.bind(this);
+
+    const { expenseEdit } = this.props;
 
     this.state = {
-      value: '',
-      description: '',
+      value: expenseEdit.value,
+      description: expenseEdit.description,
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
@@ -30,12 +32,10 @@ class FormWallet extends Component {
     this.setState({ [name]: value });
   }
 
-  async handleClick() {
-    const { fetchAPI } = this.props;
-    await fetchAPI();
-    const { add, currencies } = this.props;
-    this.setState({ exchangeRates: currencies });
-    add(this.state);
+  editWallet() {
+    const { edExpense, edit, expenseEdit } = this.props;
+    edit(expenseEdit, this.state);
+    edExpense();
     this.setState({ value: '', description: '' });
   }
 
@@ -44,7 +44,7 @@ class FormWallet extends Component {
     const { currencies } = this.props;
     const arrayCurrencies = Object.keys(currencies).filter((i) => i !== 'USDT');
     return (
-      <form className="form">
+      <form className="form-edit">
         <label htmlFor="value">
           Valor:
           <input
@@ -110,7 +110,7 @@ class FormWallet extends Component {
             <option value="Saúde">Saúde</option>
           </select>
         </label>
-        <button type="button" onClick={ this.handleClick }>Adicionar despesa</button>
+        <button type="button" onClick={ this.editWallet }>Editar despesa</button>
       </form>
     );
   }
@@ -119,19 +119,25 @@ class FormWallet extends Component {
 const mapDispatchToProps = (dispatch) => ({
   fetchAPI: () => dispatch(fecthAwesome()),
   add: (expense) => dispatch(addExpenses(expense)),
+  edExpense: (id) => dispatch(editExpense(id)),
+  edit: (expenseEdit, newData) => dispatch(editing(expenseEdit, newData)),
 });
 
-const mapStateToProps = ({ wallet }) => ({
+const mapStateToProps = ({ wallet, edit }) => ({
   currencies: wallet.currencies,
   expenses: wallet.expenses,
+  expenseEdit: edit.inEditing.expenseEdit,
 });
 
-FormWallet.propTypes = {
+EditWallet.propTypes = {
   fetchAPI: PropTypes.func.isRequired,
   currencies: PropTypes.shape([]).isRequired,
-  add: PropTypes.func.isRequired,
-  expenseEdit: PropTypes.shape({}).isRequired,
-  exchangeRates: PropTypes.shape({}).isRequired,
+  expenseEdit: PropTypes.shape({
+    value: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+  }).isRequired,
+  edExpense: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormWallet);
+export default connect(mapStateToProps, mapDispatchToProps)(EditWallet);
