@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import addEmail from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -17,18 +20,20 @@ class Login extends React.Component {
     const { email, password } = this.state;
     const minNumber = 5;
     if (email.match(/\S+@\S+\.\S+/) && password.length > minNumber) {
-      return this.setState({ validate: false });
+      this.setState({ validate: false });
+    } else {
+      this.setState({ validate: true });
     }
-    this.setState({ validate: true });
   }
 
-  async handleChanger({ target: { name, value } }) {
-    await this.setState({ [name]: value });
-    this.validate();
+  handleChanger({ target: { name, value } }) {
+    this.setState({ [name]: value }, this.validate);
   }
 
   render() {
     const { email, password, validate } = this.state;
+    // eslint-disable-next-line react/prop-types
+    const { addEmailSave } = this.props;
     return (
       <div>
         <input
@@ -50,10 +55,20 @@ class Login extends React.Component {
             type="button"
             value="Entrar"
             disabled={ validate }
+            onClick={ () => addEmailSave(email) }
           />
         </Link>
       </div>);
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  addEmailSave: (email) => dispatch(addEmail(email)),
+});
+
+Login.propTypes = {
+  addEmailSave: PropTypes.shape({
+    addEmailSave: PropTypes.string.isRequired,
+  }).isRequired,
+};
+export default connect(null, mapDispatchToProps)(Login);

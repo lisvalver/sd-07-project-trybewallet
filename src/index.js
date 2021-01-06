@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
+import store from './store';
 import * as serviceWorker from './serviceWorker';
-import Login from './pages/Login';
 
 ReactDOM.render(
   <BrowserRouter>
-    <Switch>
-      <Route exact path="/" component={ Login } />
-    </Switch>
-    <App />
+    <Provider store={ store }>
+      <App />
+    </Provider>
   </BrowserRouter>,
   document.getElementById('root'),
 );
