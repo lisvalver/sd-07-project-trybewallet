@@ -8,6 +8,7 @@ class Login extends React.Component {
         <img
           id="profile-img"
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          alt="avatar"
         />
         <form>
           <input
