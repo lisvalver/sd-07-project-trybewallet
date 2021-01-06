@@ -16,10 +16,10 @@ class WalletHeader extends Component {
         return acc + formatedValue;
       },
       0,
-    );
+    ).toFixed(2);
 
     return (
-      <header className="header__contianer">
+      <header>
         <section className="header__login">
           <p data-testid="email-field">{`E-mail: ${email}`}</p>
           <p data-testid="total-field">{`Despesa Total: R$ ${formatedExpenses}`}</p>

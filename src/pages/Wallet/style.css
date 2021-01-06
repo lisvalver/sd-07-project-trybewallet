@@ -1,0 +1,29 @@
+.expenses__table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.expenses__table thead {
+  background: #31393e;
+  color: white;
+}
+
+.expenses__table th , .expenses__table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.expense__edit , .expense__delete {
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.expense__edit {
+  background: #fcbf06;
+}
+
+.expense__delete {
+  background: #d8363c;
+}
