@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import * as signAction from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -6,6 +9,7 @@ class Login extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.verifyEmailAndPassword = this.verifyEmailAndPassword.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       email: '',
@@ -40,13 +44,25 @@ class Login extends React.Component {
     );
   }
 
+  // prettier-ignore
   buttonEnabled() {
-    return <button type="button">Entrar</button>;
+    return (
+      <button type="button" onClick={ this.handleClick }>
+        Entrar
+      </button>
+    );
+  }
+
+  handleClick() {
+    const { email } = this.state;
+    const { signIn, history } = this.props;
+    signIn(email);
+    history.push('/carteira');
   }
 
   render() {
     const { email, password } = this.state;
-
+    console.log(this.props);
     // prettier-ignore
     return (
       <div className="App">
@@ -77,4 +93,15 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  signIn: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+const mapDispatchToProps = {
+  signIn: signAction.signIn,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
