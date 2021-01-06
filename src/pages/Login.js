@@ -19,9 +19,10 @@ class Login extends React.Component {
     saveUser(inputEmail, inputPass);
     const regexEmail = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
     const tamanhoSenha = 6;
-    if (regexEmail.test(email) && inputPass.length < tamanhoSenha) {
+    if (regexEmail.test(email) && inputPass.length >= tamanhoSenha) {
       this.setState({ disabled: false });
-    } return history.push('/carteira');
+      history.push('/carteira');
+    }
   }
 
   render() {
