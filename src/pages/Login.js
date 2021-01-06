@@ -26,13 +26,13 @@ class Login extends React.Component {
             required
           />
           <div id="remember">
-            <label>
-              <input type="checkbox" value="remember-me" /> Lembrar login?
+            <label htmlFor="lembrar">
+              <input type="checkbox" id="lembrar" value="remember-me" /> Lembrar login?
             </label>
           </div>
           <button type="submit">Entrar</button>
         </form>
-        <Link href="#">Esqueceu a senha?</Link>
+        <Link to="/">Esqueceu a senha?</Link>
       </div>
     );
   }
