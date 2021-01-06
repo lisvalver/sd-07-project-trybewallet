@@ -7,23 +7,26 @@ class Wallet extends React.Component {
     const { email } = this.props;
 
     return (
-    <div>
-      <header>
-        <h2 data-testid="email-field">Email: {email}</h2>
-        <h2 data-testid="total-field">Despesa total: 0</h2>
-        <h2 data-testid="header-currency-field">Câmbio: BRL</h2>
-      </header>
-    </div>
+      <div>
+        <header>
+          <h2 data-testid="email-field">
+            Email:
+            { email }
+          </h2>
+          <h2 data-testid="total-field">Despesa total: 0</h2>
+          <h2 data-testid="header-currency-field">Câmbio: BRL</h2>
+        </header>
+      </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: state.user.email,
 });
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
-}
+};
 
 export default connect(mapStateToProps)(Wallet);
