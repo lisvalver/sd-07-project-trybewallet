@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import store from '../store'
+import { login } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -9,40 +9,46 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      disabled: true,
       redirect: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.validateInputs = this.validateInputs.bind(this);
   }
 
-  handleChange({ target }) {
-    const { name, value } = target;
-    this.setState({ [name]: value });
-  }
-
-  handleClick() {
+  validateInputs() {
     const { email, password } = this.state;
     let validPassword;
     const minLength = 6;
     const validEmail = email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/);
-    if (password.length >= 6) {
+    if (password.length >= minLength) {
       validPassword = true;
     }
     if (validEmail && validPassword) {
-      this.setState({ redirect: true});
-      return;
+      return false;
     }
-    alert('e-mail ou senha inválidos!');
+    return true;
+  }
+
+  handleChange({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value }, () => {
+      const disabled = this.validateInputs();
+      this.setState({ disabled });
+    });
+  }
+
+  handleClick() {
+    const { email } = this.state;
+    this.setState({ redirect: true });
+    login(email);
   }
 
   render() {
-    const { email, password, redirect } = this.state;
-
-    if (redirect) {
-      return <Redirect to="/carteira" />
-    }
-    
+    const { email, password, redirect, disabled } = this.state;
+    if (redirect) return <Redirect to="/carteira" />;
     return (
       <div>
         <input
@@ -51,7 +57,7 @@ class Login extends React.Component {
           data-testid="email-input"
           placeholder="e-mail"
           value={ email }
-          onChange={this.handleChange}
+          onChange={ this.handleChange }
         />
         <input
           type="password"
@@ -59,20 +65,22 @@ class Login extends React.Component {
           data-testid="password-input"
           placeholder="senha"
           value={ password }
-          onChange={this.handleChange}
+          onChange={ this.handleChange }
         />
-        <button type="button" onClick={ this.handleClick }>Entrar</button>
+        <button
+          type="button"
+          disabled={ disabled }
+          onClick={ this.handleClick }
+        >
+          Entrar
+        </button>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  email: state.user.email,
-});
-
 const mapDispatchToProps = (dispatch) => ({
-
+  login: (e) => dispatch(login(e)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

@@ -1,7 +1,7 @@
 // Coloque aqui suas actions
-export const INPUT_EMAIL = 'INPUT_EMAIL';
+export const LOGIN = 'LOGIN';
 
-export const inputEmail = (email) => ({
-  type: INPUT_EMAIL,
+export const login = (email) => ({
+  type: LOGIN,
   email,
 });
