@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import addEmail from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -28,6 +31,7 @@ class Login extends React.Component {
 
   render() {
     const { email, password, validate } = this.state;
+    const { saveEmail } = this.props;
     return (
       <div>
         <input
@@ -52,10 +56,21 @@ class Login extends React.Component {
             value="Entrar"
             disabled={ validate }
             src="/carteira"
+            onClick={ () => saveEmail(email) }
           />
         </Link>
       </div>);
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  saveEmail: (email) => dispatch(addEmail(email)),
+});
+
+Login.propTypes = {
+  saveEmail: PropTypes.shape({
+    saveEmail: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);

@@ -1,14 +1,15 @@
 // Esse reducer será responsável por tratar as informações da pessoa usuária
+const ADD_EMAIL = 'ADD_EMAIL';
+
 const INITIAL_STATE = { email: '' };
-const reducerAddTask = (state = INITIAL_STATE, action) => {
+const user = (state = INITIAL_STATE, action) => {
+  console.log(action);
   switch (action.type) {
-  case 'ADD_TASK':
-    return [...state, action.payload];
-  case 'REMOVE_TASK':
-    return state.filter((item, index) => index !== action.payload);
+  case ADD_EMAIL:
+    return { email: action.email };
   default:
     return state;
   }
 };
 
-export default reducerAddTask;
+export default user;
