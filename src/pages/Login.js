@@ -1,67 +1,69 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import addUser from '../actions';
-import {connect } from 'react-redux';
 
 class Login extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      inputEmail: '',
+      inputPass: '',
+    };
+  }
+
   render() {
-    const {addUser, history} = this.props;
-    return (<div>
-      <h1>Trybe Wallet</h1>
-      <input
-      type="email"
-      data-testid="email-input"
-      placeholder="Insira seu e-mail"
-      className="inputLogin"
-      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-      />
-      <input 
-      type="password"
-      data-testid="password-input"
-      className="inputLogin"
-      pattern=".{6,}"
-      />
-      <button
-      className="buttonLogin"
-      onClick={() => {}}>
-        Entrar
-      </button>
-    </div>);
+    const { saveUser, history } = this.props;
+    const { inputEmail, inputPass } = this.state;
+    return (
+      <div>
+        <h1>Trybe Wallet</h1>
+        <input
+          type="email"
+          data-testid="email-input"
+          placeholder="Insira seu e-mail"
+          className="inputLogin"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          value={ inputEmail }
+          onChange={ (event) => this.setState({ inputEmail: event.target.value }) }
+        />
+        <input
+          type="password"
+          data-testid="password-input"
+          className="inputLogin"
+          pattern=".{6,}"
+          value={ inputPass }
+          onChange={ (event) => this.setState({ inputPass: event.target.value }) }
+        />
+        <button
+          type="button"
+          className="buttonLogin"
+          onClick={ () => {
+            saveUser(inputEmail, inputPass);
+            history.push('/carteira');
+          } }
+        >
+          Entrar
+        </button>
+      </div>);
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
-    addUser: (email, password) => dispatch(addUser(email, password))
-  }
-};
+    saveUser: (email, password) => dispatch(addUser(email, password)),
+  };
+}
 
 export default connect(null, mapDispatchToProps)(Login);
 
-/*
-
-class Product extends React.Component {
-    render() {
-        const {nome, img, price, onProductAd} = this.props
-        return (
-            <div>
-                <img src={img}/>
-                <h4>{nome}</h4>
-                <p>{price}</p>
-                <button onClick ={()=> onProductAd(nome,price)}>Adicionar</button>
-            </div>
-        )
-    }
-}
-
-const ProductList = ({ productsInList, adicionarItem }) => {
-   return productsInList.map(item => <Product nome = {item.title} img = {item.imagem} price = {item.price} onProductAd= {adicionarItem}/>)
-}
-
-function mapDispatchToProps (dispatch) {
-    return {
-        adicionarItem: (nome, preco) => dispatch(adicionarItem(nome, preco))
-    }
-};
-
-export default connect(null, mapDispatchToProps)(ProductList);
- */
+Login.propTypes = {
+  addUser: PropTypes.shape({
+    type: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
