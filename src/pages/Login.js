@@ -16,7 +16,6 @@ class Login extends React.Component {
             placeholder="email"
             data-testid="email-input"
             required
-            autofocus
           />
           <input
             type="password"
