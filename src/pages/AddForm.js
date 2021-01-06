@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { addExpense, editExpense, getData,
   delExpense, currencyIdIncrement } from '../actions';
 
@@ -10,7 +11,7 @@ const AddForm = (props) => {
   const [formPagamento, setFormPagamento] = useState('Cartão de crédito');
   const [formTag, setFormTag] = useState('Lazer');
   const { editById, data } = props;
-
+  const magic = -1;
   const adicionar = async () => {
     await props.getData();
     props.addExpense({
@@ -60,7 +61,9 @@ const AddForm = (props) => {
             onChange={ (e) => setFormMoeda(e.target.value) }
           >
             {data.length > 0
-              && Object.keys(data[0]).map((e, i) => <option key={ i } data-testid={ e } value={ e }>{e}</option>)}
+              && Object.keys(data[0]).map(
+                (e, i) => <option key={ i } data-testid={ e } value={ e }>{e}</option>,
+              )}
           </select>
         </label>
         <label htmlFor="desc">
@@ -108,7 +111,7 @@ const AddForm = (props) => {
             <option value="Alimentação">Alimentação</option>
           </select>
         </label>
-        {editById === -1
+        {editById === magic
           ? <button type="button" onClick={ adicionar }>Adicionar despesa</button>
           : <button type="button" onClick={ editar }>Editar despesa</button>}
       </form>

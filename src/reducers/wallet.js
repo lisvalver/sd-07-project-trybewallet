@@ -1,4 +1,10 @@
-import { SET_EDIT_BY_ID, CURRENCY_ID_INCREMENT, EDIT_EXPENSE, DEL_EXPENSE, ADD_EXPENSE, SET_DATA, IS_FETCHING } from '../actions';
+import {
+  SET_EDIT_BY_ID,
+  CURRENCY_ID_INCREMENT,
+  EDIT_EXPENSE, DEL_EXPENSE,
+  ADD_EXPENSE,
+  SET_DATA, IS_FETCHING,
+} from '../actions';
 
 const initialState = {
   isFetching: false,
@@ -17,7 +23,7 @@ const wallet = (state = initialState, action) => {
   case ADD_EXPENSE:
     return { ...state, expenses: [...state.expenses, action.expense] };
   case DEL_EXPENSE:
-    return { ...state, expenses: state.expenses.filter((e) => e.id != action.id) };
+    return { ...state, expenses: state.expenses.filter((e) => e.id !== action.id) };
   case SET_EDIT_BY_ID:
     return { ...state, editById: action.id };
   case EDIT_EXPENSE:
