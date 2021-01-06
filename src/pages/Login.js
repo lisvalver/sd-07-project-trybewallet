@@ -6,7 +6,7 @@ import addUser from '../actions';
 class Login extends React.Component {
   constructor() {
     super();
-    this.buttonClick = this.buttonClick.bind(this);
+    this.changeState = this.changeState.bind(this);
     this.state = {
       inputEmail: '',
       inputPass: '',
@@ -14,18 +14,16 @@ class Login extends React.Component {
     };
   }
 
-  buttonClick(inputEmail, inputPass) {
-    const { saveUser, history } = this.props;
-    saveUser(inputEmail, inputPass);
+  changeState(inputEmail, inputPass) {
     const regexEmail = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
     const tamanhoSenha = 6;
-    if (regexEmail.test(email) && inputPass.length >= tamanhoSenha) {
+    if (regexEmail.test(inputEmail) && inputPass.length >= tamanhoSenha) {
       this.setState({ disabled: false });
-      history.push('/carteira');
     }
   }
 
   render() {
+    const { saveUser, history } = this.props;
     const { inputEmail, inputPass, disabled } = this.state;
     return (
       <div id="login-box">
@@ -37,7 +35,8 @@ class Login extends React.Component {
           className="inputLogin"
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
           value={ inputEmail }
-          onChange={ (event) => this.setState({ inputEmail: event.target.value }) }
+          onChange={ (event) => this.setState({ inputEmail: event.target.value },
+            this.changeState(inputEmail, inputPass)) }
         />
         <input
           type="password"
@@ -45,13 +44,17 @@ class Login extends React.Component {
           className="inputLogin"
           pattern=".{6,}"
           value={ inputPass }
-          onChange={ (event) => this.setState({ inputPass: event.target.value }) }
+          onChange={ (event) => this.setState({ inputPass: event.target.value },
+            this.changeState(inputEmail, inputPass)) }
         />
         <button
           type="button"
           className="buttonLogin"
           disabled={ disabled }
-          onClick={ () => { buttonClick(inputEmail, inputPass); } }
+          onClick={ () => {
+            saveUser(inputEmail, inputPass);
+            history.push('/carteira');
+          } }
         >
           Entrar
         </button>

@@ -1,6 +1,6 @@
 // Coloque aqui suas actions
 
-const addUser = (email) => ({
+const addUser = (email, password) => ({
   type: 'USER',
   payload: {
     email,
