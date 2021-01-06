@@ -62,7 +62,7 @@ class Login extends React.Component {
 
   render() {
     const { email, password } = this.state;
-    console.log(this.props);
+
     // prettier-ignore
     return (
       <div className="App">

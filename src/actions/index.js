@@ -1,9 +1,9 @@
 // Coloque aqui suas actions
 const SIGN_IN = 'SIGN_IN';
 
-export const signIn = (user) => ({
+export const signIn = (email) => ({
   type: SIGN_IN,
-  payload: user,
+  payload: email,
 });
 
 export const signOut = (user) => ({
