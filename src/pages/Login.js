@@ -28,7 +28,7 @@ class Login extends React.Component {
           <div id="remember">
             <label htmlFor="lembrar">
               <input type="checkbox" id="lembrar" value="remember-me" />
-                Lembrar login?
+              Lembrar login?
             </label>
           </div>
           <button type="submit">Entrar</button>
