@@ -1,14 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  Container,
-  Content,
-  Form,
-  Label,
-  EmailInput,
-  PasswordInput, Submit,
-} from './styles';
 
 import { loginAction } from '../../actions';
 
@@ -43,39 +35,39 @@ class Login extends React.Component {
     const passLength = password.length;
     const five = 5;
     return (
-      <Container>
-        <Content>
-          <Form>
-            <Label>
+      <div>
+        <div>
+          <form>
+            <label>
               Email
-              <EmailInput
+              <input
                 type="email"
                 name="email"
                 value={ email }
                 data-testid="email-input"
                 onChange={ this.changeValues }
               />
-            </Label>
-            <Label>
+            </label>
+            <label>
               Senha
-              <PasswordInput
+              <input
                 type="password"
                 name="password"
                 value={ password }
                 data-testid="password-input"
                 onChange={ this.changeValues }
               />
-            </Label>
-            <Submit
+            </label>
+            <button
               disabled={ this.validEmail(email) && passLength > five ? '' : 'disabled' }
               onClick={ this.login }
               type="button"
             >
               Entrar
-            </Submit>
-          </Form>
-        </Content>
-      </Container>
+            </button>
+          </form>
+        </div>
+      </div>
     );
   }
 }

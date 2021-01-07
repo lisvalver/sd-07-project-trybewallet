@@ -2,24 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {
-  Cambio,
-  Container,
-  Content, DespesaTotal,
-  Email,
-} from './styles';
-
 class Header extends React.Component {
   render() {
     const { email } = this.props;
     return (
-      <Container>
-        <Content>
-          <Email data-testid="email-field">{ email }</Email>
-          <DespesaTotal data-testid="total-field">{ 0 }</DespesaTotal>
-          <Cambio data-testid="header-currency-field">BRL</Cambio>
-        </Content>
-      </Container>
+      <div>
+        <div>
+          <p data-testid="email-field">{ email }</p>
+          <span data-testid="total-field">{ 0 }</span>
+          <span data-testid="header-currency-field">BRL</span>
+        </div>
+      </div>
     );
   }
 }

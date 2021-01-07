@@ -6,15 +6,17 @@ import {
 } from './styles';
 
 import Header from '../../components/Header';
+import FormDespesa from '../../components/FormDespesa';
 
 class Wallet extends React.Component {
   render() {
     return (
-      <Container>
-        <Content>
-          <Header />
-        </Content>
-      </Container>
+      <div>
+        <Header />
+        <div>
+          <FormDespesa />
+        </div>
+      </div>
     );
   }
 }
