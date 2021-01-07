@@ -29,7 +29,7 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
   - [Execução de testes unitários](#execução-de-testes-unitários)
 - [Requisitos do projeto](#requisitos-do-projeto)
   - [Lista de requisitos](#lista-de-requisitos)
-    - [Página de Login](#página-de-login)
+    - [Página de Index](#página-de-login)
     - [Página da Carteira](#página-da-carteira)
       - [Configurando sua página](#configurando-sua-página)
       - [Header](#header)
@@ -238,7 +238,7 @@ npm test
 
 ## Lista de requisitos
 
-### Página de Login
+### Página de Index
 
 Crie uma página para que a pessoa usuária se identifique, com email e senha. Esta página deve ser a página inicial de seu aplicativo.
 
