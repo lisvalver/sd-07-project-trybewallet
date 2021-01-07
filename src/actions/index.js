@@ -10,7 +10,12 @@ export const dataFetched = (data) => ({
 
 export const storeCurrencies = (data) => ({
   type: 'STORE_CURRENCIES',
-  payload: [...data],
+  payload: data,
+});
+
+export const newExpense = (data) => ({
+  type: 'NEW_EXPENSE',
+  payload: data,
 });
 
 export const getCurrencies = () => async (dispatch) => {
