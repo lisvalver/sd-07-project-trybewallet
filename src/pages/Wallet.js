@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExpenseTable, Header, InfosInput } from '../components';
+import { Header, InfosInput } from '../components';
 
 class Wallet extends React.Component {
   render() {
@@ -7,7 +7,6 @@ class Wallet extends React.Component {
       <div>
         <Header />
         <InfosInput />
-        <ExpenseTable />
       </div>
     );
   }

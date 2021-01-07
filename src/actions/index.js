@@ -7,6 +7,8 @@ import {
   ADD_EXPENSE,
   REMOVE_EXPENSE,
   UPDATE_TOTAL_EXPENSES,
+  UPDATE_EXPENSE,
+  ENABLE_AND_DISABLE_UPDATE,
 } from '../constants';
 
 const loginAction = {
@@ -22,7 +24,9 @@ const walletAction = {
   requestFailed: (payload) => ({ type: REQUEST_FAILED, payload }),
   addExpense: (payload) => ({ type: ADD_EXPENSE, payload }),
   removeExpense: (payload) => ({ type: REMOVE_EXPENSE, payload }),
+  updateExpense: (payload) => ({ type: UPDATE_EXPENSE, payload }),
   updateTotal: () => ({ type: UPDATE_TOTAL_EXPENSES }),
+  enableAndDisableUpdate: () => ({ type: ENABLE_AND_DISABLE_UPDATE }),
 };
 
 const fetchAPI = () => async (dispatch) => {

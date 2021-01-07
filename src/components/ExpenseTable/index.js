@@ -7,7 +7,7 @@ import Table from './styles';
 const { format } = new Intl.NumberFormat('pt-BR',
   { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 
-const ExpenseTable = ({ expen, removeExpense }) => (
+const ExpenseTable = ({ expen, removeExpense, handleEditState }) => (
   <Table>
     <thead>
       <tr>
@@ -41,6 +41,13 @@ const ExpenseTable = ({ expen, removeExpense }) => (
             >
               Remover
             </button>
+            <button
+              type="button"
+              data-testid="edit-btn"
+              onClick={ () => handleEditState(id) }
+            >
+              Editar
+            </button>
           </td>
         </tr>
       ))}
@@ -53,7 +60,7 @@ const mapStateToProps = ({ wallet }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  removeExpense: (id) => dispatch(walletAction.removeExpense(id)),
+  removeExpense: (payload) => dispatch(walletAction.removeExpense(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseTable);
@@ -61,4 +68,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(ExpenseTable);
 ExpenseTable.propTypes = {
   expen: PropTypes.arrayOf(PropTypes.object).isRequired,
   removeExpense: PropTypes.func.isRequired,
+  handleEditState: PropTypes.func.isRequired,
 };

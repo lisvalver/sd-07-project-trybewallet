@@ -5,7 +5,9 @@ import {
   REQUEST_FAILED,
   ADD_EXPENSE,
   REMOVE_EXPENSE,
+  UPDATE_EXPENSE,
   UPDATE_TOTAL_EXPENSES,
+  ENABLE_AND_DISABLE_UPDATE,
 } from '../constants';
 
 const INITIAL_STATE = {
@@ -13,11 +15,13 @@ const INITIAL_STATE = {
   expenses: [],
   totalExpenses: 0,
   loading: false,
+  isUpdating: false,
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
-  const { expenses, currencies } = state;
+  const { expenses, currencies, isUpdating } = state;
+
   switch (type) {
   case REQUEST:
     return { ...state, loading: true };
@@ -32,6 +36,14 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       expenses: expenses.filter((expen) => expen.id !== payload),
     };
+  case UPDATE_EXPENSE:
+    return {
+      ...state,
+      expenses: expenses.map((expen) => {
+        if (expen.id === payload.id) return payload;
+        return expen;
+      }),
+    };
   case UPDATE_TOTAL_EXPENSES:
     return {
       ...state,
@@ -40,6 +52,8 @@ const wallet = (state = INITIAL_STATE, action) => {
         return acc + (Number(value) * ask);
       }, 0),
     };
+  case ENABLE_AND_DISABLE_UPDATE:
+    return { ...state, isUpdating: !isUpdating };
   default:
     return state;
   }
