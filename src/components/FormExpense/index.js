@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { addExpense, getCurrencies } from '../../actions';
 
 class FormExpense extends React.Component {
@@ -101,3 +102,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormExpense);
+
+FormExpense.propTypes = {
+  getCurrenciesProp: PropTypes.func.isRequired,
+  addExpenseProp: PropTypes.func.isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
