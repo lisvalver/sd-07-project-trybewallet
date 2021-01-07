@@ -5,8 +5,8 @@ import { Login, Wallet } from '../pages';
 export default function Routes() {
   return (
     <Switch>
-      <Route exact path="/" component={Login} />
-      <Route exact path="/carteira" component={Wallet} />
+      <Route exact path="/" component={ Login } />
+      <Route exact path="/carteira" component={ Wallet } />
     </Switch>
   );
 }
