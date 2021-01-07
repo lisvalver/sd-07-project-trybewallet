@@ -13,16 +13,6 @@ class Login extends React.Component {
     }
   }
 
-  // handleChange = event => {
-  //   const isCheckbox = event.target.type === "checkbox";
-  //   this.setState({
-  //     [event.target.name]: isCheckbox
-  //       ? event.target.checked
-  //       : event.target.value,
-  //       passwordlength: this.state.email.length
-  //   });
-  // };
-
   passwordChange = event => {
     this.setState({
       password: event.target.value,
@@ -35,7 +25,7 @@ class Login extends React.Component {
       })
     } else {
       this.setState({
-        passwordError: ''
+        passwordError: 'Senha OK'
       })
     }
   }
@@ -43,7 +33,7 @@ class Login extends React.Component {
   emailChange = event => {
     this.setState({
       email: event.target.value,
-      emailError: ''
+      emailError: 'Email OK'
     })
     if (this.state.email === '') {
       this.setState({
@@ -58,26 +48,6 @@ class Login extends React.Component {
       }
     }
   }
-
-  // validate = () => {
-  //   let passwordError = "";
-  //   let emailError = "";
-
-  //   if (this.state.password.length < 6) {
-  //     passwordError = "name cannot be blank";
-  //   }
-
-  //   if (!this.state.email.includes("@")) {
-  //     emailError = "invalid email";
-  //   }
-
-  //   if (emailError || passwordError) {
-  //     this.setState({ emailError, passwordError });
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
 
   render() {
     return (
