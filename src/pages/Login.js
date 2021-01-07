@@ -22,6 +22,10 @@ class Login extends React.Component {
     const { name, value } = target;
     this.setState({ [name]: value }, () => {
       const { email, senha } = this.state;
+      const regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!regEmail.test(email) && senha.length < 6) {
+        return console.log('Invalid Email');
+      }
       const entra = document.getElementById('btn-entra');
       if (email === 'strongreen@strongreen.com' && senha === 'strongreen') {
         entra.removeAttribute('disabled');
@@ -50,18 +54,18 @@ class Login extends React.Component {
             type="email"
             id="email"
             name="email"
-            value={ email }
+            value={email}
             placeholder="email"
             data-testid="email-input"
-            onChange={ this.onInputChange }
+            onChange={this.onInputChange}
             required
           />
           <input
             type="password"
             id="senha"
-            value={ senha }
+            value={senha}
             name="senha"
-            onChange={ this.onInputChange }
+            onChange={this.onInputChange}
             placeholder="Senha"
             data-testid="password-input"
             required
@@ -72,7 +76,7 @@ class Login extends React.Component {
               Lembrar login?
             </label>
           </div>
-          <button id="btn-entra" type="submit" onClick={ this.handleLogin }>
+          <button id="btn-entra" type="submit" onClick={this.handleLogin}>
             Entrar
           </button>
         </form>
