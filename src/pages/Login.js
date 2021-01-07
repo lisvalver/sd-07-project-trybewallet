@@ -1,7 +1,10 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Button } from 'react-bulma-components';
 import { login } from '../actions';
+import 'react-bulma-components/dist/react-bulma-components.min.css';
+import '../index.css';
 
 class Login extends React.Component {
   constructor(props) {
@@ -45,31 +48,36 @@ class Login extends React.Component {
     const { email, password, isDisabled } = this.state;
     return (
       <div>
-        <h1>WALLET APP</h1>
-        <form onSubmit={ this.handleSignUp }>
-          <input
-            type="text"
-            placeholder="email"
-            name="email"
-            value={ email }
-            data-testid="email-input"
-            onChange={ this.handleChange }
-          />
-          <input
-            type="password"
-            placeholder="password"
-            name="password"
-            value={ password }
-            data-testid="password-input"
-            onChange={ this.handleChange }
-          />
-          <button
-            type="submit"
-            disabled={ isDisabled }
-          >
-            Entrar
-          </button>
-        </form>
+        <h1 className="title is-2">WALLET APP</h1>
+        <div className="columns is-desktop">
+          <form onSubmit={ this.handleSignUp }>
+            <input
+              className="input is-success level-item"
+              type="text"
+              placeholder="E-mail"
+              name="email"
+              value={ email }
+              data-testid="email-input"
+              onChange={ this.handleChange }
+            />
+            <input
+              className="input is-success level-item"
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={ password }
+              data-testid="password-input"
+              onChange={ this.handleChange }
+            />
+            <Button
+              color="success"
+              type="submit"
+              disabled={ isDisabled }
+            >
+              Entrar
+            </Button>
+          </form>
+        </div>
       </div>
     );
   }

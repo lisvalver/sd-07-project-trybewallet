@@ -8,13 +8,13 @@ class Header extends Component {
     return (
       <header>
         <p data-testid="email-field">
-          Email:
+          <strong>Email:</strong>
           {' '}
           { email }
         </p>
         <div className="total-field">
           <p data-testid="total-field">
-            Despesa Total: R$
+            <strong>Despesa Total: R$</strong>
             {' '}
             {expenses.reduce((acc, expense) => {
               const { currency, exchangeRates, value } = expense;
@@ -25,7 +25,8 @@ class Header extends Component {
               return acc + parseFloat(costInBRL);
             }, 0).toFixed(2)}
           </p>
-          <p data-testid="header-currency-field">BRL</p>
+          <p data-testid="header-currency-field"><strong>BRL</strong></p>
+          <br />
         </div>
       </header>
     );
