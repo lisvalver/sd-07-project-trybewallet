@@ -8,8 +8,15 @@ class Login extends React.Component {
       email: '',
       senha: '',
     };
-    this.handleLogin = this.handleLogin.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  onInputChange({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+    const entra = document.getElementById('btn-entra');
+    entra.removeAttribute('disabled');
   }
 
   handleLogin() {
@@ -20,13 +27,6 @@ class Login extends React.Component {
       const entra = document.getElementById('btn-entra');
       entra.setAttribute('disabled', '');
     }
-  }
-
-  onInputChange({ target }) {
-    const { name, value } = target;
-    this.setState({ [name]: value });
-    const entra = document.getElementById('btn-entra');
-    entra.removeAttribute('disabled');
   }
 
   render() {
@@ -43,18 +43,18 @@ class Login extends React.Component {
             type="email"
             id="email"
             name="email"
-            value={email}
+            value={ email }
             placeholder="email"
             data-testid="email-input"
-            onChange={this.onInputChange}
+            onChange={ this.onInputChange }
             required
           />
           <input
             type="password"
             id="senha"
-            value={senha}
+            value={ senha }
             name="senha"
-            onChange={this.onInputChange}
+            onChange={ this.onInputChange }
             placeholder="Senha"
             data-testid="password-input"
             required
@@ -68,7 +68,7 @@ class Login extends React.Component {
           <button
             id="btn-entra"
             type="submit"
-            onClick={this.handleLogin}
+            onClick={ this.handleLogin }
             disable
           >
             Entrar
