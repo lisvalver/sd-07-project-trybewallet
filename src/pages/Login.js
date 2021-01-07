@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import * as signAction from '../actions';
+import * as Actions from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -101,7 +101,7 @@ Login.propTypes = {
 };
 
 const mapDispatchToProps = {
-  signIn: signAction.signIn,
+  signIn: Actions.signIn,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

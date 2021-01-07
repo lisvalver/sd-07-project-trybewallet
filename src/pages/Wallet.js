@@ -1,24 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as Actions from '../actions';
+
+import FormDespesa from '../components/FormDespesa';
 
 class Wallet extends React.Component {
+  constructor() {
+    super();
+    this.fetchTest = this.fetchTest.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchTest();
+  }
+
+  async fetchTest() {
+    const { fetchCurrenciesThunk } = this.props;
+    await fetchCurrenciesThunk();
+  }
+
   render() {
-    const { user } = this.props;
+    const { user, wallet } = this.props;
 
     return (
       <div>
         <header className="header">
-          <p> Carteira - Trybe Wallet</p>
+          <p>Carteira - Trybe Wallet</p>
           <p data-testid="email-field">
             Email:
             {user.email}
           </p>
           <p data-testid="total-field">
             Despesa Total: R$ 0,00
-            <span data-testid="header-currency-field"> BRL</span>
+            <span data-testid="header-currency-field">BRL</span>
           </p>
         </header>
+
+        <FormDespesa currencies={ wallet.currencies } />
       </div>
     );
   }
@@ -28,10 +47,25 @@ Wallet.propTypes = {
   user: PropTypes.shape({
     email: PropTypes.string,
   }).isRequired,
+  fetchCurrenciesThunk: PropTypes.func.isRequired,
+  wallet: PropTypes.shape({
+    currencies: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string,
+        codein: PropTypes.string,
+        name: PropTypes.string,
+      }),
+    ),
+  }).isRequired,
+};
+
+const mapDispatchToProps = {
+  fetchCurrenciesThunk: Actions.fetchCurrenciesThunk,
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user,
+  user: state.user.user, // nome do reducer depois do estado dele
+  wallet: state.wallet.wallet, // nome do reducer depois do estado dele
 });
 
-export default connect(mapStateToProps, null)(Wallet);
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
