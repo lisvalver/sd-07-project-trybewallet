@@ -1,21 +1,22 @@
 .container {
-    align-items: center;
-    display: flex;
-    justify-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .form-container {
-    align-items: center;
-    background-color: aquamarine;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 100px;
-    padding: 20px;
-    width: fit-content;
+  align-items: center;
+  background-color: aquamarine;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 100px;
+  padding: 20px;
+  width: fit-content;
 }
 
-.input-login, .btn-login {
-    margin-top: 5px;
+.input-login,
+.btn-login {
+  margin-top: 5px;
 }
