@@ -31,7 +31,6 @@ class Login extends React.Component {
   }
 
   handleButtonStatus() {
-    console.log('ta aqui');
     const { email, password, buttonState } = this.state;
     const emailRegex = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
     const minPasswordLength = 6;

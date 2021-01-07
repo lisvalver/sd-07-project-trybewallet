@@ -4,6 +4,7 @@ export const LIST_CURRENCIES = 'LIST_CURRENCIES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 export const LOGIN = 'LOGIN';
+export const TOTAL_EXPENSE = 'TOTAL_EXPENSE';
 
 export const userLogin = (email) => ({
   type: LOGIN,
@@ -18,6 +19,11 @@ export const addExpense = (expense) => ({
 export const removeExpense = (expense) => ({
   type: REMOVE_EXPENSE,
   payload: expense,
+});
+
+export const totalExpenses = (totalValue) => ({
+  type: TOTAL_EXPENSE,
+  payload: totalValue,
 });
 
 export const requestCurrencies = () => ({
