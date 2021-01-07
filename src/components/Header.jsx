@@ -16,7 +16,7 @@ class Header extends Component {
           {`Despesa Total: ${despesaTotal}`}
         </span>
         <span data-testid="header-currency-field">
-          {` BRL`}
+          BRL
         </span>
       </div>
     );
