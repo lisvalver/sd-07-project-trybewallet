@@ -7,7 +7,7 @@ function App() {
       <p>Hello, TrybeWallet!</p>
       <Routes />
     </div>
-  )
+  );
 }
 
 export default App;
