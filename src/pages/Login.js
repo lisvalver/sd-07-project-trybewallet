@@ -5,8 +5,8 @@ import { Redirect } from 'react-router-dom';
 import { userLogin } from '../actions';
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: '',
@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.propTypes = {
-  login: PropTypes.func,
+  login: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
