@@ -2,6 +2,31 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      senha: ''
+    };
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+ handleLogin(){
+  const { email, senha } = this.state;
+  if ( email === 'strongreen@strongreen.com' && senha === 'strongreen') {
+    //  /carteira
+  }
+  else {
+    // Desativa o botão
+  }
+ }
+
+ onInputChange({ target }){
+  const { name, value} = target;
+
+ }
+
+
   render() {
     return (
       <div>
@@ -14,6 +39,7 @@ class Login extends React.Component {
           <input
             type="email"
             id="email"
+            name="email"
             placeholder="email"
             data-testid="email-input"
             required
@@ -21,6 +47,7 @@ class Login extends React.Component {
           <input
             type="password"
             id="senha"
+            name="senha"
             placeholder="Senha"
             data-testid="password-input"
             required
@@ -31,7 +58,7 @@ class Login extends React.Component {
               Lembrar login?
             </label>
           </div>
-          <button type="submit">Entrar</button>
+          <button type="submit" onClick={this.handleLogin}>Entrar</button>
         </form>
         <Link to="/">Esqueceu a senha?</Link>
       </div>
