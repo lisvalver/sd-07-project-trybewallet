@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addEmail } from '../actions';
 
 class Login extends Component {
   constructor() {
@@ -8,17 +10,14 @@ class Login extends Component {
       password: '',
       validate: true,
     };
+    this.handleChanger = this.handleChanger.bind(this);
+    this.validadeEmail = this.validadeEmail.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit = () => {
-    const { history } = this.props;
-    history.push('/carteira');
-  };
-
-  handleChanger = ({ target: { name, value } }) => {
-    this.setState({ [name]: value },  this.validadeEmail);
-    this.validadeEmail();
-  };
+  handleChanger({ target: { name, value } }) {
+    this.setState({ [name]: value }, this.validadeEmail);
+  }
   validadeEmail() {
     const { email, password } = this.state;
     const number = 5;
@@ -28,6 +27,13 @@ class Login extends Component {
       this.setState({ validate: true });
     }
   }
+
+  handleSubmit() {
+    const { saveEmail, history } = this.props;
+    saveEmail(this.state.email);
+    history.push('/carteira');
+  }
+
   render() {
     const { email, password, validate } = this.state;
     return (
@@ -36,25 +42,23 @@ class Login extends Component {
           type="email"
           data-testid="email-input"
           maxLength="40"
-          fluid
           placeholder="Email"
           required
-          value={email}
+          value={ email }
           name="email"
           onChange={(e) => this.handleChanger(e)}
         />
+
         <input
           type="text"
           data-testid="password-input"
           maxLength="50"
-          fluid
           placeholder="password"
-          value={password}
+          value={ password }
           name="password"
           onChange={(e) => this.handleChanger(e)}
         />
-
-        <button value="Entrar" onClick={this.handleSubmit} disabled={validate}>
+        <button onClick={() => this.handleSubmit()} disabled={ validate }>
           Entrar
         </button>
       </form>
@@ -62,4 +66,8 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  saveEmail: (email) => dispatch(addEmail(email)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
