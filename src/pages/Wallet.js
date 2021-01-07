@@ -8,10 +8,12 @@ class Wallet extends React.Component {
       <div>
         <header>
           <section data-testid="email-field">
-            Email: { email }
+            Email: 
+            { email }
           </section>
           <section data-testid="total-field">
-            Despesas Totais: R${ despesas }
+            Despesas Totais: R$
+            { despesas }
           </section>
           <section data-testid="header-currency-field">
             BRL

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Login extends React.Component {
   constructor(props) {
@@ -21,8 +22,9 @@ class Login extends React.Component {
 
   handleLogin() {
     const { email, senha } = this.state;
+    const { history } = this.props;
     if (email === 'strongreen@strongreen.com' && senha === 'strongreen') {
-      this.props.history.push('/carteira');
+      history.push('/carteira');
     } else {
       const entra = document.getElementById('btn-entra');
       entra.setAttribute('disabled', '');
@@ -79,5 +81,9 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.string.isRequired,
+};
 
 export default Login;
