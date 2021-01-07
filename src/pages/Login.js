@@ -1,33 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      senha: ''
+      senha: '',
     };
     this.handleLogin = this.handleLogin.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
   }
 
- handleLogin(){
-  const { email, senha } = this.state;
-  if ( email === 'strongreen@strongreen.com' && senha === 'strongreen') {
-    //  /carteira
+  handleLogin() {
+    const { email, senha } = this.state;
+    if (email === 'strongreen@strongreen.com' && senha === 'strongreen') {
+      this.props.history.push('/carteira');
+    } else {
+      const entra = document.getElementById('btn-entra');
+      entra.setAttribute('disabled', '');
+    }
   }
-  else {
-    // Desativa o botão
+
+  onInputChange({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+    const entra = document.getElementById('btn-entra');
+    entra.removeAttribute('disabled');
   }
- }
-
- onInputChange({ target }){
-  const { name, value} = target;
-
- }
-
 
   render() {
+    const { email, senha } = this.state;
     return (
       <div>
         <img
@@ -40,14 +43,18 @@ class Login extends React.Component {
             type="email"
             id="email"
             name="email"
+            value={email}
             placeholder="email"
             data-testid="email-input"
+            onChange={this.onInputChange}
             required
           />
           <input
             type="password"
             id="senha"
+            value={senha}
             name="senha"
+            onChange={this.onInputChange}
             placeholder="Senha"
             data-testid="password-input"
             required
@@ -58,7 +65,14 @@ class Login extends React.Component {
               Lembrar login?
             </label>
           </div>
-          <button type="submit" onClick={this.handleLogin}>Entrar</button>
+          <button
+            id="btn-entra"
+            type="submit"
+            onClick={this.handleLogin}
+            disable
+          >
+            Entrar
+          </button>
         </form>
         <Link to="/">Esqueceu a senha?</Link>
       </div>

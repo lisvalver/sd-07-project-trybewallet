@@ -3,15 +3,19 @@ import { connect } from 'react-redux';
 
 class Wallet extends React.Component {
   render() {
-
     const { email, despesas } = this.props;
     return (
       <div>
         <header>
-          TrybeWallet
-          <section data-testid="email-field">Email: { email }</section>
-          <section data-testid="total-field">Despesas Totais: R${ despesas }</section>
-          <section data-testid="header-currency-field">BRL</section>
+          <section data-testid="email-field">
+            Email: {email}
+          </section>
+          <section data-testid="total-field">
+            Despesas Totais: R${despesas}
+          </section>
+          <section data-testid="header-currency-field">
+            BRL
+          </section>
         </header>
       </div>
     );
