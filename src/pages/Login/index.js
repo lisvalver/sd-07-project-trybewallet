@@ -38,26 +38,28 @@ class Login extends React.Component {
       <div>
         <div>
           <form>
-            <label>
-              Email
+            <div>
+              <label htmlFor="email">Email:</label>
               <input
                 type="email"
                 name="email"
+                id="email"
                 value={ email }
                 data-testid="email-input"
                 onChange={ this.changeValues }
               />
-            </label>
-            <label>
-              Senha
+            </div>
+            <div>
+              <label htmlFor="password">Senha</label>
               <input
                 type="password"
                 name="password"
+                id="password"
                 value={ password }
                 data-testid="password-input"
                 onChange={ this.changeValues }
               />
-            </label>
+            </div>
             <button
               disabled={ this.validEmail(email) && passLength > five ? '' : 'disabled' }
               onClick={ this.login }

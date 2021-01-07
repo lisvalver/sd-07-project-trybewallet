@@ -6,22 +6,24 @@ class FormDespesa extends React.Component {
       <div>
         <div>
           <form>
-            <label>
-              Valor:
+            <div>
+              <label htmlFor="value">Valor:</label>
               <input
                 name="value"
+                id="value"
                 type="number"
                 data-testid="value-input"
               />
-            </label>
-            <label>
-              Descrição:
+            </div>
+            <div>
+              <label htmlFor="description">Descrição:</label>
               <input
-                name="value"
+                name="description"
+                id="description"
                 type="text"
                 data-testid="description-input"
               />
-            </label>
+            </div>
           </form>
         </div>
       </div>
