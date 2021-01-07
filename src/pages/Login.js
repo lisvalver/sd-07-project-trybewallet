@@ -8,6 +8,7 @@ class Login extends React.Component {
     this.state = {
       email: '',
       senha: '',
+      login: false,
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
@@ -15,20 +16,24 @@ class Login extends React.Component {
 
   onInputChange({ target }) {
     const { name, value } = target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value }, () => {
+      const { email, senha } = this.state;
+      const entra = document.getElementById('btn-entra');
+      if (email === 'strongreen@strongreen.com' && senha === 'strongreen') {
+        entra.removeAttribute('disabled');
+      } else {
+        entra.setAttribute('disabled', '');
+      }
+    });
+  }
+  componentDidMount() {
     const entra = document.getElementById('btn-entra');
-    entra.removeAttribute('disabled');
+    entra.setAttribute('disabled', '');
   }
 
   handleLogin() {
-    const { email, senha } = this.state;
     const { history } = this.props;
-    if (email === 'strongreen@strongreen.com' && senha === 'strongreen') {
-      history.push('/carteira');
-    } else {
-      const entra = document.getElementById('btn-entra');
-      entra.setAttribute('disabled', '');
-    }
+    history.push('/carteira');
   }
 
   render() {
@@ -45,18 +50,18 @@ class Login extends React.Component {
             type="email"
             id="email"
             name="email"
-            value={ email }
+            value={email}
             placeholder="email"
             data-testid="email-input"
-            onChange={ this.onInputChange }
+            onChange={this.onInputChange}
             required
           />
           <input
             type="password"
             id="senha"
-            value={ senha }
+            value={senha}
             name="senha"
-            onChange={ this.onInputChange }
+            onChange={this.onInputChange}
             placeholder="Senha"
             data-testid="password-input"
             required
@@ -67,12 +72,7 @@ class Login extends React.Component {
               Lembrar login?
             </label>
           </div>
-          <button
-            id="btn-entra"
-            type="submit"
-            onClick={ this.handleLogin }
-            disable
-          >
+          <button id="btn-entra" type="submit" onClick={this.handleLogin}>
             Entrar
           </button>
         </form>
@@ -83,7 +83,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  history: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default Login;
