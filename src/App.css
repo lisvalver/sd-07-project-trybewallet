@@ -3,7 +3,7 @@ body {
   margin: 0;
 }
 
-#login-box {
+.login-box {
   background-color: rgb(247, 247, 247);
   border-radius: 2px;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);

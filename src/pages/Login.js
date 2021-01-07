@@ -25,7 +25,7 @@ class Login extends React.Component {
     const { saveUser, history } = this.props;
     const { inputEmail, inputPass } = this.state;
     return (
-      <div id="login-box">
+      <div className="login-box">
         <div className="inputLogin"><h1>Trybe Wallet</h1></div>
         <div className="inputLogin">
           <input
