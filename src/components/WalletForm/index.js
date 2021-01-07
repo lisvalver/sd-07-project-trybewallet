@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchCurrencies } from '../../actions';
+import { fetchCurrencies, addExpense } from '../../actions';
 
 class WalletForm extends React.Component {
   constructor() {
@@ -10,13 +11,12 @@ class WalletForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-
+      id: '',
       expenseValue: 0,
       description: '',
       method: '',
       expenseType: '',
       currency: '',
-
     };
   }
 
@@ -31,12 +31,8 @@ class WalletForm extends React.Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    const { sendExpense } = this.props;
-    if (editingExpense !== '') {
-      sendExpenseEdited(this.state);
-    } else {
-      sendExpense(this.state);
-    }
+    const { addExpenseProps } = this.props;
+    addExpenseProps(this.state);
   }
 
   render() {
@@ -108,11 +104,11 @@ class WalletForm extends React.Component {
               value={ expenseType }
               onChange={ this.handleInputChange }
             >
-              <option value="food">Alimentação</option>
-              <option value="joy">Lazer</option>
-              <option value="work">Trabalho</option>
-              <option value="transport">Transporte</option>
-              <option value="health">Saúde</option>
+              <option value="Alimentação">Alimentação</option>
+              <option value="Lazer">Lazer</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Saúde">Saúde</option>
             </select>
           </label>
           <button type="button" onClick={ this.handleSubmit }>Adicionar Despesa</button>
@@ -127,7 +123,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchCurrenciesProps: () => dispatch(fetchCurrencies()),
-
+  addExpenseProps: (expense) => dispatch(addExpense(expense)),
 });
 
+WalletForm.propTypes = {
+  fetchCurrenciesProps: PropTypes.func.isRequired,
+  addExpenseProps: PropTypes.func.isRequired,
+  currenciesProps: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);

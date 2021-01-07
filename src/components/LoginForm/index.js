@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
   render() {
     const { formData, onInputChange, onSubmit, buttonIsAble } = this.props;
     const { email, password } = formData;
@@ -31,3 +32,15 @@ export default class LoginForm extends React.Component {
     );
   }
 }
+
+LoginForm.propTypes = {
+  formData: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+  }).isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  buttonIsAble: PropTypes.bool.isRequired,
+};
+
+export default LoginForm;
