@@ -1,9 +1,14 @@
 import React from 'react';
-import { Header } from '../components';
+import { Header, InfosInput } from '../components';
 
 class Wallet extends React.Component {
   render() {
-    return <Header />;
+    return (
+      <div>
+        <Header />
+        <InfosInput />
+      </div>
+    );
   }
 }
 

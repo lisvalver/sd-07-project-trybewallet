@@ -1,5 +1,13 @@
 // Coloque aqui suas actions
-import { LOGIN_USER } from '../constants';
+import {
+  LOGIN_USER,
+  REQUEST,
+  REQUEST_SUCESS,
+  REQUEST_FAILED,
+  ADD_EXPENSE,
+  REMOVE_EXPENSE,
+  UPDATE_TOTAL_EXPENSES,
+} from '../constants';
 
 const loginAction = {
   addUser: (user) => ({
@@ -9,10 +17,23 @@ const loginAction = {
 };
 
 const walletAction = {
-  anything: (any) => ({
-    type: 'SOMETHING',
-    payload: any,
-  }),
+  requestAPI: () => ({ type: REQUEST }),
+  requestSucess: (payload) => ({ type: REQUEST_SUCESS, payload }),
+  requestFailed: (payload) => ({ type: REQUEST_FAILED, payload }),
+  addExpense: (payload) => ({ type: ADD_EXPENSE, payload }),
+  removeExpense: (payload) => ({ type: REMOVE_EXPENSE, payload }),
+  updateTotal: () => ({ type: UPDATE_TOTAL_EXPENSES }),
 };
 
-export { loginAction, walletAction };
+const fetchAPI = () => async (dispatch) => {
+  try {
+    dispatch(walletAction.requestAPI());
+    const endpoint = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const objct = await endpoint.json();
+    dispatch(walletAction.requestSucess(objct));
+  } catch (error) {
+    dispatch(walletAction.requestFailed(error));
+  }
+};
+
+export { loginAction, walletAction, fetchAPI };
