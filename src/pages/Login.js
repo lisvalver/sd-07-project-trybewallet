@@ -28,25 +28,25 @@ class Login extends React.Component {
       <div id="login-box">
         <div className="inputLogin"><h1>Trybe Wallet</h1></div>
         <div className="inputLogin">
-        <input
-          type="email"
-          data-testid="email-input"
-          placeholder="Insira seu e-mail"
-          className="inputLogin"
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-          value={ inputEmail }
-          onChange={ (event) => this.setState({ inputEmail: event.target.value }) }
-        />
+          <input
+            type="email"
+            data-testid="email-input"
+            placeholder="Insira seu e-mail"
+            className="inputLogin"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            value={ inputEmail }
+            onChange={ (event) => this.setState({ inputEmail: event.target.value }) }
+          />
         </div>
         <div className="inputLogin">
-        <input
-          type="password"
-          data-testid="password-input"
-          className="inputLogin"
-          pattern=".{6,}"
-          value={ inputPass }
-          onChange={ (event) => this.setState({ inputPass: event.target.value }) }
-        />
+          <input
+            type="password"
+            data-testid="password-input"
+            className="inputLogin"
+            pattern=".{6,}"
+            value={ inputPass }
+            onChange={ (event) => this.setState({ inputPass: event.target.value }) }
+          />
         </div>
         <button
           type="button"
@@ -79,4 +79,4 @@ Login.propTypes = {
   }),
 }.isRequired;
 
-//vi o .test() no projeto do Tiago Esdra a ideia de usar uma função pra retornar bool no desable eu vi no projeto da Carolina Bezerra
+// vi o .test() no projeto do Tiago Esdra a ideia de usar uma função pra retornar bool no desable eu vi no projeto da Carolina Bezerra
