@@ -14,11 +14,15 @@ class CoinAnimation extends Component {
   spinCoinAnime() {
     const { frame } = this.state;
     const totalFrames = 6;
-    setTimeout(() => { this.setState({ frame: frame === 1 ? totalFrames : frame - 1 }) }, 100);
+    setTimeout(() => {
+      this.setState({
+        frame: frame === 1 ? totalFrames : frame - 1
+      })
+    }, 100);
   }
 
   render() {
-    const { frame } = this.state
+    const { frame } = this.state;
     requestAnimationFrame(this.spinCoinAnime);
     return (
       <div>

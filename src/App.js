@@ -7,7 +7,7 @@ function App() {
     <div className="container">
       <CoinAnimation />
     </div>
-  )
+  );
 }
 
 export default App;
