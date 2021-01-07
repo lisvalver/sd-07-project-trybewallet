@@ -51,6 +51,28 @@ class Wallet extends React.Component {
               <option value="XRP" data-testid="XRP">XRP</option>
             </select>
           </label>
+          <label htmlFor="method-input">
+            Método de Pagamento:
+            <select
+              data-testid="method-input"
+              id="method-input"
+            >
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Cartão de crédito">Cartão de crédito</option>
+              <option value="Cartão de débito">Cartão de débito</option>
+            </select>
+          </label>
+          <label htmlFor="tag-input">
+            <select
+              data-testid="tag-input"
+              id="tag-input"
+            >
+              <option value="Lazer">Lazer</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Saúde">Saúde</option>
+            </select>
+          </label>
           <label htmlFor="infor">
             Descrição:
             <input
