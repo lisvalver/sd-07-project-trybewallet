@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
 import { login } from '../../actions';
 
 class Login extends Component {
@@ -76,25 +75,29 @@ class Login extends Component {
               />
             </label>
           </div>
+          <div className="field">
+            <button
+              type="submit"
+              disabled={ isDisabled }
+            >
+              Entrar
+            </button>
+          </div>
         </form>
       </main>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  user: state.user.email,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  loginProps: (email) => dispatch(login(email)),
-});
-
-Login.propTypes = {
-  loginProps: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+const mapDispatchToProps = {
+  handleLogin: login,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+  handleLogin: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
