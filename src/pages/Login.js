@@ -1,9 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { login } from '../actions';
+import { connect } from 'react-redux';
 
 class Login extends React.Component {
-  constructor () {
+  constructor() {
     super();
 
     this.state = {
@@ -17,30 +16,33 @@ class Login extends React.Component {
     this.passwordValidation = this.passwordValidation.bind(this);
   }
 
-    validacaoEmail ({ target }) {
-      const { value } = target;
-      this.setState({ email: value }, () => {
+  validacaoEmail({ target }) {
+    const { value } = target;
+    this.setState({ email: value }, () => {
       const { email } = this.state;
       const validacaoByStackOf = /[\w.-]+@[\w-]+\.[\w-.]+/gi;
       const matchEmail = email.match(validacaoByStackOf);
       if (matchEmail) {
         this.setState({ emailValido: true });
-      } else{
-          this.setState({ emailValido: false });
-        }
+      } else {
+        this.setState({ emailValido: false });
+      }
     });
   }
 
-  passwordValidation ({ target }) {
+  passwordValidation({ target }) {
+    const { password, emailValido } = this.state;
     const noMagicNumber = 6;
 
     this.setState({ password: target.value });
-    if (this.state.password.length >= noMagicNumber && this.state.emailValido === true) { this.setState({ autentic: false }); }
+    if (password.length >= noMagicNumber && emailValido === true) {
+      this.setState({ autentic: false });
+    }
     else { this.setState({ autentic: true }); }
-  } 
+  }
 
   render() {
-    const { autentic, email } = this.state;
+    const { autentic } = this.state;
 
     return (
       <div>
@@ -55,7 +57,7 @@ class Login extends React.Component {
             data-testid="password-input"
             onChange={ (event) => this.passwordValidation(event) }
           />
-          <button 
+          <button
             type="button"
             disabled={ autentic }
           >
