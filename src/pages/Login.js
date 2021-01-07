@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { addEmail } from '../actions';
 
 class Login extends Component {
@@ -12,12 +14,12 @@ class Login extends Component {
     };
     this.handleChanger = this.handleChanger.bind(this);
     this.validadeEmail = this.validadeEmail.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChanger({ target: { name, value } }) {
     this.setState({ [name]: value }, this.validadeEmail);
   }
+
   validadeEmail() {
     const { email, password } = this.state;
     const number = 5;
@@ -28,14 +30,9 @@ class Login extends Component {
     }
   }
 
-  handleSubmit() {
-    const { saveEmail, history } = this.props;
-    saveEmail(this.state.email);
-    history.push('/carteira');
-  }
-
   render() {
     const { email, password, validate } = this.state;
+    const { saveEmail } = this.props;
     return (
       <form>
         <input
@@ -43,10 +40,9 @@ class Login extends Component {
           data-testid="email-input"
           maxLength="40"
           placeholder="Email"
-          required
           value={ email }
           name="email"
-          onChange={(e) => this.handleChanger(e)}
+          onChange={ (e) => this.handleChanger(e) }
         />
 
         <input
@@ -56,11 +52,13 @@ class Login extends Component {
           placeholder="password"
           value={ password }
           name="password"
-          onChange={(e) => this.handleChanger(e)}
+          onChange={ (e) => this.handleChanger(e) }
         />
-        <button onClick={() => this.handleSubmit()} disabled={ validate }>
-          Entrar
-        </button>
+        <Link to="/carteira">
+          <button type="button" onClick={ () => saveEmail(email) } disabled={ validate }>
+            Entrar
+          </button>
+        </Link>
       </form>
     );
   }
@@ -70,4 +68,7 @@ const mapDispatchToProps = (dispatch) => ({
   saveEmail: (email) => dispatch(addEmail(email)),
 });
 
+Login.propTypes = {
+  saveEmail: PropTypes.func.isRequired,
+};
 export default connect(null, mapDispatchToProps)(Login);
