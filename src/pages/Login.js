@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { addUser } from '../actions/index';
 
 class Login extends React.Component {
@@ -20,9 +21,9 @@ class Login extends React.Component {
   }
 
   handleClick(path) {
-    const { addUser } = this.props;
+    const { add } = this.props;
     const { email } = this.state;
-    addUser(email);
+    add(email);
     const { history } = this.props;
     history.push(path);
   }
@@ -32,9 +33,8 @@ class Login extends React.Component {
     const validatePassword = this.validatePassword();
     if (validateEmail === true && validatePassword === true) {
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 
   validateEmail() {
@@ -42,9 +42,8 @@ class Login extends React.Component {
     const { email } = this.state;
     if (regex.test(String(email).toLowerCase()) === true) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   validatePassword() {
@@ -52,9 +51,8 @@ class Login extends React.Component {
     const minLength = 6;
     if (senha.length >= minLength) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   render() {
@@ -87,6 +85,13 @@ class Login extends React.Component {
   }
 }
 
-const mapDispatchToProps = { addUser };
+// const mapDispatchToProps = { addUser };
+
+const mapDispatchToProps = (dispatch) => ({
+  add: (e) => dispatch(addUser(e)) });
 
 export default connect(null, mapDispatchToProps)(withRouter(Login));
+
+Login.propTypes = {
+  addUser: PropTypes.func,
+}.isRequired;

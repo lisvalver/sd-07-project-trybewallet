@@ -2,18 +2,16 @@
 import { ADD_USER } from '../actions/index';
 
 const INITIAL_STATE = {
-  user: {
-    email: '',
-  },
+  email: '',
 };
 
-function userReducer(state = INITIAL_STATE, action) {
+function user(state = INITIAL_STATE, action) {
   switch (action.type) {
   case ADD_USER:
-    return { ...state, user: { email: action.email } };
+    return { ...state, email: action.email };
   default:
     return state;
   }
 }
 
-export default userReducer;
+export default user;
