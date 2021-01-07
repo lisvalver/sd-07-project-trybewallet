@@ -3,15 +3,14 @@ const INITIAL_STATE = {
   expenses: [],
 };
 
-const WALLET = 'WALLET';
+const FETCH_CURRENCIES = 'FETCH_CURRENCIES';
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case WALLET:
+  case FETCH_CURRENCIES:
     return {
       ...state,
       currencies: action.value.currencies,
-      expenses: action.value.expenses,
     };
   default:
     return state;

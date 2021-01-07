@@ -1,38 +1,63 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { fetchApi } from '../services';
+import { fetchCurrencies } from '../actions';
 
 class Table extends Component {
+  constructor() {
+    super();
+    this.state = {
+      total: 0,
+      currentCurrency: 'BRL',
+    };
+  }
+
+  async componentDidMount() {
+    const { actionFetchCurrencies } = this.props;
+    const data = await fetchApi();
+    const currencies = data.filter((currency) => currency !== 'USDT');
+    actionFetchCurrencies({ currencies });
+  }
+
   render() {
-    // const { currencies, expenses } = this.props;
-    const INITIAL_VALUE = 0;
-    const CURRENCY = 'BRL';
+    const { currencies } = this.props;
+    const { total, currentCurrency } = this.state;
     return (
       <div>
         <div>
           <h4 data-testid="total-field">
-            {INITIAL_VALUE}
+            {total}
           </h4>
         </div>
         <div>
           <h4 data-testid="header-currency-field">
-            {CURRENCY}
+            {currentCurrency}
           </h4>
+        </div>
+        <div>
+          <select data-testid="currency-input">
+            {currencies.map((currency) => (<option key={ currency } data-testid={ currency } value={ currency }>{currency}</option>))}
+          </select>
         </div>
       </div>
     );
   }
 }
-/*
-  Table.propTypes = {
-  currencies: PropTypes.arrayOf(String).isRequired,
-  expenses: PropTypes.arrayOf(String).isRequired,
-};
-*/
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   expenses: state.wallet.expenses,
 });
 
-export default connect(mapStateToProps)(Table);
+Table.propTypes = {
+  actionFetchCurrencies: PropTypes.func.isRequired,
+  currencies: PropTypes.arrayOf(String).isRequired,
+  expenses: PropTypes.arrayOf(String).isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  actionFetchCurrencies: (e) => dispatch(fetchCurrencies(e)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table);
