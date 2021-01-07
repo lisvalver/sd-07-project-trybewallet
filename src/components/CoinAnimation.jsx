@@ -16,8 +16,8 @@ class CoinAnimation extends Component {
     const totalFrames = 6;
     setTimeout(() => {
       this.setState({
-        frame: frame === 1 ? totalFrames : frame - 1
-      })
+        frame: frame === 1 ? totalFrames : frame - 1,
+      });
     }, 100);
   }
 
