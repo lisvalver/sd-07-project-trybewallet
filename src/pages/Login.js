@@ -54,18 +54,18 @@ class Login extends React.Component {
             type="email"
             id="email"
             name="email"
-            value={email}
+            value={ email }
             placeholder="email"
             data-testid="email-input"
-            onChange={this.onInputChange}
+            onChange={ this.onInputChange }
             required
           />
           <input
             type="password"
             id="senha"
-            value={senha}
+            value={ senha }
             name="senha"
-            onChange={this.onInputChange}
+            onChange={ this.onInputChange }
             placeholder="Senha"
             data-testid="password-input"
             required
@@ -76,7 +76,7 @@ class Login extends React.Component {
               Lembrar login?
             </label>
           </div>
-          <button id="btn-entra" type="submit" onClick={this.handleLogin}>
+          <button id="btn-entra" type="submit" onClick={ this.handleLogin }>
             Entrar
           </button>
         </form>
