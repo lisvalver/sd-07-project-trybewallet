@@ -1,4 +1,5 @@
 const INITIAL_STATE = {
+  loggedIn: false,
   email: '',
 };
 
@@ -9,6 +10,7 @@ const user = (state = INITIAL_STATE, action) => {
   case LOGIN:
     return {
       ...state,
+      loggedIn: true,
       email: action.value.email,
     };
   default:

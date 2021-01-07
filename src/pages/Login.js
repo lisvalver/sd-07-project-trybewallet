@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import login from '../actions';
+import '../style/Login.css';
 
 class Login extends React.Component {
   constructor(props) {
@@ -25,44 +25,47 @@ class Login extends React.Component {
 
   render() {
     const { email, password } = this.state;
-    const { login: actionLogin } = this.props;
+    const { actionLogin } = this.props;
     const minLength = 6;
     const isValid = this.validateLogin(email, password, minLength);
     return (
-      <div>
-        <input
-          type="text"
-          onChange={ (e) => this.setState({ email: e.target.value }) }
-          placeholder="email"
-          data-testid="email-input"
-        />
-        <input
-          type="password"
-          onChange={ (e) => this.setState({ password: e.target.value }) }
-          placeholder="senha"
-          data-testid="password-input"
-        />
-        <Link to="/carteira">
+      <div className="container">
+        <div className="form-container">
+          <input
+            type="text"
+            className="input-login"
+            onChange={ (e) => this.setState({ email: e.target.value }) }
+            placeholder="email"
+            data-testid="email-input"
+          />
+          <input
+            type="password"
+            className="input-login"
+            onChange={ (e) => this.setState({ password: e.target.value }) }
+            placeholder="senha"
+            data-testid="password-input"
+          />
           <button
             type="button"
+            className="btn-login"
             onClick={ () => actionLogin({ email, password }) }
             data-testid="btn-login"
             disabled={ !isValid }
           >
             Entrar
           </button>
-        </Link>
+        </div>
       </div>
     );
   }
 }
 
 Login.propTypes = {
-  login: propTypes.func.isRequired,
+  actionLogin: propTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  login: (e) => dispatch(login(e)),
+  actionLogin: (e) => dispatch(login(e)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
