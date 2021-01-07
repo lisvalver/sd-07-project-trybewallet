@@ -3,26 +3,27 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 7vmin;
   pointer-events: none;
+  border-radius: 50%;
 }
 
 @media ( prefers-reduced-motion : no-preference ) {
 
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 5s linear;
   }
 }
 
 .App-header {
   align-items: center;
-  background-color: #282c34;
-  color: white;
+  background-color: #2ec18b;
+  color: #ffffff;
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  min-height: 100vh;
+  min-height: 10vh;
 }
 
 .App-link {

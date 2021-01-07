@@ -1,0 +1,38 @@
+.board {
+  background-color: lightslategray;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.login {
+  align-items: center;
+  background-color: lightslategray;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  justify-content: center;
+  min-height: 10vh;
+}
+
+.input {
+  border: 1px solid #424752;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1.5vh;
+  padding: 10px;
+  width: 300px;
+}
+
+.button {
+  background-color: #2ec18b;
+  border-radius: 5px;
+  font-size: 1.5vh;
+  padding: 10px;
+  width: 300px;
+}
+
+.login-link {
+  color: #61dafb;
+}
