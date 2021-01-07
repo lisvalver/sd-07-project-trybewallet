@@ -22,8 +22,9 @@ class Login extends React.Component {
     const { name, value } = target;
     this.setState({ [name]: value }, () => {
       const { email, senha } = this.state;
-      const regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!regEmail.test(email) && senha.length < 6) {
+      const minimo = 6;
+      const regEmail = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
+      if (!regEmail.test(email) && !(senha.length < minimo)) {
         return console.log('Invalid Email');
       }
       const entra = document.getElementById('btn-entra');
