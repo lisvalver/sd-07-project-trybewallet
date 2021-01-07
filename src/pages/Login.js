@@ -30,10 +30,11 @@ class Login extends React.Component {
   }
 
   buttonClick() {
-    console.log('clicou');
-    const { email, history } = this.props;
+    console.log('entrou no click');
+    const { history, logar } = this.props;
+    const { email } = this.state;
+    logar(email);
     history.push('/carteira');
-    console.log(email);
   }
 
   render() {
@@ -43,6 +44,8 @@ class Login extends React.Component {
       <div>
         <form>
           Login
+          {' '}
+          <br />
           <label htmlFor="email">
             Email
             <input
@@ -58,6 +61,8 @@ class Login extends React.Component {
               name="email"
             />
           </label>
+          {' '}
+          <br />
           <label htmlFor="password">
             Senha
             <input
@@ -77,7 +82,6 @@ class Login extends React.Component {
           <button
             type="button"
             onClick={ () => {
-              console.log('clicou2');
               this.buttonClick();
             } }
           >
@@ -89,9 +93,33 @@ class Login extends React.Component {
 }
 Login.propTypes = {
   history: PropTypes.shape().isRequired,
-  email: PropTypes.string.isRequired,
+  logar: PropTypes.func.isRequired,
+  // email: PropTypes.string.isRequired,
 };
-const mapDispatchToProps = {
-  addUser,
-};
+const mapDispatchToProps = (dispatch) => ({ // só inclui funções
+  logar: (email) => dispatch(addUser(email)),
+});
+
+// const mapDispatchToProps = {
+//   addUser,
+// }
+
+// const mapStateToProps = (state) => ({
+//   email: state.user.email
+// })
 export default connect(null, mapDispatchToProps)(Login);
+
+// function one (numero) {
+//   const resultado = numero +1
+//   return resultado;
+// }
+
+// function one1 (numero) {
+//   return numero +1
+// }
+
+// const one2 = (numero) =>  {
+//   return numero +1
+// }
+
+// const one3 = (numero) => ({numero +1});
