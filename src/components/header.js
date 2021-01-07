@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 class Header extends React.Component {
   render() {
-    const { email } = this.props;
-    const totalExpenses = 0;
+    const { email, totalExpenses = 0 } = this.props;
     const atualExchange = 'BRL';
     return (
       <div>
@@ -28,6 +27,7 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  totalExpenses: state.wallet.totalExpenses,
 });
 
 export default connect(mapStateToProps)(Header);
