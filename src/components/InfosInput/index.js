@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchAPI, walletAction } from '../../actions';
-import NewForm from './styles';
 import ExpenseTable from '../ExpenseTable';
 
 class InfosInput extends React.Component {
@@ -105,7 +104,7 @@ class InfosInput extends React.Component {
     const { optionCurrencies, isUpdating } = this.props;
     return (
       <>
-        <NewForm>
+        <form>
           <label htmlFor="value-input">
             Valor:
             <input
@@ -180,7 +179,7 @@ class InfosInput extends React.Component {
           </label>
 
           { this.typeButton(isUpdating) }
-        </NewForm>
+        </form>
         <ExpenseTable handleEditState={ this.handleEditState } />
       </>
     );

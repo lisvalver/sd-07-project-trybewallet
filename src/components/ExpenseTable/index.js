@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { walletAction } from '../../actions';
-import Table from './styles';
 
 const { format } = new Intl.NumberFormat('pt-BR',
   { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 
 const ExpenseTable = ({ expen, removeExpense, handleEditState }) => (
-  <Table>
+  <table>
     <thead>
       <tr>
         <th>Descrição</th>
@@ -52,7 +51,7 @@ const ExpenseTable = ({ expen, removeExpense, handleEditState }) => (
         </tr>
       ))}
     </tbody>
-  </Table>
+  </table>
 );
 
 const mapStateToProps = ({ wallet }) => ({
