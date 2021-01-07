@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 class Wallet extends React.Component {
   render() {
     const { email } = this.props;
-    return <div>TrybeWallet: { email } </div>;
+    return (
+      <div>
+        { email }
+      </div>
+    );
   }
 }
 
