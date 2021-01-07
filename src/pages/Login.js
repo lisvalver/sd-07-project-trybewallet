@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import login from '../actions';
@@ -45,7 +46,7 @@ class Login extends React.Component {
       emailVerified,
     } = this.state;
 
-    const { login } = this.props;
+    const { login: actionForUser } = this.props;
 
     const validatedInputs = passwordVerified && emailVerified;
 
@@ -80,7 +81,7 @@ class Login extends React.Component {
           <button
             type="submit"
             disabled={ !validatedInputs }
-            onClick={ () => login(email) }
+            onClick={ () => actionForUser(email) }
           >
             Entrar
           </button>
@@ -89,6 +90,8 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = { login: propTypes.func.isRequired };
 
 const mapDispatchToProps = (dispatch) => ({
   login: (emailValue) => dispatch(login(emailValue)),

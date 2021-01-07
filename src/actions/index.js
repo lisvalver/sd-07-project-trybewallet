@@ -1,5 +1,5 @@
 function login(email) {
-  return { type: 'LOGIN', value: email }
+  return { type: 'LOGIN', value: email };
 }
 
 export default login;
