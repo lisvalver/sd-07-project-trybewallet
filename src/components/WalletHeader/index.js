@@ -20,10 +20,13 @@ class WalletHeader extends Component {
 
     return (
       <header>
-        <section className="header__login">
-          <p data-testid="email-field">{`E-mail: ${email}`}</p>
-          <p data-testid="total-field">{`Despesa Total: R$ ${formatedExpenses}`}</p>
-          <p data-testid="header-currency-field">BRL</p>
+        <section className="header__container">
+          <h1>TrybeWallet</h1>
+          <div className="header__login">
+            <p data-testid="email-field">{`E-mail: ${email}`}</p>
+            <p data-testid="total-field">{`Despesa Total: R$ ${formatedExpenses}`}</p>
+            <p data-testid="header-currency-field">BRL</p>
+          </div>
         </section>
         <FormExpense />
       </header>

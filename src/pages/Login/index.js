@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logIn } from '../../actions';
 
+import './style.css';
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -44,11 +46,11 @@ class Login extends Component {
     const { email, password, isDisabled } = this.state;
 
     return (
-      <main>
-        <form onSubmit={ (e) => this.handleSubmit(e) }>
-          <div className="field">
+      <main className="login__container">
+        <form onSubmit={ (e) => this.handleSubmit(e) } className="login__form">
+          <div className="login__field">
             <label htmlFor="email-input">
-              E-mail:
+              <p>E-mail:</p>
               <input
                 id="email-input"
                 name="email"
@@ -63,21 +65,22 @@ class Login extends Component {
               />
             </label>
           </div>
-          <div className="field">
+          <div className="login__field">
             <label htmlFor="password-input">
-              Senha:
+              <p>Senha:</p>
               <input
                 id="password-input"
                 name="password"
                 value={ password }
                 onChange={ ({ target }) => this.handleInputChange(target) }
+                placeholder="Sua senha"
                 data-testid="password-input"
                 type="password"
                 required
               />
             </label>
           </div>
-          <div className="field">
+          <div className="login__field">
             <button
               type="submit"
               disabled={ isDisabled }
