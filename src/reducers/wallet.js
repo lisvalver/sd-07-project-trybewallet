@@ -18,8 +18,8 @@ const initialState = {
 
 export default function reducer(state = initialState, { type, expense }) {
   const { expenses } = state;
-  const newExpenses = expenses;
-  let index = 1;
+  const newExpenses = [...expenses];
+  let index;
   let exchangeRates = 1;
   if (type === EDIT_EXP || type === DELETE_EXP) {
     console.log('cond: ', expense.id);
