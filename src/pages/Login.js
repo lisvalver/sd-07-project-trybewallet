@@ -32,13 +32,16 @@ class Login extends React.Component {
   }
 
   passwordValidation ({ target }) {
+    const noMagicNumber = 6;
+
     this.setState({ password: target.value });
-    if (this.state.password.length >= 6 && this.state.emailValido == true) { this.setState({ autentic: false }); }
+    if (this.state.password.length >= noMagicNumber && this.state.emailValido === true) { this.setState({ autentic: false }); }
     else { this.setState({ autentic: true }); }
   } 
 
   render() {
-    console.log(this.props)
+    const { autentic, email } = this.state;
+
     return (
       <div>
         <form>
@@ -54,8 +57,7 @@ class Login extends React.Component {
           />
           <button 
             type="button"
-            disabled={ this.state.autentic }
-            type="button"
+            disabled={ autentic }
           >
             Entrar
           </button>
