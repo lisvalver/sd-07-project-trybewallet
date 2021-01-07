@@ -12,6 +12,11 @@ class Login extends React.Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
+  
+  componentDidMount() {
+    const entra = document.getElementById('btn-entra');
+    entra.setAttribute('disabled', '');
+  }
 
   onInputChange({ target }) {
     const { name, value } = target;
@@ -25,11 +30,7 @@ class Login extends React.Component {
       }
     });
   }
-  componentDidMount() {
-    const entra = document.getElementById('btn-entra');
-    entra.setAttribute('disabled', '');
-  }
-
+  
   handleLogin() {
     const { history } = this.props;
     history.push('/carteira');
