@@ -65,12 +65,12 @@
 }
 
 .welcome-msg {
-  padding: 10px;
-  margin: 10px;
-  text-align: left;
+  font-family: 'Nanum Gothic', sans-serif;
   font-size: 15pt;
   font-weight: 700;
-  font-family: 'Nanum Gothic', sans-serif;
+  margin: 10px;
+  padding: 10px;
+  text-align: left; 
 }
 
 .sub-title {
@@ -113,3 +113,9 @@
   text-decoration: none;
   margin-left: 30%;
 }
+
+.logo {
+  margin-bottom: 50px;
+  margin-top: -100px;  
+}
+
