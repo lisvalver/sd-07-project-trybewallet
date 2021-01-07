@@ -116,7 +116,7 @@ describe('2 - [PÁGINA DA CARTEIRA] Crie uma página para sua carteira com as se
 describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira contendo as seguintes características:', () => {
   const initial = initialStateHeader;
 
-  test.skip('Um elemento que exiba o email do usuário que fez login.', () => {
+  test('Um elemento que exiba o email do usuário que fez login.', () => {
     const { store } = renderWithRouterAndStore(<Wallet />, '/carteira', initial);
     const emailField = screen.getByTestId('email-field');
 
@@ -124,7 +124,7 @@ describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira co
     expect(emailField).toContainHTML(store.getState().user.email);
   });
 
-  test.skip('Crie um campo com a despesa total gerada pela lista de gastos.', () => {
+  test('Crie um campo com a despesa total gerada pela lista de gastos.', () => {
     renderWithRouterAndStore(<Wallet />, '/carteira', initial);
     const totalField = screen.getByTestId('total-field');
 
@@ -132,7 +132,7 @@ describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira co
     expect(totalField).toContainHTML(INITIAL_VALUE);
   });
 
-  test.skip('Crie um campo que mostre que qual câmbio está sendo utilizado, que será neste caso \'BRL\'', () => {
+  test('Crie um campo que mostre que qual câmbio está sendo utilizado, que será neste caso \'BRL\'', () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const exchangeField = screen.getByTestId('header-currency-field');
 
