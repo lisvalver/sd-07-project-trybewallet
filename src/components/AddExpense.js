@@ -105,9 +105,10 @@ class AddExpense extends Component {
                 ))}
             </select>
           </label>
-          <label htmlFor>
+          <label htmlFor="payment">
             Método de Pagamento:
             <select
+              id="payment"
               data-testid="method-input"
               onChange={ (e) => this.setState({ method: e.target.value }) }
               value={ method }
@@ -117,9 +118,10 @@ class AddExpense extends Component {
               <option value="Cartão de débito">Cartão de débito</option>
             </select>
           </label>
-          <label htmlFor>
+          <label htmlFor="tag">
             Tag:
             <select
+              id="tag"
               data-testid="tag-input"
               onChange={ (e) => this.setState({ tag: e.target.value }) }
               value={ tag }

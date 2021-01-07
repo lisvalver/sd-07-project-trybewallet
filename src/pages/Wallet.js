@@ -21,7 +21,7 @@ class Wallet extends React.Component {
   }
 }
 
-Wallet.propTypes = { editExpense: PropTypes.func.isRequired };
+Wallet.propTypes = { editExpense: PropTypes.bool }.isRequired;
 
 const mapStateToProps = ({ wallet: { editExpense } }) => ({ editExpense });
 

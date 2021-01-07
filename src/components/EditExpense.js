@@ -14,7 +14,7 @@ class EditExpense extends Component {
     this.state = {
       exchangeRates: {},
       value: 0,
-      currency: 'Dólar Comercial',
+      currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
       description: '',
@@ -43,10 +43,6 @@ class EditExpense extends Component {
     const { editEnd, editCurrent } = this.props;
     const { exchangeRates, value, currency, method, tag, description } = this.state;
 
-    const arrayValue = Object.values(exchangeRates);
-    const currencyAsk = arrayValue.filter((item) => item.name === currency);
-    const valueCurrency = currencyAsk[0].ask;
-
     editCurrent({
       exchangeRates,
       value,
@@ -54,7 +50,6 @@ class EditExpense extends Component {
       method,
       tag,
       description,
-      valueCurrency,
     });
 
     editEnd();
@@ -73,7 +68,7 @@ class EditExpense extends Component {
           alignItems: 'center',
         } }
       >
-        <form htmlFor>
+        <form>
           <label htmlFor="value">
             Valor:
             <input
@@ -98,7 +93,7 @@ class EditExpense extends Component {
                 .map((item) => (
                   <option
                     key={ item.code }
-                    value={ item.name }
+                    value={ item.code }
                     data-testid={ item.code }
                   >
                     {item.code}
@@ -106,9 +101,10 @@ class EditExpense extends Component {
                 ))}
             </select>
           </label>
-          <label htmlFor>
+          <label htmlFor="payment">
             Método de Pagamento:
             <select
+              id="payment"
               data-testid="method-input"
               onChange={ (e) => this.setState({ method: e.target.value }) }
               value={ method }
@@ -118,9 +114,10 @@ class EditExpense extends Component {
               <option value="Cartão de débito">Cartão de débito</option>
             </select>
           </label>
-          <label htmlFor>
+          <label htmlFor="tag">
             Tag:
             <select
+              id="tag"
               data-testid="tag-input"
               onChange={ (e) => this.setState({ tag: e.target.value }) }
               value={ tag }

@@ -1,4 +1,3 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 import {
   REQUEST_SUCCESS,
   IS_FETCHING,
@@ -16,27 +15,6 @@ const WALLET_INITIAL_STATE = {
   editExpense: false,
   expenseId: 0,
   randomId: 0,
-};
-
-const editExpenses = (array, id, editExpense) => {
-  console.log('Chamou!');
-  console.log(array);
-  console.log(id);
-  console.log(editExpense);
-  const { value, currency, method, tag, description, valueCurrency } = editExpense;
-
-  array.forEach((element) => {
-    if (element.id === Number(id)) {
-      element.id = Number(id);
-      element.value = value;
-      element.description = description;
-      element.currency = currency;
-      element.method = method;
-      element.tag = tag;
-      element.nameAsk = valueCurrency;
-    }
-  });
-  return array;
 };
 
 const wallet = (state = WALLET_INITIAL_STATE, action) => {
@@ -75,9 +53,16 @@ const wallet = (state = WALLET_INITIAL_STATE, action) => {
       editExpense: false,
     });
   case EDIT_EXPENSE_CURRENT:
+    const updatedExpenses = state.expenses.map((expense) => {
+      if (expense.id === Number(state.expenseId)) {
+        return {...expense, ...action.updateExpense}
+      }
+      return expense;
+    });
+
     return ({
       ...state,
-      expenses: editExpenses(state.expenses, state.expenseId, action.uptadeExpense),
+      expenses: updatedExpenses,
     });
   default:
     return state;

@@ -64,10 +64,10 @@ export const editExpenseEnd = () => (
   }
 );
 
-export const editCurrentExpense = (uptadeExpense) => (
+export const editCurrentExpense = (updateExpense) => (
   {
     type: EDIT_EXPENSE_CURRENT,
-    uptadeExpense,
+    updateExpense,
   }
 );
 
