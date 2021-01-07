@@ -18,6 +18,13 @@ const WALLET_INITIAL_STATE = {
 };
 
 const wallet = (state = WALLET_INITIAL_STATE, action) => {
+  const updatedExpenses = state.expenses.map((expense) => {
+    if (expense.id === Number(state.expenseId)) {
+      return { ...expense, ...action.updateExpense };
+    }
+    return expense;
+  });
+
   switch (action.type) {
   case IS_FETCHING:
     return ({
@@ -53,13 +60,6 @@ const wallet = (state = WALLET_INITIAL_STATE, action) => {
       editExpense: false,
     });
   case EDIT_EXPENSE_CURRENT:
-    const updatedExpenses = state.expenses.map((expense) => {
-      if (expense.id === Number(state.expenseId)) {
-        return {...expense, ...action.updateExpense}
-      }
-      return expense;
-    });
-
     return ({
       ...state,
       expenses: updatedExpenses,
