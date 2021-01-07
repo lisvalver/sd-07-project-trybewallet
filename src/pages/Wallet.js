@@ -1,10 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import addExpenses from '../actions';
 
 class Wallet extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleFormInput = this.handleFormInput.bind(this);
+    this.state = {
+      cash: 0,
+      currency: 'USD',
+      methodInput: 'Dinheiro',
+      tagInput: 'Lazer',
+      infor: '',
+    };
+  }
+
+  handleFormInput(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
   render() {
-    const { email } = this.props;
+    const { email, saveExpenses } = this.props;
+    const { cash, currency, methodInput, tagInput, infor } = this.state;
     return (
       <div>
         <header>
@@ -23,17 +42,23 @@ class Wallet extends React.Component {
           <label htmlFor="cash">
             Valor:
             <input
+              name="cash"
               id="cash"
               type="number"
               data-testid="value-input"
               pattern="\d*"
               min="0"
+              value={ cash }
+              onChange={ (event) => this.handleFormInput(event) }
             />
           </label>
           <label htmlFor="currency">
             <select
               id="currency"
               data-testid="currency-input"
+              name="currency"
+              value={ currency }
+              onChange={ (event) => this.handleFormInput(event) }
             >
               <option value="USD" data-testid="USD">USD</option>
               <option value="CAD" data-testid="CAD">CAD</option>
@@ -56,6 +81,9 @@ class Wallet extends React.Component {
             <select
               data-testid="method-input"
               id="method-input"
+              name="methodInput"
+              value={ methodInput }
+              onChange={ (event) => this.handleFormInput(event) }
             >
               <option value="Dinheiro">Dinheiro</option>
               <option value="Cartão de crédito">Cartão de crédito</option>
@@ -66,6 +94,9 @@ class Wallet extends React.Component {
             <select
               data-testid="tag-input"
               id="tag-input"
+              name="tagInput"
+              value={ tagInput }
+              onChange={ (event) => this.handleFormInput(event) }
             >
               <option value="Lazer">Lazer</option>
               <option value="Trabalho">Trabalho</option>
@@ -79,9 +110,18 @@ class Wallet extends React.Component {
               data-testid="description-input"
               type="text"
               id="infor"
+              name="infor"
+              value={ infor }
+              onChange={ (event) => this.handleFormInput(event) }
             />
           </label>
         </form>
+        <button
+          type="button"
+          onClick={ () => saveExpenses(cash, currency, methodInput, tagInput, infor) }
+        >
+          Adicionar despesa
+        </button>
       </div>
     );
   }
@@ -89,7 +129,15 @@ class Wallet extends React.Component {
 const mapStateToProps = (state) => ({
   email: state.user.email });
 
-export default connect(mapStateToProps)(Wallet);
+function mapDispatchToProps(dispatch) {
+  return {
+    saveExpenses: (cash, currency, methodInput, tagInput, infor) => dispatch(
+      addExpenses(cash, currency, methodInput, tagInput, infor),
+    ),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
 
 Wallet.propTypes = {
   email: PropTypes.string,
