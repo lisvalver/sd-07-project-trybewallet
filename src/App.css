@@ -40,7 +40,7 @@
   }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap') ;
 
 .container-fluid {
   display: flex;
@@ -48,11 +48,11 @@
 }
 
 .left-content {
-  flex:1;
+  align-items: center;
   display: flex;
+  flex:1;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
 .right-content {

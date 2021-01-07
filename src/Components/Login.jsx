@@ -11,6 +11,7 @@ class Login extends React.Component {
               placeholder="E-mail"
               className="input"
               data-testid="email-input"
+              name="input-email"
             />
           </div>
           <div className="input-group">
@@ -21,7 +22,7 @@ class Login extends React.Component {
               data-testid="password-input"
             />
           </div>
-          <button type="submit" className="btn-login">Entrar</button>
+          <button type="submit" className="btn-login" name="btn-login">Entrar</button>
         </form>
         <a href="/" className="forgot-pass">Forgot password?</a>
       </div>
