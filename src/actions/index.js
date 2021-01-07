@@ -1,9 +1,9 @@
 // Coloque aqui suas actions
 import CLICK_UPDATE_EMAIL_VALUE from './actionTypes';
 
-const loginButton = (value) => ({
+const loginButton = (email) => ({
   type: CLICK_UPDATE_EMAIL_VALUE,
-  newValue: value,
+  payload: email,
 });
 
 export default loginButton;
