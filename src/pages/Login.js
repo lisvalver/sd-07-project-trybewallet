@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import login from '../actions';
 
 class Login extends React.Component {
@@ -28,7 +29,7 @@ class Login extends React.Component {
     return validEmail && validPassword;
   }
 
-  handleChange({target}) {
+  handleChange({ target }) {
     const { name, value } = target;
 
     this.setState({ [name]: value }, () => {
@@ -93,3 +94,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  validLogin: PropTypes.bool.isRequired,
+  handleLogin: PropTypes.func.isRequired,
+};
