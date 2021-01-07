@@ -35,6 +35,8 @@ class Login extends React.Component {
     const { userLogin } = this.props;
     const { email } = this.state;
     userLogin(email);
+    const { userEmail } = this.props;
+    console.log(userEmail);
   }
 
   render() {
@@ -83,6 +85,7 @@ class Login extends React.Component {
 
 const mapStateToProps = (state) => ({
   userIsLogged: state.user.logged,
+  userEmail: state.user.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -94,4 +97,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(Login);
 Login.propTypes = {
   userLogin: PropTypes.func.isRequired,
   userIsLogged: PropTypes.bool.isRequired,
+  userEmail: PropTypes.string.isRequired,
 };
