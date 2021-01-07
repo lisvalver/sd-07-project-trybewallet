@@ -33,8 +33,8 @@ class Login extends React.Component {
 
   passwordValidation ({ target }) {
     this.setState({ password: target.value });
-    if (this.state.password.length <= 6 && this.state.emailValido == true) { this.setState({ autentic: true }); }
-    else { this.setState({ autentic: false }); }
+    if (this.state.password.length >= 6 && this.state.emailValido == true) { this.setState({ autentic: false }); }
+    else { this.setState({ autentic: true }); }
   } 
 
   render() {
@@ -75,4 +75,4 @@ const mapDispatchToProps = {
 }
 */
 
-export default Login;
+export default connect(mapStateToProps)(Login);
