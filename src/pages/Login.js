@@ -22,13 +22,10 @@ class Login extends React.Component {
     const { name, value } = target;
     this.setState({ [name]: value }, () => {
       const { email, senha } = this.state;
+      const entra = document.getElementById('btn-entra');
       const minimo = 6;
       const regEmail = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
       if (!regEmail.test(email) && !(senha.length < minimo)) {
-        return console.log('Invalid Email');
-      }
-      const entra = document.getElementById('btn-entra');
-      if (email === 'strongreen@strongreen.com' && senha === 'strongreen') {
         entra.removeAttribute('disabled');
       } else {
         entra.setAttribute('disabled', '');
