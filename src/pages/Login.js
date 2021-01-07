@@ -100,7 +100,7 @@ const mapDispatchToProps = (dispatch) => ({ // só inclui funções
   logar: (email) => dispatch(addUser(email)),
 });
 
-// const mapDispatchToProps = {
+// const mapDispatchToProps = { //outra forma de fazer
 //   addUser,
 // }
 
@@ -108,18 +108,3 @@ const mapDispatchToProps = (dispatch) => ({ // só inclui funções
 //   email: state.user.email
 // })
 export default connect(null, mapDispatchToProps)(Login);
-
-// function one (numero) {
-//   const resultado = numero +1
-//   return resultado;
-// }
-
-// function one1 (numero) {
-//   return numero +1
-// }
-
-// const one2 = (numero) =>  {
-//   return numero +1
-// }
-
-// const one3 = (numero) => ({numero +1});
