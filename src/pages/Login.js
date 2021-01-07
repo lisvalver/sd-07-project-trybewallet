@@ -32,13 +32,12 @@ class Login extends React.Component {
 
   passwordValidation({ target }) {
     const { password, emailValido } = this.state;
-    const noMagicNumber = 6;
+    const noMagicNumber = 5;
 
     this.setState({ password: target.value });
     if (password.length >= noMagicNumber && emailValido === true) {
       this.setState({ autentic: false });
-    }
-    else { this.setState({ autentic: true }); }
+    } else { this.setState({ autentic: true }); }
   }
 
   render() {
@@ -70,7 +69,7 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  state
+  state,
 });
 
 /*
