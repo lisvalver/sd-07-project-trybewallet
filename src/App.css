@@ -39,3 +39,77 @@
     transform: rotate(360deg);
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap');
+
+.container-fluid {
+  display: flex;
+  width: 100%;
+}
+
+.left-content {
+  flex:1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-content {
+  background-image: url(images/home.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex:1;
+  height: 100vh;
+  width: 100%;
+}
+
+.welcome-msg {
+  padding: 10px;
+  margin: 10px;
+  text-align: left;
+  font-size: 15pt;
+  font-weight: 700;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+.sub-title {
+  color: #585757;
+  font-size: 10pt;
+  margin: 0;
+  padding: 0;
+}
+
+.input {
+  background-color: #eeeded;
+  border: none;
+  border-radius:5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.btn-login {
+  background: linear-gradient(39deg, rgba(54,159,246,1) 0%, rgba(55,127,233,1) 100%);
+  border:none;
+  border-radius:5px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 110%;
+}
+
+.btn-login:hover {
+  box-shadow: 1px 1px 10px rgba(54,159,246,1);
+}
+
+.forgot-pass {
+  color: #aaa4a4;
+  font-size: 8pt;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 30%;
+}
