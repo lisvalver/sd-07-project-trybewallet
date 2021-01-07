@@ -9,25 +9,14 @@ class Login extends React.Component {
     this.state = {
       email: '',
       senha: '',
-      validEmail: false,
-      validPass: false,
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.validadeDatas = this.validadeDatas.bind(this);
-    this.enableButton = this.enableButton.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  // isto é para o botão ficar inativo quando a página acabar de carregar
-  componentDidMount() {
-    this.enableButton();
   }
 
   async handleChange(chave, valor) {
     await this.setState({
       [chave]: valor,
     });
-    this.validadeDatas();
+    this.enableButton();
   }
 
   handleClick(path) {
@@ -39,39 +28,33 @@ class Login extends React.Component {
   }
 
   enableButton() {
-    const { validEmail, validPass } = this.state;
-    const enterButton = document.getElementById('enterButton');
-    if (validEmail === true && validPass === true) {
-      enterButton.disabled = false;
+    const validateEmail = this.validateEmail();
+    const validatePassword = this.validatePassword();
+    if (validateEmail === true && validatePassword === true) {
+      return false;
     } else {
-      enterButton.disabled = true;
+      return true;
     }
   }
 
-  validadeDatas() {
+  validateEmail() {
     const regex = /^(\s?[^\s,]+@[^\s,]+\.[^\s,]+\s?,)*(\s?[^\s,]+@[^\s,]+\.[^\s,]+)$/;
     const { email } = this.state;
     if (regex.test(String(email).toLowerCase()) === true) {
-      this.setState({
-        validEmail: true,
-      });
+      return true;
     } else {
-      this.setState({
-        validEmail: false,
-      });
+      return false;
     }
+  }
+
+  validatePassword() {
     const { senha } = this.state;
     const minLength = 6;
     if (senha.length >= minLength) {
-      this.setState({
-        validPass: true,
-      });
+      return true;
     } else {
-      this.setState({
-        validPass: false,
-      });
+      return false;
     }
-    this.enableButton();
   }
 
   render() {
@@ -81,18 +64,19 @@ class Login extends React.Component {
           <input
             onChange={ (event) => this.handleChange('email', event.target.value) }
             type="email"
-            testid="email-input"
+            data-testid="email-input"
             placeholder="e-mail"
           />
           <input
             onChange={ (event) => this.handleChange('senha', event.target.value) }
             type="password"
-            testid="password-input"
+            data-testid="password-input"
             placeholder="senha"
           />
           <button
             id="enterButton"
             type="button"
+            disabled={ this.enableButton() }
             onClick={ () => this.handleClick('/carteira') }
           >
             Entrar
