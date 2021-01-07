@@ -9,7 +9,8 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
-      autentic: false,
+      emailValido: false,
+      autentic: true,
     };
 
     this.validacaoEmail = this.validacaoEmail.bind(this);
@@ -19,29 +20,20 @@ class Login extends React.Component {
     validacaoEmail ({ target }) {
       const { value } = target;
       this.setState({ email: value }, () => {
-        const usuario = target.value.substring(0, target.value.indexOf("@"));
-        const dominio = target.value.substring(target.value.indexOf("@")+ 1, target.value.length);
-
-        if ((usuario.length >=1) &&
-          (dominio.length >=3) &&
-          (usuario.search("@")==-1) &&
-          (dominio.search("@")==-1) &&
-          (usuario.search(" ")==-1) &&
-          (dominio.search(" ")==-1) &&
-          (dominio.search(".")!=-1) &&
-          (dominio.indexOf(".") >=1)&&
-          (dominio.lastIndexOf(".") < dominio.length - 1)){
-            this.setState({ autentic: true });
-          }
-        else{
-          this.setState({ autentic: false });
+      const { email } = this.state;
+      const validacaoByStackOf = /[\w.-]+@[\w-]+\.[\w-.]+/gi;
+      const matchEmail = email.match(validacaoByStackOf);
+      if (matchEmail) {
+        this.setState({ emailValido: true });
+      } else{
+          this.setState({ emailValido: false });
         }
     });
   }
 
   passwordValidation ({ target }) {
     this.setState({ password: target.value });
-    if (target.valeu < 6) { this.setState({ autentic: true }); }
+    if (this.state.password.length <= 6 && this.state.emailValido == true) { this.setState({ autentic: true }); }
     else { this.setState({ autentic: false }); }
   } 
 
@@ -62,7 +54,7 @@ class Login extends React.Component {
           />
           <button 
             type="button"
-            disabled={ !this.state.autentic }
+            disabled={ this.state.autentic }
             type="button"
           >
             Entrar
@@ -83,4 +75,4 @@ const mapDispatchToProps = {
 }
 */
 
-export default connect(mapStateToProps)(Login);
+export default Login;
