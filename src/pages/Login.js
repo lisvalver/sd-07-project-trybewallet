@@ -34,8 +34,9 @@ class Login extends React.Component {
 
   handleLogin() {
     const { email } = this.state;
-    const { login } = this.props;
+    const { login, history } = this.props;
     login(email);
+    history.push('/carteira');
   }
 
   render() {
@@ -77,6 +78,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
