@@ -16,7 +16,6 @@
   width: fit-content;
 }
 
-.input-login,
-.btn-login {
+.input-login , .btn-login {
   margin-top: 5px;
 }
