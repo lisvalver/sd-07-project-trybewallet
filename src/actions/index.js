@@ -19,4 +19,7 @@ const addExpenses = (cash, currency, methodInput, tagInput, infor) => ({
   },
 });
 
-export default { addUser, addExpenses };
+export {
+  addUser,
+  addExpenses,
+};
