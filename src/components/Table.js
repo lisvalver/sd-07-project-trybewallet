@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchApi } from '../services';
+import getCurrencies from '../services';
 import { fetchCurrencies } from '../actions';
 
 class Table extends Component {
@@ -15,7 +15,7 @@ class Table extends Component {
 
   async componentDidMount() {
     const { actionFetchCurrencies } = this.props;
-    const data = await fetchApi();
+    const data = await getCurrencies();
     const currencies = data.filter((currency) => currency !== 'USDT');
     actionFetchCurrencies({ currencies });
   }
@@ -37,7 +37,14 @@ class Table extends Component {
         </div>
         <div>
           <select data-testid="currency-input">
-            {currencies.map((currency) => (<option key={ currency } data-testid={ currency } value={ currency }>{currency}</option>))}
+            {currencies.map((currency) => (
+              <option
+                key={ currency }
+                data-testid={ currency }
+                value={ currency }
+              >
+                {currency}
+              </option>))}
           </select>
         </div>
       </div>
@@ -53,7 +60,7 @@ const mapStateToProps = (state) => ({
 Table.propTypes = {
   actionFetchCurrencies: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(String).isRequired,
-  expenses: PropTypes.arrayOf(String).isRequired,
+  // expenses: PropTypes.arrayOf(String).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
