@@ -1,7 +1,14 @@
 import React from 'react';
-import Routes from './routes';
-import 'semantic-ui-css/semantic.min.css';
+import { Switch, Route } from 'react-router-dom';
+import { Login, Wallet } from './pages';
 
-export default function App() {
-  return <Routes />;
+function App() {
+  return (
+    <Switch>
+      <Route exact path="/" component={ Login } />
+      <Route exact path="/carteira" component={ Wallet } />
+    </Switch>
+  );
 }
+
+export default App;
