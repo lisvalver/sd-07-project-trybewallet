@@ -8,7 +8,7 @@ class Wallet extends React.Component {
       <div>
         <header>
           <section data-testid="email-field">
-            Email: 
+            Email:
             { email }
           </section>
           <section data-testid="total-field">
