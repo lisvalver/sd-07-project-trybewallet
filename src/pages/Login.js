@@ -26,7 +26,8 @@ class Login extends React.Component {
     const { inputEmail, inputPass } = this.state;
     return (
       <div id="login-box">
-        <h1>Trybe Wallet</h1>
+        <div className="inputLogin"><h1>Trybe Wallet</h1></div>
+        <div className="inputLogin">
         <input
           type="email"
           data-testid="email-input"
@@ -36,6 +37,8 @@ class Login extends React.Component {
           value={ inputEmail }
           onChange={ (event) => this.setState({ inputEmail: event.target.value }) }
         />
+        </div>
+        <div className="inputLogin">
         <input
           type="password"
           data-testid="password-input"
@@ -44,6 +47,7 @@ class Login extends React.Component {
           value={ inputPass }
           onChange={ (event) => this.setState({ inputPass: event.target.value }) }
         />
+        </div>
         <button
           type="button"
           className="buttonLogin"
@@ -74,3 +78,5 @@ Login.propTypes = {
     push: PropTypes.func,
   }),
 }.isRequired;
+
+//vi o .test() no projeto do Tiago Esdra a ideia de usar uma função pra retornar bool no desable eu vi no projeto da Carolina Bezerra
