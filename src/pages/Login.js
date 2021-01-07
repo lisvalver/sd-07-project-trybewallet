@@ -50,7 +50,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  addemail: PropTypes.functio().isRequired,
+  addemail: PropTypes.func.isRequired,
   emailS: PropTypes.string.isRequired,
 };
 
