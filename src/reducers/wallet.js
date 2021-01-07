@@ -30,7 +30,7 @@ const wallet = (state = INITIAL_STATE, action) => {
   case REMOVE_EXPENSE:
     return {
       ...state,
-      expenses: expenses.filter((expen) => expen.id !== payload.id),
+      expenses: expenses.filter((expen) => expen.id !== payload),
     };
   case UPDATE_TOTAL_EXPENSES:
     return {
