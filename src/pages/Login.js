@@ -12,6 +12,7 @@ class Login extends React.Component {
     this.state = {
       emailInput: '',
       passwordInput: '',
+      buttonDisable: true,
     };
   }
 
@@ -24,26 +25,24 @@ class Login extends React.Component {
   validateInput() {
     const { emailInput, passwordInput } = this.state;
     const maxChar = 5;
-    const button = document.querySelector('#submit-button');
     const regex = /^([\w.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/;
     if (regex.test(emailInput) && passwordInput.length >= maxChar) {
-      button.disabled = false;
+      this.setState({ buttonDisable: false });
     } else {
-      button.disabled = true;
+      this.setState({ buttonDisable: true });
     }
   }
 
   loginAndRedirect(e) {
     e.preventDefault();
-    const { updateUser, loginEmail } = this.props;
+    const { updateUser, history } = this.props;
     const { emailInput } = this.state;
-    console.log('redirect');
     updateUser(emailInput);
-    console.log(loginEmail);
+    history.push('/carteira');
   }
 
   render() {
-    const { emailInput, passwordInput } = this.state;
+    const { emailInput, passwordInput, buttonDisable } = this.state;
     return (
       <form>
         <input
@@ -66,7 +65,7 @@ class Login extends React.Component {
           id="submit-button"
           type="button"
           onClick={ this.loginAndRedirect }
-          disabled
+          disabled={ buttonDisable }
         >
           Entrar
         </button>
@@ -79,13 +78,9 @@ const mapDispatchToProps = (dispatch) => ({
   updateUser: (value) => dispatch(changeUser(value)),
 });
 
-const mapStateToProps = (state) => ({
-  loginEmail: state.user.email,
-});
-
 Login.propTypes = {
   updateUser: PropTypes.func.isRequired,
-  loginEmail: PropTypes.string.isRequired,
+  history: PropTypes.shape([]).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
