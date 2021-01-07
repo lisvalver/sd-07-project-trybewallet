@@ -40,7 +40,7 @@
   }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap') ;
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap');
 
 .container-fluid {
   display: flex;
@@ -50,27 +50,27 @@
 .left-content {
   align-items: center;
   display: flex;
-  flex:1;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
 }
 
 .right-content {
-  background-image: url(images/home.jpg);
+  background-image: url('images/home.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  flex:1;
+  flex: 1;
   height: 100vh;
   width: 100%;
 }
 
 .welcome-msg {
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: Nanum Gothic, sans-serif;
   font-size: 15pt;
   font-weight: 700;
   margin: 10px;
   padding: 10px;
-  text-align: left; 
+  text-align: left;
 }
 
 .sub-title {
@@ -83,17 +83,17 @@
 .input {
   background-color: #eeeded;
   border: none;
-  border-radius:5px;
+  border-radius: 5px;
   margin-bottom: 10px;
   padding: 10px;
   width: 100%;
 }
 
 .btn-login {
-  background: linear-gradient(39deg, rgba(54,159,246,1) 0%, rgba(55,127,233,1) 100%);
-  border:none;
-  border-radius:5px;
-  box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  background: linear-gradient(39deg, rgba(54, 159, 246, 1) 0%, rgba(55, 127, 233, 1) 100%);
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
   color: white;
   cursor: pointer;
   font-weight: 700;
@@ -103,7 +103,7 @@
 }
 
 .btn-login:hover {
-  box-shadow: 1px 1px 10px rgba(54,159,246,1);
+  box-shadow: 1px 1px 10px rgba(54, 159, 246, 1);
 }
 
 .forgot-pass {
@@ -116,6 +116,6 @@
 
 .logo {
   margin-bottom: 50px;
-  margin-top: -100px;  
+  margin-top: -100px;
 }
 
