@@ -13,6 +13,6 @@ function userReducer(state = USER_INITIAL_STATE, action) {
   default:
     return state;
   }
-};
+}
 
 export default userReducer;

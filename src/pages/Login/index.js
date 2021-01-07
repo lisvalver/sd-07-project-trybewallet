@@ -32,7 +32,7 @@ class Login extends Component {
   }
 
   handleSubmit(e) {
-    e.PreventDefault();
+    e.preventDefault();
     const { history, handleLogin } = this.props;
     const { email } = this.state;
     handleLogin(email);
@@ -42,7 +42,7 @@ class Login extends Component {
   render() {
     const { email, password, isDisabled } = this.state;
     return (
-      <main className="section">
+      <main>
         <form onSubmit={ (e) => this.handleSubmit(e) }>
           <div className="field">
             <label htmlFor="email-input">
@@ -54,7 +54,7 @@ class Login extends Component {
                 onChange={ ({ target }) => this.handleInputChange(target) }
                 data-testid="email-input"
                 type="email"
-                placeholder="ada@lovelace.com"
+                placeholder="user@gmail.com"
                 autoComplete="off"
                 autoCorrect="off"
                 required
