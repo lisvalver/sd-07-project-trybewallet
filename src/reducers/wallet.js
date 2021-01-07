@@ -18,7 +18,8 @@ const walletDetails = (state = initialState, action) => {
   case 'NEW_EXPENSE':
     return {
       ...state,
-      expenses: [...state.expenses, action.payload],
+      id: state.id + 1,
+      expenses: [...state.expenses, { ...action.payload, id: state.id }],
     };
   default:
     return state;

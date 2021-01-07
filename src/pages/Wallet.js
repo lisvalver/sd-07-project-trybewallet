@@ -7,7 +7,6 @@ class Wallet extends React.Component {
   constructor() {
     super();
     this.state = {
-      id: 0,
       value: 0,
       description: '',
       currency: 'USD',
@@ -20,9 +19,8 @@ class Wallet extends React.Component {
   }
 
   componentDidMount() {
-    const { updateCurrencies, currencyRates } = this.props;
+    const { updateCurrencies } = this.props;
     updateCurrencies();
-    this.setState({ exchangeRates: currencyRates });
   }
 
   handleChange({ target: { name, value } }) {
@@ -35,7 +33,6 @@ class Wallet extends React.Component {
     await this.setState({ exchangeRates: currencyRates });
     await addExpense(this.state);
     this.setState({
-      id: 0,
       value: 0,
       description: '',
       currency: 'USD',
@@ -49,13 +46,13 @@ class Wallet extends React.Component {
     const { value } = this.state;
     let arr = ['BRL', 'USD'];
     if (currencies.wallet !== undefined) {
-      arr = currencies.wallet.currencies.filter((value) => value !== 'USDT');
+      arr = currencies.wallet.currencies.filter((currency) => currency !== 'USDT');
     }
     let total = 0;
     if (expenses.length > 0) {
       total = expenses
-        .map((e) => e.value)
-        .reduce((acc, cur) => parseFloat(acc) + parseFloat(cur));
+        .map((e) => e.value * e.exchangeRates[e.currency].ask)
+        .reduce((acc, cur) => acc + cur);
     }
     return (
       <div>
@@ -70,30 +67,29 @@ class Wallet extends React.Component {
         <div>
           <input
             name="value"
-            value={value}
-            type="number"
-            onChange={this.handleChange}
+            value={ value }
+            onChange={ this.handleChange }
             data-testid="value-input"
           />
           <input
             name="description"
-            onChange={this.handleChange}
+            onChange={ this.handleChange }
             data-testid="description-input"
           />
           <select
             name="currency"
-            onChange={this.handleChange}
+            onChange={ this.handleChange }
             data-testid="currency-input"
           >
             {arr.map((currency) => (
-              <option data-testid={currency} key={currency} value="valor1">
+              <option data-testid={ currency } key={ currency } value={ currency }>
                 {currency}
               </option>
             ))}
           </select>
           <select
             name="method"
-            onChange={this.handleChange}
+            onChange={ this.handleChange }
             data-testid="method-input"
           >
             <option>Dinheiro</option>
@@ -102,7 +98,7 @@ class Wallet extends React.Component {
           </select>
           <select
             name="tag"
-            onChange={this.handleChange}
+            onChange={ this.handleChange }
             data-testid="tag-input"
           >
             <option>Alimentação</option>
@@ -111,7 +107,7 @@ class Wallet extends React.Component {
             <option>Transporte</option>
             <option>Saúde</option>
           </select>
-          <button onClick={() => this.handleClick()} type="button">
+          <button onClick={ () => this.handleClick() } type="button">
             Adicionar despesa
           </button>
         </div>
@@ -136,6 +132,9 @@ Wallet.propTypes = {
   login: PropTypes.string.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   updateCurrencies: PropTypes.func.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currencyRates: PropTypes.arrayOf(PropTypes.object).isRequired,
+  addExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
