@@ -24,8 +24,8 @@
   font-weight: 600;
 }
 
-.expense__field > label > input , 
-.expense__field > label > select , 
+.expense__field > label > input ,
+.expense__field > label > select ,
 .expense__field > button {
   background: white;
   border: 0;
