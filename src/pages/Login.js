@@ -76,7 +76,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   handleLogin: PropTypes.func.isRequired,
-  history: PropTypes.func.isRequired,
+  history: PropTypes.objectOf().isRequired,
 };
 
 export default withRouter(connect(null, mapDispatchToProps)(Login));
