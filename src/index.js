@@ -1,18 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
-import { Wallet } from './pages';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
 
 ReactDOM.render(
   <Provider store={ store }>
     <Router>
-      <Route exact path="/" component={ App } />
-      <Route exact path="/carteira" component={ Wallet } />
+      <App />
     </Router>
   </Provider>,
   document.getElementById('root'),

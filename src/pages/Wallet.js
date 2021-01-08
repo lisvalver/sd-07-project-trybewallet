@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { addExpense } from '../actions';
+import CurrencyOption from '../components/CurrencyOption';
 import TableItem from '../components/TableItem';
 
 class Wallet extends React.Component {
@@ -19,6 +20,7 @@ class Wallet extends React.Component {
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
+      currencies: [],
     };
   }
 
@@ -29,19 +31,9 @@ class Wallet extends React.Component {
   getCurrency() {
     fetch('https://economia.awesomeapi.com.br/json/all')
       .then((response) => response.json())
-      .then((data) => {
-        const currencySelector = document.getElementById('currency');
-        const currenciesArray = Object.keys(data);
-        currenciesArray.forEach((currency) => {
-          if (currency !== 'USDT') {
-            const addCurrency = document.createElement('option');
-            addCurrency.value = currency;
-            addCurrency.innerText = currency;
-            addCurrency.setAttribute('data-testid', currency);
-            currencySelector.appendChild(addCurrency);
-          }
-        });
-      });
+      .then((data) => this.setState({ currencies: Object.keys(data).filter(
+        (currency) => currency !== 'USDT',
+      ) }));
   }
 
   handleChange({ target }) {
@@ -50,10 +42,10 @@ class Wallet extends React.Component {
   }
 
   saveExpense() {
-    const { id } = this.state;
+    const { id, value, description, currency, method, tag } = this.state;
     const { add } = this.props;
     this.setState({ id: id + 1 });
-    add(this.state);
+    add({ id, value, description, currency, method, tag });
     this.setState({
       value: '',
       description: '',
@@ -93,7 +85,7 @@ class Wallet extends React.Component {
     const { store } = this.props;
     const { user } = store;
     const { email } = user;
-    const { value, description, currency, method, tag } = this.state;
+    const { value, description, currency, method, tag, currencies } = this.state;
     return (
       <div>
         <header>
@@ -136,48 +128,47 @@ class Wallet extends React.Component {
                 </label>
               </div>
               <div className="currency">
-                <label htmlFor="currency">
-                  Moeda:
-                  <select
-                    name="currency"
-                    id="currency"
-                    value={ currency }
-                    data-testid="currency-input"
-                    onChange={ this.handleChange }
-                  />
-                </label>
+                Moeda:
+                <select
+                  name="currency"
+                  value={ currency }
+                  data-testid="currency-input"
+                  onChange={ this.handleChange }
+                >
+                  { currencies.map((currencyCode) => (
+                    <CurrencyOption
+                      key={ currencyCode }
+                      currency={ currencyCode }
+                    />))}
+                </select>
               </div>
               <div className="payment-method">
-                <label htmlFor="method">
-                  Método de pagamento:
-                  <select
-                    name="method"
-                    value={ method }
-                    data-testid="method-input"
-                    onChange={ this.handleChange }
-                  >
-                    <option value="Dinheiro">Dinheiro</option>
-                    <option value="Cartão de crédito">Cartão de crédito</option>
-                    <option value="Cartão de débito">Cartão de débito</option>
-                  </select>
-                </label>
+                Método de pagamento:
+                <select
+                  name="method"
+                  value={ method }
+                  data-testid="method-input"
+                  onChange={ this.handleChange }
+                >
+                  <option value="Dinheiro">Dinheiro</option>
+                  <option value="Cartão de crédito">Cartão de crédito</option>
+                  <option value="Cartão de débito">Cartão de débito</option>
+                </select>
               </div>
               <div className="tag">
-                <label htmlFor="tag">
-                  Tag:
-                  <select
-                    name="tag"
-                    value={ tag }
-                    data-testid="tag-input"
-                    onChange={ this.handleChange }
-                  >
-                    <option value="Alimentação">Alimentação</option>
-                    <option value="Lazer">Lazer</option>
-                    <option value="Trabalho">Trabalho</option>
-                    <option value="Transporte">Transporte</option>
-                    <option value="Saúde">Saúde</option>
-                  </select>
-                </label>
+                Tag:
+                <select
+                  name="tag"
+                  value={ tag }
+                  data-testid="tag-input"
+                  onChange={ this.handleChange }
+                >
+                  <option value="Alimentação">Alimentação</option>
+                  <option value="Lazer">Lazer</option>
+                  <option value="Trabalho">Trabalho</option>
+                  <option value="Transporte">Transporte</option>
+                  <option value="Saúde">Saúde</option>
+                </select>
               </div>
             </div>
           </fieldset>
