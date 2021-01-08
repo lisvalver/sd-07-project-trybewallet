@@ -50,7 +50,4 @@ export const fetchExpenses = (state) => async (dispatch) => {
   dispatch(incrementId());
 };
 
-export const deleteExpenseAction = (id) => {
-  console.log(`chegamos na action com o id ${id}`);
-  return { type: 'DELETE_EXPENSE', payload: id };
-};
+export const deleteExpenseAction = (id) => ({ type: 'DELETE_EXPENSE', payload: id });

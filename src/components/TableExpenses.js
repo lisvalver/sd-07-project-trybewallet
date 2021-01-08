@@ -62,12 +62,6 @@ class TableExpenses extends React.Component {
 
   render() {
     const { expenses } = this.props;
-    if (expenses.length !== 0) {
-      const { currency } = expenses[0];
-      console.log('atenção');
-      console.log(currency);
-    }
-
     return (
       <table width="100%">
         <thead>
@@ -101,8 +95,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(TableExpenses);
 
 TableExpenses.propTypes = {
   deleteExpenses: PropTypes.func.isRequired,
-  expenses: PropTypes.shape({
-    length: PropTypes.number.isRequired,
-    map: PropTypes.func.isRequired,
-  }).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

@@ -84,7 +84,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddExpenses);
 
+AddExpenses.defaultProps = {
+  nextId: 0,
+};
+
 AddExpenses.propTypes = {
-  nextId: PropTypes.number.isRequired,
+  nextId: PropTypes.number,
   addExpenses: PropTypes.func.isRequired,
 };

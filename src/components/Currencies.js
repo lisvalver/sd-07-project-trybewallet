@@ -21,9 +21,7 @@ class Currencies extends React.Component {
           id="currency"
           name="currency"
         >
-          <option selected hidden>
-            Escolha a Moeda
-          </option>
+          <option>Escolha a Moeda</option>
           {currencies.map((currency) => (
             <option data-testid={ currency } value={ currency } key={ currency }>
               {currency}
@@ -49,7 +47,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(Currencies);
 Currencies.propTypes = {
   currenciesLoad: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  currencies: PropTypes.shape({
-    map: PropTypes.func.isRequired,
-  }).isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

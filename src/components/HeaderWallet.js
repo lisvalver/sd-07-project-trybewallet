@@ -21,7 +21,6 @@ class HeaderWallet extends React.Component {
 
   render() {
     const { email, expenses } = this.props;
-    console.log(expenses);
     return (
       <header className="header-user">
         <div>TrybeWallet</div>
@@ -49,7 +48,5 @@ export default connect(mapStateToProps, null)(HeaderWallet);
 
 HeaderWallet.propTypes = {
   email: PropTypes.string.isRequired,
-  expenses: PropTypes.shape({
-    currency: PropTypes.string.isRequired,
-  }).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
