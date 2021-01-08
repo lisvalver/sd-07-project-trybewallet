@@ -40,3 +40,10 @@ export const updateExpenses = (value, description, currency, method, tag) => ({
     tag,
   },
 });
+// THIRD ACTION TO WALLET -----------------------------------------------
+export const DELETE_ROW = 'DELETE_ROW';
+
+export const deleteRow = (id) => ({
+  type: DELETE_ROW,
+  id,
+});

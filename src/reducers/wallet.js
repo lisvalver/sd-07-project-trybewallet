@@ -1,5 +1,5 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { WAITING_FETCH, GET_FETCHED, UPDATE_EXPENSES } from '../actions';
+import { WAITING_FETCH, GET_FETCHED, UPDATE_EXPENSES, DELETE_ROW } from '../actions';
 
 const initialState = {
   currencies: ['empty'],
@@ -36,6 +36,14 @@ function wallet(state = initialState, action) {
         state.total
         + (parseFloat(action.payload.value)
         * state.exchangeRates[action.payload.currency].ask),
+    };
+  case DELETE_ROW:
+    return {
+      ...state,
+      // total:
+      //   state.total - (parseFloat(state.expenses[action.id].value) * state.exchangeRates[state.expenses[action.id].currency].ask),
+      expenses: [...state.expenses.filter(({ id }) => id !== action.id)],
+      // referência: Carol Andrade
     };
   default:
     return state;
