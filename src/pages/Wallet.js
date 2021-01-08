@@ -66,7 +66,6 @@ class Wallet extends React.Component {
       .then((item) => Object.keys(item))
       .then((item) => item.filter((one) => one !== 'USDT'))
       .then((item) => this.setState({ list: item }));
-    this.currencies();
   }
 
   render() {
