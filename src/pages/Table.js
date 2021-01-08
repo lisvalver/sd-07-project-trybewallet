@@ -23,19 +23,22 @@ class Table extends Component {
         <tbody>
           {expenses.map((item) => (
             <tr key={ item.code }>
-              <th key={ item.code }>{ item.description }</th>
-              <th key={ item.code }>{ item.tag }</th>
-              <th>{ item.method }</th>
-              <th>{ item.value }</th>
-              <th>{ item.exchangeRates[item.currency].name }</th>
-              <th>{ parseFloat(item.exchangeRates[item.currency].ask).toFixed(2) }</th>
-              <th>
+              <td key={ item.code }>{ item.description }</td>
+              <td key={ item.code }>{ item.tag }</td>
+              <td>{ item.method }</td>
+              <td>{ item.value }</td>
+              <td>{ item.exchangeRates[item.currency].name }</td>
+              <td>{ parseFloat(item.exchangeRates[item.currency].ask).toFixed(2) }</td>
+              <td>
                 {
                   parseFloat(item.value * item.exchangeRates[item.currency].ask)
                     .toFixed(2)
                 }
-              </th>
-              <th>Real</th>
+              </td>
+              <td>Real</td>
+              <td>
+                <button type="button" data-testid="delete-btn">Deletar</button>
+              </td>
             </tr>))}
         </tbody>
       </table>
@@ -44,7 +47,7 @@ class Table extends Component {
 }
 
 Table.propTypes = {
-  expenses: PropTypes.arrayOf(PropTypes.string).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
