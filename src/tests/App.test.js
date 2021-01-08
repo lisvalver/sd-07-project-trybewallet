@@ -81,7 +81,7 @@ describe('1 - [PÁGINA DE LOGIN] Crie uma página inicial de login com os seguin
     userEvent.type(email, 'alguem@email.com');
     userEvent.type(senha, '123456');
     fireEvent.click(button);
-    console.log(store.getState().user.email)
+    
     expect(store.getState().user.email).toBe('alguem@email.com');
   });
 
@@ -294,8 +294,9 @@ describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma
       expect(valueInput).toContainHTML(0);
     });
     expect(store.getState().wallet.expenses).toStrictEqual(expectedStateExpense2);
-
+     
     const totalField = screen.getByTestId('total-field');
+    
     expect(totalField).toContainHTML('187.12')
   });
 });

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import '../App.css';
 import { connect } from 'react-redux';
-import loginAction from '../actions/index';
+import { loginAction } from '../actions/index';
 
 class Login extends React.Component {
   constructor(props) {
@@ -37,8 +38,8 @@ class Login extends React.Component {
 
     return (
       <div>
-        <p>Login</p>
-        <form>
+        <h3 className="text-login">Login</h3>
+        <form className="form-login">
           <input
             pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.+-]+\.com$/"
             onChange={ this.handlerInput }
