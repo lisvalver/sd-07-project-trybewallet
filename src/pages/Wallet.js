@@ -112,7 +112,7 @@ class Wallet extends React.Component {
                 } }
               />
             </label>
-            <label htmlFor="currency">
+            <label htmlFor="currencies">
               Choose a currency:
 
               <select
