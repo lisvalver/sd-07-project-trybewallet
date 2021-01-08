@@ -18,15 +18,16 @@ export default class LoginBox extends Component {
     const passwordMinLength = 6;
     const validPassword = password.length >= passwordMinLength;
     const validEmail = emailValidate.test(email);
-    return validPassword && validEmail;
+    return (validPassword && validEmail);
   }
 
   emailValidation({ password: prevP, email: prevE }) {
-    const { password, email, emailValid } = this.props;
+    const { password, email } = this.props;
+    const { emailValid } = this.state;
     if (prevE !== email || prevP !== password) {
       if (this.emailValidate(email, password)) {
         this.setState({ emailValid: true });
-      } else if (!(emailValid)) {
+      } else if (emailValid === true) {
         this.setState({ emailValid: false });
       }
     }
@@ -69,7 +70,6 @@ export default class LoginBox extends Component {
 LoginBox.propTypes = {
   password: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  emailValid: PropTypes.bool.isRequired,
   getInputs: PropTypes.func.isRequired,
   onSubmitBtn: PropTypes.func.isRequired,
 };

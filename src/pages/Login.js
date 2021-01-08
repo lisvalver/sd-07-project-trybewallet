@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../actions';
@@ -18,7 +19,8 @@ class Login extends Component {
 
   onSubmitBtn() {
     const { email } = this.state;
-    login(email);
+    const { loginEmail } = this.props;
+    loginEmail(email);
     this.setState({ logged: true });
   }
 
@@ -40,7 +42,11 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  login: (payload) => dispatch(login(payload)),
+  loginEmail: (payload) => dispatch(login(payload)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  loginEmail: PropTypes.func.isRequired,
+};
