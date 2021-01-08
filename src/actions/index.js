@@ -1,4 +1,6 @@
-export const saveEmail = (email) => ({
+const saveEmail = (email) => ({
   type: 'SAVE_EMAIL',
   email,
 });
+
+export default saveEmail;

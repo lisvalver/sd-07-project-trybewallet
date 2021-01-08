@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as actions from '../actions'
+import saveEmail from '../actions';
 
 const MIN_PASSWORD_LENGTH = 6;
 
-function emailIsValid (email) {
+function emailIsValid(email) {
   return /\S+@\S+\.\S+/.test(email);
 }
 
@@ -30,12 +31,12 @@ class Login extends React.Component {
     const passwordValidation = passwordIsValid(password);
 
     if (emailValidation && passwordValidation) {
-      return false
+      return false;
     }
     return true;
   }
 
-  handleEvent({target: {name, value}}) {
+  handleEvent({ target: { name, value } }) {
     this.setState({
       [name]: value,
     });
@@ -43,36 +44,49 @@ class Login extends React.Component {
 
   handleClick() {
     const { saveEmail, history } = this.props;
-    saveEmail(this.state.email);
+    const { email } = this.state;
+    saveEmail(email);
 
     history.push('/carteira');
   }
+
   render() {
-    const {email, password} = this.state;
+    const { email, password } = this.state;
     return (
-    <div>
-      <form>
-        <input
-          type="text"
-          data-testid="email-input"
-          name="email"
-          value={email}
-          onChange={this.handleEvent}
-          placeholder="E-mail">
-        </input>
-        <input type="password" data-testid="password-input" placeholder="Senha"
-        name="password"
-        onChange={this.handleEvent}
-        value={password}></input>
-        <button disabled={this.inputValidation()} type="button" onClick={this.handleClick}>Entrar</button>
-      </form>
-    </div>
+      <div>
+        <form>
+          <input
+            type="text"
+            data-testid="email-input"
+            name="email"
+            value={ email }
+            onChange={ this.handleEvent }
+            placeholder="E-mail"
+          />
+          <input
+            type="password"
+            data-testid="password-input"
+            placeholder="Senha"
+            name="password"
+            onChange={ this.handleEvent }
+            value={ password }
+          />
+          <button disabled={ this.inputValidation() } type="button" onClick={ this.handleClick }>Entrar</button>
+        </form>
+      </div>
     );
-  }
+  };
 }
 
 const mapDispatchToProps = {
-  saveEmail: actions.saveEmail,
+  saveEmail,
 }
 
 export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  saveEmail: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
