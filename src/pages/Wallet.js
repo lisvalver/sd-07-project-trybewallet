@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpenses, failedRequest, request, fetchCurrency, addTotal } from '../actions';
+import { addExpenses, failedRequest, fetchCurrency, addTotal } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
@@ -17,9 +17,9 @@ class Wallet extends React.Component {
     this.saveExpense = this.saveExpense.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { fetchData } = this.props;
-    await fetchData();
+    fetchData(null, false);
   }
 
   handleChanger({ target: { name, value } }) {
@@ -27,34 +27,8 @@ class Wallet extends React.Component {
   }
 
   saveExpense() {
-    this.fetchApi();
-    this.currencyValue();
-  }
-
-  currencyValue() {
-    const { currency, value } = this.state;
-    const { toTotal, totalValue } = this.props;
-    const url = 'https://economia.awesomeapi.com.br/json/all';
-    fetch(url).then((response) => response.json())
-      .then((json) => {
-        toTotal(totalValue + json[currency].ask * value);
-      });
-  }
-
-  fetchApi() {
-    const { addExpense, failed, requisited, toTotal } = this.props;
-    const { currency, totalValue, value } = this.state;
-    const url = 'https://economia.awesomeapi.com.br/json/all';
-    requisited();
-    return fetch(url)
-      .then((result) => result.json())
-      .then((json) => {
-        const data = this.state;
-        data.exchangeRates = json;
-        return data;
-      })
-      .then((object) => addExpense(object))
-      .catch((error) => failed(error));
+    const { fetchData } = this.props;
+    fetchData(this.state, true);
   }
 
   render() {
@@ -152,8 +126,7 @@ class Wallet extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   addExpense: (expenses) => dispatch(addExpenses(expenses)),
   failed: (error) => dispatch(failedRequest(error)),
-  requisited: () => dispatch(request()),
-  fetchData: () => dispatch(fetchCurrency()),
+  fetchData: (a, b) => dispatch(fetchCurrency(a, b)),
   toTotal: (value) => dispatch(addTotal(value)),
 });
 
@@ -168,12 +141,8 @@ const mapStateToProps = (state) => ({
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   mapCurrency: PropTypes.arrayOf(PropTypes.string).isRequired,
-  addExpense: PropTypes.func.isRequired,
-  failed: PropTypes.func.isRequired,
-  requisited: PropTypes.func.isRequired,
   fetchData: PropTypes.func.isRequired,
   totalValue: PropTypes.number.isRequired,
-  toTotal: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

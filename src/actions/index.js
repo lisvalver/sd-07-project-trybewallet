@@ -15,11 +15,23 @@ export const addCurrency = (currency) => ({ type: ADD_CURRENCY, currency });
 export const ADD_TOTAL = 'ADD_TOTAL';
 export const addTotal = (value) => ({ type: ADD_TOTAL, value });
 
-export const fetchCurrency = () => (dispatch) => {
-  dispatch(request);
-  const URL = 'https://economia.awesomeapi.com.br/json/all';
-  return fetch(URL)
-    .then((response) => response.json())
-    .then((json) => dispatch(addCurrency(Object.keys(json))));
-};
 export default addEmail;
+
+export function fetchCurrency(localState, isAddExpense = true) {
+  return (dispatch) => {
+    dispatch(request());
+    const URL = 'https://economia.awesomeapi.com.br/json/all';
+    return fetch(URL)
+      .then((result) => result.json())
+      .then((json) => {
+        if (!isAddExpense) {
+          return dispatch(addCurrency(Object.keys(json)));
+        }
+        const addObj = {};
+        addObj.exchangeRates = json;
+        Object.assign(localState, addObj);
+        return dispatch(addExpenses(localState));
+      })
+      .catch((error) => dispatch(failedRequest(error)));
+  };
+}

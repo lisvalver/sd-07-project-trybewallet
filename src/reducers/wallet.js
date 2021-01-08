@@ -16,7 +16,6 @@ const INITIAL_STATE = {
 };
 
 function wallet(state = INITIAL_STATE, action) {
-  console.log(action);
   switch (action.type) {
   case ADD_EXPENSES:
     action.expenses.id = state.id;
@@ -25,6 +24,8 @@ function wallet(state = INITIAL_STATE, action) {
       expenses: [...state.expenses, action.expenses],
       id: state.id + 1,
       loading: false,
+      totalValue: +(parseFloat(state.totalValue + action.expenses.value
+        * action.expenses.exchangeRates[action.expenses.currency].ask).toFixed(2)),
     };
   case FAILED_REQUEST:
     return {
