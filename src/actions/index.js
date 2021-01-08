@@ -1,5 +1,7 @@
 // Coloque aqui suas actions
-export default signIn = (user) => ({
-  type: signIn,
+const signIn = (user) => ({
+  type: 'signIn',
   payload: user,
 });
+
+export default signIn;
