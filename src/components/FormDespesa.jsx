@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as Actions from '../actions';
+import * as api from '../services/api';
 
 class FormDespesa extends React.Component {
   constructor() {
@@ -9,6 +10,7 @@ class FormDespesa extends React.Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.sumExpenses = this.sumExpenses.bind(this);
 
     this.state = {
       value: 0,
@@ -30,6 +32,25 @@ class FormDespesa extends React.Component {
     } = this.state;
 
     putExpenses(value, description, currency, paymentMethod, category);
+    this.setState({
+      value: 0,
+      description: '',
+      currency: '',
+      paymentMethod: '',
+      category: '',
+    });
+
+    this.sumExpenses();
+  }
+
+  sumExpenses() {
+    const { wallet, sumAll } = this.props;
+    let sumValues = 0;
+    wallet.expenses.forEach(async (element) => {
+      const data = await api.fetchCurrency(element.currency);
+      sumValues += data[0].ask * element.value;
+    });
+    sumAll(sumValues);
   }
 
   handleChange({ target }) {
@@ -142,10 +163,23 @@ FormDespesa.propTypes = {
     }),
   ).isRequired,
   putExpenses: PropTypes.func.isRequired,
+  wallet: PropTypes.shape({
+    expenses: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+      }),
+    ),
+  }).isRequired,
+  sumAll: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   putExpenses: Actions.putExpenses,
+  sumAll: Actions.sumAll,
 };
 
-export default connect(null, mapDispatchToProps)(FormDespesa);
+const mapStateToProps = (state) => ({
+  wallet: state.wallet,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormDespesa);

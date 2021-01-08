@@ -1,6 +1,7 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 const CURRENCIES = 'CURRENCIES';
 const EXPENSES = 'EXPENSES';
+const SUM = 'SUM';
 
 const INITIAL_STATE = {
   user: {
@@ -11,14 +12,15 @@ const INITIAL_STATE = {
     expenses: [
       {
         id: -1,
-        value: '',
+        value: 0,
         description: '',
-        currency: '',
+        currency: 'USD',
         method: '',
         tag: '',
         exchangeRates: {},
       },
     ],
+    sum: 0,
   },
 };
 
@@ -49,6 +51,8 @@ const wallet = (state = INITIAL_STATE.wallet, action) => {
         },
       ],
     };
+  case SUM:
+    return { ...state, sum: action.payload };
   default:
     return state;
   }

@@ -2,7 +2,7 @@
 export function fetchAllCurrencies() {
   return new Promise((resolve) => {
     fetch(
-      'https://economia.awesomeapi.com.br/json/all/',
+      'https://economia.awesomeapi.com.br/json/all',
     ).then((response) => resolve(response.json()));
   });
 }
