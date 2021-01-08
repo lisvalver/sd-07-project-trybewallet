@@ -11,7 +11,7 @@ class WalletTable extends React.Component {
   }
 
   toConvertValue(expenseValue, exchange) {
-    const updatedValue = (Number(expenseValue) * Number(exchange)).toFixed(2);
+    const updatedValue = Number(expenseValue) * Number(exchange);
     return updatedValue;
   }
 
@@ -50,17 +50,15 @@ class WalletTable extends React.Component {
             <td>
               { this.toConvertValue(
                 expense.value, expense.exchangeRates[expense.currency].ask,
-              )}
+              ).toFixed(2) }
             </td>
             <td>Real</td>
             <td>
               <button
                 data-testid="delete-btn"
                 type="button"
-                onClick={ () => deleteExpenseProps(expense.id,
-                  this.toConvertValue(
-                    expense.value, expense.exchangeRates[expense.currency].ask,
-                  )) }
+                onClick={ () => deleteExpenseProps(expense.id) }
+
               >
                 Excluir
               </button>
@@ -76,7 +74,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteExpenseProps: (id, value) => dispatch(deleteExpense(id, value)) });
+  deleteExpenseProps: (id) => dispatch(deleteExpense(id)) });
 
 WalletTable.propTypes = {
   tableData: PropTypes.objectOf(PropTypes.number).isRequired,

@@ -14,6 +14,14 @@ const INITIAL_STATE = {
 
 };
 
+function getTotalValue(expenses) {
+  const totalValue = expenses.reduce((acc, expense) => acc
+    + Number(expense.value)
+      * Number(expense.exchangeRates[expense.currency].ask),
+  0);
+  return totalValue;
+}
+
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
   case REQUEST_CURRENCIES:
@@ -26,15 +34,14 @@ export default function (state = INITIAL_STATE, action) {
     return { ...state,
       expenses: [...state.expenses, action.expense],
       currentId: state.currentId + 1,
-      totalExpense: state.totalExpense
-      + Number(action.expense.value)
-      * Number(state.latestExchange[action.expense.currency].ask),
+      totalExpense: getTotalValue([...state.expenses, action.expense]),
     };
   case DELETE_EXPENSE:
     return { ...state,
       expenses: [...state.expenses.filter(({ id }) => id !== action.id)],
-      totalExpense: state.totalExpense
-      - Number(action.value),
+      totalExpense: getTotalValue(
+        [...state.expenses.filter(({ id }) => id !== action.id)],
+      ),
     };
   default:
     return state;
