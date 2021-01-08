@@ -12,6 +12,9 @@ export const request = () => ({ type: REQUEST });
 export const ADD_CURRENCY = 'ADD_CURRENCY';
 export const addCurrency = (currency) => ({ type: ADD_CURRENCY, currency });
 
+export const ADD_TOTAL = 'ADD_TOTAL';
+export const addTotal = (value) => ({ type: ADD_TOTAL, value });
+
 export const fetchCurrency = () => (dispatch) => {
   dispatch(request);
   const URL = 'https://economia.awesomeapi.com.br/json/all';

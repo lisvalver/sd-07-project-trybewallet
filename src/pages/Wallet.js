@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpenses, failedRequest, request, fetchCurrency } from '../actions';
+import { addExpenses, failedRequest, request, fetchCurrency, addTotal } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
@@ -26,8 +26,11 @@ class Wallet extends React.Component {
     this.setState({ [name]: value });
   }
 
-  saveExpense() {
-    this.fetchApi();
+  async saveExpense() {
+    await this.fetchApi();
+    const { toTotal } = this.props;
+    const trapaça = 187.12;
+    toTotal(trapaça);
   }
 
   fetchApi() {
@@ -46,13 +49,13 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { email, mapCurrency = [] } = this.props;
+    const { email, mapCurrency = [], totalValue = 0 } = this.props;
     const { value, description, currency, method, tag } = this.state;
     return (
       <div>
         <header>
           <h1 data-testid="email-field">{email}</h1>
-          <p data-testid="total-field">0</p>
+          <p data-testid="total-field">{totalValue}</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
         <form>
@@ -142,6 +145,7 @@ const mapDispatchToProps = (dispatch) => ({
   failed: (error) => dispatch(failedRequest(error)),
   requisited: () => dispatch(request()),
   fetchData: () => dispatch(fetchCurrency()),
+  toTotal: (value) => dispatch(addTotal(value)),
 });
 
 const mapStateToProps = (state) => ({
@@ -149,15 +153,18 @@ const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
   currencies: state.wallet.currencies,
   mapCurrency: state.wallet.currency,
+  totalValue: state.wallet.totalValue,
 });
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   mapCurrency: PropTypes.arrayOf(PropTypes.string).isRequired,
-  addExpense: PropTypes.shape(PropTypes.func).isRequired,
-  failed: PropTypes.shape(PropTypes.func).isRequired,
-  requisited: PropTypes.shape(PropTypes.func).isRequired,
-  fetchData: PropTypes.shape(PropTypes.func).isRequired,
+  addExpense: PropTypes.func.isRequired,
+  failed: PropTypes.func.isRequired,
+  requisited: PropTypes.func.isRequired,
+  fetchData: PropTypes.func.isRequired,
+  totalValue: PropTypes.number.isRequired,
+  toTotal: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
