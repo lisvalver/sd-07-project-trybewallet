@@ -2,7 +2,6 @@
 export const ADD_USER = 'ADD_USER';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const UPDATE_TOTAL_EXPENSE = 'UPDATE_TOTAL_EXPENSE';
-export const UPDATE_EXPENSE_TABLE = 'UPDATE_EXPENSE_TABLE';
 
 export const addUser = (email) => ({
   type: ADD_USER,
@@ -16,10 +15,5 @@ export const addExpense = (value) => ({
 
 export const updateTotalExpenses = (value) => ({
   type: UPDATE_TOTAL_EXPENSE,
-  value,
-});
-
-export const updateExpenseTable = (value) => ({
-  type: UPDATE_EXPENSE_TABLE,
   value,
 });

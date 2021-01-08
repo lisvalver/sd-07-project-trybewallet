@@ -3,45 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class Table extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      tableExpenses: [],
-    }
-
-    this.setTableData = this.setTableData.bind(this);
-  }
-
-  componentDidMount(){
-    console.log('componentDidMount')
-    this.setTableData();
-  }
-
-  // REVISAR TODO ESSE CÓDIGO. COMO ATUALIZAR A TABELA DINAMICAMENTE
-  setTableData() {
-    const { expenses } = this.props;
-    let tableData = []
-    expenses.forEach((data) => {
-      tableData = [...tableData,
-        {
-          descricao: data.description,
-          tag: data.tag,
-          pagamento: data.method,
-          valor: data.value,
-          moeda: data.currency,
-          // cambio,
-          // valorConvertido,
-          moedaConversao: 'BRL',
-        }
-      ]
-    })
-    this.setState({
-      tableExpenses: tableData,
-    })
-  }
-
-  render() {    
+  render() {
     return (
       <div>Tabela</div>
     );
@@ -49,11 +11,10 @@ class Table extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  expenses: state.wallet.expenses
-})
+  expenses: state.wallet.expenses,
+});
 
 export default connect(mapStateToProps)(Table);
-
 
 // Descrição -> Vem do state global (expenses[0].description)
 // Tag -> Vem do state global (expenses[0].tag)
