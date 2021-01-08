@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LoginForm } from '../Components'
+import { LoginForm } from '../Components';
 
 class Login extends React.Component {
   render() {
+    const { history } = this.props;
     return (
       <div>
-        <LoginForm history={ this.props.history }/>
+        <LoginForm history={ history }/>
       </div>
     );
   }
@@ -15,6 +16,5 @@ class Login extends React.Component {
 Login.propTypes = {
   history: PropTypes.objectOf.isRequired,
 };
-
 
 export default Login;

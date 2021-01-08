@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Login.css';
@@ -12,7 +13,7 @@ class LoginForm extends React.Component {
       senha: '',
     };
     this.onInputChange = this.onInputChange.bind(this);
-    this.login = this.login.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -35,10 +36,11 @@ class LoginForm extends React.Component {
     });
   }
 
-  login(event) {
+  handleSubmit(event) {
     event.preventDefault();
     const { email, senha } = this.state;
-    this.props.login({ email, senha });
+    const { login } = this.props;
+    login({ email, senha });
     const { history } = this.props;
     history.push('/carteira');
   }
@@ -78,7 +80,7 @@ class LoginForm extends React.Component {
               id="btn-entra"
               className="btn"
               type="submit"
-              onClick={ this.login }
+              onClick={ this.handleSubmit }
             >
               Entrar
             </button>
@@ -89,6 +91,13 @@ class LoginForm extends React.Component {
     );
   }
 }
+
+
+LoginForm.propTypes = {
+  history: PropTypes.objectOf.isRequired,
+  login:  PropTypes.func.isRequired,
+};
+
 
 const mapDispatchToProps = (dispatch) => ({
   login: (email, senha) => dispatch(signIn({ email, senha })),
