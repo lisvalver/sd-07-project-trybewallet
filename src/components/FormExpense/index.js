@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpense, getCurrencies } from '../../actions';
+import { addExpense, getCurrencies, editExpense } from '../../actions';
 
 class FormExpense extends React.Component {
   constructor(props) {
@@ -28,8 +28,9 @@ class FormExpense extends React.Component {
   }
 
   render() {
-    const { currencies, addExpenseProp } = this.props;
+    const { currencies, addExpenseProp, editing, editExpenseProp } = this.props;
     const { value, description, currency, method, tag } = this.state;
+    const verifyEdit = -1;
     return (
       <div>
         <form action="">
@@ -83,9 +84,18 @@ class FormExpense extends React.Component {
             <option value="Transporte">Transporte</option>
             <option value="Saúde">Saúde</option>
           </select>
-          <button type="button" onClick={ () => addExpenseProp(this.state) }>
-            Adicionar despesa
-          </button>
+          {editing === verifyEdit ? (
+            <button type="button" onClick={ () => addExpenseProp(this.state) }>
+              Adicionar despesa
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={ () => editExpenseProp(editing, this.state) }
+            >
+              Editar despesa
+            </button>
+          )}
         </form>
       </div>
     );
@@ -94,11 +104,13 @@ class FormExpense extends React.Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  editing: state.wallet.editing,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrenciesProp: () => dispatch(getCurrencies()),
   addExpenseProp: (data) => dispatch(addExpense(data)),
+  editExpenseProp: (id, data) => dispatch(editExpense(id, data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormExpense);
@@ -106,5 +118,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(FormExpense);
 FormExpense.propTypes = {
   getCurrenciesProp: PropTypes.func.isRequired,
   addExpenseProp: PropTypes.func.isRequired,
+  editExpenseProp: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
+  editing: PropTypes.number.isRequired,
 };

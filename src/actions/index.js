@@ -4,6 +4,8 @@ export const SET_EMAIL = 'SET_EMAIL';
 export const SET_CURRENCIES = 'SET_CURRENCIES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const EDIT_MODE = 'EDIT_MODE';
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 
 export const setEmail = (email) => ({
   type: SET_EMAIL,
@@ -23,6 +25,17 @@ export const setExpense = (expense) => ({
 export const deleteExpense = (id) => ({
   type: DELETE_EXPENSE,
   id,
+});
+
+export const editMode = (id) => ({
+  type: EDIT_MODE,
+  id,
+});
+
+export const editExpense = (id, expense) => ({
+  type: EDIT_EXPENSE,
+  id,
+  expense,
 });
 
 export function getCurrencies() {
