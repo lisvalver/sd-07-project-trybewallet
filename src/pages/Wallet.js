@@ -29,8 +29,7 @@ class Wallet extends React.Component {
     const { expenses, value, description, currency, method, tag, total } = this.state;
     const exchangeRates = await fetch(url)
       .then((item) => item.json());
-    console.log(value);
-    console.log(total);
+
     let sum = total;
     sum += parseFloat(value);
     // this.setState({ exchangeRates, total})
@@ -71,7 +70,6 @@ class Wallet extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { email } = this.props;
     const { total } = this.state;
     return (
@@ -79,7 +77,6 @@ class Wallet extends React.Component {
         <header>
           <p data-testid="email-field">
             {email}
-            {' '}
           </p>
           <p>Despesa Total: </p>
           <p data-testid="total-field">{total}</p>
@@ -118,7 +115,7 @@ class Wallet extends React.Component {
             </label>
             <label htmlFor="currency">
               Choose a currency:
-              <select id="currencies" data-testid="currency-input">
+              <select id="currencies" data-testid="currencyInput">
                 {this.currencies()}
               </select>
             </label>
