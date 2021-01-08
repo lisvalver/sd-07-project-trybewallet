@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { fetchData, newExpense } from '../actions';
+import Table from '../components/Table';
 
 class Wallet extends React.Component {
   constructor() {
@@ -170,6 +171,7 @@ class Wallet extends React.Component {
         <button type="button" onClick={ this.handleSubmit }>
           Adicionar Despesa
         </button>
+        <Table />
       </div>
     );
   }
