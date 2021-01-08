@@ -26,15 +26,24 @@ class Wallet extends React.Component {
     this.setState({ [name]: value });
   }
 
-  async saveExpense() {
-    await this.fetchApi();
-    const { toTotal } = this.props;
-    const trapaça = 187.12;
-    toTotal(trapaça);
+  saveExpense() {
+    this.fetchApi();
+    this.currencyValue();
+  }
+
+  currencyValue() {
+    const { currency, value } = this.state;
+    const { toTotal, totalValue } = this.props;
+    const url = 'https://economia.awesomeapi.com.br/json/all';
+    fetch(url).then((response) => response.json())
+      .then((json) => {
+        toTotal(totalValue + json[currency].ask * value);
+      });
   }
 
   fetchApi() {
-    const { addExpense, failed, requisited } = this.props;
+    const { addExpense, failed, requisited, toTotal } = this.props;
+    const { currency, totalValue, value } = this.state;
     const url = 'https://economia.awesomeapi.com.br/json/all';
     requisited();
     return fetch(url)
