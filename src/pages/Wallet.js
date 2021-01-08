@@ -117,7 +117,15 @@ class Wallet extends React.Component {
             Choose a currency:
             {/* </label> */}
 
-            <select id="currencies" data-testid="currency-input">
+            <select
+              id="currencies"
+              data-testid="currency-input"
+              onChange={ ({ target }) => {
+                this.setState({
+                  currency: target.value,
+                });
+              } }
+            >
               {this.currencies()}
             </select>
 
