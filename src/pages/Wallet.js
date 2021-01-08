@@ -131,7 +131,7 @@ class Wallet extends React.Component {
           id="selectedCurrency"
           name="currency"
           type="text"
-          data-testid="description-input"
+          data-testid="currency-input"
           value={ currency }
           onChange={ this.handleChange }
         >
