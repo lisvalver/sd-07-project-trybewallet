@@ -5,6 +5,7 @@ import {
   FETCH_FAIL,
   NEW_EXPENSE,
   DELETE_EXPENSE,
+  UPDATE_EXPENSES,
 } from '../actions';
 
 const initialState = {
@@ -35,6 +36,8 @@ const wallet = (state = initialState, action) => {
   case DELETE_EXPENSE:
     return { ...state,
       expenses: [...state.expenses.filter((expense) => expense.id !== action.id)] };
+  case UPDATE_EXPENSES:
+    return { ...state, expenses: action.expenses };
   default: return state;
   }
 };

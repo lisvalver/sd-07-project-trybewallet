@@ -74,7 +74,7 @@ class Wallet extends React.Component {
     );
   }
 
-  updateTotalExpenses() {
+  updateTotalExpensesFromAddBtn() {
     const exchange = this.filterCurrencies();
     const {
       form: { value, currency },
@@ -87,7 +87,7 @@ class Wallet extends React.Component {
   }
 
   handleSubmit() {
-    this.updateTotalExpenses();
+    this.updateTotalExpensesFromAddBtn();
     this.updateFormState();
   }
 
@@ -100,25 +100,36 @@ class Wallet extends React.Component {
       <div>
         <header>
           <div>
-            <p data-testid="email-field">{ email }</p>
+            <p data-testid="email-field">
+              Olá,
+              {' '}
+              { email }
+            </p>
           </div>
           <div>
-            <p data-testid="total-field">{ totalExpenses }</p>
-          </div>
-          <div>
-            <p data-testid="header-currency-field">BRL</p>
+            <p data-testid="total-field">
+              Suas despesas totais são:
+              {' '}
+              { totalExpenses }
+              <span data-testid="header-currency-field">
+                {' '}
+                BRL
+              </span>
+            </p>
           </div>
         </header>
         Valor:
+        {' '}
         <input
           id="expenseValue"
           name="value"
-          type="number"
+          type="text"
           data-testid="value-input"
           value={ value }
           onChange={ this.handleChange }
         />
         Descrição:
+        {' '}
         <input
           id="description"
           name="description"
@@ -128,6 +139,7 @@ class Wallet extends React.Component {
           onChange={ this.handleChange }
         />
         Moeda:
+        {' '}
         <select
           id="selectedCurrency"
           name="currency"

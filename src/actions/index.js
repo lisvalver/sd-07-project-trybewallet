@@ -5,6 +5,7 @@ export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAIL = 'FETCH_FAIL';
 export const NEW_EXPENSE = 'NEW_EXPENSE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const UPDATE_EXPENSES = 'UPDATE_EXPENSES';
 
 export const saveEmail = (email) => ({
   type: LOGIN,
@@ -33,4 +34,8 @@ export const newExpense = (value) => ({
 
 export const excludeExpense = (id) => ({
   type: DELETE_EXPENSE, id,
+});
+
+export const updateExpenses = (expenses) => ({
+  type: UPDATE_EXPENSES, expenses,
 });

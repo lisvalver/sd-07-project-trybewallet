@@ -2,11 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
-import { excludeExpense } from '../actions';
+import { excludeExpense, updateExpenses } from '../actions';
 
 class Table extends React.Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(id) {
+    const { expenses, deleteExpense } = this.props;
+    deleteExpense(id);
+    updateExpenses(expenses);
+  }
+
   render() {
-    const { deleteExpense, expenses } = this.props;
+    const { expenses } = this.props;
     return (
       <div>
         <table>
@@ -40,7 +51,7 @@ class Table extends React.Component {
                   <button
                     type="button"
                     data-testid="delete-btn"
-                    onClick={ () => deleteExpense(e.id) }
+                    onClick={ () => this.handleClick(e.id) }
                   >
                     X
                   </button>
