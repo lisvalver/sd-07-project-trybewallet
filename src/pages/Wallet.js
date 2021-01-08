@@ -32,7 +32,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { email, mapCurrency = [], totalValue = 0 } = this.props;
+    const { email, mapCurrency = [], totalValue = 0, expenses } = this.props;
     const { value, description, currency, method, tag } = this.state;
     return (
       <div>
@@ -118,6 +118,40 @@ class Wallet extends React.Component {
           </label>
           <input type="button" value="Adicionar despesa" onClick={ this.saveExpense } />
         </form>
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+            {expenses.map((item) => (
+              <tr key={ item.id }>
+                <td>{item.description}</td>
+                <td>{item.tag}</td>
+                <td>{item.method}</td>
+                <td>{item.value}</td>
+                <td>{item.exchangeRates[item.currency].name}</td>
+                <td>{(item.exchangeRates[item.currency].ask * 1).toFixed(2)}</td>
+                <td>
+                  {(item.exchangeRates[item.currency].ask * item.value).toFixed(2) }
+                </td>
+                <td>Real</td>
+                <td>
+                  <input type="button" data-testid="delete-btn" value="Delete" />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
@@ -143,6 +177,7 @@ Wallet.propTypes = {
   mapCurrency: PropTypes.arrayOf(PropTypes.string).isRequired,
   fetchData: PropTypes.func.isRequired,
   totalValue: PropTypes.number.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
