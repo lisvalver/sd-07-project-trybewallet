@@ -4,7 +4,6 @@ export const CREATE_EMAIL = 'CREATE_EMAIL';
 export const CREATE_EXPENSE = 'CREATE_EXPENSE';
 export const REQUEST_SUCCESS = 'REQUEST_SUCCESS';
 export const IS_FETCHING = 'IS_FETCHING';
-export const TOTAL_VALUE = 'TOTAL_VALUE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 export const EDIT_START = 'EDIT_START';
 export const EDIT_END = 'EDIT_END';
@@ -34,13 +33,6 @@ const requestSuccess = (currencies) => (
   {
     type: REQUEST_SUCCESS,
     currencies,
-  }
-);
-
-export const totalExpense = (expense) => (
-  {
-    type: TOTAL_VALUE,
-    expense,
   }
 );
 

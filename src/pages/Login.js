@@ -9,10 +9,7 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.verifyEmail = this.verifyEmail.bind(this);
-    this.verifyPassword = this.verifyPassword.bind(this);
     this.verifyLogin = this.verifyLogin.bind(this);
-    this.currency = this.currency.bind(this);
 
     this.state = {
       email: '',
@@ -20,37 +17,22 @@ class Login extends React.Component {
     };
   }
 
-  verifyEmail() {
-    const { email } = this.state;
-    const r = /^(\s?[^\s,]+@[^\s,]+\.[^\s,]+\s?,)*(\s?[^\s,]+@[^\s,]+\.[^\s,]+)$/;
-    const validateEmail = r.test(email);
-    return validateEmail;
-  }
-
-  verifyPassword() {
-    const { password } = this.state;
+  verifyLogin() {
+    const { email, password } = this.state;
+    const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    const validateEmail = regexEmail.test(email);
     const SIX = 6;
     const validatePassword = password.length >= SIX;
-    return validatePassword;
-  }
 
-  verifyLogin() {
-    const verifyEmail = this.verifyEmail();
-    const verifyPassword = this.verifyPassword();
-
-    if (verifyEmail && verifyPassword) {
+    if (validateEmail && validatePassword) {
       return false;
     }
     return true;
   }
 
-  currency(email) {
-    const { send } = this.props;
-    send(email);
-  }
-
   render() {
     const { email } = this.state;
+    const { send } = this.props;
 
     return (
       <div>
@@ -73,7 +55,7 @@ class Login extends React.Component {
             <button
               type="button"
               disabled={ this.verifyLogin() }
-              onClick={ () => this.currency(email) }
+              onClick={ () => send(email) }
             >
               Entrar
             </button>
