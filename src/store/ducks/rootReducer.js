@@ -5,5 +5,5 @@ import wallet from './wallet';
 
 export default combineReducers({
   user,
-  wallet
+  wallet,
 });
