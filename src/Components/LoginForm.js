@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Login.css';
-import signIn from '../actions';
+import { signIn } from '../actions';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -38,10 +38,9 @@ class LoginForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { email, senha } = this.state;
-    const { login } = this.props;
-    login({ email, senha });
-    const { history } = this.props;
+    const { history, login } = this.props;
+    const { email } = this.state;
+    login(email);
     history.push('/carteira');
   }
 
@@ -98,6 +97,6 @@ LoginForm.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  login: (email, senha) => dispatch(signIn({ email, senha })),
+  login: (email) => dispatch(signIn(email)),
 });
 export default connect(null, mapDispatchToProps)(LoginForm);

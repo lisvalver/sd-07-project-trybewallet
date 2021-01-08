@@ -1,7 +1,2 @@
-// Coloque aqui suas actions
-const signIn = (user) => ({
-  type: 'signIn',
-  payload: user,
-});
-
-export default signIn;
+export { default as signIn } from './signIn';
+export { default as wallet } from './wallet';
