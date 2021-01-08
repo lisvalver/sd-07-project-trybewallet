@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import DropDown from './DropDown';
+import configPaymentMethod from '../configs/paymentMethod';
 
 class ExpenseForm extends Component {
   constructor() {
@@ -10,7 +12,7 @@ class ExpenseForm extends Component {
       value: '',
       description: '',
       // currency: 'BRL',
-      // paymentMethod: 'Dinheiro',
+      paymentMethod: 'Dinheiro',
       // categoty: 'Alimentação',
     };
   }
@@ -21,7 +23,7 @@ class ExpenseForm extends Component {
   }
 
   render() {
-    const { value, description } = this.state;
+    const { value, description, paymentMethod } = this.state;
     return (
       <div>
         <form>
@@ -46,6 +48,13 @@ class ExpenseForm extends Component {
               data-testid="description-input"
             />
           </label>
+
+          <DropDown
+            id="paymentMethod"
+            options={ configPaymentMethod }
+            selectValue={ paymentMethod }
+            handleChange={ this.handleChange }
+          />
         </form>
       </div>
     );
