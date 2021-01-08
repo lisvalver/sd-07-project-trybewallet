@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Wallet extends React.Component {
@@ -10,17 +11,25 @@ class Wallet extends React.Component {
   }
 
   render() {
-    return(
+    const { email, currencies } = this.props;
+    const { atualExpenses } = this.state;
+
+    return (
       <div>
         <header>
-          <h3 data-testid="email-field">{ this.props.email }</h3>
-          <h4 data-testid="total-field">{ this.state.atualExpenses }</h4>
-          <h4 data-testid="header-currency-field">{ this.props.currencies }</h4>
+          <h3 data-testid="email-field">{ email }</h3>
+          <h4 data-testid="total-field">{ atualExpenses }</h4>
+          <h4 data-testid="header-currency-field">{ currencies }</h4>
         </header>
       </div>
     );
   }
 }
+
+Wallet.propTypes = {
+  email: PropTypes.string.isRequired,
+  currencies: PropTypes.arrayOf.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
