@@ -88,8 +88,16 @@ class Wallet extends React.Component {
 
   cled(obj) {
     const { editei } = this.props;
-    const { value, description, currency, method, tag } = this.state;
-    const object = { id: obj.id, value, description, currency, method, tag };
+    const { value, api, description, currency, method, tag } = this.state;
+    const object = {
+      id: obj.id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: api,
+    };
     editei(object);
     this.setState({
       edit: false,
