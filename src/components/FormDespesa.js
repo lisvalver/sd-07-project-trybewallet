@@ -8,12 +8,14 @@ class FormDespesa extends Component {
     super();
     this.handleAddExpense = this.handleAddExpense.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    // this.filteredCurrencies = this.filteredCurrencies.bind(this);
     this.state = {
       id: 0,
       value: '',
       description: '',
       method: '',
       category: '',
+      exchangeRates: {},
     };
   }
 
@@ -22,23 +24,57 @@ class FormDespesa extends Component {
     getAllCurrencies();
   }
 
+  removingUSDT(arrayOfObjects) {
+    const currenciesWithoutUSDT = Object.entries(arrayOfObjects[0])
+      .filter((value) => value[0] !== 'USDT')
+      .map((newValue) => newValue[0]);
+
+    return currenciesWithoutUSDT;
+  }
+
   handleChange(field, newValue) {
     this.setState({ [field]: newValue });
   }
 
   handleAddExpense() {
-    const { addExpense } = this.props;
-    addExpense(this.state);
+    const { addExpense, currencies } = this.props;
+    const allCurrencies = currencies[0];
+    // const { currency } = this.state;
+    // console.log(allCurrencies);
+    this.setState(
+      () => ({ exchangeRates: allCurrencies }),
+      () => {
+        addExpense(this.state);
+        this.setState((previousState) => ({
+          id: previousState.id + 1,
+          value: '',
+          description: '',
+          method: '',
+          category: '',
+          exchangeRates: {},
+        }));
+      },
+    );
+    console.log(this.state);
+    // addExpense(this.state);
+    // console.log(allCurrencies[currency]);
   }
+  /*
+  filteredCurrencies() {
+    const { currencies } = this.props;
+    console.log(currencies);
+    return currencies[0].filter();
+  } */
 
   render() {
-    const { value, description, method, category } = this.state;
+    // console.log(this.props);
+    const { value, description, method, category, currency } = this.state;
     const { currencies } = this.props;
     let arrayCurrencies;
     if (currencies.length > 0) {
-      // console.log(currencies[0]);
-      // console.log(Object.keys(currencies[0]));
-      arrayCurrencies = Object.keys(currencies[0]);
+      // arrayCurrencies = Object.keys(currencies[0]);
+      arrayCurrencies = this.removingUSDT(currencies);
+      // console.log(this.state);
     } else {
       arrayCurrencies = [];
     }
@@ -60,17 +96,19 @@ class FormDespesa extends Component {
         <select
           id="moeda"
           data-testid="currency-input"
+          value={ currency }
+          onChange={ (event) => this.handleChange('currency', event.target.value) }
         >
           {
             arrayCurrencies.length === 0
               ? null
               : arrayCurrencies.map(
-                (currency) => (
+                (itemCurrency) => (
                   <option
-                    key={ currency }
-                    data-testid={ currency }
+                    key={ itemCurrency }
+                    data-testid={ itemCurrency }
                   >
-                    {currency}
+                    {itemCurrency}
                   </option>
                 ),
               )
@@ -125,7 +163,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 FormDespesa.propTypes = {
-  currencies: PropTypes.arrayOf().isRequired,
+  currencies: PropTypes.arrayOf(String).isRequired,
   getAllCurrencies: PropTypes.func.isRequired,
   addExpense: PropTypes.func.isRequired,
 };
