@@ -1,8 +1,5 @@
 import { requestCurrencies, failedRequest, listCurrencies } from '../actions';
 
-const handleCurrencies = (object) => Object.values(object)
-  .filter((currency) => currency.name !== 'Dólar Turismo');
-
 const fetchCurrencies = () => {
   const endpoint = 'https://economia.awesomeapi.com.br/json/all';
   return async (dispatch) => {
@@ -10,8 +7,7 @@ const fetchCurrencies = () => {
     try {
       const response = await fetch(endpoint);
       const object = await response.json();
-      const currencies = handleCurrencies(object);
-      dispatch(listCurrencies(currencies));
+      dispatch(listCurrencies(object));
     } catch (error) {
       dispatch(failedRequest(error));
     }

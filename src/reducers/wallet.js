@@ -7,7 +7,7 @@ import {
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
-  totalExpenses: 0,
+  totalExpenses: 0.00,
 };
 
 const walletReducer = (state = INITIAL_STATE, action) => {
@@ -15,7 +15,10 @@ const walletReducer = (state = INITIAL_STATE, action) => {
   case ADD_EXPENSE:
     return { ...state, expenses: [...state.expenses, action.payload] };
   case TOTAL_EXPENSE:
-    return { ...state, totalExpenses: state.totalExpenses + action.payload };
+    return {
+      ...state,
+      totalExpenses: state.totalExpenses + Number.parseFloat(action.payload),
+    };
   case LIST_CURRENCIES:
     return { ...state, currencies: action.payload };
   default:

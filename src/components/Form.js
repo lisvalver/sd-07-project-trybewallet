@@ -11,9 +11,9 @@ class Form extends Component {
     this.state = {
       valueInput: 0,
       description: '',
-      currency: 'USD',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
+      currency: '',
+      method: '',
+      tag: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -24,13 +24,6 @@ class Form extends Component {
     });
   }
 
-  mapExchange() {
-    const { currencies } = this.props;
-    return currencies.map((currency) => ({
-      [currency.code]: currency,
-    }));
-  }
-
   handleSubmit(event) {
     event.preventDefault();
     const { valueInput, description, currency, method, tag } = this.state;
@@ -39,6 +32,7 @@ class Form extends Component {
       dispatchAddExpense,
       dispatchTotalExpense,
       expenses,
+      currencies,
     } = this.props;
     dispatchFetchCurrencies();
     const expense = {
@@ -48,10 +42,11 @@ class Form extends Component {
       currency,
       method,
       tag,
-      exchangeRates: this.mapExchange(),
+      exchangeRates: currencies,
     };
     dispatchAddExpense(expense);
-    dispatchTotalExpense(valueInput);
+    const exchangeRate = currencies[currency].ask;
+    dispatchTotalExpense(valueInput * exchangeRate);
   }
 
   render() {
@@ -88,13 +83,18 @@ class Form extends Component {
               data-testid="currency-input"
               name="currency"
               id="currency"
-              onClick={ (e) => this.handleInputEvent(e) }
+              onChange={ (e) => this.handleInputEvent(e) }
             >
-              { currencies
-                .map(({ code }) => (
-                  <option key={ code } value={ code } data-testid={ code }>
-                    { code }
-                  </option>)) }
+              { Object.values(currencies)
+                .map(({ code, name }) => {
+                  if (name !== 'Dólar Turismo') {
+                    return (
+                      <option key={ code } value={ code } data-testid={ code }>
+                        { code }
+                      </option>);
+                  }
+                  return null;
+                }) }
             </select>
           </label>
           <label htmlFor="method">
@@ -103,7 +103,7 @@ class Form extends Component {
               data-testid="method-input"
               name="method"
               id="method"
-              onClick={ (e) => this.handleInputEvent(e) }
+              onChange={ (e) => this.handleInputEvent(e) }
             >
               <option
                 value="Dinheiro"
@@ -128,7 +128,7 @@ class Form extends Component {
               data-testid="tag-input"
               name="tag"
               id="tag"
-              onClick={ (e) => this.handleInputEvent(e) }
+              onChange={ (e) => this.handleInputEvent(e) }
             >
               <option
                 value="Alimentação"
