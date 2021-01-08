@@ -8,15 +8,16 @@ class Wallet extends React.Component {
     super(props);
     this.currencies = this.currencies.bind(this);
     this.addExpenseButton = this.addExpenseButton.bind(this);
+    this.zerarCampos = this.zerarCampos.bind(this);
     this.state = {
       total: 0,
       list: [],
       expenses: [],
       value: 0,
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     };
   }
 
@@ -30,19 +31,22 @@ class Wallet extends React.Component {
     const exchangeRates = await fetch(url)
       .then((item) => item.json());
 
-    let sum = total;
-    sum += parseFloat(value);
-    // this.setState({ exchangeRates, total})
-    const newExpense = {
-      id: expenses.length,
-      value,
-      description,
-      currency,
-      method,
-      tag,
-      exchangeRates,
-    };
-    expenses.push(newExpense);
+      
+      // this.setState({ exchangeRates, total})
+      const newExpense = {
+        id: expenses.length,
+        value,
+        description,
+        currency,
+        method,
+        tag,
+        exchangeRates,
+      };
+      expenses.push(newExpense);
+      let sum = expenses.reduce((acumulador, valorAtual) => {
+        return valorAtual.value * valorAtual.exchangeRates[currency].ask + acumulador;
+      }, 0);
+      sum = sum.toFixed(2);
     this.setState({
       expenses,
       total: sum,
@@ -50,7 +54,17 @@ class Wallet extends React.Component {
     const { adicionarDespesa } = this.props;
     adicionarDespesa(expenses);
     // salvarDespesas(expenses);
+    this.zerarCampos();
+
   }
+  zerarCampos() {
+    document.getElementById('new_expense_value').value = 0;
+    document.getElementById('new_expense_description').value = '';
+    document.getElementById('currencies').value = 'USD';
+    document.getElementById('payment_method').value = 'Dinheiro';
+    document.getElementById('tag').value = 'alimentacao';
+  }
+
 
   currencies() {
     const { list } = this.state;
@@ -70,7 +84,7 @@ class Wallet extends React.Component {
 
   render() {
     const { email } = this.props;
-    const { total } = this.state;
+    const { total, value } = this.state;
     return (
       <div>
         <header>
@@ -88,6 +102,7 @@ class Wallet extends React.Component {
               Valor:
               <input
                 type="number"
+                value={value}
                 name="new_expense_value"
                 id="new_expense_value"
                 data-testid="value-input"
@@ -140,8 +155,8 @@ class Wallet extends React.Component {
                 } }
               >
                 <option value="Dinheiro">Dinheiro</option>
-                <option value="credit_card">Cartão de crédito</option>
-                <option value="debit_card">Cartão de débito</option>
+                <option value="Cartão de crédito">Cartão de crédito</option>
+                <option value="Cartão de débito">Cartão de débito</option>
               </select>
             </label>
 
@@ -149,18 +164,18 @@ class Wallet extends React.Component {
               Categoria:
               <select
                 data-testid="tag-input"
-                id="tag"
+                id="tag"  
                 onChange={ ({ target }) => {
                   this.setState({
                     tag: target.value,
                   });
                 } }
               >
-                <option value="alimentacao">Alimentação</option>
-                <option value="lazer">Lazer</option>
-                <option value="trabalho">Trabalho</option>
-                <option value="transporte">Transporte</option>
-                <option value="saude">Saúde</option>
+                <option value="Alimentacao">Alimentação</option>
+                <option value="Lazer">Lazer</option>
+                <option value="Trabalho">Trabalho</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Saude">Saúde</option>
               </select>
             </label>
             <button
