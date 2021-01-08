@@ -11,16 +11,7 @@ const INITIAL_STATE = {
   },
 };
 
-// const user = (state = INITIAL_STATE, action) => {
-//   switch (action.type) {
-//   case SIGN_IN:
-//     return { ...state, user: { email: action.payload } };
-//   default:
-//     return state;
-//   }
-// };
-
-const user = (state = INITIAL_STATE, action) => {
+const user = (state = INITIAL_STATE.user, action) => {
   switch (action.type) {
   case SIGN_IN:
     return { ...state, email: action.payload };

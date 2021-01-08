@@ -116,6 +116,7 @@ class FormDespesa extends React.Component {
               onChange={ this.handleChange }
             >
               <option>Escolha</option>
+              <option>Alimentação</option>
               <option>Lazer</option>
               <option>Trabalho</option>
               <option>Transporte</option>

@@ -1,7 +1,6 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 const CURRENCIES = 'CURRENCIES';
 const EXPENSES = 'EXPENSES';
-// const CURRENCIES_EXPENSES = 'CURRENCIES_EXPENSES';
 
 const INITIAL_STATE = {
   user: {
@@ -23,7 +22,7 @@ const INITIAL_STATE = {
   },
 };
 
-const wallet = (state = INITIAL_STATE, action) => {
+const wallet = (state = INITIAL_STATE.wallet, action) => {
   let allCurrencies;
 
   switch (action.type) {
@@ -32,27 +31,23 @@ const wallet = (state = INITIAL_STATE, action) => {
       (element) => element.codein !== 'BRLT',
     );
     return {
-      ...state,
-      wallet: { ...state.wallet, currencies: [...allCurrencies] },
+      ...state, currencies: [...allCurrencies],
     };
   case EXPENSES:
     return {
       ...state,
-      wallet: {
-        ...state.wallet,
-        expenses: [
-          ...state.wallet.expenses,
-          {
-            id:
-              state.wallet.expenses[state.wallet.expenses.length - 1].id + 1,
-            value: action.value,
-            description: action.description,
-            currency: action.currency,
-            method: action.method,
-            tag: action.tag,
-          },
-        ],
-      },
+      expenses: [
+        ...state.expenses,
+        {
+          id:
+            state.expenses[state.expenses.length - 1].id + 1,
+          value: action.value,
+          description: action.description,
+          currency: action.currency,
+          method: action.method,
+          tag: action.tag,
+        },
+      ],
     };
   default:
     return state;

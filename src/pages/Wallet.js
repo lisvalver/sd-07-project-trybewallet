@@ -64,8 +64,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user, // nome do reducer depois do estado dele
-  wallet: state.wallet.wallet, // nome do reducer depois do estado dele
+  user: state.user,
+  wallet: state.wallet,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
