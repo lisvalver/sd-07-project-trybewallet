@@ -1,9 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from 'react-bulma-components';
 import { login } from '../actions';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import '../index.css';
 
 class Login extends React.Component {
@@ -48,11 +46,10 @@ class Login extends React.Component {
     const { email, password, isDisabled } = this.state;
     return (
       <div>
-        <h1 className="title is-2">WALLET APP</h1>
-        <div className="columns is-desktop">
+        <h1>WALLET APP</h1>
+        <div>
           <form onSubmit={ this.handleSignUp }>
             <input
-              className="input is-success level-item"
               type="email"
               placeholder="E-mail"
               name="email"
@@ -61,7 +58,6 @@ class Login extends React.Component {
               onChange={ this.handleChange }
             />
             <input
-              className="input is-success level-item"
               type="password"
               placeholder="Password"
               name="password"
@@ -70,13 +66,12 @@ class Login extends React.Component {
               onChange={ this.handleChange }
             />
             <br />
-            <Button
-              class="button is-fullwidth button is-success"
+            <button
               type="submit"
               disabled={ isDisabled }
             >
               Entrar
-            </Button>
+            </button>
           </form>
         </div>
       </div>

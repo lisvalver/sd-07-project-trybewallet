@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'react-bulma-components';
 import propTypes from 'prop-types';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { deleteExpense, editingExpense as editExpense } from '../actions';
 
 const titles = ['Descrição', 'Tag', 'Método de pagamento', 'Valor', 'Moeda',
@@ -35,7 +33,7 @@ class Table extends React.Component {
   render() {
     const { expenses, editingExpense } = this.props;
     return (
-      <table className="table" id="tbl" border="1">
+      <table id="tbl" border="1">
         <thead>
           <tr>
             {titles.map((title) => <td key={ title }>{ title }</td>)}
@@ -57,24 +55,22 @@ class Table extends React.Component {
                 <td>{ convertedValue.toFixed(2) }</td>
                 <td>Real</td>
                 <td>
-                  <Button
-                    class="button is-success"
+                  <button
                     type="button"
                     data-testid="edit-btn"
                     onClick={ () => this.handleEditing(expense.id) }
                     disabled={ editingExpense }
                   >
                     Editar
-                  </Button>
-                  <Button
-                    class="button is-danger"
+                  </button>
+                  <button
                     type="button"
                     data-testid="delete-btn"
                     onClick={ () => this.handleDelete(expense.id) }
                     disabled={ editingExpense }
                   >
                     Excluir
-                  </Button>
+                  </button>
                 </td>
               </tr>
             );

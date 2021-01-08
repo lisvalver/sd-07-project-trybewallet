@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Form from '../components/Form';
 import Header from '../components/header';
 import Table from '../components/Table';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import '../index.css';
 
 class Wallet extends React.Component {

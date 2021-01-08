@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'react-bulma-components';
 import propTypes from 'prop-types';
 import { addExpenseThunk, fetchCurrencies, editExpense } from '../actions';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 const paymentMethods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
 const expensesCategories = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
@@ -63,12 +61,11 @@ class Form extends React.Component {
     const { value, description, currency, method, tag } = this.state;
     const { currencies, editingExpense } = this.props;
     return (
-      <div className="field">
+      <div>
         <form onSubmit={ this.handleSubmit }>
-          <label className="label" htmlFor="value">
+          <label htmlFor="value">
             Valor:
             <input
-              className="input is-success"
               type="number"
               id="value"
               name="value"
@@ -77,10 +74,9 @@ class Form extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-          <label className="label" htmlFor="description">
+          <label htmlFor="description">
             Descrição:
             <input
-              className="input is-success"
               type="text"
               id="description"
               name="description"
@@ -89,10 +85,9 @@ class Form extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-          <label className="label" htmlFor="currency">
+          <label htmlFor="currency">
             Moeda:
             <select
-              className="input is-success"
               data-testid="currency-input"
               id="currency"
               name="currency"
@@ -107,10 +102,9 @@ class Form extends React.Component {
                 ))}
             </select>
           </label>
-          <label className="label" htmlFor="method">
+          <label htmlFor="method">
             Método de pagamento:
             <select
-              className="input is-success"
               data-testid="method-input"
               id="method"
               name="method"
@@ -125,10 +119,9 @@ class Form extends React.Component {
                 ))}
             </select>
           </label>
-          <label className="label" htmlFor="tag">
+          <label htmlFor="tag">
             Categoria:
             <select
-              className="input is-success"
               data-testid="tag-input"
               id="tag"
               name="tag"
@@ -144,8 +137,8 @@ class Form extends React.Component {
             </select>
           </label>
           {editingExpense !== ''
-            ? <Button color="success" type="submit">Editar despesa</Button>
-            : <Button color="success" type="submit"> Adicionar despesa</Button>}
+            ? <button type="submit">Editar despesa</button>
+            : <button type="submit"> Adicionar despesa</button>}
         </form>
       </div>
     );
