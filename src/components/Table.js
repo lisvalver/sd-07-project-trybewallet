@@ -10,10 +10,15 @@ class Table extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(id) {
-    const { expenses, deleteExpense } = this.props;
-    deleteExpense(id);
-    updateExpenses(expenses);
+  async handleClick(id) {
+    const { deleteExpense } = this.props;
+    await deleteExpense(id);
+    this.updateHelper();
+  }
+
+  updateHelper() {
+    const { expenses, updateExpensesProps } = this.props;
+    updateExpensesProps(expenses);
   }
 
   render() {
@@ -71,6 +76,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   deleteExpense: (id) => dispatch(excludeExpense(id)),
+  updateExpensesProps: (expenses) => dispatch(updateExpenses(expenses)),
 });
 
 Table.propTypes = {

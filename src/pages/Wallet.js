@@ -192,6 +192,7 @@ class Wallet extends React.Component {
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   email: state.user.email,
+  expenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
