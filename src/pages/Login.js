@@ -53,7 +53,7 @@ class Login extends React.Component {
           <form onSubmit={ this.handleSignUp }>
             <input
               className="input is-success level-item"
-              type="text"
+              type="email"
               placeholder="E-mail"
               name="email"
               value={ email }
@@ -69,8 +69,9 @@ class Login extends React.Component {
               data-testid="password-input"
               onChange={ this.handleChange }
             />
+            <br />
             <Button
-              color="success"
+              class="button is-fullwidth button is-success"
               type="submit"
               disabled={ isDisabled }
             >
