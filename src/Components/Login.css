@@ -1,9 +1,8 @@
 /* Css retirado de https://bootsnipp.com/snippets/P3OB7 */
-
 .container {
   margin-left: 500px;
   margin-top: 200px;
-  padding: 40px 40px;
+  padding: 40px;
   width: 350px;
 }
 
@@ -24,8 +23,7 @@
   width: 96px;
 }
 
-input,
-button {
+input, button {
   box-sizing: border-box;
   display: block;
   margin-bottom: 10px;
