@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class DropDown extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.selectChange = this.selectChange.bind(this);
   }
 
@@ -16,7 +16,6 @@ class DropDown extends Component {
   }
 
   render() {
-    // const { selectValue } = this.state;
     const { options, selectValue } = this.props;
     return (
       <div>
@@ -36,7 +35,7 @@ class DropDown extends Component {
 DropDown.propTypes = {
   id: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
-  options: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectValue: PropTypes.string.isRequired,
 };
 
