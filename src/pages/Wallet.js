@@ -153,9 +153,11 @@ const mapStateToProps = (state) => ({
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
-  expenses: PropTypes.arrayOf(PropTypes.number).isRequired,
-  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   mapCurrency: PropTypes.arrayOf(PropTypes.string).isRequired,
+  addExpense: PropTypes.shape(PropTypes.func).isRequired,
+  failed: PropTypes.shape(PropTypes.func).isRequired,
+  requisited: PropTypes.shape(PropTypes.func).isRequired,
+  fetchData: PropTypes.shape(PropTypes.func).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
