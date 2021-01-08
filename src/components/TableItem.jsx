@@ -14,7 +14,7 @@ class TableItem extends Component {
     const { update } = this.props;
     const item = target.parentElement.parentElement;
     const id = item.id;
-    const updatedExpenses = expenses.filter((expense) => expense.id !== parseInt(id));
+    const updatedExpenses = expenses.filter((expense) => expense.id !== parseInt(id, 10));
     update(updatedExpenses);
   }
 
@@ -72,7 +72,7 @@ TableItem.propTypes = {
     value: propTypes.number,
     currency: propTypes.string,
     exchangeRates: propTypes.objectOf(propTypes.object),
-  })
+  }),
     store: propTypes.shape({
       wallet: propTypes.shape({
         expenses: propTypes.arrayOf(propTypes.object),
