@@ -17,9 +17,11 @@ class Wallet extends React.Component {
   hanldleDropdown() {
     const { currencies } = this.props;
     const arrayCurrencies = Object.entries(currencies);
+    arrayCurrencies.splice(1, 1);
+    console.log(arrayCurrencies);
     return arrayCurrencies.map((currencie) => (
       <option
-        data-testid="currency-input"
+        data-testid={ currencie[0] }
         key={ currencie[0] }
         value={ currencie[0] }
       >

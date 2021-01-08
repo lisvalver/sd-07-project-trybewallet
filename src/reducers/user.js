@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   email: '',
 };
 
-function userLogin(state = INITIAL_STATE, action) {
+function userReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
   case ADD_LOGIN:
     return {
@@ -15,4 +15,4 @@ function userLogin(state = INITIAL_STATE, action) {
   }
 }
 
-export default userLogin;
+export default userReducer;
