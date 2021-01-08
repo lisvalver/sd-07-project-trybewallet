@@ -113,12 +113,14 @@ class Wallet extends React.Component {
                 } }
               />
             </label>
-            <label htmlFor="currency">
+            {/* <label htmlFor="currency"> */}
+
+            <select id="currencies" data-testid="currency-input">
               Choose a currency:
-              <select id="currencies" data-testid="currency-input">
-                {this.currencies()}
-              </select>
-            </label>
+              {this.currencies()}
+            </select>
+            {/* </label> */}
+
             <label htmlFor="payment_method">
               Método de Pagamento:
               <select
