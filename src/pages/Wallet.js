@@ -12,7 +12,7 @@ class Wallet extends React.Component {
       cash: 0,
       currency: 'USD',
       methodInput: 'Dinheiro',
-      tagInput: 'Lazer',
+      tagInput: 'Alimentação',
       infor: '',
       despesaTotal: 0,
     };
@@ -108,6 +108,7 @@ class Wallet extends React.Component {
               value={ tagInput }
               onChange={ (event) => this.handleFormInput(event) }
             >
+              <option value="Alimentação">Alimentação</option>
               <option value="Lazer">Lazer</option>
               <option value="Trabalho">Trabalho</option>
               <option value="Transporte">Transporte</option>
