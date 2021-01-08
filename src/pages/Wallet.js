@@ -41,11 +41,12 @@ class Wallet extends React.Component {
       exchangeRates,
     };
     expenses.push(newExpense);
-    let sum = expenses.reduce((acumulador, valorAtual) => {
-      console.log(`valor${value}moeda ${currency}cotacao
-      ${valorAtual.exchangeRates[currency].ask}`);
-      return ((valorAtual.value * valorAtual.exchangeRates[currency].ask) + acumulador);
-    }, 0);
+
+    let sum = expenses.reduce(
+      (acumulador, valorAtual) => parseFloat(acumulador)
+        + parseFloat(valorAtual.value)
+        * parseFloat(valorAtual.exchangeRates[valorAtual.currency].ask), 0,
+    );
     sum = sum.toFixed(2);
     this.setState({
       expenses,
@@ -53,7 +54,6 @@ class Wallet extends React.Component {
     });
     const { adicionarDespesa } = this.props;
     adicionarDespesa(expenses);
-    // salvarDespesas(expenses);
     this.zerarCampos();
   }
 
