@@ -94,7 +94,7 @@ class LoginForm extends React.Component {
 
 LoginForm.propTypes = {
   history: PropTypes.objectOf.isRequired,
-  login:  PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
