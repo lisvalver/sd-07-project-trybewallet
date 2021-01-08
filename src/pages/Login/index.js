@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from '../../actions';
+import { logIn } from '../../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -90,7 +90,7 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = {
-  handleLogin: login,
+  handleLogin: logIn,
 };
 
 Login.propTypes = {

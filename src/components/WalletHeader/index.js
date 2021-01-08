@@ -30,15 +30,15 @@ class WalletHeader extends Component {
   }
 }
 
-const mapStatetoProps = (state) => ({
+const mapStateToProps = (state) => ({
   email: state.user.email,
   expenses: state.wallet.expenses,
 });
 
-WalletHeader.defaultProps = { email: 'user@gmail.com' };
+WalletHeader.defaultProps = { email: 'ada@lovelace.com' };
 WalletHeader.propTypes = {
   email: PropTypes.string,
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default connect(mapStatetoProps)(WalletHeader);
+export default connect(mapStateToProps)(WalletHeader);

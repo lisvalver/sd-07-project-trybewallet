@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { createExpense } from '../../actions';
 import api from '../../services/api';
 import './style.css';
@@ -41,6 +42,7 @@ class FormExpense extends Component {
       tag,
       description,
     });
+
     this.setState({
       value: 0,
       currency: 'USD',
@@ -63,7 +65,6 @@ class FormExpense extends Component {
                 name="value"
                 value={ value }
                 onChange={ ({ target }) => this.handleInputChange(target) }
-                className="expense__input"
                 type="number"
                 min="0.01"
                 step="0.01"
@@ -80,7 +81,6 @@ class FormExpense extends Component {
                 name="currency"
                 value={ currency }
                 onChange={ ({ target }) => this.handleInputChange(target) }
-                className="expense__input"
                 data-testid="currency-input"
               >
                 {currencies.map((cur) => (
@@ -97,7 +97,6 @@ class FormExpense extends Component {
                 name="method"
                 value={ method }
                 onChange={ ({ target }) => this.handleInputChange(target) }
-                className="expense__input"
                 data-testid="method-input"
               >
                 <option value="Dinheiro">Dinheiro</option>
@@ -114,7 +113,6 @@ class FormExpense extends Component {
                 name="tag"
                 value={ tag }
                 onChange={ ({ target }) => this.handleInputChange(target) }
-                className="expense__input"
                 data-testid="tag-input"
               >
                 <option value="Alimentação">Alimentação</option>
@@ -133,28 +131,31 @@ class FormExpense extends Component {
                 name="description"
                 value={ description }
                 onChange={ ({ target }) => this.handleInputChange(target) }
-                className="expense__input"
                 data-testid="description-input"
                 type="text"
               />
             </label>
           </div>
           <div className="expense__field">
-            <button type="submit" className="expense__input">Adicionar despesa</button>
+            <button type="submit">Adicionar despesa</button>
           </div>
         </form>
       </section>
     );
   }
 }
+
 const mapStateToProps = (state) => ({
   expensesLength: state.wallet.expenses.length,
 });
+
 const mapDispatchToProps = {
   createExpense,
 };
+
 FormExpense.propTypes = {
   expensesLength: PropTypes.number.isRequired,
   createExpense: PropTypes.func.isRequired,
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(FormExpense);
