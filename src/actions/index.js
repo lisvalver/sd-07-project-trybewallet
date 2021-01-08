@@ -1,5 +1,9 @@
 const email = (value) => ({ type: 'ADD_EMAIL', value });
 
+const editing = (obj) => ({ type: 'EDITING', obj });
+
+const deleted = (id) => ({ type: 'DELETED', id });
+
 function requestExpenses() { return ({ type: 'REQUEST' }); }
 
 function addExpenses(value, valor) { return ({ type: 'ADD_EXPENSES', value, valor }); }
@@ -31,4 +35,4 @@ function expenses(objeto) {
   };
 }
 
-export { email, expenses };
+export { email, expenses, deleted, editing };

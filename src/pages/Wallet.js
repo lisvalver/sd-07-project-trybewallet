@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { expenses } from '../actions';
+import { expenses, deleted, editing } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
@@ -10,7 +10,12 @@ class Wallet extends React.Component {
     this.moedas = this.moedas.bind(this);
     this.change = this.change.bind(this);
     this.click = this.click.bind(this);
+    this.clickedit = this.clickedit.bind(this);
+    this.cled = this.cled.bind(this);
+    this.tabelaJovemDinamica = this.tabelaJovemDinamica.bind(this);
     this.state = {
+      edit: false,
+      editobj: {},
       api: {},
       currency: 'USD',
       description: '',
@@ -61,9 +66,89 @@ class Wallet extends React.Component {
     requisition(object);
   }
 
+  clickdelet({ target }) {
+    const { deletbutton } = this.props;
+    deletbutton(target.name);
+  }
+
+  clickedit({ target }) {
+    const { tarefas } = this.props;
+    const filter = tarefas.filter((obj) => obj.id === Number(target.name));
+    const editobj = filter[0];
+    this.setState({
+      edit: true,
+      editobj,
+      currency: editobj.currency,
+      description: editobj.description,
+      value: editobj.value,
+      method: editobj.method,
+      tag: editobj.tag,
+    });
+  }
+
+  cled(obj) {
+    const { editei } = this.props;
+    const { value, description, currency, method, tag } = this.state;
+    const object = { id: obj.id, value, description, currency, method, tag };
+    editei(object);
+    this.setState({
+      edit: false,
+      editobj: {},
+      currency: 'USD',
+      description: '',
+      value: 0,
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    });
+  }
+
+  tabelaJovemDinamica(elemento) {
+    const arrayobj = Object.entries(elemento.exchangeRates);
+    const arrayfilter = arrayobj.filter((ele) => ele[0] === elemento.currency);
+    const objobj = arrayfilter[0][1];
+    const mult = objobj.ask;
+    const floorvalue = 100000;
+    const valormult = Math.floor(elemento.value * (mult * floorvalue)) / floorvalue;
+    return (
+      <tr key={ elemento.id }>
+        <td>{elemento.description}</td>
+        <td>{elemento.tag}</td>
+        <td>{elemento.method}</td>
+        <td>{elemento.value}</td>
+        <td>{objobj.name}</td>
+        <td>{Math.round(mult * 100) / 100}</td>
+        <td>{valormult}</td>
+        <td>Real</td>
+        <td>
+          <button
+            data-testid="delete-btn"
+            type="button"
+            name={ elemento.id }
+            onClick={ (event) => this.clickdelet(event) }
+          >
+            delet
+          </button>
+          <button
+            data-testid="edit-btn"
+            type="button"
+            name={ elemento.id }
+            onClick={ (event) => this.clickedit(event) }
+          >
+            edit
+          </button>
+        </td>
+      </tr>
+    );
+  }
+
   render() {
     const { emailS, tarefas, valorgeral = 0, isFetching = false, erro = '' } = this.props;
-    const { value, description, method, tag } = this.state;
+    const { edit, editobj, value, description, method, tag } = this.state;
+    const butedit = (
+      <button type="button" onClick={ () => this.cled(editobj) }>
+        Editar despesa
+      </button>
+    );
     return (
       <div>
         <header>
@@ -123,19 +208,37 @@ class Wallet extends React.Component {
                 <option value="Saúde">Saúde</option>
               </select>
             </label>
-            <button type="button" onClick={ this.click }>Adicionar despesa</button>
+            {
+              edit
+                ? butedit
+                : <button type="button" onClick={ this.click }>Adicionar despesa</button>
+            }
           </form>
-          <div>
-            rotulo
-          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Descrição</th>
+                <th>Tag</th>
+                <th>Método de pagamento</th>
+                <th>Valor</th>
+                <th>Moeda</th>
+                <th>Câmbio utilizado</th>
+                <th>Valor convertido</th>
+                <th>Moeda de conversão</th>
+                <th>Editar/Excluir</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                isFetching
+                  ? <tr><td>carregando</td></tr>
+                  : tarefas.map((tarefa) => this.tabelaJovemDinamica(tarefa))
+              }
+            </tbody>
+          </table>
         </div>
         <div>
           <p>{erro}</p>
-          {
-            isFetching
-              ? <p>carregando</p>
-              : <p>{tarefas.map((tarefa) => <p key={ tarefa.id }>{tarefa.id}</p>)}</p>
-          }
         </div>
       </div>
     );
@@ -149,6 +252,8 @@ Wallet.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   erro: PropTypes.string.isRequired,
   valorgeral: PropTypes.number.isRequired,
+  deletbutton: PropTypes.func.isRequired,
+  editei: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -161,6 +266,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   requisition: (info) => dispatch(expenses(info)),
+  deletbutton: (numero) => dispatch(deleted(numero)),
+  editei: (obj) => dispatch(editing(obj)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
