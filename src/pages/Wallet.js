@@ -10,6 +10,7 @@ class Wallet extends React.Component {
     this.addExpenseButton = this.addExpenseButton.bind(this);
     this.zerarCampos = this.zerarCampos.bind(this);
     this.tableBody = this.tableBody.bind(this);
+    this.updateTotal = this.updateTotal.bind(this);
     this.state = {
       total: 0,
       list: [],
@@ -42,20 +43,36 @@ class Wallet extends React.Component {
       exchangeRates,
     };
     expenses.push(newExpense);
+    this.updateTotal();
+    // let sum = expenses.reduce(
+    //   (acumulador, valorAtual) => parseFloat(acumulador)
+    //     + parseFloat(valorAtual.value)
+    //     * parseFloat(valorAtual.exchangeRates[valorAtual.currency].ask), 0,
+    // );
+    // sum = sum.toFixed(2);
+    this.setState({
+      expenses,
+      // total: sum,
+    });
+    const { adicionarDespesa } = this.props;
+    adicionarDespesa(expenses);
+    this.zerarCampos();
+  }
 
+  updateTotal() {
+    console.log('entrou no updateTotal');
+    const { expenses } = this.state;
+    console.log(expenses);
     let sum = expenses.reduce(
       (acumulador, valorAtual) => parseFloat(acumulador)
         + parseFloat(valorAtual.value)
         * parseFloat(valorAtual.exchangeRates[valorAtual.currency].ask), 0,
     );
     sum = sum.toFixed(2);
+    console.log(sum);
     this.setState({
-      expenses,
       total: sum,
     });
-    const { adicionarDespesa } = this.props;
-    adicionarDespesa(expenses);
-    this.zerarCampos();
   }
 
   zerarCampos() {
@@ -67,7 +84,6 @@ class Wallet extends React.Component {
   }
 
   tableBody() {
-    console.log('entrou no tablebody');
     const { expenses } = this.props;
 
     return (
@@ -76,7 +92,7 @@ class Wallet extends React.Component {
         const valorDeConversao = (value * exchangeRates[currency].ask).toFixed(2);
         const valorDaMoeda = parseFloat(exchangeRates[currency].ask).toFixed(2);
         return (
-          <tr key={ id }>
+          <tr id={ id } key={ id }>
             <td>{description}</td>
             <td>{tag}</td>
             <td>{method}</td>
@@ -85,7 +101,31 @@ class Wallet extends React.Component {
             <td>{valorDaMoeda}</td>
             <td>{valorDeConversao}</td>
             <td>Real</td>
+            <td>
+              <button type="button" name={ id }>Editar</button>
+              <button
+                data-testid="delete-btn"
+                type="button"
+                name={ id }
+                onClick={ ({ target }) => {
+                  const { adicionarDespesa } = this.props;
+                  const idLine = target.name;
+                  const newExpenses = expenses.filter(
+                    (one) => one.id !== parseFloat(idLine),
+                  );
+                  this.setState({
+                    expenses: newExpenses,
+                  });
+                  console.log(newExpenses);
+                  this.updateTotal();
+                  adicionarDespesa(newExpenses);
+                } }
+              >
+                Excluir
+              </button>
+            </td>
           </tr>
+
         );
       })
     );
@@ -109,6 +149,7 @@ class Wallet extends React.Component {
 
   render() {
     const { email } = this.props;
+    // this.updateTotal();
     const { total, value } = this.state;
     return (
       <div>
@@ -222,6 +263,7 @@ class Wallet extends React.Component {
               <th>Câmbio utilizado</th>
               <th>Valor convertido</th>
               <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
             </tr>
 
           </thead>
@@ -229,12 +271,11 @@ class Wallet extends React.Component {
             {this.tableBody()}
           </tbody>
         </table>
-        <button type="button">Editar/Excluir</button>
       </div>);
   }
 }
 Wallet.propTypes = {
-  expenses: PropTypes.arrayOf().isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   email: PropTypes.string.isRequired,
   adicionarDespesa: PropTypes.func.isRequired,
 };
