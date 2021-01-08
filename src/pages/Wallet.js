@@ -27,26 +27,26 @@ class Wallet extends React.Component {
 
   async addExpenseButton() {
     const url = 'https://economia.awesomeapi.com.br/json/all';
-    const { expenses, value, description, currency, method, tag, total } = this.state;
+    const { expenses, value, description, currency, method, tag } = this.state;
     const exchangeRates = await fetch(url)
       .then((item) => item.json());
 
-      
-      // this.setState({ exchangeRates, total})
-      const newExpense = {
-        id: expenses.length,
-        value,
-        description,
-        currency,
-        method,
-        tag,
-        exchangeRates,
-      };
-      expenses.push(newExpense);
-      let sum = expenses.reduce((acumulador, valorAtual) => {
-        return valorAtual.value * valorAtual.exchangeRates[currency].ask + acumulador;
-      }, 0);
-      sum = sum.toFixed(2);
+    const newExpense = {
+      id: expenses.length,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates,
+    };
+    expenses.push(newExpense);
+    let sum = expenses.reduce((acumulador, valorAtual) => {
+      console.log(`valor${value}moeda ${currency}cotacao
+      ${valorAtual.exchangeRates[currency].ask}`);
+      return ((valorAtual.value * valorAtual.exchangeRates[currency].ask) + acumulador);
+    }, 0);
+    sum = sum.toFixed(2);
     this.setState({
       expenses,
       total: sum,
@@ -55,8 +55,8 @@ class Wallet extends React.Component {
     adicionarDespesa(expenses);
     // salvarDespesas(expenses);
     this.zerarCampos();
-
   }
+
   zerarCampos() {
     document.getElementById('new_expense_value').value = 0;
     document.getElementById('new_expense_description').value = '';
@@ -64,7 +64,6 @@ class Wallet extends React.Component {
     document.getElementById('payment_method').value = 'Dinheiro';
     document.getElementById('tag').value = 'alimentacao';
   }
-
 
   currencies() {
     const { list } = this.state;
@@ -102,7 +101,7 @@ class Wallet extends React.Component {
               Valor:
               <input
                 type="number"
-                value={value}
+                value={ value }
                 name="new_expense_value"
                 id="new_expense_value"
                 data-testid="value-input"
@@ -164,7 +163,7 @@ class Wallet extends React.Component {
               Categoria:
               <select
                 data-testid="tag-input"
-                id="tag"  
+                id="tag"
                 onChange={ ({ target }) => {
                   this.setState({
                     tag: target.value,
@@ -192,13 +191,11 @@ class Wallet extends React.Component {
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   adicionarDespesa: PropTypes.func.isRequired,
-  // salvarDespesas: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   email: state.user.email,
 });
 const mapDispatchToProps = (dispatch) => ({ // só inclui funções
   adicionarDespesa: (expense) => dispatch(addExpense(expense)),
-  // salvarDespesas: (expenses) => dispatch(saveExpenses(expenses)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

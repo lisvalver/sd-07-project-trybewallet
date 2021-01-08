@@ -294,7 +294,7 @@ describe.only('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adiciona
       expect(valueInput).toContainHTML(0);
     });
     expect(store.getState().wallet.expenses).toStrictEqual(expectedStateExpense2);
-
+    console.log(store.getState().wallet.expenses[0].exchangeRates.USD.ask)
     const totalField = screen.getByTestId('total-field');
     console.log((store.getState().wallet.expenses))
     expect(totalField).toContainHTML('187.12')
