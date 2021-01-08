@@ -1,6 +1,7 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 const CURRENCIES = 'CURRENCIES';
 const EXPENSES = 'EXPENSES';
+// const CURRENCIES_EXPENSES = 'CURRENCIES_EXPENSES';
 
 const INITIAL_STATE = {
   user: {
@@ -10,7 +11,7 @@ const INITIAL_STATE = {
     currencies: [],
     expenses: [
       {
-        id: 0,
+        id: -1,
         value: '',
         description: '',
         currency: '',

@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as Actions from '../actions';
 
 class FormDespesa extends React.Component {
   constructor() {
@@ -17,7 +19,18 @@ class FormDespesa extends React.Component {
     };
   }
 
-  handleClick() {}
+  handleClick() {
+    const { putExpenses } = this.props;
+    const {
+      value,
+      description,
+      currency,
+      paymentMethod,
+      category,
+    } = this.state;
+
+    putExpenses(value, description, currency, paymentMethod, category);
+  }
 
   handleChange({ target }) {
     const { name, value } = target;
@@ -127,6 +140,11 @@ FormDespesa.propTypes = {
       name: PropTypes.string,
     }),
   ).isRequired,
+  putExpenses: PropTypes.func.isRequired,
 };
 
-export default FormDespesa;
+const mapDispatchToProps = {
+  putExpenses: Actions.putExpenses,
+};
+
+export default connect(null, mapDispatchToProps)(FormDespesa);
