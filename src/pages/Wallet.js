@@ -145,7 +145,7 @@ class Wallet extends React.Component {
               </select>
             </label>
 
-            <label htmlFor="category">
+            <label htmlFor="tag">
               Categoria:
               <select
                 data-testid="tag-input"
