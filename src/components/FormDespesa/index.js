@@ -154,7 +154,7 @@ FormDespesa.propTypes = {
     method: PropTypes.string,
     tag: PropTypes.string,
     exchangeRates: PropTypes.shape(),
-  }).isRequired,
+  }),
   currencies: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
     codein: PropTypes.string.isRequired,
@@ -180,6 +180,18 @@ FormDespesa.propTypes = {
     tag: PropTypes.string,
     exchangeRates: PropTypes.shape(),
   })).isRequired,
+};
+
+FormDespesa.defaultProps = {
+  expense: {
+    id: 0,
+    value: '',
+    description: '',
+    currency: '',
+    method: '',
+    tag: '',
+    exchangeRates: {},
+  },
 };
 
 const mapStateToProps = ({ wallet }) => ({
