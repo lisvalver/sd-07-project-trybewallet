@@ -23,8 +23,7 @@
   width: 96px;
 }
 
-input,
-button {
+input , button {
   box-sizing: border-box;
   display: block;
   margin-bottom: 10px;
