@@ -1,25 +1,54 @@
-export const RECEIVE_WALLET_FAILURE = 'RECEIVE_WALLET_FAILURE';
-export const RECEIVE_WALLET_SUCCESS = 'RECEIVE_WALLET_SUCCESS';
-export const REQUEST_WALLET = 'REQUEST_WALLET';
-export const LOGIN = 'LOGIN';
+import getCurrencies from '../services/api';
 
-/*
-const requestWallet = () => ({
-  type: REQUEST_WALLET,
+export const RECEIVE_CURRENCIES_FAILURE = 'RECEIVE_CURRENCIES_FAILURE';
+export const RECEIVE_CURRENCIES_SUCCESS = 'RECEIVE_CURRENCIES_SUCCESS';
+export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
+export const LOGIN = 'LOGIN';
+export const EXPENSES = 'EXPENSES';
+export const EXPENSES_CURRENCY = 'EXPENSES_CURRENCY';
+
+const requestCurrencies = () => ({
+  type: REQUEST_CURRENCIES,
 });
 
-const receiveWalletFailure = (error) => ({
-  type: RECEIVE_WALLET_FAILURE,
+const receiveCurrenciesFailure = (error) => ({
+  type: RECEIVE_CURRENCIES_FAILURE,
   error,
 });
 
-const receiveWalletSuccess = (wallet) => ({
-  type: RECEIVE_WALLET_SUCCESS,
-  wallet,
+const receiveCurrenciesSuccess = (currencies) => ({
+  type: RECEIVE_CURRENCIES_SUCCESS,
+  currencies,
 });
- */
+
+export function fetchGetCurrencies() {
+  return (dispatch) => {
+    dispatch(requestCurrencies());
+    return getCurrencies()
+      .then((response) => {
+        const currencies = [];
+        Object.keys(response).forEach((currency) => {
+          if (currency !== 'USDT') {
+            currencies.push(response[currency]);
+          }
+        });
+        dispatch(receiveCurrenciesSuccess(currencies));
+      })
+      .catch((error) => dispatch(receiveCurrenciesFailure(error)));
+  };
+}
 
 export const loginAction = (email) => ({
   type: LOGIN,
   email,
+});
+
+export const expensesAction = (expenses) => ({
+  type: EXPENSES,
+  expenses,
+});
+
+export const expensesCurrencyAction = (expense) => ({
+  type: EXPENSES_CURRENCY,
+  expense,
 });
