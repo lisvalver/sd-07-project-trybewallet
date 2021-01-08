@@ -5,12 +5,12 @@ class ExpensesForm extends Component {
     return (
       <div>
         <form>
-          <label>
+          <label htmlFor="amor">
             {' '}
             Valor
             <input data-testid="value-input" />
           </label>
-          <label>
+          <label htmlFor="description">
             {' '}
             Descrição da despesa
             <input data-testid="description-input" />
@@ -39,3 +39,4 @@ class ExpensesForm extends Component {
     );
   }
 }
+export default ExpensesForm;

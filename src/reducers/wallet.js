@@ -11,5 +11,5 @@ function walletReducer(state = INITIAL_STATE, action) {
 
 export default walletReducer;
 
-//controlar os valores do formulario de forma a armazenar o valor na store,
-//mas antes fazer o estado inicial do componente 
+// controlar os valores do formulario de forma a armazenar o valor na store,
+// mas antes fazer o estado inicial do componente
