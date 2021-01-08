@@ -72,6 +72,7 @@ TableItem.propTypes = {
     value: propTypes.number,
     currency: propTypes.string,
     exchangeRates: propTypes.objectOf(propTypes.object),
+  })
     store: propTypes.shape({
       wallet: propTypes.shape({
         expenses: propTypes.arrayOf(propTypes.object),
