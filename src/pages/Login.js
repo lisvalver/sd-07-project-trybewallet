@@ -28,7 +28,7 @@ class Login extends Component {
     const minNumber = 5;
     const requiredPassword = password.length > minNumber && password !== '';
 
-    const expectedPattern = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
+    const expectedPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const requiredEmail = expectedPattern.test(email) && email !== '';
 
     return requiredPassword && requiredEmail;
