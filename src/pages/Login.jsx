@@ -32,9 +32,9 @@ class Login extends React.Component {
 
   redirectWallet() {
     const { email } = this.state;
-    const { history, xablau } = this.props;
+    const { history, emailText } = this.props;
     history.push('/carteira');
-    xablau(email);
+    emailText(email);
   }
 
   render() {
@@ -73,14 +73,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  xablau: (email) => dispatch(loginButton(email)),
+  emailText: (email) => dispatch(loginButton(email)),
 });
 
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  xablau: PropTypes.func.isRequired,
+  emailText: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
