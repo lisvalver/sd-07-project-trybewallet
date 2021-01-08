@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 
 import { fetchData, newExpense } from '../actions';
 
@@ -27,8 +28,7 @@ class Wallet extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
-    const getCurrencies = this.props;
+    const { getCurrencies } = this.props;
     getCurrencies();
   }
 
@@ -81,7 +81,7 @@ class Wallet extends React.Component {
     const exchangeRate = exchange.find((currencie) => currencie[0] === currency);
     const expense = value * exchangeRate[1].ask;
     this.setState((previouState) => ({
-      totalExpenses: previouState.totalExpenses + +expense.toFixed(2),
+      totalExpenses: previouState.totalExpenses + expense.toFixed(2),
     }));
   }
 
@@ -111,6 +111,7 @@ class Wallet extends React.Component {
         Valor:
         <input
           id="expenseValue"
+          name="value"
           type="number"
           data-testid="value-input"
           value={ value }
@@ -119,6 +120,7 @@ class Wallet extends React.Component {
         Descrição:
         <input
           id="description"
+          name="description"
           type="text"
           data-testid="description-input"
           value={ description }
@@ -127,6 +129,7 @@ class Wallet extends React.Component {
         Moeda:
         <select
           id="selectedCurrency"
+          name="currency"
           type="text"
           data-testid="description-input"
           value={ currency }
@@ -139,7 +142,6 @@ class Wallet extends React.Component {
               data-testid={ currCurrency[0] }
             >
               {currCurrency[0]}
-              {' '}
             </option>
           ))}
         </select>
@@ -182,5 +184,15 @@ const mapDispatchToProps = (dispatch) => ({
   getCurrencies: () => dispatch(fetchData()),
   saveExpenses: (expenses) => dispatch(newExpense(expenses)),
 });
+
+Wallet.propTypes = {
+  getCurrencies: propTypes.func.isRequired,
+  currencies: propTypes.oneOfType([
+    propTypes.object,
+    propTypes.array,
+  ]).isRequired,
+  saveExpenses: propTypes.func.isRequired,
+  email: propTypes.string.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
