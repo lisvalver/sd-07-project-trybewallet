@@ -9,7 +9,7 @@ function emailIsValid(email) {
   return /\S+@\S+\.\S+/.test(email);
 }
 
-function passwordIsValid (password) {
+function passwordIsValid(password) {
   return password.length >= MIN_PASSWORD_LENGTH;
 }
 
@@ -71,7 +71,13 @@ class Login extends React.Component {
             onChange={ this.handleEvent }
             value={ password }
           />
-          <button disabled={ this.inputValidation() } type="button" onClick={ this.handleClick }>Entrar</button>
+          <button
+            disabled={ this.inputValidation() }
+            type="button"
+            onClick={ this.handleClick }
+          >
+            Entrar
+          </button>
         </form>
       </div>
     );
