@@ -1,7 +1,7 @@
 // Coloque aqui suas actions
-const login = (user) => ({
+const currentLogin = (user) => ({
   type: 'LOGIN_OK',
   user,
 });
 
-export default login;
+export default currentLogin;

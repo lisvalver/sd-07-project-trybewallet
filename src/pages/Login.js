@@ -1,6 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import login from '../actions'
+import currentLogin from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -15,6 +17,7 @@ class Login extends React.Component {
 
     this.validacaoEmail = this.validacaoEmail.bind(this);
     this.passwordValidation = this.passwordValidation.bind(this);
+    this.changeEmailInTheStore = this.changeEmailInTheStore.bind(this);
   }
 
   validacaoEmail({ target }) {
@@ -31,10 +34,11 @@ class Login extends React.Component {
     });
   }
 
-  atualizarEmail() {
-    const { login } = this.props;
+  changeEmailInTheStore() {
     const { email } = this.state;
-    login(email);
+    const { currentLogin } = this.props;
+
+    currentLogin(email);
   }
 
   passwordValidation({ target }) {
@@ -63,21 +67,29 @@ class Login extends React.Component {
             data-testid="password-input"
             onChange={ (event) => this.passwordValidation(event) }
           />
-          <button
-            type="button"
-            disabled={ autentic }
-            onClick = { () => this.atualizarEmail() } 
-          >
-            Entrar
-          </button>
+          <Link to="/carteira">
+            <button
+              type="button"
+              disabled={ autentic }
+              onClick={ () => this.changeEmailInTheStore() }
+            >
+              Entrar
+            </button>
+          </Link>
         </form>
       </div>
     );
   }
 }
 
+Login.propTypes = {
+  currentLogin: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 const mapDispatchToProps = (dispatch) => ({
-  login: (user) => dispatch(login(user)),
+  currentLogin: (user) => dispatch(currentLogin(user)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
