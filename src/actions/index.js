@@ -4,7 +4,6 @@ export const login = (email, password) => ({
   type: 'USER',
   email,
   password,
-
 });
 
 export const REQUEST_CURRENCY = 'REQUEST_CURRENCY';
@@ -25,3 +24,10 @@ export function fetchCurrency() {
     dispatch(receiveCurrencySuccess(currency));
   };
 }
+
+export const ADD_EXPENSE = 'ADD_EXPENSE';
+
+export const addExpense = (payload) => ({
+  type: ADD_EXPENSE,
+  payload,
+});
