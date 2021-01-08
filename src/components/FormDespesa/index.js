@@ -7,7 +7,7 @@ import {
   fetchGetCurrencies,
 } from '../../actions';
 
-import getCurrencies from "../../services/api";
+import getCurrencies from '../../services/api';
 
 class FormDespesa extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class FormDespesa extends React.Component {
 
   changeInputs({ target }) {
     const { name, value } = target;
-    const { expenses,setExpense } = this.props;
+    const { expenses, setExpense } = this.props;
     setExpense({ [name]: value });
     const newID = expenses.length ? expenses[expenses.length - 1].id + 1 : 0;
     setExpense({ id: newID });
@@ -33,7 +33,7 @@ class FormDespesa extends React.Component {
     const { setExpense } = this.props;
     const exchangeRates = await getCurrencies();
     setExpense({ exchangeRates });
-    this.handleSetExpense()
+    this.handleSetExpense();
   }
 
   handleSetExpense() {
@@ -127,13 +127,16 @@ class FormDespesa extends React.Component {
                 <option value="Saúde">Saúde</option>
               </select>
             </div>
-            <button onClick={ this.handleAddDespesa }>
+            <button
+              type="button"
+              onClick={ this.handleAddDespesa }
+            >
               Adicionar despesa
             </button>
           </form>
           <div>
             {expenses.map((expen) => (
-              <p key={expen.id}>{ expen.description }</p>
+              <p key={ expen.id }>{ expen.description }</p>
             ))}
           </div>
         </div>
@@ -163,7 +166,7 @@ FormDespesa.propTypes = {
     bid: PropTypes.string.isRequired,
     ask: PropTypes.string.isRequired,
     timestamp: PropTypes.string.isRequired,
-    create_date: PropTypes.string.isRequired
+    create_date: PropTypes.string.isRequired,
   })).isRequired,
   currenciesAction: PropTypes.func.isRequired,
   setExpense: PropTypes.func.isRequired,
