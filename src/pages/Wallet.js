@@ -89,8 +89,10 @@ class Wallet extends React.Component {
     }
   }
 
-  render(props) {
-    const { email } = props.store.user;
+  render() {
+    const { store } = this.props;
+    const { user } = store;
+    const { email } = user;
     const { value, description, currency, method, tag } = this.state;
     return (
       <div>
@@ -99,7 +101,7 @@ class Wallet extends React.Component {
             <div data-testid="email-field">{ email }</div>
           </div>
           <div className="total-expenses-container">
-            <div data-testid="total-field">{ this.totalExpenses() }</div>
+            <div data-testid="total-field">{ this.totalExpenses(this.props) }</div>
           </div>
           <div className="currency-container">
             <div data-testid="header-currency-field">BRL</div>
@@ -202,7 +204,7 @@ class Wallet extends React.Component {
                 <th>Moeda de conversão</th>
                 <th>Editar/Excluir</th>
               </tr>
-              { this.renderTable() }
+              { this.renderTable(this.props) }
             </tbody>
           </table>
         </div>

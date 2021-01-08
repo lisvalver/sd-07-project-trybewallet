@@ -10,16 +10,19 @@ class TableItem extends Component {
   }
 
   removeItem({ target }) {
-    const { expenses } = this.props.store.wallet;
+    const { store } = this.props;
+    const { wallet } = store;
+    const { expenses } = wallet;
     const { update } = this.props;
     const item = target.parentElement.parentElement;
-    const id = item.id;
+    const { id } = item;
     const updatedExpenses = expenses.filter((expense) => expense.id !== parseInt(id, 10));
     update(updatedExpenses);
   }
 
   render() {
     // cambio utilizado, valor convertido
+    const { expense } = this.props;
     const {
       id,
       description,
@@ -28,7 +31,7 @@ class TableItem extends Component {
       value,
       currency,
       exchangeRates,
-    } = this.props.expense;
+    } = expense;
     const myCurrency = exchangeRates[`${currency}`];
     return (
       <tr id={ id }>
@@ -73,9 +76,9 @@ TableItem.propTypes = {
     currency: propTypes.string,
     exchangeRates: propTypes.objectOf(propTypes.object),
   }),
-    store: propTypes.shape({
-      wallet: propTypes.shape({
-        expenses: propTypes.arrayOf(propTypes.object),
-      }),
+  store: propTypes.shape({
+    wallet: propTypes.shape({
+      expenses: propTypes.arrayOf(propTypes.object),
+    }),
   }),
 }.isRequired;
