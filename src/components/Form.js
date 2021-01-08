@@ -11,9 +11,9 @@ class Form extends Component {
     this.state = {
       valueInput: 0,
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -86,15 +86,12 @@ class Form extends Component {
               onChange={ (e) => this.handleInputEvent(e) }
             >
               { Object.values(currencies)
-                .map(({ code, name }) => {
-                  if (name !== 'Dólar Turismo') {
-                    return (
-                      <option key={ code } value={ code } data-testid={ code }>
-                        { code }
-                      </option>);
-                  }
-                  return null;
-                }) }
+                .filter(({ name }) => name !== 'Dólar Turismo')
+                .map(({ code }) => (
+                  <option key={ code } value={ code } data-testid={ code }>
+                    { code }
+                  </option>
+                )) }
             </select>
           </label>
           <label htmlFor="method">
