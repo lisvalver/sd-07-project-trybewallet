@@ -45,7 +45,7 @@ class Login extends React.Component {
 
         <h1> Trybe Wallet</h1>
 
-        <label>
+        <label htmlFor="email">
           Email
           <input
             placeholder="E-mail address"
@@ -57,7 +57,7 @@ class Login extends React.Component {
           />
         </label>
 
-        <label>
+        <label htmlFor="senha">
           SENHA
           <input
             placeholder="Password"
@@ -69,6 +69,7 @@ class Login extends React.Component {
         </label>
 
         <button
+          type="submit"
           value=""
           disabled={ !this.verifyEmailPass() }
           onClick={ this.handleSubmit }
@@ -91,6 +92,12 @@ const mapStateToProps = (state) => {
     logged: state.user.logged,
     userEmail: state.user.email,
   };
+};
+
+Login.propTypes = {
+  userLogged: PropTypes.func.isRequired,
+  logged: PropTypes.bool.isRequired,
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
