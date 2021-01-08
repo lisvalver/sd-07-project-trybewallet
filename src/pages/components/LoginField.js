@@ -25,8 +25,8 @@ class LoginField extends Component {
           minLength="6"
         />
         <button
-          type="submit"
-          disabled={ !validation }
+          type="button"
+          disabled={ !validation() }
           onClick={ handlerClick }
         >
           Entrar
