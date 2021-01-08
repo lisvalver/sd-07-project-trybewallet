@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Login extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class Login extends React.Component {
       senha: '',
     };
     this.onInputChange = this.onInputChange.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+    this.login = this.login.bind(this);
   }
 
   componentDidMount() {
@@ -24,8 +25,8 @@ class Login extends React.Component {
       const { email, senha } = this.state;
       const entra = document.getElementById('btn-entra');
       const minimo = 6;
-      const regEmail = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
-      if (!regEmail.test(email) && !(senha.length < minimo)) {
+      const regEmail = /.+@.+\.[A-Za-z]+$/;
+      if (regEmail.test(email) && !(senha.length < minimo)) {
         entra.removeAttribute('disabled');
       } else {
         entra.setAttribute('disabled', '');
@@ -33,7 +34,7 @@ class Login extends React.Component {
     });
   }
 
-  handleLogin() {
+  login() {
     const { history } = this.props;
     history.push('/carteira');
   }
@@ -74,7 +75,7 @@ class Login extends React.Component {
               Lembrar login?
             </label>
           </div>
-          <button id="btn-entra" type="submit" onClick={ this.handleLogin }>
+          <button id="btn-entra" type="submit" onClick={ this.login }>
             Entrar
           </button>
         </form>
@@ -88,4 +89,9 @@ Login.propTypes = {
   history: PropTypes.objectOf.isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+  // login : (email, senha) => dispatch(login(email, senha))
+}
+
+
+export default connect(null, mapDispatchToProps)(Login);
