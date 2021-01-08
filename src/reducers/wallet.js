@@ -1,20 +1,23 @@
 const INITIAL_STATE = {
   expenses: [],
   isFetching: false,
-  error: {
-    failed: false,
-    error: '',
-  },
+  erro: '',
+  valorgeral: 0,
 };
 
 function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'REQUEST_EXPENSES':
+  case 'REQUEST':
     return { ...state, isFetching: true };
   case 'ADD_EXPENSES':
-    return { ...state, expenses: [...state.expenses, action.value], isFetching: false };
+    return {
+      ...state,
+      expenses: [...state.expenses, action.value],
+      isFetching: false,
+      valorgeral: (state.valorgeral + action.valor),
+    };
   case 'FAILED_REQUEST':
-    return { ...state, error: { failed: true, error: action.value }, isFetching: false };
+    return { ...state, erro: action.value, isFetching: false };
   default:
     return state;
   }
