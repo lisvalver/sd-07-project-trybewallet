@@ -81,7 +81,7 @@ class Wallet extends React.Component {
     const exchangeRate = exchange.find((currencie) => currencie[0] === currency);
     const expense = value * exchangeRate[1].ask;
     this.setState((previouState) => ({
-      totalExpenses: previouState.totalExpenses + expense.toFixed(2),
+      totalExpenses: (parseFloat(previouState.totalExpenses) + expense).toFixed(2),
     }));
   }
 
