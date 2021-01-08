@@ -113,57 +113,57 @@ class Wallet extends React.Component {
                 } }
               />
             </label>
-            {/* <label htmlFor="currency"> */}
-            Choose a currency:
-            {/* </label> */}
+            <label htmlFor="currency">
+              Choose a currency:
 
-            <select
-              id="currencies"
-              data-testid="currency-input"
-              onChange={ ({ target }) => {
-                this.setState({
-                  currency: target.value,
-                });
-              } }
-            >
-              {this.currencies()}
-            </select>
+              <select
+                id="currencies"
+                data-testid="currency-input"
+                onChange={ ({ target }) => {
+                  this.setState({
+                    currency: target.value,
+                  });
+                } }
+              >
+                {this.currencies()}
+              </select>
+            </label>
 
-            {/* <label htmlFor="payment_method"> */}
-            Método de Pagamento:
-            <select
-              data-testid="method-input"
-              id="payment_method"
-              onChange={ ({ target }) => {
-                this.setState({
-                  method: target.value,
-                });
-              } }
-            >
-              <option value="Dinheiro">Dinheiro</option>
-              <option value="credit_card">Cartão de crédito</option>
-              <option value="debit_card">Cartão de débito</option>
-            </select>
-            {/* </label> */}
+            <label htmlFor="payment_method">
+              Método de Pagamento:
+              <select
+                data-testid="method-input"
+                id="payment_method"
+                onChange={ ({ target }) => {
+                  this.setState({
+                    method: target.value,
+                  });
+                } }
+              >
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="credit_card">Cartão de crédito</option>
+                <option value="debit_card">Cartão de débito</option>
+              </select>
+            </label>
 
-            {/* <label htmlFor="category"> */}
-            Categoria:
-            <select
-              data-testid="tag-input"
-              id="tag"
-              onChange={ ({ target }) => {
-                this.setState({
-                  tag: target.value,
-                });
-              } }
-            >
-              <option value="alimentacao">Alimentação</option>
-              <option value="lazer">Lazer</option>
-              <option value="trabalho">Trabalho</option>
-              <option value="transporte">Transporte</option>
-              <option value="saude">Saúde</option>
-            </select>
-            {/* </label> */}
+            <label htmlFor="category">
+              Categoria:
+              <select
+                data-testid="tag-input"
+                id="tag"
+                onChange={ ({ target }) => {
+                  this.setState({
+                    tag: target.value,
+                  });
+                } }
+              >
+                <option value="alimentacao">Alimentação</option>
+                <option value="lazer">Lazer</option>
+                <option value="trabalho">Trabalho</option>
+                <option value="transporte">Transporte</option>
+                <option value="saude">Saúde</option>
+              </select>
+            </label>
             <button
               type="button"
               onClick={ () => this.addExpenseButton() }
