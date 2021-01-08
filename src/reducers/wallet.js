@@ -15,9 +15,25 @@ const INITIAL_STATE = {
 const NEW_EXPENSE = 'NEW_EXPENSE';
 
 function wallet(state = INITIAL_STATE, action) {
+  const currentId = state.expenses.length - 1;
+
   switch (action.type) {
   case NEW_EXPENSE:
-    return state;
+    return state/*{
+      ...state,
+      expenses: [
+        ...state.expenses,
+        {
+          id: currentId,
+          value: '0',
+          description: '',
+          currency: '',
+          method: '',
+          tag: '',
+          exchangeRates: {},
+        }
+      ],
+    };*/
   default:
     return state;
   };

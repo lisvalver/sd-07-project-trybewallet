@@ -46,6 +46,9 @@ class Form extends React.Component {
       tagInput,
     } = this.state;
 
+    const { wallet } = this.props;
+    const teste = {...this.state};
+
     return(
       <fieldset>
         <legend>Tabela de gastos</legend>
@@ -115,14 +118,19 @@ class Form extends React.Component {
             <option>Saúde</option>
           </select>
         </label>
-        <button type="submit">Adicionar despesa</button>
+        <button
+          type="submit"
+          onClick={ () => wallet(this.state) }
+        >
+          Adicionar despesa
+        </button>
       </fieldset>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  
-}
+const mapDispatchToProps = (dispatch) => ({
+  wallet: (inputValues) => dispatch(wallet(inputValues)),
+});
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);
