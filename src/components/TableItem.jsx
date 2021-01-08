@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import { updateExpenses } from '../actions';
 
 class TableItem extends Component {
@@ -16,7 +17,7 @@ class TableItem extends Component {
     const updatedExpenses = expenses.filter((expense) => expense.id !== parseInt(id));
     update(updatedExpenses);
   }
-  
+
   render() {
     // cambio utilizado, valor convertido
     const {
@@ -26,7 +27,7 @@ class TableItem extends Component {
       method,
       value,
       currency,
-      exchangeRates
+      exchangeRates,
     } = this.props.expense;
     const myCurrency = exchangeRates[`${currency}`];
     return (
@@ -44,9 +45,12 @@ class TableItem extends Component {
             type="button"
             onClick={ this.removeItem }
             data-testid="delete-btn"
-          >Apagar</button></td>
+          >
+            Apagar
+          </button>
+        </td>
       </tr>
-    )
+    );
   }
 }
 
@@ -55,6 +59,22 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  update: (array) => dispatch(updateExpenses(array))});
+  update: (array) => dispatch(updateExpenses(array)) });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableItem);
+
+TableItem.propTypes = {
+  expense: propTypes.shape({
+    id: propTypes.number,
+    description: propTypes.string,
+    tag: propTypes.string,
+    method: propTypes.string,
+    value: propTypes.number,
+    currency: propTypes.string,
+    exchangeRates: propTypes.objectOf(propTypes.object),
+    store: propTypes.shape({
+      wallet: propTypes.shape({
+        expenses: propTypes.arrayOf(propTypes.object),
+      }),
+  }),
+}.isRequired;
