@@ -77,7 +77,7 @@ const mapStateToProps = ({ wallet }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteExpenses: (id) => dispatch(deleteExpensesAction(id))
+  deleteExpenses: (id) => dispatch(deleteExpensesAction(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableDespesa);
