@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from './Header';
+import Table from './Table';
 import fetchCurrency, { updateExpenses } from '../actions';
 
 class Wallet extends React.Component {
@@ -95,6 +96,7 @@ class Wallet extends React.Component {
         >
           Adicionar despesa
         </button>
+        <Table />
       </div>
     );
   }
@@ -103,7 +105,7 @@ class Wallet extends React.Component {
 Wallet.propTypes = {
   fetchHere: PropTypes.func.isRequired,
   updatingExpenses: PropTypes.func.isRequired,
-  currencyArray: PropTypes.arrayOf().isRequired,
+  currencyArray: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -116,7 +118,6 @@ const mapDispatchToProps = (dispatch) => ({
     (value, description, currency, method, tag) => dispatch(
       updateExpenses(value, description, currency, method, tag),
     ),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
