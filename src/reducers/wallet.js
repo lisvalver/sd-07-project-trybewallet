@@ -10,7 +10,8 @@ const initialState = {
 export default function wallet(state = initialState, action) {
   switch (action.type) {
   case 'EXPENSER':
-    return { ...state, expenses: [...state.expenses, { ...action.payload }] };
+    return { ...state,
+      expenses: [...state.expenses, { ...action.payload, id: state.expenses.length }] };
   case 'REQUIRE_CURRENCE':
     return { ...state, isFetch: true };
   case 'REQUIRE_CURRENCE_SUCESS':
