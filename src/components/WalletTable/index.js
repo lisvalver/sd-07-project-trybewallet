@@ -1,10 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { deleteExpense } from '../../actions';
 
 class WalletTable extends React.Component {
+  constructor() {
+    super();
+
+    this.toConvertValue = this.toConvertValue.bind(this);
+  }
+
+  toConvertValue(expenseValue, exchange) {
+    const updatedValue = (Number(expenseValue) * Number(exchange)).toFixed(2);
+    return updatedValue;
+  }
+
   render() {
-    const { tableData } = this.props;
+    const { tableData, deleteExpenseProps } = this.props;
 
     const tableHead = [
       'Descrição',
@@ -36,12 +48,24 @@ class WalletTable extends React.Component {
             <td>{expense.exchangeRates[expense.currency].name}</td>
             <td>{ Number(expense.exchangeRates[expense.currency].ask).toFixed(2) }</td>
             <td>
-              { (Number(expense.value)
-          * Number(expense.exchangeRates[expense.currency].ask)).toFixed(2) }
+              { this.toConvertValue(
+                expense.value, expense.exchangeRates[expense.currency].ask,
+              )}
             </td>
             <td>Real</td>
+            <td>
+              <button
+                data-testid="delete-btn"
+                type="button"
+                onClick={ () => deleteExpenseProps(expense.id,
+                  this.toConvertValue(
+                    expense.value, expense.exchangeRates[expense.currency].ask,
+                  )) }
+              >
+                Excluir
+              </button>
+            </td>
           </tr>))}
-
       </table>
     );
   }
@@ -51,8 +75,12 @@ const mapStateToProps = (state) => ({
   tableData: state.wallet.expenses,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  deleteExpenseProps: (id, value) => dispatch(deleteExpense(id, value)) });
+
 WalletTable.propTypes = {
   tableData: PropTypes.objectOf(PropTypes.number).isRequired,
+  deleteExpenseProps: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(WalletTable);
+export default connect(mapStateToProps, mapDispatchToProps)(WalletTable);

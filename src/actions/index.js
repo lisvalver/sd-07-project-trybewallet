@@ -3,6 +3,14 @@ import getCurrencies from '../services';
 export const SIGNIN = 'SIGNIN';
 export const signIn = (email) => ({ type: SIGNIN, email });
 
+export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const addExpense = (expense) => (
+  { type: ADD_EXPENSE, expense });
+
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const deleteExpense = (id, value) => (
+  { type: DELETE_EXPENSE, id, value });
+
 export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
 export const requestCurrencies = (currencies) => (
   { type: REQUEST_CURRENCIES, currencies });
@@ -26,7 +34,3 @@ export function fetchCurrenciesData() {
     dispatch(requestCurrenciesData(response));
   };
 }
-
-export const ADD_EXPENSE = 'ADD_EXPENSE';
-export const addExpense = (expense) => (
-  { type: ADD_EXPENSE, expense });

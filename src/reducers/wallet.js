@@ -1,4 +1,9 @@
-import { REQUEST_CURRENCIES, REQUEST_CURRENCIES_DATA, ADD_EXPENSE } from '../actions';
+import {
+  REQUEST_CURRENCIES,
+  REQUEST_CURRENCIES_DATA,
+  ADD_EXPENSE,
+  DELETE_EXPENSE,
+} from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -24,6 +29,12 @@ export default function (state = INITIAL_STATE, action) {
       totalExpense: state.totalExpense
       + Number(action.expense.value)
       * Number(state.latestExchange[action.expense.currency].ask),
+    };
+  case DELETE_EXPENSE:
+    return { ...state,
+      expenses: [...state.expenses.filter(({ id }) => id !== action.id)],
+      totalExpense: state.totalExpense
+      - Number(action.value),
     };
   default:
     return state;
