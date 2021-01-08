@@ -39,10 +39,15 @@ class TableDespesa extends React.Component {
                     <td>{ Number(exchangeRates[currency].ask).toFixed(2) }</td>
                     <td>Real</td>
                     <td>
-                      <button data-testid="delete-btn">deletar</button>
+                      <button
+                        data-testid="delete-btn"
+                        type="button"
+                      >
+                        deletar
+                      </button>
                     </td>
                   </tr>
-                )
+                ),
               )}
             </tbody>
           </table>
