@@ -17,12 +17,12 @@ function wallet(state = INITIAL_STATE, action) {
       }
     );
   case 'DELETED':
-    state.expenses.splice(action.id, 1);
+    newexpen.splice(action.id, 1);
     return (
       {
         ...state,
-        // expenses: state.expenses.map((obj, index) => ({ ...obj, id: index })),
-        expenses: state.expenses.map((obj) => ({ ...obj })),
+        // expenses: newexpen.map((obj, index) => ({ ...obj, id: index })),
+        expenses: newexpen,
       }
     );
   case 'REQUEST':
