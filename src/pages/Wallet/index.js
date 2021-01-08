@@ -2,8 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WalletHeader from '../../components/WalletHeader';
+import { removeExpense } from '../../actions';
 
 class Wallet extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleDelete(expId) {
+    const { removeExpense: tableRemoveExpense } = this.props;
+    tableRemoveExpense(expId);
+  }
+
   render() {
     const { expenses } = this.props;
     return (
@@ -39,6 +50,15 @@ class Wallet extends React.Component {
                   }
                 </td>
                 <td>Real</td>
+                <td>
+                  <button
+                    type="button"
+                    data-testid="delete-btn"
+                    onClick={ () => this.handleDelete(exp.id) }
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -52,8 +72,13 @@ const mapStatetoProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
-Wallet.propTypes = {
-  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+const mapDispatchToProps = {
+  removeExpense,
 };
 
-export default connect(mapStatetoProps)(Wallet);
+Wallet.propTypes = {
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  removeExpense: PropTypes.func.isRequired,
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(Wallet);

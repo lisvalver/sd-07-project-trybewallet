@@ -347,7 +347,7 @@ describe('5 - [PÁGINA DA CARTEIRA] Desenvolva uma tabela com os gastos contendo
     expect(screen.getAllByRole('cell', { name: 'Real' })[1]).toBeInTheDocument();
   });
 });
-/*
+
 describe('6 - [PÁGINA DA CARTEIRA] Crie um botão para deletar uma despesa da tabela contendo as seguintes características:', () => {
   const initial = initialStateWithExpenses;
 
@@ -451,4 +451,3 @@ describe('7 - [BÔNUS] Crie um botão para editar uma despesa da tabela contendo
     expect(store.getState().wallet.expenses).toStrictEqual(newExpenses);
   });
 });
-*/

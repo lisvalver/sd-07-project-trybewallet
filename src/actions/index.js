@@ -1,5 +1,6 @@
 export const LOGIN = 'LOGIN';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 
 export const logIn = (user) => ({ type: LOGIN, payload: user });
 
@@ -11,3 +12,5 @@ export const createExpense = (expense) => async (dispatch) => {
   expense.exchangeRates = data;
   return dispatch(addExpense(expense));
 };
+
+export const removeExpense = (id) => ({ type: REMOVE_EXPENSE, payload: id });
