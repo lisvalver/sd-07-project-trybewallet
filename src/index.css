@@ -1,7 +1,7 @@
 body {
   display: flex;
   justify-content: center;
-  margin-top: 25px;
+  margin: 25px 70px 20px auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -12,4 +12,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.title {
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
 }
