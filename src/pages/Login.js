@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import currentLogin from '../actions';
+import { currentLogin } from '../actions';
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: '',
@@ -34,13 +34,6 @@ class Login extends React.Component {
     });
   }
 
-  changeEmailInTheStore() {
-    const { email } = this.state;
-    const { currentLogin } = this.props;
-
-    currentLogin(email);
-  }
-
   passwordValidation({ target }) {
     const { password, emailValido } = this.state;
     const noMagicNumber = 5;
@@ -49,6 +42,13 @@ class Login extends React.Component {
     if (password.length >= noMagicNumber && emailValido === true) {
       this.setState({ autentic: false });
     } else { this.setState({ autentic: true }); }
+  }
+
+  changeEmailInTheStore() {
+    const { currentLogin } = this.props;
+    const { email } = this.state;
+
+    currentLogin(email);
   }
 
   render() {
