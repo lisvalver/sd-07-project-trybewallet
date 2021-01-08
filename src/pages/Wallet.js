@@ -5,23 +5,23 @@ import Header from '../components/Header';
 import { fetchCurrency } from '../actions';
 
 class Wallet extends React.Component {
-
   componentDidMount() {
     const { getCurrency } = this.props;
     getCurrency();
   }
+
   render() {
     return (
       <div>
-          <Header />
+        <Header />
         <form>
           <label htmlFor="value">
             Valor da Despesa:
-            <input type="number" id="value" data-testid="value-input"/>
+            <input type="number" id="value" data-testid="value-input" />
           </label>
           <label htmlFor="description">
             Descrição da Despesa:
-            <input type="text" id="description" data-testid="description-input"/>
+            <input type="text" id="description" data-testid="description-input" />
           </label>
           <label htmlFor="currency">
             Moeda:
@@ -87,5 +87,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getCurrency: () => dispatch(fetchCurrency()),
 });
+
+Wallet.propTypes = {
+  getCurrency: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

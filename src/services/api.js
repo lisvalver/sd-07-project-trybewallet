@@ -5,6 +5,6 @@ const getCurrency = async () => {
   const currencyJson = await currencyRequest.json();
 
   return currencyJson;
-}
+};
 
 export default getCurrency;

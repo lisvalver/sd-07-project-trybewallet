@@ -20,7 +20,7 @@ const receiveCurrencySuccess = (currency) => ({
 export function fetchCurrency() {
   return async (dispatch) => {
     dispatch(requestCurrency());
-    
+
     const { currency } = await getCurrency();
     dispatch(receiveCurrencySuccess(currency));
   };
