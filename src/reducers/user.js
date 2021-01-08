@@ -2,7 +2,6 @@
 
 const initialState = {
   email: '',
-  senha: '',
 };
 
 const user = (state = initialState, action) => {
@@ -10,7 +9,7 @@ const user = (state = initialState, action) => {
   case 'USER':
     return {
       ...state,
-      email: action.payload.email,
+      email: action.email,
     };
   default:
     return state;
