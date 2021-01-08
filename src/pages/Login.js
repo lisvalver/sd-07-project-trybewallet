@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import saveEmail from '../actions';
+import * as actions from '../actions';
 
 const MIN_PASSWORD_LENGTH = 6;
 
@@ -82,10 +82,10 @@ class Login extends React.Component {
       </div>
     );
   }
-};
+}
 
 const mapDispatchToProps = {
-  saveEmail,
+  saveEmail: actions.saveEmail,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
