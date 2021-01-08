@@ -230,7 +230,6 @@ class Wallet extends React.Component {
           </tbody>
         </table>
         <button type="button">Editar/Excluir</button>
-
       </div>);
   }
 }
