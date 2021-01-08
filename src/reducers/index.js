@@ -3,3 +3,6 @@
 
 // Configure os seus reducers.
 // ATENÇÃO: você obrigatoriamente tem que utilizar as chaves "user" e "wallet" no seu estado global
+
+export { default as User } from './user';
+export { default as Wallet } from './wallet';
