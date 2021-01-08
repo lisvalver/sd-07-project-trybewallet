@@ -1,7 +1,8 @@
 import {
   REQUEST_CURRENCIES,
   RECEIVE_CURRENCIES_SUCCESS,
-  RECEIVE_CURRENCIES_FAILURE, EXPENSES, EXPENSES_CURRENCY, EXPENSES_DELETE,
+  RECEIVE_CURRENCIES_FAILURE,
+  EXPENSES, EXPENSES_CURRENCY, EXPENSES_DELETE, EXPENSES_EDITING,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -17,6 +18,7 @@ const INITIAL_STATE = {
     exchangeRates: {},
   },
   isFetching: false,
+  isEditing: false,
 };
 
 function wallet(state = INITIAL_STATE, action) {
@@ -52,6 +54,11 @@ function wallet(state = INITIAL_STATE, action) {
     return {
       ...state,
       expenses: state.expenses.filter((exp) => exp.id !== action.id),
+    };
+  case EXPENSES_EDITING:
+    return {
+      ...state,
+      isEditing: action.isEditing,
     };
   default:
     return state;

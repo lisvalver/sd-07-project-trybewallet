@@ -7,6 +7,7 @@ export const LOGIN = 'LOGIN';
 export const EXPENSES = 'EXPENSES';
 export const EXPENSES_CURRENCY = 'EXPENSES_CURRENCY';
 export const EXPENSES_DELETE = 'EXPENSES_DELETE';
+export const EXPENSES_EDITING = 'EXPENSES_EDITING';
 
 const requestCurrencies = () => ({
   type: REQUEST_CURRENCIES,
@@ -57,4 +58,9 @@ export const expensesCurrencyAction = (expense) => ({
 export const deleteExpensesAction = (id) => ({
   type: EXPENSES_DELETE,
   id,
+});
+
+export const editExpense = (isEditing) => ({
+  type: EXPENSES_EDITING,
+  isEditing,
 });

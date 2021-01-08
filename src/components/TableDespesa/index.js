@@ -1,9 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { deleteExpensesAction } from '../../actions';
+import {
+  deleteExpensesAction,
+  editExpense,
+  expensesCurrencyAction,
+} from '../../actions';
 
 class TableDespesa extends React.Component {
+  constructor(props) {
+    super(props);
+    this.initEditing = this.initEditing.bind(this);
+  }
+
+  initEditing(event, id) {
+    event.preventDefault();
+    const { editExpenses, expenses, setExpense } = this.props;
+    editExpenses();
+    const expenseForEditing = expenses.find((expen) => expen.id === id);
+    setExpense(expenseForEditing);
+  }
+
   render() {
     const { expenses, deleteExpenses } = this.props;
     return (
@@ -45,7 +62,14 @@ class TableDespesa extends React.Component {
                         type="button"
                         onClick={ () => deleteExpenses(id) }
                       >
-                        deletar
+                        del
+                      </button>
+                      <button
+                        data-testid="edit-btn"
+                        type="button"
+                        onClick={ (event) => this.initEditing(event, id) }
+                      >
+                        edit
                       </button>
                     </td>
                   </tr>
@@ -70,6 +94,8 @@ TableDespesa.propTypes = {
     exchangeRates: PropTypes.shape(),
   })).isRequired,
   deleteExpenses: PropTypes.func.isRequired,
+  editExpenses: PropTypes.func.isRequired,
+  setExpense: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ wallet }) => ({
@@ -78,6 +104,8 @@ const mapStateToProps = ({ wallet }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   deleteExpenses: (id) => dispatch(deleteExpensesAction(id)),
+  editExpenses: () => dispatch(editExpense(true)),
+  setExpense: (expense) => dispatch(expensesCurrencyAction(expense)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableDespesa);

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
+  deleteExpensesAction,
+  editExpense,
   expensesAction,
   expensesCurrencyAction,
   fetchGetCurrencies,
@@ -14,6 +16,7 @@ class FormDespesa extends React.Component {
     super(props);
     this.changeInputs = this.changeInputs.bind(this);
     this.handleAddDespesa = this.handleAddDespesa.bind(this);
+    this.handleEditDespesa = this.handleEditDespesa.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +39,13 @@ class FormDespesa extends React.Component {
     this.handleSetExpense();
   }
 
+  handleEditDespesa(event) {
+    event.preventDefault();
+    const { editExpenses, expense, deleteExpenses } = this.props;
+    deleteExpenses(expense.id);
+    editExpenses();
+  }
+
   handleSetExpense() {
     const { expense, setExpenses } = this.props;
     setExpenses(expense);
@@ -48,7 +58,7 @@ class FormDespesa extends React.Component {
   }
 
   render() {
-    const { currencies, expense } = this.props;
+    const { currencies, expense, isEditing } = this.props;
     const {
       value,
       description,
@@ -127,12 +137,22 @@ class FormDespesa extends React.Component {
                 <option value="Saúde">Saúde</option>
               </select>
             </div>
-            <button
-              type="button"
-              onClick={ this.handleAddDespesa }
-            >
-              Adicionar despesa
-            </button>
+            {isEditing && (
+              <button
+                type="button"
+                onClick={ this.handleEditDespesa }
+              >
+                Editar gasto
+              </button>
+            )}
+            {!isEditing && (
+              <button
+                type="button"
+                onClick={ this.handleAddDespesa }
+              >
+                Adicionar despesa
+              </button>
+            )}
           </form>
         </div>
       </div>
@@ -175,6 +195,9 @@ FormDespesa.propTypes = {
     tag: PropTypes.string,
     exchangeRates: PropTypes.shape(),
   })).isRequired,
+  isEditing: PropTypes.bool.isRequired,
+  editExpenses: PropTypes.func.isRequired,
+  deleteExpenses: PropTypes.func.isRequired,
 };
 
 FormDespesa.defaultProps = {
@@ -193,12 +216,15 @@ const mapStateToProps = ({ wallet }) => ({
   currencies: wallet.currencies,
   expense: wallet.expense,
   expenses: wallet.expenses,
+  isEditing: wallet.isEditing,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   currenciesAction: () => dispatch(fetchGetCurrencies()),
   setExpenses: (expenses) => dispatch(expensesAction(expenses)),
   setExpense: (expense) => dispatch(expensesCurrencyAction(expense)),
+  editExpenses: () => dispatch(editExpense(false)),
+  deleteExpenses: (id) => dispatch(deleteExpensesAction(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormDespesa);
