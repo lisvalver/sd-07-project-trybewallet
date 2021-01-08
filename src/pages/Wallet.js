@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpenses, failedRequest, request } from '../actions';
+import { addExpenses, failedRequest, fetchCurrency } from '../actions';
+import Table from '../component/Table';
 
 class Wallet extends Component {
   constructor() {
     super();
     this.state = {
-      totalDespesas: 0,
       value: 0,
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      exchangeRates: {},
     };
+
     this.handleChanger = this.handleChanger.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    const { fetchData } = this.props;
+    fetchData(null, false);
   }
 
   handleChanger({ target: { name, value } }) {
@@ -24,34 +29,14 @@ class Wallet extends Component {
   }
 
   handleSubmit() {
-    this.fetchApi();
-    this.setState({
-      value: 0,
-      description: '',
-      currency: 'USD',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
-    });
-  }
-
-  fetchApi() {
-    const { addExpense, fail, requisited } = this.props;
-    const url = 'https://economia.awesomeapi.com.br/json/all';
-    requisited();
-    return fetch(url)
-      .then((result) => result.json())
-      .then((json) => {
-        const data = this.state;
-        data.exchangeRates = json;
-      })
-      .then((object) => addExpense(object))
-      .catch((error) => fail(error));
+    const { fetchData } = this.props;
+    fetchData(this.state, true);
   }
 
   render() {
-    const { email, moedas } = this.props;
+    const { email, mapcurrency = [], totalValue = 0 } = this.props;
+    console.log(mapcurrency);
     const {
-      totalDespesas,
       value,
       description,
       currency,
@@ -63,7 +48,7 @@ class Wallet extends Component {
       <div>
         <header>
           <p data-testid="email-field">{email}</p>
-          <p data-testid="total-field">{totalDespesas}</p>
+          <p data-testid="total-field">{totalValue}</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
         <form>
@@ -85,7 +70,7 @@ class Wallet extends Component {
             value={ currency }
             onChange={ (e) => this.handleChanger(e) }
           >
-            {moedas.map((item) => (item !== 'USDT' ? (
+            {(mapcurrency).map((item) => (item !== 'USDT' ? (
               <option key={ item } value={ item } data-testid={ item }>
                 {item}
               </option>
@@ -120,6 +105,7 @@ class Wallet extends Component {
             Adicionar Despesa
           </button>
         </form>
+        <Table />
       </div>
     );
   }
@@ -127,21 +113,23 @@ class Wallet extends Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  moedas: state.wallet.expenses,
+  mapcurrency: state.wallet.currency,
+  totalValue: state.wallet.totalValue,
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addExpense: (expense) => dispatch(addExpenses(expense)),
   fail: (error) => dispatch(failedRequest(error)),
-  requisited: () => dispatch(request()),
+  fetchData: (a, b) => dispatch(fetchCurrency(a, b)),
+
 });
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
-  addExpense: PropTypes.arrayOf(PropTypes.object).isRequired,
-  moedas: PropTypes.func.isRequired,
-  requisited: PropTypes.func.isRequired,
-  fail: PropTypes.func.isRequired,
+  mapcurrency: PropTypes.arrayOf(PropTypes.string).isRequired,
+  fetchData: PropTypes.func.isRequired,
+  totalValue: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
