@@ -45,10 +45,10 @@ class Login extends React.Component {
   }
 
   changeEmailInTheStore() {
-    const { currentLogin } = this.props;
+    const { sendMail } = this.props;
     const { email } = this.state;
 
-    currentLogin(email);
+    sendMail(email);
   }
 
   render() {
@@ -83,13 +83,13 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  currentLogin: PropTypes.shape({
+  sendMail: PropTypes.shape({
     email: PropTypes.string.isRequired,
   }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  currentLogin: (user) => dispatch(currentLogin(user)),
+  sendMail: (user) => dispatch(currentLogin(user)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
