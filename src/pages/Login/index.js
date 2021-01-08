@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { LoginForm } from '../../components';
 import { signIn } from '../../actions';
+import './LoginPage.css';
 
 class Login extends React.Component {
   constructor() {
@@ -53,12 +54,14 @@ class Login extends React.Component {
   render() {
     const { isDisabled } = this.state;
     return (
-      <LoginForm
-        formData={ this.state }
-        onInputChange={ this.handleInputChange }
-        onSubmit={ this.handleSubmit }
-        buttonIsAble={ isDisabled }
-      />
+      <div className="login-page">
+        <LoginForm
+          formData={ this.state }
+          onInputChange={ this.handleInputChange }
+          onSubmit={ this.handleSubmit }
+          buttonIsAble={ isDisabled }
+        />
+      </div>
     );
   }
 }
