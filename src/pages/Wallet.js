@@ -9,6 +9,7 @@ class Wallet extends React.Component {
     this.currencies = this.currencies.bind(this);
     this.addExpenseButton = this.addExpenseButton.bind(this);
     this.zerarCampos = this.zerarCampos.bind(this);
+    this.tableBody = this.tableBody.bind(this);
     this.state = {
       total: 0,
       list: [],
@@ -63,6 +64,31 @@ class Wallet extends React.Component {
     document.getElementById('currencies').value = 'USD';
     document.getElementById('payment_method').value = 'Dinheiro';
     document.getElementById('tag').value = 'alimentacao';
+  }
+
+  tableBody() {
+    console.log('entrou no tablebody');
+    const { expenses } = this.props;
+
+    return (
+      expenses.map((item) => {
+        const { id, description, tag, method, value, currency, exchangeRates } = item;
+        const valorDeConversao = (value * exchangeRates[currency].ask).toFixed(2);
+        const valorDaMoeda = parseFloat(exchangeRates[currency].ask).toFixed(2);
+        return (
+          <tr key={ id }>
+            <td>{description}</td>
+            <td>{tag}</td>
+            <td>{method}</td>
+            <td>{value}</td>
+            <td>{exchangeRates[currency].name}</td>
+            <td>{valorDaMoeda}</td>
+            <td>{valorDeConversao}</td>
+            <td>Real</td>
+          </tr>
+        );
+      })
+    );
   }
 
   currencies() {
@@ -185,15 +211,37 @@ class Wallet extends React.Component {
             </button>
           </form>
         </section>
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+            </tr>
+
+          </thead>
+          <tbody>
+            {this.tableBody()}
+          </tbody>
+        </table>
+        <button type="button">Editar/Excluir</button>
+
       </div>);
   }
 }
 Wallet.propTypes = {
+  expenses: PropTypes.arrayOf().isRequired,
   email: PropTypes.string.isRequired,
   adicionarDespesa: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expenses: state.wallet.expenses,
 });
 const mapDispatchToProps = (dispatch) => ({ // só inclui funções
   adicionarDespesa: (expense) => dispatch(addExpense(expense)),
