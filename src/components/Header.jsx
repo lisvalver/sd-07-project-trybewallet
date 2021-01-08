@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 class Header extends React.Component {
   constructor(props) {
@@ -7,6 +8,9 @@ class Header extends React.Component {
   }
 
   render() {
+    const { email } = this.props;
+    const INITIAL_TOTAL_PRICE = 0;
+    const COIN_TYPE = 'BRL'
 
     return(
       <header>
@@ -14,16 +18,16 @@ class Header extends React.Component {
           <p>
             Email:
             <span data-testid="email-field">
-              
+              { email }
             </span>
           </p>
           <p>
             Despesa Total:
-            <span>
-              
+            <span data-testid="total-field">
+              { INITIAL_TOTAL_PRICE }
             </span>
-            <span>
-              
+            <span data-testid="header-currency-field">
+              { COIN_TYPE }
             </span>
           </p>
         </div>
@@ -31,3 +35,7 @@ class Header extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({ email: state.user.email });
+
+export default connect(mapStateToProps, null)(Header);
