@@ -15,7 +15,7 @@ class Wallet extends React.Component {
       value: 0,
       description: '',
       currency: '',
-      payment: '',
+      method: '',
       tag: '',
     };
   }
@@ -26,7 +26,7 @@ class Wallet extends React.Component {
 
   async addExpenseButton() {
     const url = 'https://economia.awesomeapi.com.br/json/all';
-    const { expenses, value, description, currency, payment, tag, total } = this.state;
+    const { expenses, value, description, currency, method, tag, total } = this.state;
     const exchangeRates = await fetch(url)
       .then((item) => item.json());
     console.log(value);
@@ -39,7 +39,7 @@ class Wallet extends React.Component {
       value,
       description,
       currency,
-      payment,
+      method,
       tag,
       exchangeRates,
     };
@@ -129,7 +129,7 @@ class Wallet extends React.Component {
                 id="payment_method"
                 onChange={ ({ target }) => {
                   this.setState({
-                    payment: target.value,
+                    method: target.value,
                   });
                 } }
               >
