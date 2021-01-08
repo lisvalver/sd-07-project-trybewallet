@@ -48,7 +48,7 @@ class FormDespesa extends React.Component {
   }
 
   render() {
-    const { currencies, expense, expenses } = this.props;
+    const { currencies, expense } = this.props;
     const {
       value,
       description,
@@ -81,7 +81,7 @@ class FormDespesa extends React.Component {
               />
             </div>
             <div>
-              Moeda
+              Selecione a Moeda
               <select
                 data-testid="currency-input"
                 name="currency"
@@ -134,11 +134,6 @@ class FormDespesa extends React.Component {
               Adicionar despesa
             </button>
           </form>
-          <div>
-            {expenses.map((expen) => (
-              <p key={ expen.id }>{ expen.description }</p>
-            ))}
-          </div>
         </div>
       </div>
     );

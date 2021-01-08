@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 class Header extends React.Component {
   render() {
     const { email, expenses } = this.props;
-    const totalField = expenses.reduce(
-      (acc, curr) => acc + (curr.value * Number(curr.exchangeRates[curr.currency].ask)),
-      0,
-    );
+    const totalField = expenses.map(
+      (expen) => expen.exchangeRates[expen.currency].ask * expen.value,
+    ).reduce((acc, curr) => acc + Number(curr), 0);
+
     return (
       <div>
         <div>
