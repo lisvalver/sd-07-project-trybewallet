@@ -37,5 +37,5 @@ export const failedRequest = (error) => ({
 
 export const listCurrencies = (currencies) => ({
   type: LIST_CURRENCIES,
-  currencies,
+  payload: currencies,
 });
