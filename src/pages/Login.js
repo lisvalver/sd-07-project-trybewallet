@@ -8,8 +8,11 @@ class Login extends React.Component {
     super();
     this.handleChange = this.handleChange.bind(this);
     this.submitHandle = this.submitHandle.bind(this);
+    this.checkFields = this.checkFields.bind(this);
     this.state = {
       email: '',
+      emailValidate: false,
+      senhaValidate: false,
     };
   }
 
@@ -27,11 +30,29 @@ class Login extends React.Component {
     history.push('/carteira');
   }
 
+  checkFields(e) {
+    const { name, value } = e.target;
+
+    if (name === 'email') {
+      const patt = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+      const result = patt.test(value);
+      this.setState({ emailValidate: result });
+    }
+
+    if (name === 'senha') {
+      const patt = 6;
+      const result = value.length >= patt;
+      this.setState({ senhaValidate: result });
+    }
+  }
+
   render() {
+    const { emailValidate, senhaValidate } = this.state;
+
     return (
       <div>
         <h1>Página de Login</h1>
-        <form onSubmit={ this.submitHandle }>
+        <form onSubmit={ this.submitHandle } onChange={ this.checkFields }>
           <label htmlFor="email">
             Email:
             <input
@@ -53,7 +74,11 @@ class Login extends React.Component {
               minLength="6"
             />
           </label>
-          <input type="submit" value="Entrar" />
+          <input
+            type="submit"
+            value="Entrar"
+            disabled={ !(emailValidate && senhaValidate) }
+          />
         </form>
       </div>
     );
