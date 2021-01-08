@@ -9,23 +9,21 @@ class Wallet extends React.Component {
         <header>
           <section data-testid="email-field">
             Email:
-            { email }
+            {email}
           </section>
           <section data-testid="total-field">
             Despesas Totais: R$
-            { despesas }
+            {despesas}
           </section>
-          <section data-testid="header-currency-field">
-            BRL
-          </section>
+          <section data-testid="header-currency-field">BRL</section>
         </header>
       </div>
     );
   }
 }
 
-const mapStateToProps = ( state ) => ({
+const mapStateToProps = (state) => ({
   email: state.user.email,
-})
+});
 
 export default connect(mapStateToProps, null)(Wallet);

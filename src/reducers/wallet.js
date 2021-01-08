@@ -3,10 +3,10 @@ const INITIAL_STATE = [];
 
 function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case 'ADD_ELEMENT':
-      return [...state, action.payload];
-    default:
-      return state;
+  case 'ADD_ELEMENT':
+    return [...state, action.payload];
+  default:
+    return state;
   }
 }
 
