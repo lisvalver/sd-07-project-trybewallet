@@ -25,15 +25,15 @@ class FormDespesa extends React.Component {
 
   changeInputs({ target }) {
     const { name, value } = target;
-    const { expenses, setExpense } = this.props;
+    const { setExpense } = this.props;
     setExpense({ [name]: value });
-    const newID = expenses.length ? expenses[expenses.length - 1].id + 1 : 0;
-    setExpense({ id: newID });
   }
 
   async handleAddDespesa(event) {
     event.preventDefault();
-    const { setExpense } = this.props;
+    const { expenses, setExpense } = this.props;
+    const newID = expenses.length ? expenses[expenses.length - 1].id + 1 : 0;
+    setExpense({ id: newID });
     const exchangeRates = await getCurrencies();
     setExpense({ exchangeRates });
     this.handleSetExpense();
@@ -41,8 +41,9 @@ class FormDespesa extends React.Component {
 
   handleEditDespesa(event) {
     event.preventDefault();
-    const { editExpenses, expense, deleteExpenses } = this.props;
+    const { editExpenses, expense, setExpenses, deleteExpenses } = this.props;
     deleteExpenses(expense.id);
+    setExpenses(expense);
     editExpenses();
   }
 
@@ -142,7 +143,7 @@ class FormDespesa extends React.Component {
                 type="button"
                 onClick={ this.handleEditDespesa }
               >
-                Editar gasto
+                Editar despesa
               </button>
             )}
             {!isEditing && (

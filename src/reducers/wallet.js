@@ -43,7 +43,11 @@ function wallet(state = INITIAL_STATE, action) {
   case EXPENSES:
     return {
       ...state,
-      expenses: [...state.expenses, action.expenses],
+      expenses: [...state.expenses, action.expenses].sort((expen, expen2) =>{
+        if (expen.id > expen2.id) return 1;
+        if (expen.id < expen2.id) return -1;
+        return 0;
+      }),
     };
   case EXPENSES_CURRENCY:
     return {
