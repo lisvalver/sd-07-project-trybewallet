@@ -1,6 +1,6 @@
 import userTypes from './types';
 
-const userReducer = (state = {}, action) => {
+const user = (state = {}, action) => {
   switch (action.type) {
   case userTypes.LOGIN:
     return { ...state, email: action.email };
@@ -9,4 +9,4 @@ const userReducer = (state = {}, action) => {
   }
 };
 
-export default userReducer;
+export default user;
