@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpenses } from '../actions';
+import { addExpenses, fetchCurrencies } from '../actions';
+import Expenses from './componentes/Expenses';
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -15,6 +16,11 @@ class Wallet extends React.Component {
       infor: '',
       despesaTotal: 0,
     };
+  }
+
+  componentDidMount() {
+    const { fetchCurrency } = this.props;
+    fetchCurrency();
   }
 
   handleFormInput(event) {
@@ -126,6 +132,7 @@ class Wallet extends React.Component {
         >
           Adicionar despesa
         </button>
+        <Expenses />
       </div>
     );
   }
@@ -134,7 +141,6 @@ class Wallet extends React.Component {
 function mapStateToProps(state) {
   return {
     email: state.user.email,
-    expenses: state.wallet.expenses,
   };
 }
 
@@ -143,6 +149,7 @@ function mapDispatchToProps(dispatch) {
     saveExpenses: (cash, currency, methodInput, tagInput, infor) => dispatch(
       addExpenses(cash, currency, methodInput, tagInput, infor),
     ),
+    fetchCurrency: () => dispatch(fetchCurrencies()),
   };
 }
 
