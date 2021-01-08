@@ -50,6 +50,7 @@ class Wallet extends React.Component {
     });
     const { adicionarDespesa } = this.props;
     adicionarDespesa(expenses);
+    // salvarDespesas(expenses);
   }
 
   currencies() {
@@ -170,11 +171,13 @@ class Wallet extends React.Component {
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   adicionarDespesa: PropTypes.func.isRequired,
+  // salvarDespesas: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   email: state.user.email,
 });
 const mapDispatchToProps = (dispatch) => ({ // só inclui funções
   adicionarDespesa: (expense) => dispatch(addExpense(expense)),
+  // salvarDespesas: (expenses) => dispatch(saveExpenses(expenses)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

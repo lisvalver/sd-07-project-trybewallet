@@ -9,11 +9,11 @@ const INITIAL_STATE = {
 function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
   case ADD_EXPENSE:
-    return { ...state, expense: action.expense };
+    return { ...state, expenses: action.expense };
   case REMOVE_EXPENSE:
-    return { ...state, expense: action.expense }; // é pra ser tudo igual mesmo?
+    return { ...state, expenses: action.expense }; // é pra ser tudo igual mesmo?
   case SAVE_EXPENSES:
-    return { ...state, expense: action.expenses };
+    return { ...state, expenses: action.expenses };
   default:
     return state;
   }
