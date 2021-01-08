@@ -58,7 +58,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.userReducer.email,
+  user: state.user.email,
 });
 
 Login.propTypes = {
