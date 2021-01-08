@@ -10,8 +10,8 @@ h1 {
 .form-login {
   display: flex;
   flex-direction: column;
+  margin: auto;
   width: 250px;
-  margin:auto;
 }
 
 .text-login {
@@ -19,7 +19,7 @@ h1 {
 }
 
 form {
+  align-items: center;
   display: flex;
   height: 30px;
-  align-items: center;
 }
