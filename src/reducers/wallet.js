@@ -43,9 +43,10 @@ function wallet(state = INITIAL_STATE, action) {
   case EXPENSES:
     return {
       ...state,
-      expenses: [...state.expenses, action.expenses].sort((expen, expen2) =>{
+      expenses: [...state.expenses, action.expenses].sort((expen, expen2) => {
+        const minusUm = -1;
         if (expen.id > expen2.id) return 1;
-        if (expen.id < expen2.id) return -1;
+        if (expen.id < expen2.id) return minusUm;
         return 0;
       }),
     };
