@@ -6,12 +6,14 @@ const INITIAL_STATE = {
 };
 
 function wallet(state = INITIAL_STATE, action) {
+  const newexpen = [...state.expenses];
   switch (action.type) {
   case 'EDITING':
-    state.expenses[(action.obj.id)] = action.obj;
+    newexpen[(action.obj.id)] = action.obj;
     return (
       {
         ...state,
+        expenses: newexpen,
       }
     );
   case 'DELETED':

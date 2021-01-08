@@ -12,6 +12,7 @@ class Wallet extends React.Component {
     this.click = this.click.bind(this);
     this.clickedit = this.clickedit.bind(this);
     this.cled = this.cled.bind(this);
+    this.ranrandom = this.ranrandom.bind(this);
     this.tabelaJovemDinamica = this.tabelaJovemDinamica.bind(this);
     this.state = {
       edit: false,
@@ -37,6 +38,13 @@ class Wallet extends React.Component {
 
   async change(name, { target }) {
     await this.setState({ [name]: target.value });
+  }
+
+  ranrandom(strin) {
+    const arraymaster = Math.round(strin * 100).toString();
+    const [a, b, c] = arraymaster;
+    const numberstr = `${a}.${b}${c}`;
+    return (numberstr);
   }
 
   moedas() {
@@ -88,7 +96,7 @@ class Wallet extends React.Component {
 
   cled(obj) {
     const { editei } = this.props;
-    const { value, api, description, currency, method, tag } = this.state;
+    const { value, description, currency, method, tag } = this.state;
     const object = {
       id: obj.id,
       value,
@@ -96,7 +104,7 @@ class Wallet extends React.Component {
       currency,
       method,
       tag,
-      exchangeRates: api,
+      exchangeRates: obj.exchangeRates,
     };
     editei(object);
     this.setState({
@@ -124,7 +132,7 @@ class Wallet extends React.Component {
         <td>{elemento.method}</td>
         <td>{elemento.value}</td>
         <td>{objobj.name}</td>
-        <td>{Math.round(mult * 100) / 100}</td>
+        <td>{this.ranrandom(mult)}</td>
         <td>{valormult}</td>
         <td>Real</td>
         <td>
