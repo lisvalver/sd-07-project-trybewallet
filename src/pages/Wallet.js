@@ -142,48 +142,49 @@ class Wallet extends React.Component {
           <button type="button" onClick={ this.test }>Adicionar despesa</button>
         </form>
         <table border="1">
-          <tr>
-            <td>Descrição</td>
-            <td>Tag</td>
-            <td>Método de pagamento</td>
-            <td>Valor</td>
-            <td>Moeda</td>
-            <td>Câmbio utilizado</td>
-            <td>Valor convertido</td>
-            <td>Moeda de conversão</td>
-            <td>Editar/Excluir</td>
-          </tr>
-
-          {expenses.map((item, index) => (
-            <tr key={ item.id }>
-              <td>{item.description}</td>
-              <td>{item.tag}</td>
-              <td>{item.method}</td>
-              <td>
-                {item.currency[0]}
-                {item.currency[1]}
-                $:
-                {' '}
-                {item.value}
-                .00
-              </td>
-              <td>{this.findCurrency(item.currency).name}</td>
-              <td>{this.findCurrency(item.currency).high}</td>
-              <td>
-                R$
-                {(this.findCurrency(item.currency).high * item.value).toFixed(2)}
-              </td>
-              <td>Real</td>
-              <td>
-                <button
-                  data-testid="delete-btn"
-                  onClick={ () => this.deletedExpense(index) }
-                  type="button"
-                >
-                  Deletar
-                </button>
-              </td>
+          <thead>
+            <tr>
+              <td>Descrição</td>
+              <td>Tag</td>
+              <td>Método de pagamento</td>
+              <td>Valor</td>
+              <td>Moeda</td>
+              <td>Câmbio utilizado</td>
+              <td>Valor convertido</td>
+              <td>Moeda de conversão</td>
+              <td>Editar/Excluir</td>
             </tr>
+          </thead>
+          {expenses.map((item, index) => (
+            <tbody key={ index }>
+              <tr>
+                <td>{item.description}</td>
+                <td>{item.tag}</td>
+                <td>{item.method}</td>
+                <td>
+                  {item.currency}
+                  {' '}
+                  {item.value}
+                  .00
+                </td>
+                <td>{this.findCurrency(item.currency).name}</td>
+                <td>{this.findCurrency(item.currency).high}</td>
+                <td>
+                  R$
+                  {(this.findCurrency(item.currency).high * item.value).toFixed(2)}
+                </td>
+                <td>Real</td>
+                <td>
+                  <button
+                    data-testid="delete-btn"
+                    onClick={ () => this.deletedExpense(index) }
+                    type="button"
+                  >
+                    Deletar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
           ))}
         </table>
       </div>
