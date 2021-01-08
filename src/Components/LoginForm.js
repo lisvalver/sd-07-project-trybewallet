@@ -92,15 +92,12 @@ class LoginForm extends React.Component {
   }
 }
 
-
 LoginForm.propTypes = {
   history: PropTypes.objectOf.isRequired,
   login:  PropTypes.func.isRequired,
 };
 
-
 const mapDispatchToProps = (dispatch) => ({
   login: (email, senha) => dispatch(signIn({ email, senha })),
 });
-
 export default connect(null, mapDispatchToProps)(LoginForm);

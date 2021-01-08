@@ -7,7 +7,7 @@ class Login extends React.Component {
     const { history } = this.props;
     return (
       <div>
-        <LoginForm history={ history }/>
+        <LoginForm history={ history } />
       </div>
     );
   }
