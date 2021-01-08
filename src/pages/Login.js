@@ -81,12 +81,12 @@ class Login extends React.Component {
         </form>
       </div>
     );
-  };
-}
+  }
+};
 
 const mapDispatchToProps = {
   saveEmail,
-}
+};
 
 export default connect(null, mapDispatchToProps)(Login);
 
