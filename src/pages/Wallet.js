@@ -1,35 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {addExpenses } from '../actions'
+import { addExpenses } from '../actions';
 
 class Wallet extends React.Component {
   constructor(props) {
     super(props);
     this.handleFormInput = this.handleFormInput.bind(this);
-    this.fetchProduct = this.fetchCurrency.bind(this);
     this.state = {
       cash: 0,
       currency: 'USD',
       methodInput: 'Dinheiro',
       tagInput: 'Lazer',
       infor: '',
-      currencyExpences: [],
+      despesaTotal: 0,
     };
   }
-
-  fetchCurrency(expenses) {
-    const parcedCurrency = expenses.map( async (item) => {
-        const currencyCurrent = item.currency;
-        try {
-          const res = await fetch(`https://economia.awesomeapi.com.br/json/${currencyCurrent}`);
-          return {[currencyCurrent]: res[0].bid };
-      } catch (error) {
-          console.error(error)
-      }
-      });
-      this.setState({currencyExpences: [...parcedCurrency]})
-    }
 
   handleFormInput(event) {
     const { name, value } = event.target;
@@ -37,8 +23,8 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { email, expenses, saveExpenses } = this.props;
-    const { cash, currency, methodInput, tagInput, infor } = this.state;
+    const { email, saveExpenses } = this.props;
+    const { cash, currency, methodInput, tagInput, infor, despesaTotal } = this.state;
     return (
       <div>
         <header>
@@ -48,6 +34,9 @@ class Wallet extends React.Component {
           </span>
           <span data-testid="total-field">
             Despesa Total:
+            R$
+            { despesaTotal }
+            ,00
           </span>
           <span data-testid="header-currency-field">
             BRL
@@ -130,26 +119,32 @@ class Wallet extends React.Component {
               onChange={ (event) => this.handleFormInput(event) }
             />
           </label>
-          <button onClick={() => saveExpenses(cash, currency, methodInput, tagInput, infor)
-          && this.fetchCurrency(expenses) && console.log(this.state)}> 
-        Adicionar despesa </button>
         </form>
+        <button
+          type="button"
+          onClick={ () => saveExpenses(cash, currency, methodInput, tagInput, infor) }
+        >
+          Adicionar despesa
+        </button>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  email: state.user.email,
-  expenses: state.wallet.expenses });
+function mapStateToProps(state) {
+  return {
+    email: state.user.email,
+    expenses: state.wallet.expenses,
+  };
+}
 
-  function mapDispatchToProps(dispatch) {
-    return {
-      saveExpenses: (cash, currency, methodInput, tagInput, infor) => dispatch(
-        addExpenses(cash, currency, methodInput, tagInput, infor),
-      ),
-    };
-  }
+function mapDispatchToProps(dispatch) {
+  return {
+    saveExpenses: (cash, currency, methodInput, tagInput, infor) => dispatch(
+      addExpenses(cash, currency, methodInput, tagInput, infor),
+    ),
+  };
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
 
