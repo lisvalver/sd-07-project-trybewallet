@@ -1,23 +1,21 @@
 .header-user {
-  margin: 2% 0 2% 0;
+  background-color: green;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  font-family: 'Times New Roman', Times, serif;
   font-size: large;
-  background-color: green;
+  justify-content: space-around;
+  margin: 2% 0;
 }
 
 .add-expense {
-  padding: 2% 0 2% 0;
+  align-content: space-around;
+  align-items: flex-end;
+  background-color: grey;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: flex-end;
-  align-content: space-around;
-  font-family: 'Times New Roman', Times, serif;
   font-size: medium;
-  background-color: grey;
+  justify-content: space-around;
+  padding: 2% 0;
 }
 
 .thead-expense {
@@ -26,12 +24,12 @@
 }
 
 .thead-expense > th {
-  width: 6%;
-  display: flex;
   align-items: center;
-  padding: 2% 1% 2% 1%;
   border: black solid 1px;
+  display: flex;
   flex-grow: 1;
+  padding: 2% 1%;
+  width: 6%;
 }
 
 .tbody-expense {
@@ -40,10 +38,10 @@
 }
 
 .tbody-expense > td {
-  width: 6%;
+  align-items: center;
   border: grey solid 1px;
   display: flex;
-  align-items: center;
-  padding: 2% 1% 2% 1%;
   flex-grow: 1;
+  padding: 2% 1%;
+  width: 6%;
 }
