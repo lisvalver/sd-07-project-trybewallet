@@ -30,8 +30,7 @@ class Login extends Component {
 
     const expectedPattern = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
     const requiredEmail = expectedPattern.test(email) && email !== '';
-    console.log(requiredEmail);
-    console.log(requiredPassword);
+
     return requiredPassword && requiredEmail;
   }
 
