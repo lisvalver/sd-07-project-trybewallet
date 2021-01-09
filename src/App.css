@@ -1,35 +1,43 @@
 body {
   margin: 1px;
 }
+
 .App {
   text-align: center;
 }
+
 h1{
   color: aliceblue;
 }
+
 p{
-  margin-top: 30px;
   margin-left: 350px;
+  margin-top: 30px;
 }
+
 .info-fields {
   display: flex;
 }
+
 label{
   margin-left: 10px;
 }
+
 select{
   margin-left: 5px;
 }
+
 .currency {
   margin-left: 5px;
 }
+
 .info-budget {
-  padding: 5px;
   align-items: center;
   border: 1px solid;
+  display: flex;
   height: 40px;
   margin-top: 5px;
-  display: flex;
+  padding: 5px;
 }
 
 .expenses {
