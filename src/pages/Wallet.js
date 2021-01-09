@@ -8,6 +8,7 @@ class Wallet extends React.Component {
   constructor(props) {
     super(props);
     this.handleFormInput = this.handleFormInput.bind(this);
+    this.fetchAndSaveExpenses = this.fetchAndSaveExpenses.bind(this);
     this.state = {
       cash: 0,
       currency: 'USD',
@@ -18,18 +19,20 @@ class Wallet extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const { fetchCurrency } = this.props;
-    fetchCurrency();
-  }
 
+async fetchAndSaveExpenses() {
+  const { fetchCurrency, saveExpenses } = this.props
+  const { cash, currency, methodInput, tagInput, infor } = this.state;
+  await fetchCurrency();
+  saveExpenses(cash, currency, methodInput, tagInput, infor);
+}
   handleFormInput(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
 
   render() {
-    const { email, saveExpenses } = this.props;
+    const { email } = this.props;
     const { cash, currency, methodInput, tagInput, infor, despesaTotal } = this.state;
     return (
       <div>
@@ -129,7 +132,7 @@ class Wallet extends React.Component {
         </form>
         <button
           type="button"
-          onClick={ () => saveExpenses(cash, currency, methodInput, tagInput, infor) }
+          onClick={ this.fetchAndSaveExpenses}
         >
           Adicionar despesa
         </button>

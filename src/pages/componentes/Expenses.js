@@ -8,7 +8,7 @@ class Expenses extends React.Component {
     return (
       <div>
         { expenses.map((element, index) => {
-          const { cash, currency, methodInput, tagInput, infor, id } = element;
+          const { cash, currency, methodInput, tagInput, infor} = element;
           return (
             <div key={ index }>
               <span>{ cash }</span>
@@ -16,7 +16,6 @@ class Expenses extends React.Component {
               <span>{ methodInput }</span>
               <span>{ tagInput }</span>
               <span>{ infor }</span>
-              <span>{ id }</span>
             </div>);
         })}
       </div>

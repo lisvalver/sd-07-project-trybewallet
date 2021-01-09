@@ -10,3 +10,11 @@ export default function user(state = initialState, action) {
     return state;
   }
 }
+
+/*
+expenses.reduce((acc, quote)=>{
+  const curr = quote.currency
+return (quote.cash * quote.exchangeRates[curr].bid) +acc
+},0)
+
+ */
