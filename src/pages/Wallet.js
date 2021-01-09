@@ -5,7 +5,6 @@ import ExpensesForm from '../components/ExpensesForm';
 
 class Wallet extends React.Component {
   render() {
-    // const { currencies } = this.props;
     return (
       <div>
         <Header />
