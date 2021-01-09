@@ -30,9 +30,6 @@ class Wallet extends React.Component {
             Descrição da despesa
             <input name="discription" type="number" data-testid="description-input" />
           </label>
-          <select>
-            <option></option>
-          </select>
         </form>
       </div>
     );
