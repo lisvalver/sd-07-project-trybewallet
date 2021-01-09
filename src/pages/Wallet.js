@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 
 const Wallet = (props) => {
   const { valor, descricao, save, clear } = props;
   return (
     <div className="form">
+      <Header />
       <div className="row">
         <div className="col-12 col-md-6">
           <label htmlFor="valor">
