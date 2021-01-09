@@ -12,13 +12,11 @@ const failedAPI = (error) => ({
   error,
 });
 
-const fecthAction = () => {
-  return (dispatch) => {
-    dispatch(requestAPI());
-    return fetch('https://economia.awesomeapi.com.br/json/all')
-      .then((data) => dispatch(getAPI(data.json())))
-      .catch((error) => dispatch(failedAPI(error)));
-  };
+const fecthAction = () => (dispatch) => {
+  dispatch(requestAPI());
+  return fetch('https://economia.awesomeapi.com.br/json/all')
+    .then((data) => dispatch(getAPI(data.json())))
+    .catch((error) => dispatch(failedAPI(error)));
 };
 
 export default fecthAction;

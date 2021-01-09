@@ -27,11 +27,10 @@ class Despesas extends Component {
   }
 
   handleApi() {
-    const { wallet } = this.props;
-    const { value, description, currency, method } = this.state;
-    wallet({ value, description, currency, method });
+    const { walletSave } = this.props;
+    const { value, description, currency, method, tag } = this.state;
+    walletSave({ value, description, currency, method, tag });
   }
-
 
   render() {
     const options = [
@@ -70,7 +69,7 @@ class Despesas extends Component {
               Valor Despesas
               <input
                 name="value"
-                onChange={this.onInputChange}
+                onChange={ this.onInputChange }
                 data-testid="value-input"
               />
             </label>
@@ -78,7 +77,7 @@ class Despesas extends Component {
               Descrição Despesas
               <input
                 name="description"
-                onChange={this.onInputChange}
+                onChange={ this.onInputChange }
                 data-testid="description-input"
               />
             </label>
@@ -88,10 +87,10 @@ class Despesas extends Component {
               <select
                 name="currency"
                 data-testid="currency-input"
-                onChange={this.onInputChange}
+                onChange={ this.onInputChange }
               >
                 {options.map((opcao) => (
-                  <option key={opcao} data-testid={opcao} value={opcao}>
+                  <option key={ opcao } data-testid={ opcao } value={ opcao }>
                     {opcao}
                   </option>
                 ))}
@@ -104,10 +103,10 @@ class Despesas extends Component {
                 <select
                   name="method"
                   data-testid="method-input"
-                  onChange={this.onInputChange}
+                  onChange={ this.onInputChange }
                 >
                   {method.map((pag) => (
-                    <option key={pag} data-testid={pag} value={pag}>
+                    <option key={ pag } data-testid={ pag } value={ pag }>
                       {pag}
                     </option>
                   ))}
@@ -121,10 +120,10 @@ class Despesas extends Component {
                 <select
                   name="tag"
                   data-testid="tag-input"
-                  onChange={this.onInputChange}
+                  onChange={ this.onInputChange }
                 >
                   {categoria.map((tag) => (
-                    <option key={tag} data-testid={tag} value={tag}>
+                    <option key={ tag } data-testid={ tag } value={ tag }>
                       {tag}
                     </option>
                   ))}
@@ -134,7 +133,7 @@ class Despesas extends Component {
           </div>
         )}
         <div className="teste">
-          <button type="button" onClick={this.handleApi}>
+          <button type="button" onClick={ this.handleApi }>
             Adicionar Despesas
           </button>
           <div>{payload}</div>
@@ -147,7 +146,7 @@ class Despesas extends Component {
 Despesas.propTypes = {
   payload: PropTypes.objectOf.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  fecthEconomy: PropTypes.func.isRequired,
+  walletSave: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -157,7 +156,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fecthEconomy: () => dispatch(fecthAction()),
-  wallet: (despesas) => dispatch(wallet(despesas)),
+  walletSave: (despesas) => dispatch(wallet(despesas)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Despesas);
