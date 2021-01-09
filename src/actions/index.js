@@ -9,6 +9,11 @@ export const expenses = (expense) => ({
   expense,
 });
 
+export const removeAExpense = (expense) => ({
+  type: 'REMOVE_EXPENSE',
+  expense,
+});
+
 export const requestCurrencies = () => ({
   type: 'REQUEST_ALL_CURRENCIES',
 });

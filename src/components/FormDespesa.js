@@ -18,6 +18,7 @@ class FormDespesa extends Component {
       exchangeRates: {},
       currency: '',
       ask: '',
+      name: '',
     };
   }
 
@@ -44,10 +45,14 @@ class FormDespesa extends Component {
     const { currency } = this.state;
     getAllCurrencies();
     // const { currency } = this.state;
-    // console.log(allCurrencies);
+    console.log(allCurrencies);
     const askValue = allCurrencies[currency].ask;
+    const nameCurrency = allCurrencies[currency].name;
     this.setState(
-      () => ({ exchangeRates: allCurrencies, ask: askValue }),
+      () => ({ exchangeRates: allCurrencies,
+        ask: askValue,
+        name_currency: nameCurrency,
+      }),
       () => {
         addExpense(this.state);
         this.setState((previousState) => ({
@@ -58,6 +63,7 @@ class FormDespesa extends Component {
           category: '',
           exchangeRates: {},
           ask: '',
+          name: '',
         }));
       },
     );
