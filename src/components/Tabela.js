@@ -34,7 +34,7 @@ class Tabela extends Component {
               <th>Câmbio utilizado</th>
               <th>Valor convertido</th>
               <th>Moeda de conversão</th>
-              <th>Remover</th>
+              <th>Editar/Excluir</th>
             </tr>
           </thead>
           <tbody>
