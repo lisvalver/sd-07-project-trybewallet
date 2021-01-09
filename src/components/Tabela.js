@@ -11,16 +11,13 @@ class Tabela extends Component {
 
   handleRemove(expenseToRemove) {
     const { removeOneExpense, expenses } = this.props;
-    // console.log(expenses);
-    // console.log(expenseToRemove);
     const newExpenses = expenses.filter((expense) => expense.id !== expenseToRemove.id);
-    // console.log(newExpenses);
     removeOneExpense(newExpenses);
   }
 
   render() {
     const { expenses } = this.props;
-    console.log(expenses);
+    // console.log(expenses);
     return (
       <table>
         <thead>
@@ -44,11 +41,17 @@ class Tabela extends Component {
                 <td>{expense.category}</td>
                 <td>{expense.method}</td>
                 <td>{expense.value}</td>
-                <td>{expense.name}</td>
-                <td>{expense.ask}</td>
+                <td>{expense.exchangeRates[expense.currency].name}</td>
+                <td>
+                  {parseFloat(
+                    expense.exchangeRates[expense.currency].ask,
+                  ).toFixed(2)}
+                </td>
                 <td>
                   {
-                    (parseFloat(expense.ask) * parseFloat(expense.value)).toFixed(2)
+                    (parseFloat(
+                      expense.exchangeRates[expense.currency].ask,
+                    ) * parseFloat(expense.value)).toFixed(2)
                   }
                 </td>
                 <td>Real</td>

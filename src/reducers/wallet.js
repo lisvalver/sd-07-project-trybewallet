@@ -11,7 +11,7 @@ function wallet(state = initialState, action) {
     return { ...state,
       expenses: [...action.expense] };
   case 'CURRENCIES':
-    return { ...state, currencies: [...state.currencies, action.currencies] };
+    return { ...state, currencies: [{ ...action.currencies }] };
   default:
     return state;
   }

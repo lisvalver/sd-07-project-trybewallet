@@ -8,6 +8,7 @@ class FormDespesa extends Component {
     super();
     this.handleAddExpense = this.handleAddExpense.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.savingState = this.savingState.bind(this);
     // this.filteredCurrencies = this.filteredCurrencies.bind(this);
     this.state = {
       id: 0,
@@ -18,7 +19,6 @@ class FormDespesa extends Component {
       exchangeRates: {},
       currency: 'USD',
       ask: '',
-      name: '',
     };
   }
 
@@ -39,61 +39,34 @@ class FormDespesa extends Component {
     this.setState({ [field]: newValue });
   }
 
-  handleAddExpense() {
-    const { getAllCurrencies } = this.props;
+  savingState() {
+    const { addExpense, currencies, getAllCurrencies } = this.props;
     getAllCurrencies();
-    const { addExpense, currencies } = this.props;
-    const allCurrencies = currencies[0];
-    const { currency } = this.state;
-    // const { currency } = this.state;
-    console.log(this.state);
-    console.log(currency);
-    console.log(allCurrencies);
-    const askValue = allCurrencies[currency].ask;
-    const nameCurrency = allCurrencies[currency].name;
-    console.log(askValue);
-    console.log(nameCurrency);
-    this.setState(
-      () => ({
-        exchangeRates: allCurrencies,
-        ask: askValue,
-        name: nameCurrency,
-      }),
-      () => {
-        addExpense(this.state);
-        this.setState((previousState) => ({
-          id: previousState.id + 1,
-          value: '',
-          description: '',
-          method: 'Dinheiro',
-          category: 'Alimentação',
-          exchangeRates: {},
-          ask: '',
-          name: '',
-          currency: 'USD',
-        }));
-      },
-    );
-    console.log(this.state);
-    // addExpense(this.state);
-    // console.log(allCurrencies[currency]);
+
+    this.setState(() => ({
+      exchangeRates: currencies[0],
+    }), () => {
+      addExpense(this.state);
+      this.setState((previousState) => ({
+        id: previousState.id + 1,
+        method: 'Dinheiro',
+        category: 'Alimentação',
+        currency: 'USD',
+      }));
+    });
   }
-  /*
-  filteredCurrencies() {
-    const { currencies } = this.props;
-    console.log(currencies);
-    return currencies[0].filter();
-  } */
+
+  handleAddExpense() {
+    this.savingState();
+  }
 
   render() {
-    // console.log(this.props);
+    console.log(this.props);
     const { value, description, method, category, currency } = this.state;
     const { currencies } = this.props;
     let arrayCurrencies;
     if (currencies.length > 0) {
-      // arrayCurrencies = Object.keys(currencies[0]);
       arrayCurrencies = this.removingUSDT(currencies);
-      // console.log(this.state);
     } else {
       arrayCurrencies = [];
     }
@@ -135,34 +108,28 @@ class FormDespesa extends Component {
           }
         </select>
 
-        <label htmlFor="formaDePagamento">
-          Forma de Pagamento:
-          <select
-            id="formaDePagamento"
-            data-testid="method-input"
-            value={ method }
-            onChange={ (event) => this.handleChange('method', event.target.value) }
-          >
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Cartão de crédito">Cartão de crédito</option>
-            <option value="Cartão de débito">Cartão de débito</option>
-          </select>
-        </label>
-        <label htmlFor="categoria">
-          Categoria:
-          <select
-            id="categoria"
-            data-testid="tag-input"
-            value={ category }
-            onChange={ (event) => this.handleChange('category', event.target.value) }
-          >
-            <option value="Alimentação">Alimentação</option>
-            <option value="Lazer">Lazer</option>
-            <option value="Trabalho">Trabalho</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Saúde">Saúde</option>
-          </select>
-        </label>
+        <select
+          data-testid="method-input"
+          value={ method }
+          onChange={ (event) => this.handleChange('method', event.target.value) }
+        >
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Cartão de crédito">Cartão de crédito</option>
+          <option value="Cartão de débito">Cartão de débito</option>
+        </select>
+
+        <select
+          id="categoria"
+          data-testid="tag-input"
+          value={ category }
+          onChange={ (event) => this.handleChange('category', event.target.value) }
+        >
+          <option value="Alimentação">Alimentação</option>
+          <option value="Lazer">Lazer</option>
+          <option value="Trabalho">Trabalho</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Saúde">Saúde</option>
+        </select>
 
         <button type="button" onClick={ () => this.handleAddExpense() }>
           Adicionar despesa

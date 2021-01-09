@@ -5,18 +5,35 @@ import { connect } from 'react-redux';
 class Header extends Component {
   totalExpense(arrayOfExpenses) {
     if (arrayOfExpenses.length === 0) return 0;
-
-    const arrayOfValue = arrayOfExpenses.map((expense) => parseFloat(expense.value));
-    const arrayOfCurrency = arrayOfExpenses.map((expense) => parseFloat(expense.ask));
-    let amount = 0;
-    for (let i = 0; i < arrayOfValue.length; i += 1) {
-      amount += arrayOfValue[i] * arrayOfCurrency[i];
+    let sum = 0;
+    const amountOfExpenses = arrayOfExpenses.length;
+    for (let i = 0; i < amountOfExpenses; i += 1) {
+      const { exchangeRates } = arrayOfExpenses[i];
+      // const objectCurrencies = exchangeRates[0];
+      const { currency } = arrayOfExpenses[i];
+      const { value } = arrayOfExpenses[i];
+      const askCurrency = parseFloat(exchangeRates[currency].ask);
+      sum += (parseFloat(value) * askCurrency);
+      console.log(exchangeRates);
+      console.log(currency);
+      console.log(askCurrency);
     }
+    return sum.toFixed(2);
+    // const arrayOfCurrencies = exchangeRates;
+    // const { currency } = arrayOfExpenses;
+    // const arrayOfValue = arrayOfExpenses.map((expense) => parseFloat(expense.value));
+    // const askCurrency = arrayOfCurrencies[currency].ask;
+    // const arrayOfCurrency = arrayOfExpenses.map((expense) => parseFloat(expense.ask));
+    // let amount = 0;
+    // for (let i = 0; i < arrayOfValue.length; i += 1) {
+    //  amount += arrayOfValue[i] * arrayOfCurrency[i];
+    // }
 
     // console.log(arrayOfValue);
     // console.log(arrayOfCurrency);
     // console.log(amount);
-    return amount.toFixed(2);
+
+    // return amount.toFixed(2);
   }
 
   render() {
