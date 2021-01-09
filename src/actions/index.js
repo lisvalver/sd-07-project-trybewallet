@@ -5,7 +5,6 @@ export const fetchCurrenciesSuccess = (value) => (
   { type: 'FETCH_CURRENCIES_SUCCESS', value });
 export const fetchExchangeRatesSuccess = (value) => (
   { type: 'FETCH_EXCHANGE_RATES_SUCCESS', value });
-export const updateTotal = (value) => ({ type: 'UPDATE_TOTAL', value });
 
 async function fetchAPI() {
   const api = 'https://economia.awesomeapi.com.br/json/all';
@@ -25,21 +24,14 @@ export function fetchCurrencies() {
   };
 }
 
-export function fetchExchangeRates({ value, description, currency, method, tag, total }) {
+export function fetchExchangeRates(expense) {
   return (dispatch) => {
     dispatch(fetchRequest());
     return fetchAPI()
       .then((data) => {
-        const exchangeRate = data[`${currency}`].ask;
-        const totalResult = total + value * exchangeRate;
         dispatch(fetchExchangeRatesSuccess({
-          value,
-          description,
-          currency,
-          method,
-          tag,
+          ...expense,
           exchangeRates: data }));
-        dispatch(updateTotal({ totalResult }));
       },
       (error) => dispatch(fetchFail(error)));
   };

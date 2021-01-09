@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchCurrencies, fetchExchangeRates } from '../actions';
 import '../style/Table.css';
 
-class Table extends Component {
+class Form extends Component {
   constructor() {
     super();
     this.state = {
@@ -23,9 +23,9 @@ class Table extends Component {
   }
 
   addExpense() {
-    const { dispatchExchangeRates, total } = this.props;
-    const expenseWithTotal = { ...this.state, total };
-    dispatchExchangeRates(expenseWithTotal);
+    const { dispatchExchangeRates } = this.props;
+    const expense = this.state;
+    dispatchExchangeRates(expense);
   }
 
   render() {
@@ -121,15 +121,13 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   expenses: state.wallet.expenses,
   isFetching: state.wallet.isFetching,
-  total: state.wallet.total,
 });
 
-Table.propTypes = {
+Form.propTypes = {
   dispatchFetchCurrencies: PropTypes.func.isRequired,
   dispatchExchangeRates: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(String).isRequired,
   isFetching: PropTypes.bool.isRequired,
-  total: PropTypes.number.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -137,4 +135,4 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchExchangeRates: (e) => dispatch(fetchExchangeRates(e)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Table);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
