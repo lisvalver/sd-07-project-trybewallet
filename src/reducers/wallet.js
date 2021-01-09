@@ -1,34 +1,33 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 
 import {
-  REQUEST_CURRENCIES,
-  RECEIVE_CURRENCIES_SUCCESS,
-  RECEIVE_CURRENCIES_FAILURE,
+  REQUEST,
+  SUCCESS,
+  FAILURE,
 } from '../actions/index';
 
 const INITIAL_STATE = {
-  isFetching: false,
   currencies: {},
   expenses: [],
 };
 
 function walletReducer(state = INITIAL_STATE, action) {
-  const { type, expense } = action;
+  const { type, expense, id } = action;
   switch (type) {
   case 'ADD_EXPENSE':
     return { ...state, expenses: [...state.expenses, expense] };
-  case REQUEST_CURRENCIES:
+  case 'DELETE_EXPENSE':
+    return { ...state, expenses: [...state.expenses.filter((exp) => exp.id !== id)] };
+  case REQUEST:
     return { ...state, isFetching: true };
-  case RECEIVE_CURRENCIES_SUCCESS:
+  case SUCCESS:
     return {
       ...state,
-      isFetching: false,
       currencies: { ...action.currencies },
     };
-  case RECEIVE_CURRENCIES_FAILURE:
+  case FAILURE:
     return {
       ...state,
-      isFetching: false,
       error: action.error.message,
     };
   default:

@@ -1,13 +1,17 @@
 // Coloque aqui suas actions
 
-export const EXCLUDE_EXPENSE = 'EXCLUDE_EXPENSE';
-export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
-export const RECEIVE_CURRENCIES_SUCCESS = 'RECEIVE_CURRENCIES_SUCCESS';
-export const RECEIVE_CURRENCIES_FAILURE = 'RECEIVE_CURRENCIES_FAILURE';
+export const REQUEST = 'REQUEST';
+export const SUCCESS = 'SUCCESS';
+export const FAILURE = 'FAILURE';
 
 export const addExpenseAction = (expense) => ({
   type: 'ADD_EXPENSE',
   expense,
+});
+
+export const deleteExpenseAction = (id) => ({
+  type: 'DELETE_EXPENSE',
+  id,
 });
 
 export const login = (email) => ({
@@ -16,24 +20,26 @@ export const login = (email) => ({
 });
 
 export const requestCurrencies = () => ({
-  type: REQUEST_CURRENCIES,
+  type: REQUEST,
 });
 
-const requestCurrenciesSuccess = (currencies) => ({
-  type: RECEIVE_CURRENCIES_SUCCESS, currencies,
+const requestSuccess = (currencies) => ({
+  type: SUCCESS, currencies,
 });
 
-const requestCurrenciesFailure = (error) => ({
-  type: RECEIVE_CURRENCIES_FAILURE, error,
+const requestFail = (error) => ({
+  type: FAILURE, error,
 });
+
+const endPoint = 'https://economia.awesomeapi.com.br/json/all';
 
 export const fetchCurrencies = () => async (dispatch) => {
   try {
     dispatch(requestCurrencies);
-    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const response = await fetch(endPoint);
     const currencies = await response.json();
-    dispatch(requestCurrenciesSuccess(currencies));
+    dispatch(requestSuccess(currencies));
   } catch (error) {
-    dispatch(requestCurrenciesFailure(error));
+    dispatch(requestFail(error));
   }
 };
