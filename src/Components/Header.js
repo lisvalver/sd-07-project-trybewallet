@@ -18,13 +18,16 @@ class Header extends Component {
           Email:
           { ' ' }
           { email }
-        </section>
-        <section data-testid="total-field">
-          Despesas Totais: R$
           { ' ' }
-          { despesas }
+          <div data-testid="total-field">
+            Despesas Totais: R$
+            { ' ' }
+            { despesas }
+            { ' ' }
+            <span data-testid="header-currency-field">BRL</span>
+          </div>
         </section>
-        <section data-testid="header-currency-field">BRL</section>
+
       </header>
     );
   }
