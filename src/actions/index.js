@@ -3,6 +3,7 @@ export const addExpenses = (expenses) => ({ type: 'ADD_EXPENSES', expenses });
 export const failedRequest = (error) => ({ type: 'FAILED_REQUEST', error });
 export const request = () => ({ type: 'REQUEST' });
 export const addCurrency = (currency) => ({ type: 'ADD_CURRENCY', currency });
+export const deleteExpense = (id) => ({ type: 'DELETE_EXPENSE', id });
 
 export function fetchCurrency(localState, isAddExpense = true) {
   return (dispatch) => {

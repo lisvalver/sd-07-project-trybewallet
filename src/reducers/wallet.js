@@ -11,6 +11,7 @@ const ADD_EXPENSES = 'ADD_EXPENSES';
 const REQUEST = 'REQUEST';
 const ADD_CURRENCY = 'ADD_CURRENCY';
 const ADD_TOTAL = 'ADD_TOTAL';
+const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -32,6 +33,9 @@ function wallet(state = INITIAL_STATE, action) {
     return { ...state, currency: action.currency, loading: false };
   case ADD_TOTAL:
     return { ...state, totalValue: action.value };
+  case DELETE_EXPENSE:
+    return { ...state,
+      expenses: [...state.expenses.filter((expense) => expense.id !== action.id)] };
   default:
     return state;
   }
