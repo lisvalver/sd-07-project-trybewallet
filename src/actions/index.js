@@ -7,20 +7,8 @@ export const requestCurrencies = (payload) => ({
   payload,
 });
 
-export const FAILED_REQUEST = 'FAILED_REQUEST';
-export const failedRequest = (error) => ({
-  type: FAILED_REQUEST,
-  error,
-});
-
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const addExpense = (expense) => ({ type: ADD_EXPENSE, expense });
-
-// export const DELETE_EXPENSE = 'DELETE_EXPENSE';
-// export const deleteExpense = (expense) => ({
-//   type: DELETE_EXPENSE,
-//   expense,
-// });
 
 async function fetchExchangeRates() {
   const fetchAPI = await fetch('https://economia.awesomeapi.com.br/json/all');

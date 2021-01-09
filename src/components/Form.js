@@ -99,7 +99,7 @@ class Form extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  currencies: Object.keys(state.wallet.currencies),
+  currencies: state.wallet.currencies,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -108,6 +108,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
 
-Form.propTypes = {
-  userEmail: PropTypes.string.isRequired,
-};
+// Form.propTypes = {
+//   userEmail: PropTypes.string.isRequired,
+// };

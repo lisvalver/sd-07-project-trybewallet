@@ -1,20 +1,24 @@
-const initialState = {
+import {
+  REQUEST_CURRENCIES,
+  ADD_EXPENSE,
+} from '../actions';
+
+const INITIAL_STATE = {
   currencies: {},
-  error: '',
   expenses: [],
-  total: 0,
 };
 
-const currencies = (state = INITIAL_STATE, action) => {
+const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case LOGIN:
-    return {
-      email: action.email,
-      logged: true,
+  case REQUEST_CURRENCIES:
+    return { ...state, currencies: action.payload };
+  case ADD_EXPENSE:
+    return { ...state,
+      expenses: [...state.expenses, action.expense],
     };
   default:
     return state;
   }
-};
+}
 
-export default currencies;
+export default wallet;
