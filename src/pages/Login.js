@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { login } from '../actions';
+import actions from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -74,6 +74,7 @@ class Login extends React.Component {
             type="button"
             disabled={ !this.validateInputs() }
             onClick={ this.handleClick }
+            login
           >
             Entrar
           </button>
@@ -89,7 +90,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  userLogin: (email) => dispatch(login(email)),
+  userLogin: (email) => dispatch(actions.login(email)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

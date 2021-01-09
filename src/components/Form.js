@@ -1,23 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchCurrencies, fetchExchangeRates, addExpense } from '../actions';
+import actions from '../actions';
+import { fetchExchangeRates } from '../actions/wallet';
 
 class Form extends React.Component {
   constructor() {
     super();
     this.handleInput = this.handleInput.bind(this);
-    this.setStateCurrencies = this.setStateCurrencies.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.setStateCurrencies = this.setCurrencies.bind(this);
+    this.handleClick = this.handleSubmit.bind(this);
     this.state = {
-      expense: {
-        value: '',
-        description: '',
-        currency: '',
-        method: '',
-        tag: '',
-      },
+      value: '',
+      description: '',
+      currency: '',
+      method: '',
+      tag: '',
     };
+  }
+
+  componentDidMount() {
+    const { fetchExchanges } = this.props;
+    fetchExchanges();
+  }
+
+  setCurrencies() {
+    const { currencies } = this.props;
+    return (
+      currencies && currencies.map((item) => (
+        <option key={ item } data-testid={ item }>
+          { item }
+        </option>
+      ))
+    );
   }
 
   handleInput(event) {
@@ -27,24 +42,13 @@ class Form extends React.Component {
     });
   }
 
-  setStateCurrencies() {
-    const { currencies } = this.props;
-    return (
-      currencies.map((item) => (
-        <option key={ item } data-testid={ item }>
-          { item }
-        </option>
-      ))
-    );
-  }
-
   handleSubmit() {
     const { addExpense } = this.props;
-    const { expense } = this.state;
-    addExpense(expense);
+    addExpense(this.state);
   }
 
   render() {
+    const { value, description, currency, method, tag } = this.state;
     return (
       <form>
         <input
@@ -56,6 +60,8 @@ class Form extends React.Component {
         />
         <input
           data-testid="description-input"
+          placeholder="Add description"
+          value={ description }
           onChange={ this.handleInput }
           name="description"
         />
@@ -66,7 +72,7 @@ class Form extends React.Component {
           onChange={ this.handleInput }
         >
           <option value="">Currency</option>
-          {this.setStateCurrencies()}
+          {this.setCurrencies()}
         </select>
         <select
           data-testid="method-input"
@@ -80,19 +86,20 @@ class Form extends React.Component {
           <option value="Cartão de débito">Cartão de débito</option>
         </select>
         <select
-            data-testid="tag-input"
-            name="tag"
-            value={ tag }
-            onChange={ this.handleInput }
-          >
-            <option value="">Selecione Tag</option>
-            <option value="Alimentacao">Alimentação</option>
-            <option value="Lazer">Lazer</option>
-            <option value="Trabalho">Trabalho</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Saúde">Saúde</option>
-          </select>
-          <button type="button" onClick={ this.handleSubmit }>Adicionar Despesa</button>
+          data-testid="tag-input"
+          name="tag"
+          value={ tag }
+          onChange={ this.handleInput }
+        >
+          <option value="">Selecione Tag</option>
+          <option value="Alimentacao">Alimentação</option>
+          Form
+          <option value="Lazer">Lazer</option>
+          <option value="Trabalho">Trabalho</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Saúde">Saúde</option>
+        </select>
+        <button type="button" onClick={ this.handleSubmit }>Adicionar Despesa</button>
       </form>
     );
   }
@@ -104,10 +111,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addExpense: (expense) => dispatch(actions.addExpense(expense)),
+  fetchExchanges: () => dispatch(fetchExchangeRates()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
 
-// Form.propTypes = {
-//   userEmail: PropTypes.string.isRequired,
-// };
+Form.propTypes = {
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  fetchExchanges: PropTypes.func.isRequired,
+  addExpense: PropTypes.func.isRequired,
+};
