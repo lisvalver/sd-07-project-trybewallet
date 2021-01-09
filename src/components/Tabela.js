@@ -82,6 +82,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Tabela.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  removeOneExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tabela);
