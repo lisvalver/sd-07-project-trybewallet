@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions/index';
 
 class Login extends React.Component {
   constructor() {
@@ -10,6 +12,7 @@ class Login extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.buttonValidation = this.buttonValidation.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   buttonValidation() {
@@ -34,6 +37,13 @@ class Login extends React.Component {
     this.setState({
       [name]: value,
     }, this.buttonValidation);
+  }
+
+  handleSubmit() {
+    const { login, history } = this.props;
+    const email = this.state.email;
+    login(email);
+    history.push('/carteira');
   }
 
   render() {
@@ -65,11 +75,19 @@ class Login extends React.Component {
               onChange={this.handleChange}
             />
           </div>
-          <button type="button" disabled={ this.state.disabled }>Entrar</button>
+          <button type="button" disabled={ this.state.disabled } onClick={this.handleSubmit}>Entrar</button>
         </form>
       </div>
     );
   }
 }
 
-export default Login;
+// const mapStateToProps = (state) => ({
+//   user: email,
+// });
+
+const mapDispatchToProps = {
+  login: actions.changeEmail,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
