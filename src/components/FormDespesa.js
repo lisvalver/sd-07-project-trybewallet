@@ -13,10 +13,10 @@ class FormDespesa extends Component {
       id: 0,
       value: '',
       description: '',
-      method: '',
-      category: '',
+      method: 'Dinheiro',
+      category: 'Alimentação',
       exchangeRates: {},
-      currency: '',
+      currency: 'USD',
       ask: '',
       name: '',
     };
@@ -40,18 +40,24 @@ class FormDespesa extends Component {
   }
 
   handleAddExpense() {
-    const { addExpense, currencies, getAllCurrencies } = this.props;
+    const { getAllCurrencies } = this.props;
+    getAllCurrencies();
+    const { addExpense, currencies } = this.props;
     const allCurrencies = currencies[0];
     const { currency } = this.state;
-    getAllCurrencies();
     // const { currency } = this.state;
+    console.log(this.state);
+    console.log(currency);
     console.log(allCurrencies);
     const askValue = allCurrencies[currency].ask;
     const nameCurrency = allCurrencies[currency].name;
+    console.log(askValue);
+    console.log(nameCurrency);
     this.setState(
-      () => ({ exchangeRates: allCurrencies,
+      () => ({
+        exchangeRates: allCurrencies,
         ask: askValue,
-        name_currency: nameCurrency,
+        name: nameCurrency,
       }),
       () => {
         addExpense(this.state);
@@ -59,11 +65,12 @@ class FormDespesa extends Component {
           id: previousState.id + 1,
           value: '',
           description: '',
-          method: '',
-          category: '',
+          method: 'Dinheiro',
+          category: 'Alimentação',
           exchangeRates: {},
           ask: '',
           name: '',
+          currency: 'USD',
         }));
       },
     );
@@ -119,6 +126,7 @@ class FormDespesa extends Component {
                   <option
                     key={ itemCurrency }
                     data-testid={ itemCurrency }
+                    value={ itemCurrency }
                   >
                     {itemCurrency}
                   </option>
