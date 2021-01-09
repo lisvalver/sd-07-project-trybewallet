@@ -30,7 +30,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const { addExpense, currencies } = this.props;
+    const { addExpense, currencies, apiFetchThunk } = this.props;
     return (
       <div>
         <form>
@@ -53,7 +53,7 @@ class Form extends React.Component {
             data-testid="currency-input"
             onChange={this.handleInput}
           >
-            {currencies.map(item => (
+            {currencies && currencies.map(item => (
               <option key={item} data-testid={item}>{item}</option>
             ))}
           </select>
@@ -79,7 +79,10 @@ class Form extends React.Component {
           </select>
           <button
             type="button"
-            onClick={() => addExpense(this.state)}
+            onClick={() => {
+              apiFetchThunk();
+              addExpense(this.state);
+            }}
           >Adicionar despesa</button>
         </form>
       </div>
