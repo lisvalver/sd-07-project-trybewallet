@@ -9,6 +9,8 @@ function wallet(state = WALLET_INITIAL_STATE, action) {
     return { ...state, currencies: action.wallet };
   case 'ADD_WALLET_EXPENSES':
     return { ...state, expenses: [...state.expenses, action.wallet] };
+  case 'UPDATE_EXPENSES':
+    return { ...state, expenses: action.expenses };
   default:
     return state;
   }

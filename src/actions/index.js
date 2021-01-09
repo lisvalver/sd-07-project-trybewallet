@@ -10,6 +10,11 @@ export const addWalletExpenses = (wallet) => ({
   wallet,
 });
 
+export const updateExpenses = (expenses) => ({
+  type: 'UPDATE_EXPENSES',
+  expenses,
+});
+
 export function fetchWalletExpenses() {
   return async (dispatch) => {
     const resolve = await fetch('https://economia.awesomeapi.com.br/json/all');
