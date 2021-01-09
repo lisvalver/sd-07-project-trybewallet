@@ -29,7 +29,7 @@ export function fetchCurrences() {
       const currenceResponse = await fetch('https://economia.awesomeapi.com.br/json/all');
       const currencesJson = await currenceResponse.json();
       return dispatch(getCurrences(
-        Object.values(currencesJson).filter((item) => item.name !== 'Dólar Turismo'),
+        currencesJson,
       ));
     } catch (error) {
       return dispatch(failedRequest(error));

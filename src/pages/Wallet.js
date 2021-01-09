@@ -7,7 +7,6 @@ import { fetchCurrences, actionSaved } from '../actions/index';
 class Wallet extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       id: 0,
       value: 0,
@@ -15,10 +14,9 @@ class Wallet extends React.Component {
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      number: 0,
       exchangeRates: {},
     };
-    this.test = this.test.bind(this);
+    this.addExpense = this.addExpense.bind(this);
     this.handlerInput = this.handlerInput.bind(this);
     this.findCurrency = this.findCurrency.bind(this);
     this.valueTotal = this.valueTotal.bind(this);
@@ -31,8 +29,10 @@ class Wallet extends React.Component {
   }
 
   findCurrency(code) {
-    const { currency } = this.props;
-    return currency.find((item) => item.code === code) || { high: 0 };
+    const { currencies } = this.props;
+    const currencyValues = Object.values(currencies);
+    const currencyFilter = currencyValues.filter((item) => item.name !== 'Dólar Turismo');
+    return currencyFilter.find((item) => item.code === code) || { ask: 0 };
   }
 
   handlerInput({ target }) {
@@ -40,13 +40,13 @@ class Wallet extends React.Component {
     this.setState({ [name]: value });
   }
 
-  test() {
-    const { saved, currency } = this.props;
+  addExpense() {
+    const { saved, currencies, fetchCurrence, expenses } = this.props;
+    fetchCurrence();
     this.setState((id) => ({
-      id: id.id + 1,
-      exchangeRates: currency,
-    }));
-    saved(this.state);
+      id: expenses.length === 0 ? 0 : id.id + 1,
+      exchangeRates: { ...currencies },
+    }), () => saved(this.state));
   }
 
   deletedExpense(id) {
@@ -58,24 +58,23 @@ class Wallet extends React.Component {
   }
 
   valueTotal(expense) {
-    if (expense) {
-      return expense.map(
-        (item) => this.findCurrency(item.currency).high * item.value,
-      )
-        .reduce((acc, reduce) => acc + reduce, 0);
-    }
-    return 0;
+    return expense.map(
+      (item) => parseFloat(this.findCurrency(item.currency).ask) * parseFloat(item.value),
+    )
+      .reduce((acc, reduce) => acc + reduce, 0);
   }
 
   render() {
-    const { email, currency, expenses } = this.props;
-
+    const { email, currencies, expenses } = this.props;
+    const currencyValue = Object.values(currencies);
+    const currencyFilter = currencyValue.filter((item) => item.name !== 'Dólar Turismo');
+    const { value } = this.state;
     return (
       <div>
         <header className="header-form">
           <p data-testid="email-field">
             Email:
-            {email}
+            { email }
           </p>
           <p>
             Dispesa total:
@@ -83,7 +82,7 @@ class Wallet extends React.Component {
               data-testid="total-field"
             >
               {
-                this.valueTotal(expenses).toFixed(2).toString()
+                this.valueTotal(expenses).toFixed(2)
               }
             </span>
           </p>
@@ -97,6 +96,7 @@ class Wallet extends React.Component {
             data-testid="value-input"
             id="value"
             type="number"
+            value={ value }
           />
           <p>Descrição:</p>
           <input
@@ -113,14 +113,14 @@ class Wallet extends React.Component {
             data-testid="currency-input"
             id="moeda"
           >
-            {currency.map(
-              (item) => (
+            {currencyFilter.map(
+              (item, index) => (
                 <option
                   value={ item.code }
                   data-testid={ item.code }
-                  key={ item.code }
+                  key={ index }
                 >
-                  {item.code}
+                  { item.code }
                 </option>
               ),
             )}
@@ -128,7 +128,7 @@ class Wallet extends React.Component {
           <p htmlFor="method-payment">Método de pagamento:</p>
           <select onChange={ this.handlerInput } name="method" data-testid="method-input">
             <option value="Dinheiro">Dinheiro</option>
-            <option value="Cartão de cŕedito">Cartão de crédito</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
             <option value="Cartão de débito">Cartão de débito</option>
           </select>
           <p>Tag:</p>
@@ -139,7 +139,7 @@ class Wallet extends React.Component {
             <option value="Transporte">Transporte</option>
             <option value="Saúde">Saúde</option>
           </select>
-          <button type="button" onClick={ this.test }>Adicionar despesa</button>
+          <button type="button" onClick={ this.addExpense }>Adicionar despesa</button>
         </form>
         <table border="1">
           <thead>
@@ -155,37 +155,44 @@ class Wallet extends React.Component {
               <td>Editar/Excluir</td>
             </tr>
           </thead>
-          {expenses.map((item, index) => (
-            <tbody key={ index }>
-              <tr>
-                <td>{item.description}</td>
-                <td>{item.tag}</td>
-                <td>{item.method}</td>
-                <td>
-                  {item.currency}
-                  {' '}
-                  {item.value}
-                  .00
-                </td>
-                <td>{this.findCurrency(item.currency).name}</td>
-                <td>{this.findCurrency(item.currency).high}</td>
-                <td>
-                  R$
-                  {(this.findCurrency(item.currency).high * item.value).toFixed(2)}
-                </td>
-                <td>Real</td>
-                <td>
-                  <button
-                    data-testid="delete-btn"
-                    onClick={ () => this.deletedExpense(index) }
-                    type="button"
-                  >
-                    Deletar
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          ))}
+          {expenses.map((item, index) => {
+            const { currency, exchangeRates } = item;
+            return (
+              <tbody key={ index }>
+                <tr>
+                  <td>{item.description}</td>
+                  <td>{item.tag}</td>
+                  <td>{item.method}</td>
+                  <td>
+
+                    {item.value}
+
+                  </td>
+                  <td>{exchangeRates[currency].name}</td>
+                  <td>{Number(exchangeRates[currency].ask).toFixed(2)}</td>
+                  <td>
+                    {Number((exchangeRates[currency].ask * item.value).toFixed(2))}
+                  </td>
+                  <td>Real</td>
+                  <td>
+                    <button
+                      data-testid="delete-btn"
+                      onClick={ () => this.deletedExpense(index) }
+                      type="button"
+                    >
+                      Deletar
+                    </button>
+                    <button
+                      type="button"
+                      data-testid="edit-btn"
+                    >
+                      Editar despesa
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            );
+          })}
         </table>
       </div>
     );
@@ -194,7 +201,7 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  currency: state.wallet.currencies,
+  currencies: state.wallet.currencies,
   expenses: state.wallet.expenses,
 });
 
@@ -208,7 +215,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   fetchCurrence: PropTypes.func.isRequired,
-  currency: PropTypes.arrayOf.isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   saved: PropTypes.func.isRequired,
-  expenses: PropTypes.arrayOf.isRequired,
+  expenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      currency: PropTypes.string,
+      method: PropTypes.string,
+      value: PropTypes.string,
+      tag: PropTypes.string,
+    }),
+  ).isRequired,
 };
