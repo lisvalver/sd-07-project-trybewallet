@@ -1,6 +1,55 @@
+body {
+  margin: 1px;
+}
 .App {
   text-align: center;
 }
+h1{
+  color: aliceblue;
+}
+p{
+  margin-top: 30px;
+  margin-left: 350px;
+}
+.info-fields {
+  display: flex;
+}
+label{
+  margin-left: 10px;
+}
+select{
+  margin-left: 5px;
+}
+.currency {
+  margin-left: 5px;
+}
+.info-budget {
+  padding: 5px;
+  align-items: center;
+  border: 1px solid;
+  height: 40px;
+  margin-top: 5px;
+  display: flex;
+}
+
+.expenses {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.description {
+  margin-left: 3px;
+  margin-right: 10px;
+  width: 400px;
+}
+
+.header-user {
+  display: flex;
+  border: 1px solid black;
+  background-color: #4E4F55;
+  color: aliceblue;
+}
+
 
 .App-logo {
   height: 40vmin;
@@ -14,7 +63,24 @@
   }
 }
 
-.App-header {
+.info-budget {
+  display: flex;
+}
+
+.header{
+  margin-left: 100px;
+}
+
+.button-send {
+  margin-top: 15px;
+}
+
+.pai {
+  margin-top: 110px;
+  margin-left: 400px;
+  border: 1px solid white;
+  width: 500px;
+  height: 400px;
   align-items: center;
   background-color: #282c34;
   color: white;
@@ -22,7 +88,6 @@
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  min-height: 100vh;
 }
 
 .App-link {

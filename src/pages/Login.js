@@ -1,48 +1,81 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import emailOk from '../helpers/emailValidation';
+import { addClick } from '../actions';
 
 class Login extends React.Component {
   constructor() {
     super();
 
-    this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.pathWallet = this.pathWallet.bind(this);
 
     this.state = {
       email: '',
-      password: ''
-    }
+      password: '',
+      login: false,
+    };
   }
 
-  handleChangeEmail(event){
-    this.setState({
-      email: event.target.value
-    });
+  pathWallet(email) {
+    const { add } = this.props;
+    this.setState({ login: true });
+    add(email);
   }
 
-  handleChangePassword(event){
-    this.setState({
-      password: event.target.value
-    });
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
+
+  // handleChangePassword(event) {
+  //   this.setState({ password: event.target.value });
+  // }
 
   render() {
-  const { email, password } = this.state;
+    const { email, password, login } = this.state;
+    if (login) return <Redirect to="/carteira" />;
     return (
       <div className="pai">
-        <header>Login</header> const { email, password } = this.state;
+        <header>Login</header>
         <label htmlFor="email">
           E-mail:
-          <input type="text" id="email" data-testid="email-input" onChange={ this.handleChangeEmail }/>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            data-testid="email-input"
+            onChange={ this.handleChange }
+          />
         </label>
         <label htmlFor="senha">
           Senha:
-          <input type="password" id="senha" data-testid="password-input" onChange={ this.handleChangePassword } />
+          <input
+            type="password"
+            id="senha"
+            name="password"
+            data-testid="password-input"
+            onChange={ this.handleChange }
+          />
         </label>
-        <button data-testid="password" type="button">Entrar</button>
+        <button
+          className="button-send"
+          data-testid="password"
+          disabled={ emailOk(email, password) }
+          type="button"
+          onClick={ () => this.pathWallet(email) }
+        >
+          Entrar
+        </button>
       </div>
     );
   }
 }
-emailOk()
-export default Login;
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    add: (email) => dispatch(addClick(email)),
+  });
+
+export default connect(null, mapDispatchToProps)(Login);
