@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addExpenseAction, fetchCurrencies } from '../actions/index';
-/* import Table from '../components/Table' */
+import Table from '../components/Table';
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -12,10 +12,11 @@ class Wallet extends React.Component {
       value: 0,
       currency: '',
       tag: '',
-      paymentMethod: '',
+      method: '',
       description: '',
-      exchange: {},
+      exchangeRates: {},
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.updateState = this.updateState.bind(this);
@@ -33,21 +34,28 @@ class Wallet extends React.Component {
   }
 
   updateState() {
-    const { addExpense, getCurrencies } = this.props;
+    const { addExpense, getCurrencies, currencies } = this.props;
     getCurrencies();
-    this.setState((prevState) => ({ id: prevState.id + 1 }));
-    addExpense(this.state);
+
+    this.setState(() => (
+      {
+        exchangeRates: currencies,
+      }), () => {
+      addExpense(this.state);
+      this.setState((prevState) => (
+        {
+          id: prevState.id + 1,
+        }));
+    });
   }
 
   sumOfExpenses() {
     const { arrayOfExpenses } = this.props;
-    const { wallet } = arrayOfExpenses;
-    const { expenses } = wallet;
-
-    let totalSpent = 0;
-    for (let index = 0; index < expenses.length; index += 1) {
-      totalSpent += parseInt(expenses[index].value, 10);
-    }
+    const totalSpent = arrayOfExpenses.reduce((acc, current) => {
+      const coin = current.currency;
+      const valor = current.exchangeRates[coin].ask;
+      return current.value * valor + acc;
+    }, 0);
     return totalSpent;
   }
 
@@ -58,8 +66,14 @@ class Wallet extends React.Component {
 
   render() {
     const { logged, currencies } = this.props;
-    const { currency } = this.state;
+    const {
+      value,
+      currency,
+      method,
+    } = this.state;
+
     const total = this.sumOfExpenses();
+
     return (
       <div>
         <header>
@@ -74,9 +88,11 @@ class Wallet extends React.Component {
           <label htmlFor="value-input">
             Valor:
             <input
+              id="value-input"
               type="number"
               data-testid="value-input"
               name="value"
+              value={ value }
               onChange={ this.handleChange }
             />
           </label>
@@ -92,18 +108,21 @@ class Wallet extends React.Component {
           <label htmlFor="method-input">
             Pagamento:
             <select
+              id="method-input"
               data-testid="method-input"
-              name="paymentMethod"
+              name="method"
+              value={ method }
               onChange={ this.handleChange }
             >
               <option value="Dinheiro">Dinheiro</option>
-              <option value="Crédito">Cartão de crédito</option>
-              <option value="Débito">Cartão de débito</option>
+              <option value="Cartão de crédito">Cartão de crédito</option>
+              <option value="Cartão de débito">Cartão de débito</option>
             </select>
           </label>
           <label htmlFor="currency-input">
             Moeda:
             <select
+              id="currency-input"
               data-testid="currency-input"
               name="currency"
               value={ currency }
@@ -125,6 +144,7 @@ class Wallet extends React.Component {
           <label htmlFor="tag-input">
             Categoria:
             <select
+              id="tag-input"
               data-testid="tag-input"
               name="tag"
               onChange={ this.handleChange }
@@ -143,7 +163,7 @@ class Wallet extends React.Component {
             Adicionar despesa
           </button>
         </fieldset>
-        {/*   <Table /> */}
+        <Table />
       </div>
     );
   }
@@ -151,7 +171,7 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   logged: state.user.email,
-  arrayOfExpenses: state,
+  arrayOfExpenses: state.wallet.expenses,
   currencies: state.wallet.currencies,
 });
 

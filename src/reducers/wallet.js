@@ -8,7 +8,7 @@ import {
 
 const INITIAL_STATE = {
   isFetching: false,
-  currencies: [],
+  currencies: {},
   expenses: [],
 };
 
@@ -16,7 +16,7 @@ function walletReducer(state = INITIAL_STATE, action) {
   const { type, expense } = action;
   switch (type) {
   case 'ADD_EXPENSE':
-    return { expenses: [...state.expenses, expense] };
+    return { ...state, expenses: [...state.expenses, expense] };
   case REQUEST_CURRENCIES:
     return { ...state, isFetching: true };
   case RECEIVE_CURRENCIES_SUCCESS:
