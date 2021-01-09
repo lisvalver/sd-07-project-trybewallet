@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { login } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -8,51 +9,70 @@ class Login extends React.Component {
       email: '',
       password: '',
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.emailIsValid = this.emailIsValid.bind(this);
+    this.click = this.click.bind(this);
   }
 
   emailIsValid() {
     const { email, password } = this.state;
-    const re = /\S+@\S+\.\S+/;
-    const minLengt = 6;
-    return re.test(email) && password.length >= minLengt;
+    const regex = /\S+@\S+\.\S+/;
+    const validate = regex.test(email);
+    const minLength = 6;
+    const validatePassword = password.length >= minLength;
+
+    if (validate && validatePassword) {
+      return true;
+    }
+    return false;
   }
 
-  handleChange({ target: { name, value } }) {
-    this.setState({ [name]: value });
+  handleChange({ target }) {
+    this.setState({
+      [target.name]: target.value,
+    });
+  }
+  // Nicholas Torres J. Vasconcelos
+
+  click() {
+    const { loginDispatch, history } = this.props;
+    const { email } = this.state;
+
+    loginDispatch(email);
+    history.push('/carteira');
   }
 
   render() {
-    const { email, password } = this.state;
     return (
       <div>
         <form>
           <label htmlFor="email">
             Login
             <input
-              value={ email }
+              id="email"
               data-testid="email-input"
-              type="text"
-              onClick={ this.handleChange }
+              type="email"
+              onChange={ this.handleChange }
               placeholder="email"
               name="email"
             />
           </label>
-          <label htmlFor="senha">
+          <label htmlFor="password">
             Senha
             <input
-              value={ password }
+              id="password"
               data-testid="password-input"
               type="password"
-              placeholder="senha"
-              minLength="6"
-              name="senha"
+              placeholder="password"
+              onChange={ this.handleChange }
+              name="password"
             />
           </label>
           <button
             type="submit"
-            disabled={ false }
+            disabled={ !this.emailIsValid() }
+            onClick={ this.click }
           >
             Entrar
           </button>
@@ -61,8 +81,8 @@ class Login extends React.Component {
     );
   }
 }
-const mapStateToProps = (store) => ({
-  store,
+const mapDispatchToProps = (dispatch) => ({
+  loginDispatch: (email) => dispatch(login(email)),
 });
 
-export default connect(mapStateToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
