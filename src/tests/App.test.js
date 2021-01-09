@@ -235,6 +235,7 @@ describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma
     const descriptionInput = await screen.findByTestId('description-input');
 
     expect(addButton).toBeInTheDocument();
+    // console.log(currencyInput.children[0].value)
 
     userEvent.type(valueInput, '10');
     userEvent.selectOptions(currencyInput, 'USD');
