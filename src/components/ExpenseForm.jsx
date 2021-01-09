@@ -2,33 +2,63 @@ import React, { Component } from 'react';
 import DropDown from './DropDown';
 import configPaymentMethod from '../configs/paymentMethod';
 import configCategories from '../configs/categories';
-import currencyTypes from '../configs/currencyTypes';
+import * as currencyAPI from '../services/api';
 
 class ExpenseForm extends Component {
   constructor() {
     super();
 
     this.handleChange = this.handleChange.bind(this);
+    this.fetchCurrencyTypes = this.fetchCurrencyTypes.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
       value: '',
       description: '',
+      currencyTypes: [''],
       currency: 'BRL',
-      paymentMethod: 'Dinheiro',
-      categoty: 'Alimentação',
+      paymentMethod: configPaymentMethod[0],
+      categoty: configCategories[0],
     };
   }
 
+  componentDidMount() {
+    this.fetchCurrencyTypes();
+  }
+
   handleChange({ target: { id, value } }) {
-    console.log(`ID: ${id}, Value: ${value}`);
+    // console.log(`ID: ${id}, Value: ${value}`);
     this.setState({ [id]: value });
   }
 
+  async fetchCurrencyTypes() {
+    const requestResponse = await currencyAPI.getTypes();
+    const currencyTypes = Object.values(requestResponse)
+      .filter((value) => value.codein === 'BRL')
+      .map((value) => value.code);
+
+    this.setState({
+      currencyTypes,
+    });
+  }
+
+  handleSubmit(event) {
+    console.log('Add expense');
+    event.preventDefault();
+  }
+
   render() {
-    const { value, description, currency, paymentMethod, categoty } = this.state;
+    const { value,
+      description,
+      currencyTypes,
+      currency,
+      paymentMethod,
+      categoty,
+    } = this.state;
+
     return (
       <div>
-        <form>
+        <form onSubmit={ this.handleSubmit }>
           <label htmlFor="value">
             Valor
             <input
@@ -53,6 +83,7 @@ class ExpenseForm extends Component {
 
           <DropDown
             id="paymentMethod"
+            dataTest="method-input"
             options={ configPaymentMethod }
             selectValue={ paymentMethod }
             handleChange={ this.handleChange }
@@ -60,6 +91,7 @@ class ExpenseForm extends Component {
 
           <DropDown
             id="categoty"
+            dataTest="tag-input"
             options={ configCategories }
             selectValue={ categoty }
             handleChange={ this.handleChange }
@@ -67,11 +99,12 @@ class ExpenseForm extends Component {
 
           <DropDown
             id="currency"
+            dataTest="currency-input"
             options={ currencyTypes }
             selectValue={ currency }
             handleChange={ this.handleChange }
           />
-
+          <input type="submit" value="Adicionar despesa" />
         </form>
       </div>
     );
