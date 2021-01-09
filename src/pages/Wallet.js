@@ -5,6 +5,7 @@ import fetchCurrency from '../helpers';
 import { fetchCurrencyAction } from '../actions';
 import Header from '../components/Header';
 import ExpensesForm from '../components/ExpensesForm';
+import Table from '../components/Table';
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -81,7 +82,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, expenses } = this.props;
     const { arrayCurrencyFiltered, totalExpenses } = this.state;
     return (
       <div>
@@ -92,6 +93,7 @@ class Wallet extends React.Component {
           handlerChange={ this.handlerChange }
           handlerSubmit={ this.handlerSubmit }
         />
+        <Table expenses={ expenses } />
       </div>
     );
   }
