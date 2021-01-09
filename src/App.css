@@ -52,8 +52,8 @@ select {
 }
 
 .header-user {
+  background-color: #4e4f55;
   border: 1px solid black;
-  background-color: #4E4F55;
   color: aliceblue;
   display: flex;
 }
@@ -79,18 +79,18 @@ select {
 }
 
 .pai {
-  margin-top: 110px;
-  margin-left: 400px;
-  border: 1px solid white;
-  width: 500px;
-  height: 400px;
   align-items: center;
   background-color: #282c34;
+  border: 1px solid white;
   color: white;
   display: flex;
-  flex-direction: column;
   font-size: calc(10px + 2vmin);
+  flex-direction: column;
+  height: 400px;
   justify-content: center;
+  margin-left: 400px;
+  margin-top: 110px;
+  width: 500px;
 }
 
 .App-link {
