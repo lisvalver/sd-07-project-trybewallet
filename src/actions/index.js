@@ -1,7 +1,8 @@
 import saveEmail from './user';
-import addExpense from './wallet';
+import { addExpense, apiFetchThunk } from './wallet';
 
 export default {
   saveEmail,
   addExpense,
+  apiFetchThunk,
 }

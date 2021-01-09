@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import actions from '../../actions';
+import { apiFetchThunk } from '../../actions/wallet';
 
 class Form extends React.Component {
   constructor(props) {
@@ -23,8 +24,13 @@ class Form extends React.Component {
     });
     }
 
+  componentDidMount() {
+    const { apiFetchThunk } = this.props;
+    apiFetchThunk();
+  }
+
   render() {
-    const { addExpense } = this.props;
+    const { addExpense, currencies } = this.props;
     return (
       <div>
         <form>
@@ -47,8 +53,9 @@ class Form extends React.Component {
             data-testid="currency-input"
             onChange={this.handleInput}
           >
-            <option data-testid="USD">USD</option>
-            <option data-testid="BRL">BRL</option>
+            {currencies.map(item => (
+              <option key={item} data-testid={item}>{item}</option>
+            ))}
           </select>
           <select
             name="method"
@@ -80,8 +87,13 @@ class Form extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
+});
+
 const mapDispatchToProps = {
   addExpense: actions.addExpense,
+  apiFetchThunk: actions.apiFetchThunk,
 };
 
-export default connect(null, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

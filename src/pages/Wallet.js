@@ -8,16 +8,6 @@ class Wallet extends React.Component {
     super(props);
   }
 
-  // async apiFetch() {
-  //   try {
-  //     const requestCurrencies = await fetch('https://economia.awesomeapi.com.br/json/all');
-  //     const result = requestCurrencies.json();
-  //     return result;
-  //   } catch (error) {
-  //     return error;
-  //   }
-  // }
-
   render() {
     const { email } = this.props;
     return (
