@@ -38,7 +38,7 @@ class Tabela extends Component {
             expenses.map((expense) => (
               <tr key={ expense.id }>
                 <td>{expense.description}</td>
-                <td>{expense.category}</td>
+                <td>{expense.tag}</td>
                 <td>{expense.method}</td>
                 <td>{expense.value}</td>
                 <td>{expense.exchangeRates[expense.currency].name}</td>

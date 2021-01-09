@@ -15,7 +15,7 @@ class FormDespesa extends Component {
       value: '',
       description: '',
       method: 'Dinheiro',
-      category: 'Alimentação',
+      tag: 'Alimentação',
       exchangeRates: {},
       currency: 'USD',
       ask: '',
@@ -50,7 +50,7 @@ class FormDespesa extends Component {
       this.setState((previousState) => ({
         id: previousState.id + 1,
         method: 'Dinheiro',
-        category: 'Alimentação',
+        tag: 'Alimentação',
         currency: 'USD',
       }));
     });
@@ -61,8 +61,8 @@ class FormDespesa extends Component {
   }
 
   render() {
-    console.log(this.props);
-    const { value, description, method, category, currency } = this.state;
+    // console.log(this.props);
+    const { value, description, tag, category, currency } = this.state;
     const { currencies } = this.props;
     let arrayCurrencies;
     if (currencies.length > 0) {
@@ -110,7 +110,7 @@ class FormDespesa extends Component {
 
         <select
           data-testid="method-input"
-          value={ method }
+          value={ tag }
           onChange={ (event) => this.handleChange('method', event.target.value) }
         >
           <option value="Dinheiro">Dinheiro</option>

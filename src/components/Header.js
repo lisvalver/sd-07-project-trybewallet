@@ -14,9 +14,9 @@ class Header extends Component {
       const { value } = arrayOfExpenses[i];
       const askCurrency = parseFloat(exchangeRates[currency].ask);
       sum += (parseFloat(value) * askCurrency);
-      console.log(exchangeRates);
-      console.log(currency);
-      console.log(askCurrency);
+      // console.log(exchangeRates);
+      // console.log(currency);
+      // console.log(askCurrency);
     }
     return sum.toFixed(2);
     // const arrayOfCurrencies = exchangeRates;
