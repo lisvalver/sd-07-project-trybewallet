@@ -1,12 +1,16 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
-import CoinAnimation from './components/CoinAnimation';
+import Login from './pages/Login';
+import Wallet from './pages/Wallet';
 
 function App() {
   return (
-    <div className="container">
-      <CoinAnimation />
-    </div>
+    <Switch>
+      <Route exact path="/" component={ Login } />
+      <Route path="/carteira" component={ Wallet } />
+      <Route component={ () => <h1>Página não encontrada</h1> } />
+    </Switch>
   );
 }
 
