@@ -12,7 +12,7 @@ class FormLogin extends Component {
             <label htmlFor='email'>E-mail:</label>
             <input
               data-testid='email-input'
-              type='text'
+              type='email'
               name='email'
               id='email'
               value={ email }

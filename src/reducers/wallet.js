@@ -16,23 +16,37 @@ const INITIAL_STATE = {
   ],
   isFetching: false,
   error: '',
+  nextId: 0,
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case typesActions.SAVE_COINS:
-      return { ...state, currencies: action.payload };
     case typesActions.REQUEST_COINS:
       return { ...state, isFetching: true };
-    case typesActions.REQUEST_COINS_SUCESS:
+    case typesActions.SAVE_CURRENCIES:
       return {
         ...state,
         isFetching: false,
         error: '',
-        expenses: [ ...state.expenses, { exchangeRates: action.payload } ],
+        currencies: action.payload,
+      };
+    case typesActions.SAVE_EXPENSES:
+      return {
+        ...state,
+        isFetching: false,
+        error: '',
+        expenses: [
+          ...state.expenses,
+          {
+            id: state.nextId,
+            ...action.form,
+            exchangeRates: action.currencies,
+          },
+        ],
+        nextId: state.nextId + 1,
       };
     case typesActions.REQUEST_COINS_FAIL:
-      return { ...state, isFetching: false, error: action.payload };
+      return { ...state, isFetching: false, error: action.error };
     default:
       return state;
   }

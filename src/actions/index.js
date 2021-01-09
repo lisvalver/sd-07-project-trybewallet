@@ -1,49 +1,59 @@
 // Coloque aqui suas actions
 const UPDATE_EMAIL = 'UPDATE_EMAIL';
-const SAVE_COINS = 'SAVE_COINS';
 const REQUEST_COINS = 'REQUEST_COINS';
-const REQUEST_COINS_SUCESS = 'REQUEST_COINS_SUCESS';
+const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
+const SAVE_EXPENSES = 'SAVE_EXPENSES';
 const REQUEST_COINS_FAIL = 'REQUEST_COINS_FAIL';
 
-export const email = sendEmail => ({
+export const getEmail = sendEmail => ({
   type: UPDATE_EMAIL,
   sendEmail,
-});
-
-export const coins = payload => ({
-  type: SAVE_COINS,
-  payload,
 });
 
 function requestCoins() {
   return { type: REQUEST_COINS };
 }
 
-function requestSucess(payload) {
-  return { type: REQUEST_COINS_SUCESS, payload };
+function getAllCoins(payload) {
+  return { type: SAVE_CURRENCIES, payload };
 }
 
-function requestFail(payload) {
-  return { type: REQUEST_COINS_FAIL, payload };
+function getExpenses(form, currencies) {
+  return { type: SAVE_EXPENSES, form, currencies };
 }
 
-export function fetchCoins() {
+function requestFail(error) {
+  return { type: REQUEST_COINS_FAIL, error };
+}
+
+export function sendCurrencies() {
   return dispatch => {
     dispatch(requestCoins());
     return fetch('https://economia.awesomeapi.com.br/json/all').then(response =>
-      response
-        .json()
-        .then(data => dispatch(coins(data)))
-        .then(data => dispatch(requestSucess(data)))
-        .catch(error => dispatch(requestFail(error))),
+      response.json().then(
+        data => dispatch(getAllCoins(Object.keys(data))),
+        error => dispatch(requestFail(error)),
+      ),
+    );
+  };
+}
+
+export function sendFormAndExhangesRates(form) {
+  return dispatch => {
+    dispatch(requestCoins());
+    return fetch('https://economia.awesomeapi.com.br/json/all').then(response =>
+      response.json().then(
+        currencies => dispatch(getExpenses(form, currencies)),
+        error => dispatch(requestFail(error)),
+      ),
     );
   };
 }
 
 export const typesActions = {
   UPDATE_EMAIL,
-  SAVE_COINS,
   REQUEST_COINS,
-  REQUEST_COINS_SUCESS,
+  SAVE_CURRENCIES,
+  SAVE_EXPENSES,
   REQUEST_COINS_FAIL,
 };

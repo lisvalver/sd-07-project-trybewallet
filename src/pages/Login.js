@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { email } from '../actions';
+import { getEmail } from '../actions';
 import FormLogin from '../components/FormLogin';
 
 class Login extends React.Component {
@@ -76,7 +76,7 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateEmail: value => dispatch(email(value)),
+  updateEmail: value => dispatch(getEmail(value)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
