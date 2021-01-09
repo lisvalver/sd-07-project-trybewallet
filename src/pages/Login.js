@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import login from "../actions/index";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import login from '../actions/index';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       doneEmail: false,
       donePassword: false,
     };
@@ -54,9 +54,9 @@ class Login extends React.Component {
                   type="email"
                   placeholder="Digite seu e-mail"
                   className="form-control"
-                  value={email}
+                  value={ email }
                   data-testid="email-input"
-                  onChange={(e) => this.testEmail(e.target.value)}
+                  onChange={ (e) => this.testEmail(e.target.value) }
                 />
               </label>
             </div>
@@ -72,9 +72,9 @@ class Login extends React.Component {
                   name="password"
                   placeholder="Digite sua senha"
                   className="form-control"
-                  value={password}
+                  value={ password }
                   data-testid="password-input"
-                  onChange={(e) => this.testPassword(e.target.value)}
+                  onChange={ (e) => this.testPassword(e.target.value) }
                 />
               </label>
             </div>
@@ -88,8 +88,8 @@ class Login extends React.Component {
                   type="button"
                   data-testid="button-login"
                   className="button-login"
-                  disabled={!donePassword || !doneEmail}
-                  onClick={() => login(email)}
+                  disabled={ !donePassword || !doneEmail }
+                  onClick={ () => login(email) }
                 >
                   Entrar
                 </button>

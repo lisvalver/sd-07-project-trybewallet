@@ -1,38 +1,38 @@
-const axios = require("axios");
+const axios = require('axios');
 
-//1 - criar as constante para referenciar as possibilidades de chamada API
-export const FETCH_REQUEST = "FETCH_REQUEST";
-export const FETCH_SUCCESS = "FETCH_SUCCESS";
-export const FETCH_FAILURE = "FETCH_FAILURE";
+// 1 - criar as constante para referenciar as possibilidades de chamada API
+export const FETCH_REQUEST = 'FETCH_REQUEST';
+export const FETCH_SUCCESS = 'FETCH_SUCCESS';
+export const FETCH_FAILURE = 'FETCH_FAILURE';
 
-//2 - criar action creators para cada situação da requisição API
-const fetchRequest = () => {
+// 2 - criar action creators para cada situação da requisição API
+function fetchRequest() {
   return {
     type: FETCH_REQUEST,
   };
-};
+}
 
-const fetchSuccess = (data) => {
+function fetchSuccess(data) {
   return {
     type: FETCH_SUCCESS,
     payload: data,
   };
-};
+}
 
-const fetchFailure = (error) => {
+function fetchFailure(error) {
   return {
     type: FETCH_FAILURE,
     payload: error,
   };
-};
+}
 
 export function fetchUsers() {
   return (dispatch) => {
     dispatch(fetchRequest());
     axios
-      .get("https://economia.awesomeapi.com.br/json/all")
+      .get('https://economia.awesomeapi.com.br/json/all')
       .then((response) => {
-        const coins = response.data;
+        const coins = response;
         // return console.log(response);
         dispatch(fetchSuccess(coins));
       })
@@ -43,4 +43,4 @@ export function fetchUsers() {
   };
 }
 
-//agora criar reducer function...
+// agora criar reducer function...
