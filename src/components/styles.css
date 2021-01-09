@@ -1,0 +1,14 @@
+
+.table {
+  border: 1px solid red;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.table-content {
+  border: 1px solid green;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
