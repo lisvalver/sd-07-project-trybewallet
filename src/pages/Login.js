@@ -16,7 +16,8 @@ class Login extends Component {
   }
 
   isEmailValid(email) {
-    const format = /^\w+@[a-zA-Z_.]+?\.[a-zA-Z]{2,3}$/;
+    const format = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    // const format = /^\w+@[a-zA-Z_.]+?\.[a-zA-Z]{2,3}$/;
     if (email.match(format)) return true;
     return false;
   }
@@ -66,7 +67,7 @@ class Login extends Component {
           type="button"
           disabled={ disabled }
           onClick={ () => {
-            signin({ email, password });
+            signin({ email });
             history.push('/carteira');
           } }
         >
@@ -79,7 +80,7 @@ class Login extends Component {
 
 Login.propTypes = {
   signin: PropTypes.func.isRequired,
-  history: PropTypes.objectOf({ history: PropTypes.func.isRequired }).isRequired,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
