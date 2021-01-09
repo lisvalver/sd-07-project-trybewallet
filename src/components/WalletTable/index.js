@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { deleteExpense } from '../../actions';
+import './WalletTable.css';
 
 class WalletTable extends React.Component {
   constructor() {
@@ -30,10 +31,11 @@ class WalletTable extends React.Component {
 
     ];
     return (
-      <table border="1">
+      <table border="1" className="wallet-table">
         <tr>
           {tableHead.map((tableKey) => (
             <th
+              className="wallet-table-head"
               key={ tableKey }
             >
               { tableKey }
@@ -41,26 +43,34 @@ class WalletTable extends React.Component {
         </tr>
         {tableData.map((expense) => (
           <tr key={ expense.id }>
-            <td>{expense.description}</td>
-            <td>{expense.tag}</td>
-            <td>{expense.method}</td>
-            <td>{expense.value}</td>
-            <td>{expense.exchangeRates[expense.currency].name}</td>
-            <td>{ Number(expense.exchangeRates[expense.currency].ask).toFixed(2) }</td>
-            <td>
+            <td className="wallet-table-data">{expense.description}</td>
+            <td className="wallet-table-data">{expense.tag}</td>
+            <td className="wallet-table-data">{expense.method}</td>
+            <td className="wallet-table-data">{expense.value}</td>
+            <td
+              className="wallet-table-data"
+            >
+              {expense.exchangeRates[expense.currency].name}
+            </td>
+            <td
+              className="wallet-table-data"
+            >
+              { Number(expense.exchangeRates[expense.currency].ask).toFixed(2) }
+            </td>
+            <td className="wallet-table-data">
               { this.toConvertValue(
                 expense.value, expense.exchangeRates[expense.currency].ask,
               ).toFixed(2) }
             </td>
-            <td>Real</td>
-            <td>
+            <td className="wallet-table-data">Real</td>
+            <td className="wallet-table-data">
               <button
                 data-testid="delete-btn"
                 type="button"
                 onClick={ () => deleteExpenseProps(expense.id) }
-
+                className="wallet-table-button"
               >
-                Excluir
+                X
               </button>
             </td>
           </tr>))}

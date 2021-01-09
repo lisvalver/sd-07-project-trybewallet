@@ -1,0 +1,29 @@
+.wallet-form {
+  background-color: rgba(255, 255, 255, 0.699);
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 5px;
+  width: 100vw;
+}
+
+.wallet-input-box {
+  border: solid 1px white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 8px rgb(165, 165, 165);
+  box-sizing: content-box;
+  height: 26px;
+  margin: 10px;
+}
+
+.wallet-form-button {
+  background-color: hsl(77, 78%, 41%);
+  border: solid 1px rgba(160, 160, 160, 0.473);
+  border-radius: 5px;
+  box-shadow: 1px 1px 8px rgba(145, 145, 145, 0.514);
+  color: white;
+  font-size: 0.9em;
+  font-weight: 600;
+  height: 26px;
+  margin: 10px;
+  width: 200px;
+}

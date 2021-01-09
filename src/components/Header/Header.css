@@ -1,0 +1,26 @@
+.wallet-header {
+  align-items: center;
+  background-color:rgb(21, 54, 12);
+  box-shadow: 1px 1px 5px black;
+  display: flex;
+  flex-direction: row;
+  height: 10vh;
+  justify-content: space-around;
+  width: 100vw;
+}
+
+.wallet-header-information {
+  align-content: center;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  font-size: 0.8em;
+  justify-content: space-between;
+  width: 20vw;
+}
+
+.wallet-logo {
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+}
