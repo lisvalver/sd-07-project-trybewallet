@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 class Table extends React.Component {
   render() {
-    const { expenses } = this.props;
+    const { expenses, deleteExpenseProps } = this.props;
     return (
       <div>
-        <table>
+        <table id="myTable">
           <thead>
             <tr>
               <th>Descrição</th>
@@ -42,6 +42,15 @@ class Table extends React.Component {
                   <td>{parseFloat(ask).toFixed(2)}</td>
                   <td>{(ask * value).toFixed(2)}</td>
                   <td>Real</td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={ () => deleteExpenseProps(id) }
+                      data-testid="delete-btn"
+                    >
+                      Excluir
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             );
@@ -54,6 +63,7 @@ class Table extends React.Component {
 
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteExpenseProps: PropTypes.func.isRequired,
 };
 
 export default Table;

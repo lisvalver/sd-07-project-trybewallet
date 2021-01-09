@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import fetchCurrency from '../helpers';
-import { fetchCurrencyAction } from '../actions';
+import { fetchCurrencyAction, deleteExpense } from '../actions';
 import Header from '../components/Header';
 import ExpensesForm from '../components/ExpensesForm';
 import Table from '../components/Table';
@@ -82,18 +82,24 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { user, expenses } = this.props;
+    const { user, expenses, deleteExpenseProps } = this.props;
     const { arrayCurrencyFiltered, totalExpenses } = this.state;
     return (
       <div>
-        <Header user={ user } totalExpenses={ totalExpenses } />
+        <Header
+          user={ user }
+          totalExpenses={ totalExpenses }
+        />
         <ExpensesForm
           state={ this.state }
           arrayCurrencyFiltered={ arrayCurrencyFiltered }
           handlerChange={ this.handlerChange }
           handlerSubmit={ this.handlerSubmit }
         />
-        <Table expenses={ expenses } />
+        <Table
+          expenses={ expenses }
+          deleteExpenseProps={ deleteExpenseProps }
+        />
       </div>
     );
   }
@@ -106,12 +112,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addExpenseProps: (expense) => dispatch(fetchCurrencyAction(expense)),
+  deleteExpenseProps: (id) => dispatch(deleteExpense(id)),
 });
 
 Wallet.propTypes = {
   user: PropTypes.string.isRequired,
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   addExpenseProps: PropTypes.func.isRequired,
+  deleteExpenseProps: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
