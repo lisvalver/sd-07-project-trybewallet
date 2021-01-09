@@ -8,9 +8,9 @@ const INITIAL_STATE = [
 
 function economyApi(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'GETAPI':
-    return { ...state, isFetching: true };
   case 'REQUESTAPI':
+    return { ...state, isFetching: true };
+  case 'GETAPI':
     return { ...state, payload: action.payload, isFetching: false };
   case 'FAILEDAPI':
     return { ...state, error: action.payload, isFetching: false };

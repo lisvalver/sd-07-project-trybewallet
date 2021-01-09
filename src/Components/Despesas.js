@@ -1,13 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fecthAction } from '../actions';
+import { fecthAction, wallet } from '../actions';
 
 class Despesas extends Component {
-  componentDidMount() {
-    const { fecthEconomy } = this.props;
-    fecthEconomy();
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 0,
+      description: '',
+      currency: '',
+      method: '',
+      tag: '',
+    };
+    this.onInputChange = this.onInputChange.bind(this);
+    this.handleApi = this.handleApi.bind(this);
   }
+  // componentDidMount(){
+  //   const {fecthEconomy } = this.props;
+  //   fecthEconomy();
+  // }
+
+  onInputChange({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  }
+
+  handleApi() {
+    const { wallet } = this.props;
+    const { value, description, currency, method } = this.state;
+    wallet({ value, description, currency, method });
+  }
+
 
   render() {
     const options = [
@@ -44,18 +68,30 @@ class Despesas extends Component {
           <div>
             <label htmlFor="value">
               Valor Despesas
-              <input id="value" data-testid="value-input" />
+              <input
+                name="value"
+                onChange={this.onInputChange}
+                data-testid="value-input"
+              />
             </label>
             <label htmlFor="description">
               Descrição Despesas
-              <input id="description" data-testid="description-input" />
+              <input
+                name="description"
+                onChange={this.onInputChange}
+                data-testid="description-input"
+              />
             </label>
             <label htmlFor="currency">
               Currency Despesas
               {'   '}
-              <select id="currency" data-testid="currency-input">
+              <select
+                name="currency"
+                data-testid="currency-input"
+                onChange={this.onInputChange}
+              >
                 {options.map((opcao) => (
-                  <option key={ opcao } data-testid={ opcao } value={ opcao }>
+                  <option key={opcao} data-testid={opcao} value={opcao}>
                     {opcao}
                   </option>
                 ))}
@@ -65,9 +101,13 @@ class Despesas extends Component {
               <label htmlFor="method">
                 Método de Pagamento
                 {'   '}
-                <select id="method" data-testid="method-input">
+                <select
+                  name="method"
+                  data-testid="method-input"
+                  onChange={this.onInputChange}
+                >
                   {method.map((pag) => (
-                    <option key={ pag } data-testid={ pag } value={ pag }>
+                    <option key={pag} data-testid={pag} value={pag}>
                       {pag}
                     </option>
                   ))}
@@ -78,9 +118,13 @@ class Despesas extends Component {
               <label htmlFor="tag">
                 Categoria
                 {'   '}
-                <select id="tag" data-testid="tag-input">
+                <select
+                  name="tag"
+                  data-testid="tag-input"
+                  onChange={this.onInputChange}
+                >
                   {categoria.map((tag) => (
-                    <option key={ tag } data-testid={ tag } value={ tag }>
+                    <option key={tag} data-testid={tag} value={tag}>
                       {tag}
                     </option>
                   ))}
@@ -90,8 +134,10 @@ class Despesas extends Component {
           </div>
         )}
         <div className="teste">
-          <button type="button">Adicionar Despesas</button>
-          {payload}
+          <button type="button" onClick={this.handleApi}>
+            Adicionar Despesas
+          </button>
+          <div>{payload}</div>
         </div>
       </div>
     );
@@ -111,6 +157,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fecthEconomy: () => dispatch(fecthAction()),
+  wallet: (despesas) => dispatch(wallet(despesas)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Despesas);
