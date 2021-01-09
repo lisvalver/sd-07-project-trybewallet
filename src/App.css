@@ -84,8 +84,8 @@ select {
   border: 1px solid white;
   color: white;
   display: flex;
-  font-size: calc(10px + 2vmin);
   flex-direction: column;
+  font-size: calc(10px + 2vmin);
   height: 400px;
   justify-content: center;
   margin-left: 400px;
