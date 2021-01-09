@@ -39,9 +39,10 @@ class FormDespesa extends Component {
   }
 
   handleAddExpense() {
-    const { addExpense, currencies } = this.props;
+    const { addExpense, currencies, getAllCurrencies } = this.props;
     const allCurrencies = currencies[0];
     const { currency } = this.state;
+    getAllCurrencies();
     // const { currency } = this.state;
     // console.log(allCurrencies);
     const askValue = allCurrencies[currency].ask;
