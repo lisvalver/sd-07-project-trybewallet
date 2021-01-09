@@ -1,6 +1,7 @@
-export const saveEmail = (email) => ({
-  type: 'SAVE_EMAIL',
-  email,
-});
+import saveEmail from './user';
+import addExpense from './wallet';
 
-export const example = () => ({});
+export default {
+  saveEmail,
+  addExpense,
+}

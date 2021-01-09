@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
+import actions from '../actions';
 
 const MIN_PASSWORD_LENGTH = 6;
 
