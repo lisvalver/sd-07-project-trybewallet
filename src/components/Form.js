@@ -9,7 +9,7 @@ class Form extends React.Component {
     super();
     this.handleInput = this.handleInput.bind(this);
     this.setStateCurrencies = this.setCurrencies.bind(this);
-    this.handleClick = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       value: '',
       description: '',
@@ -43,7 +43,8 @@ class Form extends React.Component {
   }
 
   handleSubmit() {
-    const { addExpense } = this.props;
+    const { addExpense, fetchExchanges } = this.props;
+    fetchExchanges();
     addExpense(this.state);
   }
 

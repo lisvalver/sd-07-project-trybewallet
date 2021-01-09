@@ -4,6 +4,12 @@ export const requestCurrencies = (currencies) => ({
   payload: currencies,
 });
 
+export const REQUEST_EXCHANGES = 'REQUEST_EXCHANGES';
+export const requestExchanges = (exchanges) => ({
+  type: REQUEST_EXCHANGES,
+  payload: exchanges,
+});
+
 export const REQUEST_STARTED = 'REQUEST_STARTED';
 export const requestStarted = () => ({ type: REQUEST_STARTED });
 
@@ -22,6 +28,8 @@ export function fetchExchangeRates() {
       const currencies = Object.keys(exchanges);
       const filteredCurrencies = currencies.filter((currency) => currency !== 'USDT');
       dispatch(requestCurrencies(filteredCurrencies));
+      delete exchanges.USDT;
+      dispatch(requestExchanges(exchanges));
     } catch (erro) {
       console.log(erro);
       dispatch(requestFail());
