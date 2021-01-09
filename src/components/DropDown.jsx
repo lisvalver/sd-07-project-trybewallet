@@ -16,13 +16,24 @@ class DropDown extends Component {
   }
 
   render() {
-    const { options, selectValue } = this.props;
+    const { options, selectValue, dataTest } = this.props;
     return (
       <div>
-        <select value={ selectValue } onChange={ this.selectChange }>
+        <select
+          value={ selectValue }
+          onChange={ this.selectChange }
+          data-testid={ dataTest }
+        >
           { options.map(
             (option, index) => (
-              <option key={ index } value={ option }>{ option }</option>
+              <option
+                key={ index }
+                value={ option }
+                data-testid={ option }
+
+              >
+                { option }
+              </option>
             ),
           )}
 
@@ -37,6 +48,7 @@ DropDown.propTypes = {
   handleChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectValue: PropTypes.string.isRequired,
+  dataTest: PropTypes.string.isRequired,
 };
 
 export default DropDown;
