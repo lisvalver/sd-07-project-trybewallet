@@ -37,13 +37,13 @@ class Wallet extends React.Component {
 
   async handleChange(event) {
     event.preventDefault();
-    console.log(this.props);
+    // console.log(this.props);
     const { addExp } = this.props;
-    console.log(this.state);
+    // console.log(this.state);
     const { handleFetch } = this;
     await handleFetch();
     const { expenses } = this.state;
-    console.log('expenses', expenses);
+    // console.log('expenses', expenses);
     addExp(expenses);
     this.setState({
       expenses: {
