@@ -2,19 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { login } from '../actions';
+import { login, validator } from '../actions';
 import { LoginBox } from '../components';
 
 class Login extends Component {
   constructor() {
     super();
-    this.getInputs = this.getInputs.bind(this);
+    this.getChanges = this.getChanges.bind(this);
     this.onSubmitBtn = this.onSubmitBtn.bind(this);
     this.state = {
       email: '',
       password: '',
       logged: false,
     };
+  }
+
+  componentDidUpdate(_, prevState) {
+    this.valideChanges(prevState);
   }
 
   onSubmitBtn() {
@@ -24,18 +28,24 @@ class Login extends Component {
     this.setState({ logged: true });
   }
 
-  getInputs({ target: { type, value } }) {
+  getChanges({ target: { type, value } }) {
     this.setState({ [type]: value });
   }
 
+  valideChanges({ email: e, password: p }) {
+    const { email, password } = this.state;
+    if (email !== e || password !== p) {
+      const { validate } = this.props;
+      validate(email, password);
+    }
+  }
+
   render() {
-    const { password, email, logged } = this.state;
+    const { logged } = this.state;
     return (
       logged ? <Redirect to="/carteira" /> : <LoginBox
         onSubmitBtn={ this.onSubmitBtn }
-        getInputs={ this.getInputs }
-        password={ password }
-        email={ email }
+        getChanges={ this.getChanges }
       />
     );
   }
@@ -43,10 +53,14 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   loginEmail: (payload) => dispatch(login(payload)),
+  validate: (email, password) => dispatch(
+    validator(email, password),
+  ),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   loginEmail: PropTypes.func.isRequired,
+  validate: PropTypes.func.isRequired,
 };

@@ -2,61 +2,74 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { HeaderWallet, AddExpense } from '../components';
-import { addExpense } from '../actions';
+import { addExpense, fetchCurrencies } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
     super();
+    this.changeState = this.changeState.bind(this);
     this.saveExpense = this.saveExpense.bind(this);
     this.state = {
-      currencies: [],
+      exchangeRates: {},
+      description: '',
+      currency: '',
+      method: '',
+      value: '0',
+      tag: '',
     };
   }
 
   componentDidMount() {
-    this.fetchCurrencies();
+    this.setCurrenciesState();
   }
 
-  async fetchCurrencies() {
-    const getFetch = (url) => fetch(url).then((element) => element.json());
-    const url = 'https://economia.awesomeapi.com.br/json/all';
-    try {
-      const promisse = await getFetch(url);
-      const arrCurrencies = Object.assign([], promisse);
-      return this.setState({ currencies: arrCurrencies });
-    } catch (err) { return 'Erro'; }
+  async setCurrenciesState() {
+    const { acFetchCurrencies } = this.props;
+    await acFetchCurrencies();
+    const { currencies } = this.props;
+    this.setState({ exchangeRates: currencies });
   }
 
-  saveExpense(date) {
-    this.fetchCurrencies();
+  changeState({ target: { id, value } }) {
+    this.setState({ [id]: value });
+  }
+
+  saveExpense() {
     const { dispatchExpense } = this.props;
-    dispatchExpense(date);
+    this.setCurrenciesState();
+    dispatchExpense(this.state);
   }
 
   render() {
-    const { currencies } = this.state;
-    const { email, expenses } = this.props;
+    const { email, expenses, currencies } = this.props;
     return (
       <div>
         <HeaderWallet email={ email } expenses={ expenses } />
-        <AddExpense currencies={ currencies } saveExpense={ this.saveExpense } />
+        <AddExpense
+          saveExpense={ this.saveExpense }
+          changeState={ this.changeState }
+          currencies={ currencies }
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ user: { email }, wallet: { expenses } }) => (
-  { email, expenses }
+const mapStateToProps = ({ user: { email }, wallet: { expenses, currencies } }) => (
+  { email, expenses, currencies }
 );
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchExpense: (payload) => dispatch(addExpense(payload)),
+  acFetchCurrencies: () => dispatch(fetchCurrencies()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
+  currencies: PropTypes.objectOf(PropTypes.object).isRequired,
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   dispatchExpense: PropTypes.func.isRequired,
+  acFetchCurrencies: PropTypes.func.isRequired,
 };
