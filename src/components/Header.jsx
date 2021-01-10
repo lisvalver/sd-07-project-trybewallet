@@ -14,7 +14,9 @@ const Header = (props) => {
   return (
     <div>
       <span data-testid="email.field" htmlFor="email">
-        Email: <span data-testid="email-field">{Object.values(email)}</span>
+        Email: <span data-testid="email-field">
+          {Object.values(email)}
+          </span>
       </span>
       <span data-testid="total-field">
         Despesa total: { parseFloat(totalExpense, dez).toFixed(2) }
@@ -33,8 +35,8 @@ function mapStateToProps(state) {
 
 Header.propTypes = {
   totalExpense: PropTypes.number.isRequired,
-  state: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,    
+  state: PropTypes.objectOf.isRequired,
+  user: PropTypes.objectOf.isRequired,
   email: PropTypes.string.isRequired,
 };
 
