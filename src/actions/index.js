@@ -1,41 +1,35 @@
-export const LOGIN = 'LOGIN';
-export const REQUEST_COINS = 'REQUEST_COINS';
-export const RECEIVED_COINS = 'RECEIVED_COINS';
-export const READ_COINS = 'READ_COINS';
-export const ADD_EXPENSE = 'ADD_EXPENSE';
-export const REQUEST_ERROR = 'REQUEST_ERROR';
-export const RECEIVED_EXCHANGE = 'RECEIVED_EXCHANGE';
+import types from './types';
 
 export const login = (email) => ({
-  type: LOGIN,
+  type: types.LOGIN,
   email,
 });
 
 export const addExpense = (expense) => ({
-  type: ADD_EXPENSE,
+  type: types.ADD_EXPENSE,
   expense,
 });
 
 const requestCoins = () => ({
-  type: REQUEST_COINS,
+  type: types.REQUEST_COINS,
 });
 
 const recievedCoins = () => ({
-  type: RECEIVED_COINS,
+  type: types.RECEIVED_COINS,
 });
 
 const readCoins = (data) => ({
-  type: READ_COINS,
+  type: types.READ_COINS,
   currencies: Object.keys(data).filter((curr) => curr !== 'USDT'),
 });
 
 const receivedExchanges = (data) => ({
-  type: RECEIVED_EXCHANGE,
+  type: types.RECEIVED_EXCHANGE,
   exchangeRates: data,
 });
 
 const catchError = (error) => ({
-  type: REQUEST_ERROR,
+  type: types.REQUEST_ERROR,
   currencies: [error],
 });
 export function fetchApiThunk() {

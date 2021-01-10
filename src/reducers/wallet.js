@@ -1,4 +1,4 @@
-import { RECEIVED_EXCHANGE, REQUEST_COINS, RECEIVED_COINS, READ_COINS, ADD_EXPENSE, REQUEST_ERROR } from '../actions';
+import types from '../actions/types';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -10,23 +10,23 @@ const INITIAL_STATE = {
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-  case REQUEST_COINS:
+  case types.REQUEST_COINS:
     return {
       ...state, isFetching: true,
     };
-  case RECEIVED_COINS:
+  case types.RECEIVED_COINS:
     return {
       ...state, isFetching: false,
     };
-  case READ_COINS:
+  case types.READ_COINS:
     return {
       ...state, currencies: action.currencies,
     };
-  case REQUEST_ERROR:
+  case types.REQUEST_ERROR:
     return {
       ...state, currencies: action.currencies,
     };
-  case ADD_EXPENSE:
+  case types.ADD_EXPENSE:
     action.expense.id = state.controlId;
     action.expense.exchangeRates = state.rates;
     return {
@@ -34,7 +34,7 @@ export default function (state = INITIAL_STATE, action) {
       expenses: [...state.expenses, action.expense],
       controlId: state.controlId + 1,
     };
-  case RECEIVED_EXCHANGE:
+  case types.RECEIVED_EXCHANGE:
     return { ...state, rates: action.exchangeRates };
   default:
     return state;

@@ -1,4 +1,4 @@
-import { LOGIN } from '../actions';
+import types from '../actions/types';
 
 // Esse reducer será responsável por tratar as informações da pessoa usuária
 const INITIAL_STATE = {
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 };
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-  case LOGIN:
+  case types.LOGIN:
     return { ...state, email: action.email };
   default:
     return state;
