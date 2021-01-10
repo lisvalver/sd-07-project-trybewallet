@@ -77,7 +77,7 @@ class ExpenseForm extends Component {
       <div>
         <form onSubmit={ this.handleSubmit }>
           <label htmlFor="value">
-            Valor
+            Valor:
             <input
               id="value"
               type="text"
@@ -88,7 +88,7 @@ class ExpenseForm extends Component {
           </label>
 
           <label htmlFor="description">
-            Descrição
+            Descrição:
             <input
               id="description"
               type="text"

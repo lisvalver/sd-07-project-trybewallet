@@ -3,9 +3,24 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class ListExpenses extends Component {
+  constructor() {
+    super();
+
+    this.getAskValue = this.getAskValue.bind(this);
+    this.convertedValue = this.convertedValue.bind(this);
+  }
+
+  getAskValue(expenseObject) {
+    return parseFloat(expenseObject.exchangeRates[expenseObject.currency].ask);
+  }
+
+  convertedValue(expenseObject) {
+    const value = parseFloat(expenseObject.value);
+    return value * this.getAskValue(expenseObject);
+  }
+
   render() {
     const { expenses } = this.props;
-    console.log(expenses);
     return (
       <div>
         <table>
@@ -19,24 +34,25 @@ class ListExpenses extends Component {
               <th>Câmbio utilizado</th>
               <th>Valor convertido</th>
               <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>January</td>
-              <td>$100</td>
-            </tr>
-            <tr>
-              <td>February</td>
-              <td>$80</td>
-            </tr>
+            {
+              expenses.map((expense) => (
+                <tr key={ expense.id }>
+                  <td>{ expense.description }</td>
+                  <td>{ expense.tag }</td>
+                  <td>{ expense.method }</td>
+                  <td>{ expense.value }</td>
+                  <td>{ expense.exchangeRates[expense.currency].name }</td>
+                  <td>{ this.getAskValue(expense).toFixed(2) }</td>
+                  <td>{ this.convertedValue(expense).toFixed(2) }</td>
+                  <td>Real</td>
+                </tr>
+              ))
+            }
           </tbody>
-          <tfoot>
-            <tr>
-              <td>Sum</td>
-              <td>$180</td>
-            </tr>
-          </tfoot>
         </table>
       </div>
     );
