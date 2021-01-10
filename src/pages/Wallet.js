@@ -2,14 +2,38 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FormWallet from '../components/FormWallet';
 import Header from '../components/HeaderWallet';
+import { deleteExpense } from '../actions';
 
 class Wallet extends React.Component {
+  constructor() {
+    super();
+
+    this.updateValues = this.updateValues.bind(this);
+    this.convertValues = this.convertValues.bind(this);
+
+    this.state = {
+      sumValues: 0,
+    };
+  }
+
+  updateValues(value) {
+    this.setState(({ sumValues }) => ({
+      sumValues: sumValues + value,
+    }));
+  }
+
+  convertValues(value, currency) {
+    const valueBR = (value * currency * 100) / 100;
+    return valueBR;
+  }
+
   render() {
-    const { email, expenses } = this.props;
+    const { sumValues } = this.state;
+    const { email, expenses, deleteExpense } = this.props;
     console.log(expenses);
     return (
       <div>
-        <Header email={email} />
+        <Header email={email} total={sumValues} />
         <FormWallet />
         <section>
           <table>
@@ -27,23 +51,33 @@ class Wallet extends React.Component {
             </thead>
             <tbody>
               {expenses.map(expense => {
+                const {
+                  id,
+                  description,
+                  tag,
+                  method,
+                  value,
+                  currency,
+                  exchangeRates,
+                } = expense;
+                const {
+                  [currency]: { name, ask },
+                } = exchangeRates;
                 return (
-                  <tr key={expense.id}>
-                    <td>{expense.description}</td>
-                    <td>{expense.tag}</td>
-                    <td>{expense.method}</td>
-                    <td>{expense.value}</td>
-                    <td>{expense.exchangeRates[expense.currency].name}</td>
-                    <td>{expense.exchangeRates[expense.currency].ask}</td>
-                    <td>
-                      {Math.round(
-                        (expense.value /
-                          expense.exchangeRates[expense.currency].ask) *
-                          100,
-                      ) / 100}
-                    </td>
+                  <tr key={id}>
+                    <td>{description}</td>
+                    <td>{tag}</td>
+                    <td>{method}</td>
+                    <td>{value}</td>
+                    <td>{name}</td>
+                    <td>{ask}</td>
+                    <td>{this.convertValues(value, ask)}</td>
                     <td>Real</td>
-                    <button data-testid="delete-btn" >Deletar</button>
+                    <td>
+                      <button data-testid='delete-btn' onClick={deleteExpense}>
+                        Deletar
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
@@ -60,4 +94,8 @@ const mapStateToProps = state => ({
   expenses: state.wallet.expenses,
 });
 
-export default connect(mapStateToProps)(Wallet);
+const mapDispatchToProps = dispatch => ({
+  deleteExpense: () => dispatch(deleteExpense()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

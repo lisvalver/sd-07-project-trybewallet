@@ -4,6 +4,7 @@ const REQUEST_COINS = 'REQUEST_COINS';
 const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 const SAVE_EXPENSES = 'SAVE_EXPENSES';
 const REQUEST_COINS_FAIL = 'REQUEST_COINS_FAIL';
+const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 export const getEmail = sendEmail => ({
   type: UPDATE_EMAIL,
@@ -25,6 +26,10 @@ function getExpenses(form, currencies) {
 function requestFail(error) {
   return { type: REQUEST_COINS_FAIL, error };
 }
+
+export const deleteExpense = () => ({
+  type: DELETE_EXPENSE,
+});
 
 export function sendCurrencies() {
   return dispatch => {
@@ -56,4 +61,5 @@ export const typesActions = {
   SAVE_CURRENCIES,
   SAVE_EXPENSES,
   REQUEST_COINS_FAIL,
+  DELETE_EXPENSE,
 };

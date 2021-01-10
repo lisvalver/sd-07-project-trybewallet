@@ -45,6 +45,12 @@ const wallet = (state = INITIAL_STATE, action) => {
         ],
         nextId: state.nextId + 1,
       };
+    case typesActions.DELETE_EXPENSE:
+      return {
+        ...state,
+        nextId: 0,
+        expenses: [ ...state.expenses.filter((expense, index) => expense.id !== index ) ],
+      };
     case typesActions.REQUEST_COINS_FAIL:
       return { ...state, isFetching: false, error: action.error };
     default:
