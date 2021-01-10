@@ -6,5 +6,9 @@ export default {
   wallet: {
     currencies: [],
     expenses: [],
+    isFetching: false,
+    error: '',
+    controlId: 0,
+    rates: {},
   },
 };
