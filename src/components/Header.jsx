@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 // import store from '../store/index'
+import PropTypes from 'prop-types';
 
 const Header = (props) => {
   const { totalExpense } = props;
@@ -21,7 +22,7 @@ const Header = (props) => {
       <span data-testid="header-currency-field">BRL</span>
     </div>
   )
-};
+}
 
 function mapStateToProps(state) {
   // console.log(state);
@@ -29,5 +30,10 @@ function mapStateToProps(state) {
     state,
   };
 }
+
+Header.propTypes = {
+  totalExpense: PropTypes.number.isRequired,
+  email: PropTypes.string.isRequired,
+};
 
 export default connect(mapStateToProps)(Header);

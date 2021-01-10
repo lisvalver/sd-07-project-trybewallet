@@ -1,8 +1,8 @@
 import React from 'react';
 // import RenderRows from './RenderRows';
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { eraseExpense } from '../actions/wallet'
+import { eraseExpense } from '../actions/wallet';
 
 class RenderTable extends React.Component {
   // apenas um teste
@@ -37,6 +37,7 @@ class RenderTable extends React.Component {
       </tr>
     );
   }
+
   render() {
     const { expenses } = this.props;
     return (
@@ -75,4 +76,4 @@ RenderTable.propTypes = {
   eraseExpenseDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RenderTable)
+export default connect(mapStateToProps, mapDispatchToProps)(RenderTable);
