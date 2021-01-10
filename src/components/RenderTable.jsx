@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
 // import RenderRows from './RenderRows';
 import { connect } from 'react-redux'; 
 import PropTypes from 'prop-types';
 import { eraseExpense } from '../actions/wallet'
 
 class RenderTable extends React.Component {
+  // apenas um teste
   showExpense(expense) {
     const { id, description, tag, method, value, currency, exchangeRates } = expense;
     const { eraseExpenseDispatch } = this.props;
