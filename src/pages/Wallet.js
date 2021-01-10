@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpenses, fetchCurrencies } from '../actions';
+import { addExpenses, fetchCurrencies, sumTotalValue } from '../actions';
 import Expenses from './componentes/Expenses';
 
 class Wallet extends React.Component {
@@ -15,25 +15,25 @@ class Wallet extends React.Component {
       methodInput: 'Dinheiro',
       tagInput: 'Alimentação',
       infor: '',
-      despesaTotal: 0,
     };
   }
 
+  async fetchAndSaveExpenses() {
+    const { fetchCurrency, saveExpenses, sumTotal } = this.props;
+    const { cash, currency, methodInput, tagInput, infor } = this.state;
+    await fetchCurrency();
+    saveExpenses(cash, currency, methodInput, tagInput, infor);
+    sumTotal();
+  }
 
-async fetchAndSaveExpenses() {
-  const { fetchCurrency, saveExpenses } = this.props
-  const { cash, currency, methodInput, tagInput, infor } = this.state;
-  await fetchCurrency();
-  saveExpenses(cash, currency, methodInput, tagInput, infor);
-}
   handleFormInput(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
 
   render() {
-    const { email } = this.props;
-    const { cash, currency, methodInput, tagInput, infor, despesaTotal } = this.state;
+    const { email, value } = this.props;
+    const { cash, currency, methodInput, tagInput, infor } = this.state;
     return (
       <div>
         <header>
@@ -44,8 +44,7 @@ async fetchAndSaveExpenses() {
           <span data-testid="total-field">
             Despesa Total:
             R$
-            { despesaTotal }
-            ,00
+            { value }
           </span>
           <span data-testid="header-currency-field">
             BRL
@@ -132,7 +131,7 @@ async fetchAndSaveExpenses() {
         </form>
         <button
           type="button"
-          onClick={ this.fetchAndSaveExpenses}
+          onClick={ this.fetchAndSaveExpenses }
         >
           Adicionar despesa
         </button>
@@ -145,6 +144,7 @@ async fetchAndSaveExpenses() {
 function mapStateToProps(state) {
   return {
     email: state.user.email,
+    value: state.wallet.value,
   };
 }
 
@@ -154,6 +154,7 @@ function mapDispatchToProps(dispatch) {
       addExpenses(cash, currency, methodInput, tagInput, infor),
     ),
     fetchCurrency: () => dispatch(fetchCurrencies()),
+    sumTotal: () => dispatch(sumTotalValue()),
   };
 }
 

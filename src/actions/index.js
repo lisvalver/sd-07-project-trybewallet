@@ -8,7 +8,7 @@ const addUser = (email, password) => ({
   },
 });
 
-const addExpenses = (cash, currency, methodInput, tagInput, infor ) => ({
+const addExpenses = (cash, currency, methodInput, tagInput, infor) => ({
   type: 'EXPENSER',
   payload: {
     cash,
@@ -19,7 +19,6 @@ const addExpenses = (cash, currency, methodInput, tagInput, infor ) => ({
   },
 });
 
-
 const requireCurrenciesFail = (error) => ({
   type: 'REQUIRE_FAIL',
   payload: error,
@@ -28,6 +27,10 @@ const requireCurrenciesFail = (error) => ({
 const requireCurrenciesSucess = (currencies) => ({
   type: 'REQUIRE_CURRENCE_SUCESS',
   payload: currencies,
+});
+
+const sumTotalValue = () => ({
+  type: 'SUM',
 });
 
 export function fetchCurrencies() {
@@ -45,4 +48,5 @@ export function fetchCurrencies() {
 export {
   addUser,
   addExpenses,
+  sumTotalValue,
 };
