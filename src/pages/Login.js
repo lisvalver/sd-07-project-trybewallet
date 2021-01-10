@@ -28,7 +28,6 @@ class Login extends React.Component {
         disabled: true,
       });
     }
-    console.log("estou sendo chamada");
   }
 
   handleChange(event) {

@@ -7,8 +7,8 @@ const walletReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case 'CHANGE':
     return { ...state, expenses: [...action.expenses] };
-  case 'CURRENCIES':
-    return { ...state, currencies: [...action.currencies] };
+  case 'FETCH_SUCCESS':
+    return { ...state, currencies: [...Object.keys(action.payload).map((key) => action.payload[key])] };
   default:
     return state;
   }

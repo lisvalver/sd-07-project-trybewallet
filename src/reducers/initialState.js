@@ -5,5 +5,6 @@ export default {
   wallet: {
     currencies: [],
     expenses: [],
+    loading: false,
   },
 };
