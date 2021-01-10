@@ -73,37 +73,34 @@ class FormWallet extends Component {
         />
 
         <select
-          placeholder="Moeda"
           data-testid="currency-input"
           name="currency"
           value={ currency }
           onChange={ (event) => this.handleChanges(event) }
         >
-          <option value="Seleção">Selecione uma opção</option>
+          <option value="Seleção">Tipo de Moeda</option>
           {this.renderCoins()}
         </select>
 
         <select
-          placeholder="Método de pagamento:"
           data-testid="method-input"
           name="method"
           value={ method }
           onChange={ (event) => this.handleChanges(event) }
         >
-          <option value="Seleção">Selecione uma opção</option>
+          <option value="Seleção">Forma de pagamento</option>
           <option value="Dinheiro">Dinheiro</option>
           <option value="Cartão de crédito">Cartão de crédito</option>
           <option value="Cartão de débito">Cartão de débito</option>
         </select>
 
         <select
-          placeholder="Tag"
           data-testid="tag-input"
           name="tag"
           value={ tag }
           onChange={ (event) => this.handleChanges(event) }
         >
-          <option value="Seleção">Selecione uma opção</option>
+          <option value="Seleção">Categoria</option>
           <option value="Alimentação">Alimentação</option>
           <option value="Lazer">Lazer</option>
           <option value="Trabalho">Trabalho</option>

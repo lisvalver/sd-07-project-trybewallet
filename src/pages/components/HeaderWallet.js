@@ -9,8 +9,9 @@ class HeaderWallet extends Component {
   }
 
   sumExpenses(values) {
-    return values.reduce((acc, currNumber) => acc + parseFloat(currNumber.value)
-      * parseFloat(currNumber.exchangeRates[currNumber.currency].ask), 0);
+    const allCosts = values.reduce((acc, currNumber) => acc + Number(currNumber.value)
+      * Number(currNumber.exchangeRates[currNumber.currency].ask), 0);
+    return allCosts.toFixed(2);
   }
 
   render() {
@@ -23,7 +24,7 @@ class HeaderWallet extends Component {
           {`Email: ${email}`}
         </p>
         <span data-testid="total-field">
-          {`Valor: R$ ${this.sumExpenses(expenses)}`}
+          {`Despesa Total: R$ ${this.sumExpenses(expenses)}`}
         </span>
         <span data-testid="header-currency-field">BRL</span>
       </header>
