@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { addUser } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -16,8 +17,9 @@ class Login extends React.Component {
   verifyFields(event) {
     event.preventDefault();
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const maximiumLength = 6;
     const { email, password } = this.state;
-    if (emailRegex.test(email) && password.length >= 6) {
+    if (emailRegex.test(email) && password.length >= maximiumLength) {
       this.setState({ validated: true });
       saveData(email, password);
     } else {
@@ -42,17 +44,17 @@ class Login extends React.Component {
     if (validated) return <Redirect to="/carteira" />;
     return (
       <div>
-        <form onSubmit={(event) => this.verifyFields(event)}>
+        <form onSubmit={ (event) => this.verifyFields(event) }>
           <input
             type="text"
             data-testid="email-input"
-            onChange={(event) => this.updateEmail(event.target.value)}
-          ></input>
+            onChange={ (event) => this.updateEmail(event.target.value) }
+          />
           <input
             type="password"
             data-testid="password-input"
-            onChange={(event) => this.updatePassword(event.target.value)}
-          ></input>
+            onChange={ (event) => this.updatePassword(event.target.value) }
+          />
           <button type="submit">Entrar</button>
         </form>
       </div>
@@ -67,3 +69,5 @@ function dispatcher(dispatch) {
 }
 
 export default connect(null, dispatcher)(Login);
+
+// export default Login;
