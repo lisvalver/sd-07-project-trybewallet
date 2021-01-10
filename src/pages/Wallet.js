@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Form from './components/Form';
+import Table from './components/Table';
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class Wallet extends React.Component {
           <span data-testid="header-currency-field">Câmbio: BRL</span>
         </header>
         <Form />
+        <Table />
       </div>
     );
   }
