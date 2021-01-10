@@ -92,6 +92,6 @@ export default connect(null, mapDispathToProps)(Login);
 
 Login.propTypes = {
   history: PropTypes.shape({
-    push: Proptypes.func,
+    push: PropTypes.func,
   }).isRequired,
 };

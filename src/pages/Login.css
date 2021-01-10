@@ -1,21 +1,21 @@
 .login-form {
+    align-items: center;
     background-color: antiquewhite;
-    padding: 10px;
     display: flex;
     flex-direction: column;
-    width: 80%;
+    padding: 10px;
     height: 80%;
-    margin-top: 5px;
     justify-content: center;
-    align-items: center;
+    margin-top: 5px;
+    width: 80%;
 }
 
 .login {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    width: 80%;
     height: 80%;
-    margin-top: 5px;
     justify-content: center;
-    align-items: center;
+    margin-top: 5px;
+    width: 80%;
 }
