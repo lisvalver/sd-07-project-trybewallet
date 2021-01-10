@@ -10,16 +10,17 @@ class Despesas extends Component {
       value: 0,
       description: '',
       currency: '',
-      method: '',
+      method: 'Dinheiro',
       tag: '',
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.handleApi = this.handleApi.bind(this);
   }
-  // componentDidMount(){
-  //   const {fecthEconomy } = this.props;
-  //   fecthEconomy();
-  // }
+
+  componentDidMount() {
+    const { fecthEconomy } = this.props;
+    fecthEconomy();
+  }
 
   onInputChange({ target }) {
     const { name, value } = target;
@@ -27,28 +28,14 @@ class Despesas extends Component {
   }
 
   handleApi() {
-    const { walletSave } = this.props;
     const { value, description, currency, method, tag } = this.state;
-    walletSave({ value, description, currency, method, tag });
+    const { walletSave, fecthEconomy } = this.props;
+    fecthEconomy();
+    const { payload } = this.props;
+    walletSave({ value, description, currency, method, tag, exchangeRates: payload });
   }
 
   render() {
-    const options = [
-      'USD',
-      'CAD',
-      'EUR',
-      'GBP',
-      'ARS',
-      'BTC',
-      'LTC',
-      'JPY',
-      'CHF',
-      'AUD',
-      'CNY',
-      'ILS',
-      'ETH',
-      'XRP',
-    ];
     const method = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
     const categoria = [
       'Alimentação',
@@ -57,7 +44,8 @@ class Despesas extends Component {
       'Transporte',
       'Saúde',
     ];
-    const { isFetching, payload } = this.props;
+    const { isFetching, currency } = this.props;
+    const { value, description } = this.state;
 
     return (
       <div>
@@ -69,16 +57,22 @@ class Despesas extends Component {
               Valor Despesas
               <input
                 name="value"
+                id="value"
+                value={ value }
                 onChange={ this.onInputChange }
                 data-testid="value-input"
+                required
               />
             </label>
             <label htmlFor="description">
               Descrição Despesas
               <input
                 name="description"
+                id="description"
+                value={ description }
                 onChange={ this.onInputChange }
                 data-testid="description-input"
+                required
               />
             </label>
             <label htmlFor="currency">
@@ -86,10 +80,13 @@ class Despesas extends Component {
               {'   '}
               <select
                 name="currency"
+                id="currency"
                 data-testid="currency-input"
                 onChange={ this.onInputChange }
+                required
               >
-                {options.map((opcao) => (
+                <option value=""> Selecione uma opção </option>
+                { currency && currency.map((opcao) => (
                   <option key={ opcao } data-testid={ opcao } value={ opcao }>
                     {opcao}
                   </option>
@@ -102,8 +99,10 @@ class Despesas extends Component {
                 {'   '}
                 <select
                   name="method"
+                  id="method"
                   data-testid="method-input"
                   onChange={ this.onInputChange }
+                  required
                 >
                   {method.map((pag) => (
                     <option key={ pag } data-testid={ pag } value={ pag }>
@@ -119,8 +118,10 @@ class Despesas extends Component {
                 {'   '}
                 <select
                   name="tag"
+                  id="tag"
                   data-testid="tag-input"
                   onChange={ this.onInputChange }
+                  required
                 >
                   {categoria.map((tag) => (
                     <option key={ tag } data-testid={ tag } value={ tag }>
@@ -132,12 +133,9 @@ class Despesas extends Component {
             </div>
           </div>
         )}
-        <div className="teste">
-          <button type="button" onClick={ this.handleApi }>
-            Adicionar Despesas
-          </button>
-          <div>{payload}</div>
-        </div>
+        <button type="button" onClick={ this.handleApi }>
+          Adicionar Despesas
+        </button>
       </div>
     );
   }
@@ -146,17 +144,21 @@ class Despesas extends Component {
 Despesas.propTypes = {
   payload: PropTypes.objectOf.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  currency: PropTypes.objectOf.isRequired,
   walletSave: PropTypes.func.isRequired,
+  fecthEconomy: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   payload: state.economyApi.payload,
+  expenses: state.wallet.expenses,
+  currency: state.economyApi.currency,
   isFetching: state.economyApi.isFetching,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fecthEconomy: () => dispatch(fecthAction()),
-  walletSave: (despesas) => dispatch(wallet(despesas)),
+  walletSave: (expenses) => dispatch(wallet(expenses)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Despesas);

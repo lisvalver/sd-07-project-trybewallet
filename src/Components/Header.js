@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { wallet } from '../actions';
 
 class Header extends Component {
-  componentDidMount() {
-    const { despesasTotais } = this.props;
-    const despesa = 0;
-    despesasTotais(despesa);
+  constructor(props) {
+    super(props);
+    this.calculaDespesa = this.calculaDespesa.bind(this);
+  }
+
+  calculaDespesa() {
+    const { expenses } = this.props;
+    return (expenses.reduce((acc, item) => acc
+    + item.value * item.exchangeRates[item.currency].ask, 0)).toFixed(2);
   }
 
   render() {
-    const { email, despesas } = this.props;
+    const DespesasTotais = this.calculaDespesa();
+    const { email } = this.props;
     return (
       <header>
         <section data-testid="email-field">
@@ -22,7 +27,7 @@ class Header extends Component {
           <div data-testid="total-field">
             Despesas Totais: R$
             { ' ' }
-            { despesas }
+            { DespesasTotais }
             { ' ' }
             <span data-testid="header-currency-field">BRL</span>
           </div>
@@ -35,17 +40,12 @@ class Header extends Component {
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
-  despesas: PropTypes.string.isRequired,
-  despesasTotais: PropTypes.func.isRequired,
+  expenses: PropTypes.objectOf.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  despesas: state.wallet.despesas,
+  expenses: state.wallet.expenses,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  despesasTotais: (despesaTotal) => dispatch(wallet(despesaTotal)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);

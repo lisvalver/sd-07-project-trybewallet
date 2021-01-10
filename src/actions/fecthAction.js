@@ -2,9 +2,10 @@ const requestAPI = () => ({
   type: 'REQUESTAPI',
 });
 
-const getAPI = (payload) => ({
+const getAPI = (payload, currency) => ({
   type: 'GETAPI',
   payload,
+  currency,
 });
 
 const failedAPI = (error) => ({
@@ -15,7 +16,12 @@ const failedAPI = (error) => ({
 const fecthAction = () => (dispatch) => {
   dispatch(requestAPI());
   return fetch('https://economia.awesomeapi.com.br/json/all')
-    .then((data) => dispatch(getAPI(data.json())))
+    .then((data) => data.json())
+    .then((data) => {
+      delete data.USDT;
+      const keys = Object.keys(data);
+      return dispatch(getAPI(data, keys));
+    })
     .catch((error) => dispatch(failedAPI(error)));
 };
 

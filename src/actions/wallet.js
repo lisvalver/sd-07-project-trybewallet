@@ -1,6 +1,6 @@
-const wallet = (despesas) => ({
+const wallet = (expenses) => ({
   type: 'DESPESAS',
-  despesas,
+  expenses,
 });
 
 export default wallet;
