@@ -10,6 +10,11 @@ export const addExpense = (expense) => ({
   expense,
 });
 
+export const deleteExpense = (expenseId) => ({
+  type: types.DELETE_EXPENSE,
+  expenseId,
+});
+
 const requestCoins = () => ({
   type: types.REQUEST_COINS,
 });

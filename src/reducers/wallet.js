@@ -34,6 +34,11 @@ export default function (state = INITIAL_STATE, action) {
       expenses: [...state.expenses, action.expense],
       controlId: state.controlId + 1,
     };
+  case types.DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: [...state.expenses.filter((exp) => exp.id !== action.expenseId)],
+    };
   case types.RECEIVED_EXCHANGE:
     return { ...state, rates: action.exchangeRates };
   default:
