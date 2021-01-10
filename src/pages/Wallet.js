@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMoedaAPI } from '../actions';
+import CoinOption from '../componentes/CoinOption';
 
 class Wallet extends React.Component {
   constructor() {
     super();
     this.state = {
       atualExpenses: 0,
+      currency: 'USD',
     };
 
     this.currenciesOption = this.currenciesOption.bind(this);
@@ -20,7 +22,7 @@ class Wallet extends React.Component {
 
   currenciesOption() {
     const { currencies } = this.props;
-    const choosedCoin = Object.entries(currencies);
+    const choosedCoin = Object(currencies);
     const filtered = choosedCoin.filter(
       (currencie) => currencie[0] !== 'USDT',
     );
@@ -29,7 +31,7 @@ class Wallet extends React.Component {
 
   render() {
     const { email, currencies } = this.props;
-    const { atualExpenses } = this.state;
+    const { atualExpenses, currency } = this.state;
     const currenciesOption = this.currenciesOption();
 
     return (
@@ -48,15 +50,9 @@ class Wallet extends React.Component {
             Descrição da despesa
             <input name="discription" type="text" data-testid="description-input" />
           </label>
-          <select>
-            {currenciesOption.map((currencie) => (
-              <option
-                key={ currencie[0] }
-                value={ currencie[0] }
-                data-testid={ currencie[0] }
-              >
-                {currencie[0]}
-              </option>
+          <select data-testid="currency-input" name="currency" value={ currency }>
+            { currency.map((currencyID) => (
+              <CoinOption currency={ currencyID } />
             ))}
           </select>
         </form>
