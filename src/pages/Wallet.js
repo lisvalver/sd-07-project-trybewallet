@@ -13,7 +13,7 @@ class Wallet extends React.Component {
     this.sendExpense = this.sendExpense.bind(this);
 
     this.state = {
-      value: '',
+      value: 0,
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
@@ -60,10 +60,6 @@ class Wallet extends React.Component {
       method,
       tag,
     });
-
-    this.setState({
-      value: 0,
-    });
   }
 
   render() {
@@ -77,8 +73,9 @@ class Wallet extends React.Component {
             Email:
             { email }
           </h2>
-          <h2>Despesa total: </h2>
-          <h2 data-testid="total-field">{ total }</h2>
+          <p data-testid="total-field">
+            { total || 0 }
+          </p>
           <h2 data-testid="header-currency-field">BRL</h2>
         </header>
         <form>

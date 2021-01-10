@@ -129,6 +129,7 @@ describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira co
     const totalField = screen.getByTestId('total-field');
 
     const INITIAL_VALUE = 0;
+    console.log(totalField.innerHTML);
     expect(totalField).toContainHTML(INITIAL_VALUE);
   });
 
@@ -225,7 +226,7 @@ describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma
     expect(healthOption).toBeInTheDocument();
   });
 
-  test.only('Um botão com o texto \'Adicionar despesa\' que salva as informações da despesa no estado global e atualiza a soma de despesas no header', async () => {
+  test('Um botão com o texto \'Adicionar despesa\' que salva as informações da despesa no estado global e atualiza a soma de despesas no header', async () => {
     const { store } = renderWithRouterAndStore(<Wallet />, '/carteira');
     const addButton = await screen.findByText(/Adicionar despesa/i);
     const valueInput = await screen.findByTestId('value-input');
