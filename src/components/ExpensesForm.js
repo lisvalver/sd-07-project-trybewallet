@@ -1,5 +1,5 @@
 import React from 'react';
-/// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addExpense, fetchApiThunk } from '../actions';
 
@@ -13,21 +13,15 @@ class ExpensesForm extends React.Component {
       method: '',
       tag: '',
     };
-    // this.testeSeSalvaStore = this.testeSeSalvaStore.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.clickButton = this.clickButton.bind(this);
   }
 
   // fazer o dispatch da requisição das moedas quando carregar a página
   componentDidMount() {
-    const { fetchApiThunk } = this.props;
-    fetchApiThunk();
+    const { fetchApi } = this.props;
+    fetchApi();
   }
-
-  // testeSeSalvaStore() {
-  //   const { currencies } = this.props;
-  //   return currencies;
-  // }
 
   handleInput(event) {
     const { name, value } = event.target;
@@ -37,8 +31,10 @@ class ExpensesForm extends React.Component {
   }
 
   clickButton() {
-    const { addExpense } = this.props;
-    addExpense(this.state);
+    const { addingExpense, fetchApi } = this.props;
+    addingExpense(this.state);
+    fetchApi();
+    // resetState();
   }
 
   render() {
@@ -48,7 +44,6 @@ class ExpensesForm extends React.Component {
       <div>
         <form>
           <input
-            type="text"
             placeholder="valor da despesa"
             data-testid="value-input"
             name="value"
@@ -88,8 +83,8 @@ class ExpensesForm extends React.Component {
           >
             <option value="">Método de Pagamento</option>
             <option value="Dinheiro">Dinheiro</option>
-            <option value="Credito">Cartão de crédito</option>
-            <option value="Debito">Cartão de débito</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
+            <option value="Cartão de débito">Cartão de débito</option>
           </select>
           <select
             name="tag"
@@ -114,19 +109,18 @@ class ExpensesForm extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchApiThunk: () => dispatch(fetchApiThunk()),
-  addExpense: () => dispatch(addExpense),
+  fetchApi: () => dispatch(fetchApiThunk()),
+  addingExpense: (expense) => dispatch(addExpense(expense)),
 });
-
-// const mapDispatchToProps = {
-//   addExpense: ac,
-//   fetchApiThunk,
-// };
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
 });
-export default connect(mapStateToProps, mapDispatchToProps)(ExpensesForm);
-// pegar props currencies
 
-// add propTrypes
+export default connect(mapStateToProps, mapDispatchToProps)(ExpensesForm);
+
+ExpensesForm.propTypes = {
+  fetchApi: PropTypes.func.isRequired,
+  addingExpense: PropTypes.func.isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
