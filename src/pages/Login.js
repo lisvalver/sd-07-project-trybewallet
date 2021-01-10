@@ -13,6 +13,7 @@ class Login extends React.Component {
     };
     this.validateInfos = this.validadeInfos.bind(this);
     this.click = this.click.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   validadeInfos() {
@@ -26,15 +27,18 @@ class Login extends React.Component {
   }
 
   click() {
-    this.props.addEmail(this.state.email);
+    const { email } = this.state;
+    const { addEmail } = this.pros;
+    addEmail(email);
   }
 
-  handleChange (e) => {
+  handleChange(e) {
     this.setState({ [e.target.id]: e.target.value });
     this.validadeInfos();
-  };
+  }
 
   render() {
+    const { auth } = this.state;
     return (
       <div>
         <div>
@@ -60,7 +64,7 @@ class Login extends React.Component {
             />
           </label>
           <Link to="/carteira">
-            <button onClick={ this.click } type="button" disabled={ !this.state.auth }>
+            <button onClick={ this.click } type="button" disabled={ !auth }>
               Entrar
             </button>
           </Link>
