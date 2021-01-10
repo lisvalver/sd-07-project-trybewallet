@@ -23,8 +23,7 @@ class Table extends React.Component {
       const exchangeRate = parseFloat(expense.exchangeRates[currency].ask);
       return acc + (expense.value * exchangeRate);
     }, 0);
-
-    updateExpensesProps(totalExpenses);
+    updateExpensesProps(Number(totalExpenses));
   }
 
   render() {
@@ -78,6 +77,7 @@ class Table extends React.Component {
 
 const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
+  totalExpenses: state.wallet.totalExpenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({

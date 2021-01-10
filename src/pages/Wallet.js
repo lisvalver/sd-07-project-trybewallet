@@ -81,9 +81,8 @@ class Wallet extends React.Component {
     } = this.state;
     const exchangeRate = exchange.find((currencie) => currencie[0] === currency);
     const expense = value * exchangeRate[1].ask;
-
     const updatedTotalExpenses = (parseFloat(totalExpenses) + expense).toFixed(2);
-    updateExpensesProps(updatedTotalExpenses);
+    updateExpensesProps(Number(updatedTotalExpenses));
   }
 
   handleSubmit() {
@@ -107,11 +106,13 @@ class Wallet extends React.Component {
             </p>
           </div>
           <div>
-            <p data-testid="total-field">
+            <p>
               Suas despesas totais são:
               {' '}
-              {/** renderizar zero se expenses for [] */}
-              { totalExpenses }
+              <span data-testid="total-field">
+                { totalExpenses }
+              </span>
+
               <span data-testid="header-currency-field">
                 {' '}
                 BRL
