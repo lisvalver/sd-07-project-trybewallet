@@ -1,35 +1,25 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import {
-  FETCH_REQUEST,
-  FETCH_SUCCESS,
-  FETCH_FAILURE,
-} from '../actions/asyncAction';
+import { ADD_CURRENCIES, ADD_EXPENSE } from '../actions/wallet';
 
-// 1 - criar o estado inicial
 const initialState = {
-  loading: false,
   currencies: [],
   expenses: [],
-  error: '',
+  totalExpense: 0,
 };
-
 export default function (state = initialState, action) {
+  const { totalExpense } = { ...state };
   switch (action.type) {
-  case FETCH_REQUEST:
-    return { ...state, loading: true };
-  case FETCH_SUCCESS:
+  case ADD_CURRENCIES:
     return {
       ...state,
-      loading: false,
-      currencies: action.payload.data,
-      error: '',
+      currencies: action.currencies,
     };
-  case FETCH_FAILURE:
+  case ADD_EXPENSE:
     return {
       ...state,
-      loading: false,
-      currencies: [],
-      error: action.payload,
+      expenses: [...state.expenses, { id: state.expenses.length, ...action.expense }],
+      totalExpense:
+      totalExpense + (Number(action.expense.value)
+      * action.expense.exchangeRates[action.expense.currency].ask),
     };
   default:
     return state;
