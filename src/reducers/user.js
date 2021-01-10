@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 const LOGIN = 'LOGIN';
 
 function user(state = INITIAL_STATE.user, action) {
-  console.log(action);
+  // console.log(action);
   switch (action.type) {
   case LOGIN:
     return { ...state, email: action.value };
