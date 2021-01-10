@@ -18,7 +18,13 @@ class Table extends React.Component {
 
   updateHelper() {
     const { expenses, updateExpensesProps } = this.props;
-    updateExpensesProps(expenses);
+    const totalExpenses = expenses.reduce((acc, expense) => {
+      const { currency } = expense;
+      const exchangeRate = parseFloat(expense.exchangeRates[currency].ask);
+      return acc + (expense.value * exchangeRate);
+    }, 0);
+
+    updateExpensesProps(totalExpenses);
   }
 
   render() {
@@ -82,6 +88,7 @@ const mapDispatchToProps = (dispatch) => ({
 Table.propTypes = {
   expenses: propTypes.arrayOf(propTypes.object).isRequired,
   deleteExpense: propTypes.func.isRequired,
+  updateExpensesProps: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

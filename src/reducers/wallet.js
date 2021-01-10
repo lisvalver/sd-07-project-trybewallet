@@ -13,6 +13,7 @@ const initialState = {
   expenses: [],
   fetching: false,
   error: '',
+  totalExpenses: 0,
 };
 
 const wallet = (state = initialState, action) => {
@@ -37,7 +38,7 @@ const wallet = (state = initialState, action) => {
     return { ...state,
       expenses: [...state.expenses.filter((expense) => expense.id !== action.id)] };
   case UPDATE_EXPENSES:
-    return { ...state, expenses: action.expenses };
+    return { ...state, totalExpenses: action.totalExpenses };
   default: return state;
   }
 };

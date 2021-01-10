@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
-import { fetchData, newExpense } from '../actions';
+import { fetchData, newExpense, updateExpenses } from '../actions';
 import Table from '../components/Table';
 
 class Wallet extends React.Component {
@@ -10,7 +10,6 @@ class Wallet extends React.Component {
     super();
 
     this.state = {
-      totalExpenses: 0,
       form: {
         id: 0,
         value: 0,
@@ -75,15 +74,16 @@ class Wallet extends React.Component {
   }
 
   updateTotalExpensesFromAddBtn() {
+    const { totalExpenses, updateExpensesProps } = this.props;
     const exchange = this.filterCurrencies();
     const {
       form: { value, currency },
     } = this.state;
     const exchangeRate = exchange.find((currencie) => currencie[0] === currency);
     const expense = value * exchangeRate[1].ask;
-    this.setState((previouState) => ({
-      totalExpenses: (parseFloat(previouState.totalExpenses) + expense).toFixed(2),
-    }));
+
+    const updatedTotalExpenses = (parseFloat(totalExpenses) + expense).toFixed(2);
+    updateExpensesProps(updatedTotalExpenses);
   }
 
   handleSubmit() {
@@ -92,8 +92,8 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { totalExpenses, form } = this.state;
-    const { email } = this.props;
+    const { form } = this.state;
+    const { email, totalExpenses } = this.props;
     const { value, description, currency, method, tag } = form;
     const filteredCurrencies = this.filterCurrencies();
     return (
@@ -110,6 +110,7 @@ class Wallet extends React.Component {
             <p data-testid="total-field">
               Suas despesas totais são:
               {' '}
+              {/** renderizar zero se expenses for [] */}
               { totalExpenses }
               <span data-testid="header-currency-field">
                 {' '}
@@ -193,15 +194,19 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   email: state.user.email,
   expenses: state.wallet.expenses,
+  totalExpenses: state.wallet.totalExpenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrencies: () => dispatch(fetchData()),
   saveExpenses: (expenses) => dispatch(newExpense(expenses)),
+  updateExpensesProps: (totalExpenses) => dispatch(updateExpenses(totalExpenses)),
 });
 
 Wallet.propTypes = {
   getCurrencies: propTypes.func.isRequired,
+  updateExpensesProps: propTypes.func.isRequired,
+  totalExpenses: propTypes.number.isRequired,
   currencies: propTypes.oneOfType([
     propTypes.object,
     propTypes.array,

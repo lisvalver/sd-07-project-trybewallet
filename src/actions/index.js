@@ -36,6 +36,6 @@ export const excludeExpense = (id) => ({
   type: DELETE_EXPENSE, id,
 });
 
-export const updateExpenses = (expenses) => ({
-  type: UPDATE_EXPENSES, expenses,
+export const updateExpenses = (totalExpenses) => ({
+  type: UPDATE_EXPENSES, totalExpenses,
 });
