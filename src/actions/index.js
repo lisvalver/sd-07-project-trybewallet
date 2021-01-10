@@ -3,9 +3,9 @@ export const changeEmail = (email) => ({
   email,
 });
 
-export const addExpenses = (expense) => ({
+export const addExpenses = (expenses) => ({
   type: 'CHANGE',
-  expense,
+  expenses,
 });
 
 export const chargeCurrencies = (currencies) => ({

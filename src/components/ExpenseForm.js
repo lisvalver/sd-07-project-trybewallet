@@ -40,23 +40,40 @@ class ExpenseForm extends React.Component {
     }, this.buttonValidation);
   }
 
-  async handleSubmit() {
-    const { expenses, addExpenses, loadCurrencies } = this.props;
-    const { value, description, method, currency, tag } = this.state;
-    await loadCurrencies();
+  resetState() {
     const { currencies } = this.props;
     const filteredCurrencies = currencies.filter((filterCurrency) => filterCurrency.codein != 'BRLT')
     this.setState({
-      expense: [{
+      expense: [],
+      value: '',
+      description: '',
+      method: '',
+      currency: '',
+      tag: '',
+      exchangeRates: filteredCurrencies,
+    })
+  }
+
+  async handleSubmit(event) {
+    event.preventDefault();
+    const { expenses, addExpenses, loadCurrencies, exchangeRates } = this.props;
+    const { value, description, method, currency, tag } = this.state;
+    await loadCurrencies();
+    const { currencies } = this.props;
+    const filteredCurrencies = currencies.filter((filterCurrency) => filterCurrency.codein != 'BRLT').sort()
+    this.setState({
+      expense: {
         id: expenses.length,
         value,
+        currency,
         description,
         method,
-        currency,
         tag,
-        currencies: filteredCurrencies,
-      }],
-    }, addExpenses(this.state.expense));
+        exchangeRates: exchangeRates,
+      },
+    });
+    addExpenses(this.state.expense);
+    console.log(this.state.expense);
     console.log(expenses);
   }
 
@@ -114,13 +131,13 @@ class ExpenseForm extends React.Component {
               data-testid="method-input"
               value={this.state.method}
             >
-              <option value="money" data-testid="method-option">
+              <option value="Dinheiro" data-testid="method-option">
                 Dinheiro
               </option>
-              <option value="credit" data-testid="method-option">
+              <option value="Cartão de crédito" data-testid="method-option">
                 Cartão de crédito
               </option>
-              <option value="debit" data-testid="method-option">
+              <option value="Cartão de débito" data-testid="method-option">
                 Cartão de débito
               </option>
             </select>
@@ -135,19 +152,19 @@ class ExpenseForm extends React.Component {
               data-testid="tag-input"
               value={this.state.tag}
             >
-              <option value="food" data-testid="tag-option">
+              <option value="Alimentação" data-testid="tag-option">
               Alimentação
               </option>
-              <option value="plesure" data-testid="tag-option">
+              <option value="Lazer" data-testid="tag-option">
               Lazer
               </option>
-              <option value="work" data-testid="tag-option">
+              <option value="Trabalho" data-testid="tag-option">
               Trabalho
               </option>
-              <option value="transport" data-testid="tag-option">
+              <option value="Transporte" data-testid="tag-option">
               Transporte
               </option>
-              <option value="health" data-testid="tag-option">
+              <option value="Saúde" data-testid="tag-option">
               Saúde
               </option>
             </select>
@@ -167,11 +184,12 @@ class ExpenseForm extends React.Component {
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   expenses: state.wallet.expenses,
+  exchangeRates: state.wallet.exchangeRates,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   loadCurrencies: () => dispatch(actions.fetchCurrencies()),
-  addExpenses: actions.addExpenses,
+  addExpenses: (expense) => dispatch(actions.addExpenses(expense)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);

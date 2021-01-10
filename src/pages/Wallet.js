@@ -1,15 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
 import ExpenseForm from "../components/ExpenseForm";
+// import Table from "../components/Table";
 import * as actions from '../actions/index';
 
 class Wallet extends React.Component {
   constructor() {
     super();
     this. state = {
-      moedas: [],
+      total: 0,
       isLoading: false,
     }
+  }
+
+  sum() {
+    const { expenses } = this.props;
+    const totalExpenses = expenses.reduce((acc, curr) => (
+      parseFloat(acc) + (parseFloat(curr.value) * parseFloat(curr.exchangeRates[curr.currency].ask))
+    ), 0);
+    this.setState({
+      total: totalExpenses,
+    });
   }
   // componentDidMount() {
   //   const { dispatch, loadCurrencies } = this.props;
@@ -24,7 +35,7 @@ class Wallet extends React.Component {
   //   loadCurrencies();
   // }
   render() {
-    const { email, loadCurrencies, currencies } = this.props;
+    const { email, currencies, expenses, total } = this.props;
     // const { moedas } = this.state;
     console.log(currencies);
     return (
@@ -34,7 +45,7 @@ class Wallet extends React.Component {
             Bem vindo<p data-testid="email-field">{email}</p>
           </section>
           <section>
-            Gastos totais R${" "}
+            Gastos totais R${total.toFixed(2)}
             <p Adicione o atributo data-testid="total-field">
               0
             </p>
@@ -45,6 +56,7 @@ class Wallet extends React.Component {
           </section>
         </header>
         <ExpenseForm />
+        {/* <Table /> */}
       </div>
     );
   }
@@ -53,6 +65,8 @@ class Wallet extends React.Component {
 const mapStateToProps = (state) => ({
   email: state.user.email,
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
+  total: state.wallet.total,
 });
 
 // const mapDispatchToProps = (dispatch) => ({
