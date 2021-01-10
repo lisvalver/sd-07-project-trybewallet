@@ -1,10 +1,12 @@
 // Coloque aqui suas actions
-export default function addUser(email, password) {
-  return {
-    type: "USER",
+const addUser = (email, password) => (
+  {
+    type: 'USER',
     data: {
       email,
       password,
     },
-  };
-}
+  }
+);
+
+export default addUser;
