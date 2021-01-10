@@ -1,21 +1,21 @@
 .login-form {
-    align-items: center;
-    background-color: antiquewhite;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    height: 80%;
-    justify-content: center;
-    margin-top: 5px;
-    width: 80%;
+  align-items: center;
+  background-color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: 80%;
+  justify-content: center;
+  margin-top: 5px;
+  width: 80%;
 }
 
 .login {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 80%;
-    justify-content: center;
-    margin-top: 5px;
-    width: 80%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  justify-content: center;
+  margin-top: 5px;
+  width: 80%;
 }
