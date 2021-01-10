@@ -3,21 +3,6 @@ export const addExpense = (expense) => ({
   expense,
 });
 
-export function apiFetchThunk() {
-  return async (dispatch) => {
-    try {
-      dispatch(request());
-      const requestCurrencies = await fetch('https://economia.awesomeapi.com.br/json/all');
-      const result = await requestCurrencies.json();
-      delete result['USDT'];
-      dispatch(receiveFullExchange(result));
-      dispatch(receiveSuccess(result));
-    } catch (error) {
-      dispatch(receiveError(error));
-    }
-  }
-}
-
 const request = () => ({
   type: 'REQUEST',
 });
@@ -36,3 +21,18 @@ const receiveError = (error) => ({
   type: 'RECEIVE_ERROR',
   currencies: [error],
 });
+
+export function apiFetchThunk() {
+  return async (dispatch) => {
+    try {
+      dispatch(request());
+      const requestCurrencies = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const result = await requestCurrencies.json();
+      delete result.USDT;
+      dispatch(receiveFullExchange(result));
+      dispatch(receiveSuccess(result));
+    } catch (error) {
+      dispatch(receiveError(error));
+    }
+  };
+}

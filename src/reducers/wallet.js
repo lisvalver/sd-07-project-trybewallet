@@ -9,18 +9,22 @@ const INITIAL_STATE = {
 
 function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case 'ADD_EXPENSE':
-      action.expense.id = state.controlId;
-      action.expense.exchangeRates = state.rates;
-      return {...state, expenses: [...state.expenses, action.expense], controlId: state.controlId + 1}; 
-    case 'REQUEST':
-      return {...state, isLoading: true};
-    case 'RECEIVE_SUCCESS':
-      return {...state, currencies: action.currencies, isLoading: false};
-    case 'RECEIVE_ERROR':
-    return {...state, currencies: action.currencies, isLoading: false};
-    case 'RECEIVE_FULL_EXCHANGE':
-      return {...state, rates: action.exchangeRates};
+  case 'ADD_EXPENSE':
+    action.expense.id = state.controlId;
+    action.expense.exchangeRates = state.rates;
+    return {
+      ...state,
+      expenses: [...state.expenses, action.expense],
+      controlId: state.controlId + 1,
+    };
+  case 'REQUEST':
+    return { ...state, isLoading: true };
+  case 'RECEIVE_SUCCESS':
+    return { ...state, currencies: action.currencies, isLoading: false };
+  case 'RECEIVE_ERROR':
+    return { ...state, currencies: action.currencies, isLoading: false };
+  case 'RECEIVE_FULL_EXCHANGE':
+    return { ...state, rates: action.exchangeRates };
   default:
     return state;
   }
