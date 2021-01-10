@@ -22,10 +22,10 @@ class HeaderWallet extends Component {
         <p data-testid="email-field">
           {`Email: ${email}`}
         </p>
-        <p data-testid="total-field">
-          {this.sumExpenses(expenses)}
-        </p>
-        <p data-testid="header-currency-field">BRL</p>
+        <span data-testid="total-field">
+          {`Valor: R$ ${this.sumExpenses(expenses)}`}
+        </span>
+        <span data-testid="header-currency-field">BRL</span>
       </header>
     );
   }

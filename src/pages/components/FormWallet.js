@@ -55,75 +55,61 @@ class FormWallet extends Component {
 
     return (
       <form>
-        <label htmlFor="description">
-          Descrição:
-          <input
-            data-testid="description-input"
-            id="description"
-            name="description"
-            value={ description }
-            onChange={ (event) => this.handleChanges(event) }
-          />
-        </label>
 
-        <label htmlFor="value">
-          Valor:
-          <input
-            data-testid="value-input"
-            id="value"
-            name="value"
-            value={ value }
-            onChange={ (event) => this.handleChanges(event) }
-          />
-        </label>
+        <input
+          placeholder="Descrição"
+          data-testid="description-input"
+          name="description"
+          value={ description }
+          onChange={ (event) => this.handleChanges(event) }
+        />
 
-        <label htmlFor="currency">
-          Moeda:
-          <select
-            data-testid="currency-input"
-            id="currency"
-            name="currency"
-            value={ currency }
-            onChange={ (event) => this.handleChanges(event) }
-          >
-            <option value="Seleção">Selecione uma opção</option>
-            {this.renderCoins()}
-          </select>
-        </label>
+        <input
+          placeholder="Valor"
+          data-testid="value-input"
+          name="value"
+          value={ value }
+          onChange={ (event) => this.handleChanges(event) }
+        />
 
-        <label htmlFor="method">
-          Método de pagamento:
-          <select
-            data-testid="method-input"
-            id="method"
-            name="method"
-            value={ method }
-            onChange={ (event) => this.handleChanges(event) }
-          >
-            <option value="Seleção">Selecione uma opção</option>
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Cartão de crédito">Cartão de crédito</option>
-            <option value="Cartão de débito">Cartão de débito</option>
-          </select>
-        </label>
+        <select
+          placeholder="Moeda"
+          data-testid="currency-input"
+          name="currency"
+          value={ currency }
+          onChange={ (event) => this.handleChanges(event) }
+        >
+          <option value="Seleção">Selecione uma opção</option>
+          {this.renderCoins()}
+        </select>
 
-        <label htmlFor="tag">
-          Tag:
-          <select
-            data-testid="tag-input"
-            id="tag"
-            name="tag"
-            value={ tag }
-            onChange={ (event) => this.handleChanges(event) }
-          >
-            <option value="Seleção">Selecione uma opção</option>
-            <option value="Alimentação">Alimentação</option>
-            <option value="Lazer">Lazer</option>
-            <option value="Trabalho">Trabalho</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Saúde">Saúde</option>
-          </select>
-        </label>
+        <select
+          placeholder="Método de pagamento:"
+          data-testid="method-input"
+          name="method"
+          value={ method }
+          onChange={ (event) => this.handleChanges(event) }
+        >
+          <option value="Seleção">Selecione uma opção</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Cartão de crédito">Cartão de crédito</option>
+          <option value="Cartão de débito">Cartão de débito</option>
+        </select>
+
+        <select
+          placeholder="Tag"
+          data-testid="tag-input"
+          name="tag"
+          value={ tag }
+          onChange={ (event) => this.handleChanges(event) }
+        >
+          <option value="Seleção">Selecione uma opção</option>
+          <option value="Alimentação">Alimentação</option>
+          <option value="Lazer">Lazer</option>
+          <option value="Trabalho">Trabalho</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Saúde">Saúde</option>
+        </select>
 
         <button
           type="button"
