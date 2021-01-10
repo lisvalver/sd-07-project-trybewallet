@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { changeEmail } from '../actions';
 import './Login.css';
@@ -33,7 +34,7 @@ class Login extends Component {
   }
 
   clickedFunction() {
-    const { changeEmail, history } = this.props;
+    const { history } = this.props;
     const { email } = this.state;
 
     history.push('/carteira');
@@ -73,7 +74,7 @@ class Login extends Component {
             className="button-entrar"
             type="button"
             disabled={ !isValid }
-            onClick={ () => changeEmail(email) }
+            onClick={ this.clickedFunction }
           >
             Entrar
           </button>
@@ -89,3 +90,8 @@ const mapDispathToProps = (dispatch) => ({
 
 export default connect(null, mapDispathToProps)(Login);
 
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: Proptypes.func,
+  }).isRequired,
+};
