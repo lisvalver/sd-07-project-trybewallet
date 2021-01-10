@@ -7,4 +7,4 @@ const addUser = (email, password) => ({
   },
 });
 
-export default addUser;
+export { addUser };
