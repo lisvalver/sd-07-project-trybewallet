@@ -1,15 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import actions from '../../actions';
 
 class Table extends React.Component {
   constructor(props) {
     super(props);
+    this.renderElements = this.renderElements.bind(this);
+  }
+
+  renderElements(expense) {
+    const { description, tag, method, value, exchangeRates, currency } = expense;
+    return (
+      <tr key={ description }>
+        <td>{description}</td>
+        <td>{tag}</td>
+        <td>{method}</td>
+        <td>{value}</td>
+        <td>{exchangeRates[currency].name}</td>
+        <td>{parseFloat(exchangeRates[currency].ask).toFixed(2)}</td>
+        <td>
+          {parseFloat(value) * parseFloat(exchangeRates[currency].ask)}
+        </td>
+        <td>Real</td>
+        <td>
+          <button type="button" data-testid="delete-btn">Deletar</button>
+        </td>
+      </tr>
+    );
   }
 
   render() {
-    const {expenses} = this.props;
+    const { expenses } = this.props;
     return (
       <div>
         <table>
@@ -27,21 +48,7 @@ class Table extends React.Component {
             </tr>
           </thead>
           <tbody>
-          {expenses.map((item) => (
-            <tr>
-              <td>{item.description}</td>
-              <td>{item.tag}</td>
-              <td>{item.method}</td>
-              <td>{item.value}</td>
-              <td>{item.exchangeRates[item.currency].name}</td>
-              <td>{parseFloat(item.exchangeRates[item.currency].ask).toFixed(2)}</td>
-              <td>{parseFloat(item.value)* parseFloat(item.exchangeRates[item.currency].ask)}</td>
-              <td>Real</td>
-              <td>
-                <button data-testid="delete-btn">Deletar</button>
-              </td>
-            </tr>
-            ))}
+            {expenses.map((expense) => this.renderElements(expense))}
           </tbody>
         </table>
       </div>
@@ -54,3 +61,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Table);
+
+Table.propTypes = {
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
