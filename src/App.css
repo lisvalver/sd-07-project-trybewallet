@@ -60,6 +60,27 @@
   height: 200px;
 }
 
-.logo {
+.logo-login {
   height: 30%;
+}
+
+.email-field {
+  align-items: center;
+  background-color: #ebebe8;
+  box-shadow: 0 1px 3px #a1a1a17c;
+  color: #19684a;
+  display: flex;
+  justify-content: space-between;
+  padding: 1vw 3vw;
+}
+
+.wallet-icons {
+  fill: #19684a;
+  width: 2rem;
+}
+
+.user-header {
+  font-size: larger;
+  padding-left: 1vw;
+  width: 70vw;
 }

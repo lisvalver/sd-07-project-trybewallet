@@ -35,7 +35,7 @@ class Login extends React.Component {
     return (
       <form className="login-container">
         <div className="login-box">
-          {Logo()}
+          {Logo('logo-login')}
           <h1>TrybeWallet</h1>
           <label htmlFor="email-input" className="login-inputs">
             <input

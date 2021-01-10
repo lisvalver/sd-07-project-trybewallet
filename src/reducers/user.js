@@ -1,6 +1,6 @@
 import { LOGIN } from '../actions';
 
-const INITIAL_STATE = { email: '' };
+const INITIAL_STATE = { email: 'teste@teste.com' };
 
 function user(state = INITIAL_STATE, action) {
   switch (action.type) {

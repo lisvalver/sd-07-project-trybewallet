@@ -1,19 +1,37 @@
 import React from 'react';
-// import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Logo from '../services/Logo';
+import GetIcon from '../services/Icons';
 
 class Wallet extends React.Component {
   render() {
+    const { email } = this.props;
     return (
-      <header>
-        <h2 data-testid="email-field">a</h2>
+      <header className="email-field">
+        {Logo('wallet-icons')}
+        <div>
+          <div className="user-header" data-testid="total-field">
+            <div data-testid="email-field">
+              <strong>{email}</strong>
+            </div>
+            Despesa total: 0
+            <span data-testid="header-currency-field">BRL</span>
+          </div>
+        </div>
+        <GetIcon className="wallet-icons" name="BoxArrowDownLeftIcon" />
       </header>
     );
   }
 }
 
-// const mapStateToProps = (state) => {
-//   const { email } = state
-//   return { email }
-// }
+const mapStateToProps = (state) => {
+  const { email } = state.user;
+  return { email };
+};
 
-export default Wallet;
+Wallet.propTypes = {
+  email: PropTypes.string.isRequired,
+};
+
+export default connect(mapStateToProps)(Wallet);

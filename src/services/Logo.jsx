@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Logo = () => (
-  <svg className="logo" viewBox="0 0 84.575 107.636">
+const Logo = (className) => (
+  <svg className={className} viewBox="0 0 84.575 107.636">
     <g transform="translate(709.885 -608.268)">
       <rect
         width="81.675"
