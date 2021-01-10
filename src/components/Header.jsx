@@ -17,12 +17,12 @@ const Header = (props) => {
         Email: <span data-testid="email-field">{Object.values(email)}</span>
       </span>
       <span data-testid="total-field">
-        Despesa total: {parseFloat(totalExpense, dez).toFixed(2)}
+        Despesa total: { parseFloat(totalExpense, dez).toFixed(2) }
       </span>
       <span data-testid="header-currency-field">BRL</span>
     </div>
-  )
-}
+  );
+};
 
 function mapStateToProps(state) {
   // console.log(state);
@@ -33,6 +33,8 @@ function mapStateToProps(state) {
 
 Header.propTypes = {
   totalExpense: PropTypes.number.isRequired,
+  state: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,    
   email: PropTypes.string.isRequired,
 };
 
