@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import DropDown from './DropDown';
 import configPaymentMethod from '../configs/paymentMethod';
 import configCategories from '../configs/categories';
 import * as currencyAPI from '../services/api';
+import { fetchCurrencyAPI } from '../actions';
 
 class ExpenseForm extends Component {
   constructor() {
@@ -16,9 +19,9 @@ class ExpenseForm extends Component {
       value: '',
       description: '',
       currencyTypes: [''],
-      currency: 'BRL',
+      currency: 'USD',
       paymentMethod: configPaymentMethod[0],
-      categoty: configCategories[0],
+      category: configCategories[0],
     };
   }
 
@@ -33,18 +36,32 @@ class ExpenseForm extends Component {
 
   async fetchCurrencyTypes() {
     const requestResponse = await currencyAPI.getTypes();
-    const currencyTypes = Object.values(requestResponse)
-      .filter((value) => value.codein === 'BRL')
-      .map((value) => value.code);
-
     this.setState({
-      currencyTypes,
+      currencyTypes: requestResponse,
     });
   }
 
   handleSubmit(event) {
-    console.log('Add expense');
     event.preventDefault();
+    const { lastId, fetchCurrency } = this.props;
+    const id = lastId.length;
+    const {
+      value,
+      description,
+      currency,
+      paymentMethod,
+      category,
+    } = this.state;
+
+    const expenseDetails = {
+      id,
+      value,
+      description,
+      currency,
+      method: paymentMethod,
+      tag: category,
+    };
+    fetchCurrency(expenseDetails);
   }
 
   render() {
@@ -53,7 +70,7 @@ class ExpenseForm extends Component {
       currencyTypes,
       currency,
       paymentMethod,
-      categoty,
+      category,
     } = this.state;
 
     return (
@@ -90,10 +107,10 @@ class ExpenseForm extends Component {
           />
 
           <DropDown
-            id="categoty"
+            id="category"
             dataTest="tag-input"
             options={ configCategories }
-            selectValue={ categoty }
+            selectValue={ category }
             handleChange={ this.handleChange }
           />
 
@@ -111,4 +128,17 @@ class ExpenseForm extends Component {
   }
 }
 
-export default ExpenseForm;
+const mapStateToProps = (state) => ({
+  lastId: state.wallet.expenses,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchCurrency: (expenseDetails) => dispatch(fetchCurrencyAPI(expenseDetails)),
+});
+
+ExpenseForm.propTypes = {
+  lastId: PropTypes.arrayOf(PropTypes.any).isRequired,
+  fetchCurrency: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
