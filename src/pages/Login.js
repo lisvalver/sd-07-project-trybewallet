@@ -18,8 +18,11 @@ class Login extends React.Component {
   buttonValidation() {
     const { email } = this.state;
     const { password } = this.state;
-    const emailValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email);
-    if ((password.length > 5) && (emailValidation)) {
+    const e = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
+      email,
+    );
+    const compareNumber = 5;
+    if ((password.length > compareNumber) && (e)) {
       this.setState({
         disabled: false,
       });
@@ -46,35 +49,43 @@ class Login extends React.Component {
   }
 
   render() {
+    const { email, password, disabled } = this.state;
     return (
       <div>
         <form>
-          <label htmlFor="email">Email
-          <div>
-            <input
-              name="email"
-              data-testid="email-input"
-              placeholder="Digite seu email"
-              id="email"
-              type="text"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </div>
-          </label>{' '}
-          <label htmlFor="password">Senha</label>{" "}
-          <div>
-            <input
-              name="password"
-              data-testid="password-input"
-              placeholder="Digite sua senha"
-              id="password"
-              type="text"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button type="button" disabled={ this.state.disabled } onClick={this.handleSubmit}>Entrar</button>
+          <label htmlFor="email">
+            Email
+            <div>
+              <input
+                name="email"
+                data-testid="email-input"
+                placeholder="Digite seu email"
+                id="email"
+                type="text"
+                value={ email }
+                onChange={ this.handleChange }
+              />
+            </div>
+          </label>
+          {' '}
+          <label htmlFor="password">
+            Senha
+            <div>
+              <input
+                name="password"
+                data-testid="password-input"
+                placeholder="Digite sua senha"
+                id="password"
+                type="text"
+                value={ password }
+                onChange={ this.handleChange }
+              />
+            </div>
+          </label>
+          {' '}
+          <button type="button" disabled={ disabled } onClick={ this.handleSubmit }>
+            Entrar
+          </button>
         </form>
       </div>
     );

@@ -11,18 +11,18 @@ class Wallet extends React.Component {
       isLoading: false,
     }
   }
-  componentDidMount() {
-    const { dispatch, loadCurrencies } = this.props;
-    // this.setState({
-    //   isLoading: true,
-    // }, async () => {
-    //   const data = loadCurrencies();
-    //   this.setState({
-    //     moedas: [data]
-    //   })
-    // })
-    loadCurrencies();
-  }
+  // componentDidMount() {
+  //   const { dispatch, loadCurrencies } = this.props;
+  //   // this.setState({
+  //   //   isLoading: true,
+  //   // }, async () => {
+  //   //   const data = loadCurrencies();
+  //   //   this.setState({
+  //   //     moedas: [data]
+  //   //   })
+  //   // })
+  //   loadCurrencies();
+  // }
   render() {
     const { email, loadCurrencies, currencies } = this.props;
     // const { moedas } = this.state;
@@ -55,8 +55,8 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  loadCurrencies: () => dispatch(actions.fetchCurrencies()),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   loadCurrencies: () => dispatch(actions.fetchCurrencies()),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
+export default connect(mapStateToProps)(Wallet);

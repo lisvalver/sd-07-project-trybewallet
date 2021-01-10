@@ -3,15 +3,20 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/index';
 
 class ExpenseForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { currencies } = this.props;
     this.state = {
-      expense: '',
+      expense: [],
+      value: '',
       description: '',
       method: '',
+      currency: '',
       tag: '',
+      exchangeRates: currencies,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -35,20 +40,41 @@ class ExpenseForm extends React.Component {
     }, this.buttonValidation);
   }
 
+  async handleSubmit() {
+    const { expenses, addExpenses, loadCurrencies } = this.props;
+    const { value, description, method, currency, tag } = this.state;
+    await loadCurrencies();
+    const { currencies } = this.props;
+    const filteredCurrencies = currencies.filter((filterCurrency) => filterCurrency.codein != 'BRLT')
+    this.setState({
+      expense: [{
+        id: expenses.length,
+        value,
+        description,
+        method,
+        currency,
+        tag,
+        currencies: filteredCurrencies,
+      }],
+    }, addExpenses(this.state.expense));
+    console.log(expenses);
+  }
+
   render() {
+    const { currencies } = this.props;
     return (
       <div>
         <form>
-          <label htmlFor="expense">
+          <label htmlFor="value">
             Valor da despesa
             <div>
               <input
-                name="expense"
+                name="value"
                 data-testid="value-input"
                 placeholder="Digite seu despesa"
-                id="expense"
+                id="value"
                 type="text"
-                value={this.state.expense}
+                value={this.state.value}
                 onChange={this.handleChange}
               />
             </div>
@@ -65,17 +91,17 @@ class ExpenseForm extends React.Component {
               onChange={this.handleChange}
             />
           </div>
-          <label htmlFor="method-input" data-testid="method-input-label">
-            Forma de pagamento
+          <label htmlFor="currency-input" data-testid="currency-input-label">
+            Moeda
             <select
               style={{ marginLeft: 10 }}
-              name="method"
+              name="currency"
               onChange={this.handleChange}
-              id="method-input"
-              data-testid="method-input"
-              value={this.state.method}
+              id="currency-input"
+              data-testid="currency-input"
+              value={this.state.currency}
             >
-            {}
+            {currencies.filter((filterCurrency) => filterCurrency.codein != 'BRLT').map((currency) => <option value={currency.code} data-testid={currency.code} />)}
             </select>
           </label>
           <label htmlFor="method-input" data-testid="method-input-label">
@@ -128,6 +154,7 @@ class ExpenseForm extends React.Component {
           </label>
           <button
             type="button"
+            onClick={this.handleSubmit}
           >
             Adicionar despesa
           </button>
@@ -138,12 +165,13 @@ class ExpenseForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  email: state.user.email,
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   loadCurrencies: () => dispatch(actions.fetchCurrencies()),
+  addExpenses: actions.addExpenses,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
