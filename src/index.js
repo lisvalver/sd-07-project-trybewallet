@@ -7,10 +7,9 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 
-
 ReactDOM.render(
   <BrowserRouter>
-    <Provider store={store}>
+    <Provider store={ store }>
       <App />
     </Provider>
   </BrowserRouter>,

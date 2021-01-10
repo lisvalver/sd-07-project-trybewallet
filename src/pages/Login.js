@@ -1,94 +1,104 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { saveUserEmail } from '../actions';
 
 class Login extends React.Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.verifyData = this.verifyData.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
       email: '',
       password: '',
       verifiedEmail: false,
       verifiedPassword: false,
+    };
+  }
+
+  verifyData(name, value) {
+    const six = 6;
+    const emailIsValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{3})$/i);
+    const passwordIsValid = value.length >= six;
+
+    if (name === 'email') {
+      this.setState({ verifiedEmail: emailIsValid });
+    }
+
+    if (name === 'password') {
+      this.setState({ verifiedPassword: passwordIsValid });
     }
   }
 
-
-  verifyData = (name, value) => {
-    
-    switch(name) {
-      case 'email':
-        const emailIsValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{3})$/i)
-        emailIsValid ? this.setState({ verifiedEmail: true}) : this.setState({verifiedEmail: false})
-        return;     
-      case 'password':
-        value.length >= 6 ? this.setState({ verifiedPassword: true }) : this.setState({ verifiedPassword: false })
-        return;
-      default:
-        break;
-    }
-    
-    
-    
-  }
-  handleOnChange = (event) => {
+  handleOnChange(event) {
     const { name, value } = event.target;
     this.setState({
-      [name]: value
-    })
+      [name]: value,
+    });
     this.verifyData(name, value);
   }
 
-  handleClick = () => {
-    const { email } = this.state
-    const { history } = this.props;
-    this.props.saveEmail(email);
-
-    history.push('/carteira')
-
+  handleClick() {
+    const { email } = this.state;
+    const { history, saveEmail } = this.props;
+    saveEmail(email);
+    history.push('/carteira');
   }
 
   render() {
-    const { email, password, verifiedEmail, verifiedPassword } = this.state
+    const { email, password, verifiedEmail, verifiedPassword } = this.state;
+    const bothValid = verifiedEmail && verifiedPassword;
     return (
       <div>
         <h1>Login Page</h1>
         <form>
-          <label>
+          <label htmlFor="email">
             Email:
             <input
-              value={email}
-              name='email'
-              onChange={this.handleOnChange}
-              data-testid='email-input'
-              type='text'
+              id="email"
+              value={ email }
+              name="email"
+              onChange={ this.handleOnChange }
+              data-testid="email-input"
+              type="text"
             />
           </label>
-          <br/>
-          <label>
+          <br />
+          <label htmlFor="password">
             Senha:
             <input
-              value={password}
-              name='password'
-              onChange={this.handleOnChange} 
-              data-testid='password-input'
-              type='text'
+              id="password"
+              value={ password }
+              name="password"
+              onChange={ this.handleOnChange }
+              data-testid="password-input"
+              type="text"
             />
           </label>
         </form>
-        <button disabled={ verifiedEmail && verifiedPassword ? false : true } onClick={this.handleClick}>Entrar</button>
+        <button
+          type="button"
+          disabled={ !bothValid }
+          onClick={ this.handleClick }
+        >
+          Entrar
+        </button>
       </div>
-    )
+    );
   }
 }
 
-
 const mapDispatchToProps = (dispatch) => ({
-  saveEmail: (email) => dispatch(saveUserEmail(email))
-})
+  saveEmail: (email) => dispatch(saveUserEmail(email)),
+});
+
+Login.propTypes = {
+  saveEmail: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Login);

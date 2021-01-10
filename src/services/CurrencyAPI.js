@@ -1,5 +1,5 @@
 export const getCurrencies = async () => {
-  const endPoint = "https://economia.awesomeapi.com.br/json/all";
+  const endPoint = 'https://economia.awesomeapi.com.br/json/all';
 
   try {
     const currenciesRes = await fetch(endPoint);
