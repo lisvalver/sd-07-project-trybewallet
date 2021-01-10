@@ -45,9 +45,9 @@ class Wallet extends React.Component {
             Bem vindo<p data-testid="email-field">{email}</p>
           </section>
           <section>
-            Gastos totais R${total.toFixed(2)}
+            Gastos totais R$ 
             <p Adicione o atributo data-testid="total-field">
-              0
+            {total.toFixed(2)}
             </p>
           </section>
           <section>
