@@ -1,14 +1,14 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       validated: false,
     };
   }
@@ -67,5 +67,3 @@ function dispatcher(dispatch) {
 }
 
 export default connect(null, dispatcher)(Login);
-
-export default Login;
