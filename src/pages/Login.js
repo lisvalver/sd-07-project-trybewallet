@@ -16,7 +16,7 @@ class Login extends React.Component {
 
   verifyFields(event) {
     event.preventDefault();
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const maximiumLength = 6;
     const { email, password } = this.state;
     if (emailRegex.test(email) && password.length >= maximiumLength) {
