@@ -17,15 +17,15 @@ class Login extends React.Component {
   }
 
   handleChange({ target }) {
+    console.log(target);
     const { name, value } = target;
-    this.setState({ [name]: value }, () => this.enableButton);
-    /* Perguntar plantão porque não podemos simplesmente chamar a
-    função enableButton() */
+    this.setState({ [name]: value });
+    this.enableButton();
   }
 
   enableButton() {
     const { emailInput, passwordInput } = this.state;
-    const regexForEmail = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
+    const regexForEmail = /\S+@\S+\.\S+/;
     const minlength = 6;
     const passwordIsValid = passwordInput.length >= minlength;
     console.log(passwordIsValid);
@@ -46,18 +46,20 @@ class Login extends React.Component {
     return (
       <div>
         <input
+          id="emailInput"
           name="emailInput"
           type="email"
           /* value={ emailInput } */
           data-testid="email-input"
-          onChange={ this.handleChange }
+          onChange={ (event) => this.handleChange(event) }
         />
         <input
+          id="passwordInput"
           name="passwordInput"
           type="password"
           /* value={ passwordInput } */
           data-testid="password-input"
-          onChange={ this.handleChange }
+          onChange={ (event) => this.handleChange(event) }
         />
         <Link to="/carteira">
           <button
