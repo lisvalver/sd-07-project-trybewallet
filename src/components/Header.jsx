@@ -18,7 +18,8 @@ const Header = (props) => {
         <span data-testid="email-field">{Object.values(email)}</span>
       </span>
       <span data-testid="total-field">
-        Despesa total: {parseFloat(totalExpense, dez).toFixed(2)}
+        Despesa total: 
+        {parseFloat(totalExpense, dez).toFixed(2)}
       </span>
       <span data-testid="header-currency-field">BRL</span>
     </div>
