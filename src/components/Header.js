@@ -9,10 +9,21 @@ class Header extends Component {
     this.state = {
       currentCurrency: 'BRL',
     };
+    this.updateTotal = this.updateTotal.bind(this);
+  }
+
+  updateTotal() {
+    const { expenses } = this.props;
+    const result = expenses.reduce((acc, expense) => {
+      const { currency, exchangeRates, value } = expense;
+      const exchangeRate = exchangeRates[currency].ask;
+      return acc + parseFloat(exchangeRate * value);
+    }, 0).toFixed(2);
+    return result;
   }
 
   render() {
-    const { userEmail, expenses } = this.props;
+    const { userEmail } = this.props;
     const { currentCurrency } = this.state;
     return (
       <div className="header-container">
@@ -22,11 +33,7 @@ class Header extends Component {
         <div className="total-container">
           <h4 data-testid="total-field">
             {'Despesa Total: R$ '}
-            {expenses.reduce((acc, expense) => {
-              const { currency, exchangeRates, value } = expense;
-              const exchangeRate = exchangeRates[currency].ask;
-              return acc + parseFloat(exchangeRate * value);
-            }, 0).toFixed(2)}
+            {this.updateTotal()}
           </h4>
           <h4 data-testid="header-currency-field">
             {currentCurrency}

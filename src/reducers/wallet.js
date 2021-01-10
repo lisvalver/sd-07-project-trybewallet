@@ -8,7 +8,8 @@ const INITIAL_STATE = {
 
 const FETCH_REQUEST = 'FETCH_REQUEST';
 const FETCH_FAIL = 'FETCH_FAIL';
-const FETCH_CURRENCIES_SUCCESS = 'FETCH_CURRENCIES_SUCCESS';
+const ADD_EXPENSE = 'ADD_EXPENSE';
+const DELETE_EXPENSE = 'DELETE_EXPENSE';
 const FETCH_EXCHANGE_RATES_SUCCESS = 'FETCH_EXCHANGE_RATES_SUCCESS';
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -24,18 +25,26 @@ const wallet = (state = INITIAL_STATE, action) => {
       isFetching: false,
       error: action.value,
     };
-  case FETCH_CURRENCIES_SUCCESS:
+  case ADD_EXPENSE:
     return {
       ...state,
-      isFetching: false,
-      currencies: action.value,
+      count: state.count + 1,
+      expenses: [...state.expenses, {
+        id: state.count,
+        ...action.value,
+        exchangeRates: state.currencies,
+      }],
+    };
+  case DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.filter((e) => e.id !== action.value),
     };
   case FETCH_EXCHANGE_RATES_SUCCESS:
     return {
       ...state,
       isFetching: false,
-      count: state.count + 1,
-      expenses: [...state.expenses, { ...action.value, id: state.count }],
+      currencies: action.value,
     };
   default:
     return state;

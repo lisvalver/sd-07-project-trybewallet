@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchCurrencies, fetchExchangeRates } from '../actions';
-import '../style/Table.css';
+import { addExpense, fetchExchangeRates } from '../actions';
+import '../style/Form.css';
 
 class Form extends Component {
   constructor() {
@@ -18,14 +18,15 @@ class Form extends Component {
   }
 
   componentDidMount() {
-    const { dispatchFetchCurrencies } = this.props;
-    dispatchFetchCurrencies();
+    const { getCurrencies } = this.props;
+    getCurrencies();
   }
 
   addExpense() {
-    const { dispatchExchangeRates } = this.props;
+    const { getCurrencies, dispatchAddExpense } = this.props;
     const expense = this.state;
-    dispatchExchangeRates(expense);
+    getCurrencies();
+    dispatchAddExpense(expense);
   }
 
   render() {
@@ -33,6 +34,7 @@ class Form extends Component {
     if (isFetching) return <p>Loading...</p>;
     const { value, description, currency, method, tag } = this.state;
     const { currencies } = this.props;
+    const filteredCurrenciesKeys = Object.keys(currencies).filter((c) => c !== 'USDT');
     const tags = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
     const methods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
     return (
@@ -53,7 +55,7 @@ class Form extends Component {
             onChange={ (e) => this.setState({ currency: e.target.value }) }
             value={ currency }
           >
-            {currencies.map((curr) => (
+            {filteredCurrenciesKeys.map((curr) => (
               <option
                 key={ curr }
                 data-testid={ curr }
@@ -124,15 +126,15 @@ const mapStateToProps = (state) => ({
 });
 
 Form.propTypes = {
-  dispatchFetchCurrencies: PropTypes.func.isRequired,
-  dispatchExchangeRates: PropTypes.func.isRequired,
-  currencies: PropTypes.arrayOf(String).isRequired,
+  getCurrencies: PropTypes.func.isRequired,
+  dispatchAddExpense: PropTypes.func.isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
   isFetching: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchFetchCurrencies: (e) => dispatch(fetchCurrencies(e)),
-  dispatchExchangeRates: (e) => dispatch(fetchExchangeRates(e)),
+  dispatchAddExpense: (e) => dispatch(addExpense(e)),
+  getCurrencies: (e) => dispatch(fetchExchangeRates(e)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

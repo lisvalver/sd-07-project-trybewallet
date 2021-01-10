@@ -1,0 +1,11 @@
+select , span , input {
+  margin-left: 5px;
+}
+
+.input-bar {
+  align-items: center;
+  background-color: aquamarine;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
