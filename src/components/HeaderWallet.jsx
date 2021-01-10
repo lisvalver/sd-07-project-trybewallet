@@ -10,7 +10,7 @@ export default function HeaderWallet({ email, expenses }) {
       <span data-testid="email-field">{email}</span>
       <span>
         Despesa Total: R$
-        <span data-testid="total-field">{expense}</span>
+        <span data-testid="total-field">{(expense).toFixed(2)}</span>
       </span>
       <span data-testid="header-currency-field">BRL</span>
     </header>
