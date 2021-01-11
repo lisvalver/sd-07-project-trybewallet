@@ -1,16 +1,15 @@
 .App {
-  text-align: center;
   font-size: 15px;
+  text-align: center;
 }
 
 .App-logo {
+  border-radius: 50%;
   height: 35px;
   pointer-events: none;
-  border-radius: 50%;
 }
 
-@media ( prefers-reduced-motion : no-preference ) {
-
+@media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 5s linear;
   }
@@ -19,7 +18,7 @@
 .App-header {
   align-items: center;
   background-color: #2ec18b;
-  color: #ffffff;
+  color: whitefff;
   display: flex;
   flex-direction: row;
   font-size: 15px;
@@ -32,7 +31,6 @@
 }
 
 @keyframes App-logo-spin {
-
   from {
     transform: rotate(0deg);
   }
@@ -44,7 +42,7 @@
 
 .board {
   background-color: lightslategray;
-  border: 1px solid #ffffff;
+  border: 1px solid white;
   border-radius: 5px;
   padding: 10px;
 }
@@ -64,22 +62,21 @@
 .expense {
   align-items: center;
   background-color: lightslategray;
-  color: #ffffff;
+  color: white;
   display: flex;
-  flex-direction: row;  
   flex-flow: wrap;
   justify-content: center;
 }
 
 label {
-  padding: 0 5px;
   font-size: 15px;
+  padding: 0 5px;
 }
 
 .form {
   align-items: center;
   background-color: lightslategray;
-  color: #ffffff;
+  color: white;
   display: flex;
   flex-direction: column;
   font-size: 15px;
@@ -101,17 +98,20 @@ label {
 
 table {
   background-color: #f2f2f2;
-  padding: 2px;
   border-collapse: collapse;
+  padding: 2px;
   width: 100%;
 }
 
-th, td {
-  text-align: left;
+th,
+td {
   padding: 8px;
+  text-align: left;
 }
 
-tr:nth-child(even){background-color: #ffffff}
+tr:nth-child(even) {
+  background-color: white;
+}
 
 th {
   background-color: #353b46;
