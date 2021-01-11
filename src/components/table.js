@@ -6,7 +6,7 @@ import { deleteExpense, editInfo } from '../actions';
 class Table extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.renderTableData = this.renderTableData.bind(this);
     this.renderTableHeader = this.renderTableHeader.bind(this);
   }

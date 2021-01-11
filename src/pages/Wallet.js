@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../components/header';
 import Form from '../components/form';
 import EditForm from '../components/editForm';
 import Table from '../components/table';
-import { connect } from 'react-redux';
 
 class Wallet extends React.Component {
   render() {
@@ -25,3 +26,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Wallet);
+
+Wallet.propTypes = {
+  editInfo: PropTypes.object,
+}.isRequired;

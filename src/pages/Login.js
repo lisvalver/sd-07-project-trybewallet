@@ -85,8 +85,6 @@ class Login extends React.Component {
   }
 }
 
-// const mapDispatchToProps = { addUser };
-
 const mapDispatchToProps = (dispatch) => ({
   add: (e) => dispatch(addUser(e)) });
 

@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import currencyAPI from '../services/currencyAPI';
-import { addExpense, editInfo, updateExpense } from '../actions/index';
-
+import { addExpense, updateExpense } from '../actions/index';
 
 class EditForm extends React.Component {
   constructor(props) {
@@ -20,20 +19,19 @@ class EditForm extends React.Component {
     };
     this.atualizaEstado = this.atualizaEstado.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    // this.sendData = this.sendData.bind(this);
-    // this.sumExpenses = this.sumExpenses.bind(this);
     this.editExpenses = this.editExpenses.bind(this);
   }
 
   async componentDidMount() {
-    const { editInfo } = this.props;
-    const isEdit = editInfo ? Object.keys(editInfo).length : 0;
-    
     const currencyObj = await currencyAPI();
     const onlyCurrencies = Object.keys(currencyObj);
     this.atualizaEstado(onlyCurrencies);
+  }
 
-    await this.setState({
+  atualizaEstado(currencies) {
+    const { editInfo } = this.props;
+    this.setState({
+      validCurrency: currencies.filter((curr) => curr !== 'USDT'),
       valor: editInfo.value,
       despesa: editInfo.description,
       moeda: editInfo.currency,
@@ -41,12 +39,6 @@ class EditForm extends React.Component {
       categoria: editInfo.tag,
       expenseId: editInfo.id,
       exchangeRates: editInfo.exchangeRates,
-    })
-  }
-
-  atualizaEstado(currencies) {
-    this.setState({
-      validCurrency: currencies.filter((curr) => curr !== 'USDT'),
     });
   }
 
@@ -56,36 +48,17 @@ class EditForm extends React.Component {
     });
   }
 
-  // sumExpenses(value, exchange) {
-  //   return value * exchange;
-  // }
-
-  // async sendData() {
-  //   const { editInfo } = this.props;
-  //   const isEdit = editInfo ? Object.keys(editInfo).length : 0;
-  //     if (isEdit === 1) {
-  //       return this.editExpenses()
-  //     }
-  //   const { add, nextId, update } = this.props;
-  //   const { valor, despesa, moeda, pagamento, categoria } = this.state;
-  //   const exchangeData = await currencyAPI();
-  //   const data = {
-  //     id: nextId,
-  //     value: valor,
-  //     description: despesa,
-  //     currency: moeda,
-  //     method: pagamento,
-  //     tag: categoria,
-  //     exchangeRates: exchangeData,
-  //   };
-  //   add(data);
-  //   const exchange = exchangeData[moeda].ask;
-  //   update(this.sumExpenses(valor, exchange));
-  // }
-
   editExpenses() {
-    const { expenseId, valor, despesa, moeda, pagamento, categoria, exchangeRates } = this.state;
-    const { update } = this.props
+    const {
+      expenseId,
+      valor,
+      despesa,
+      moeda,
+      pagamento,
+      categoria,
+      exchangeRates,
+    } = this.state;
+    const { update } = this.props;
     const edited = {
       id: expenseId,
       value: valor,
@@ -93,27 +66,24 @@ class EditForm extends React.Component {
       currency: moeda,
       method: pagamento,
       tag: categoria,
-      exchangeRates: exchangeRates,
-    }
-    update(edited)
-
-    // valor: 0,
-    // despesa: '',
-    // moeda: 'USD',
-    // pagamento: 'Dinheiro',
-    // categoria: 'Alimentação',
-    // expenseId: '',
-    // exchangeRates: {},
+      exchangeRates,
+    };
+    update(edited);
   }
 
   render() {
-    const { validCurrency, valor, despesa, moeda, pagamento, categoria } = this.state;
-    // const { editInfo } = this.props;
-    // const isEdit = editInfo ? Object.keys(editInfo).length : 0;
+    const {
+      validCurrency,
+      valor,
+      despesa,
+      moeda,
+      pagamento,
+      categoria,
+    } = this.state;
 
     return (
       <div>
-      <span>FORMULÁRIO PARA EDITAR</span>
+        <span>FORMULÁRIO PARA EDITAR</span>
         <form>
           <input
             id="value-input"
@@ -193,7 +163,6 @@ class EditForm extends React.Component {
           <button
             type="button"
             onClick={ () => this.editExpenses() }
-            // onClick={ isEdit === 0 ? () => this.sendData : () => this.editExpenses() }
           >
             Editar despesa
           </button>
