@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import store from '../store';
 import * as Actions from '../actions';
-// import * as api from '../services/api';
 
 class FormDespesa extends React.Component {
   constructor() {
