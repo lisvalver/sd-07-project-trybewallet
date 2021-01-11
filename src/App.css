@@ -52,9 +52,10 @@
 .button {
   align-content: center;
   background-color: #2ec18b;
-  border-radius: 5px;
+  border-radius: 15px 0px 15px 5px;
   font-size: inherit;
   height: 35px;
+  outline: none;
   padding: 5px;
   margin-left: 5px;
   width: 200px;
@@ -89,17 +90,17 @@ label {
 
 .input {
   border: 1px solid #424752;
-  border-radius: 5px;
+  border-radius: 15px 3px 15px 5px;
   box-sizing: border-box;
   font-size: 15px;
   height: 35px;
   margin-left: 5px;
+  outline: none;
   padding: 5px;
 }
 
-
 table {
-  background-color: #353b46;
+  background-color: #f2f2f2;
   padding: 2px;
   border-collapse: collapse;
   width: 100%;
@@ -110,7 +111,7 @@ th, td {
   padding: 8px;
 }
 
-tr:nth-child(even){background-color: #f2f2f2}
+tr:nth-child(even){background-color: #ffffff}
 
 th {
   background-color: #353b46;

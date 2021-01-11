@@ -1,63 +1,98 @@
 import React, { Component } from 'react';
 
 class ExpenseForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      method: ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'],
+      tag: ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'],
+    };
+  }
+
+  renderValueInput() {
+    return (
+      <label htmlFor="value">
+        Valor:
+        <input
+          className="input"
+          type="text"
+          placeholder="Valor"
+          id="value"
+          data-testid="value-input"
+        />
+      </label>
+    );
+  }
+
+  renderCurrSelect() {
+    return (
+      <label htmlFor="currency">
+        Moeda:
+        <select
+          className="input"
+          placeholder="Moeda"
+          id="currency"
+          data-testid="currency-input"
+        >
+          {/* Aqui usarei um Map do fetch */}
+          <option value="USD" data-testid="USD">
+            USD
+          </option>
+        </select>
+      </label>
+    );
+  }
+
+  renderMethodSelect() {
+    const { method } = this.state;
+    return (
+      <label htmlFor="method">
+        Método:
+        <select className="input" id="method" data-testid="method-input">
+          {method
+            .map((item) => <option key={ item } value={ item }>{ item }</option>)}
+        </select>
+      </label>
+    );
+  }
+
+  renderTagSelect() {
+    const { tag } = this.state;
+    return (
+      <label htmlFor="tag">
+        Tag:
+        <select className="input" id="tag" data-testid="tag-input">
+          {tag.map((item) => <option key={ item } value={ item }>{ item }</option>)}
+        </select>
+      </label>
+    );
+  }
+
+  renderDescrInput() {
+    return (
+      <label htmlFor="description">
+        Descrição:
+        <input
+          className="input"
+          type="text"
+          placeholder="Sua descrição"
+          id="description"
+          data-testid="description-input"
+        />
+      </label>
+    );
+  }
+
   render() {
     return (
       <section className="form">
         <div>
           <form>
-            <label htmlFor="value">
-              Valor:
-              <input
-                className="input"
-                type="text"
-                placeholder="Valor"
-                id="value"
-                data-testid="value-input"
-              />
-            </label>
-            <label htmlFor="currency">
-              Moeda:
-              <select
-                className="input"
-                placeholder="Moeda"
-                id="currency"
-                data-testid="currency-input"
-              >
-                {/* Aqui usarei um Map do Fetch */}
-                <option value="USD" data-testid="USD">
-                  USD
-                </option>
-              </select>
-            </label>
-            <label htmlFor="method">
-              Método:
-              <select className="input" id="method" data-testid="method-input">
-                <option value="Dinheiro">Dinheiro</option>
-                <option value="Cartão de crédito">Cartão de crédito</option>
-                <option value="Cartão de débito">Cartão de débito</option>
-              </select>
-            </label>
-            <label htmlFor="tag">
-              Tag:
-              <select className="input" id="tag" data-testid="tag-input">
-                <option>Alimentação</option>
-                <option>Lazer</option>
-                <option>Trabalho</option>
-                <option>Transporte</option>
-                <option>Saúde</option>
-              </select>
-            </label>
-            <label htmlFor="description">
-              Descrição:
-              <input
-                className="input"
-                type="text"
-                placeholder="Sua descrição"
-                id="description"
-                data-testid="description-input"
-              />
-            </label>
+            {this.renderValueInput()}
+            {this.renderCurrSelect()}
+            {this.renderMethodSelect()}
+            {this.renderTagSelect()}
+            {this.renderDescrInput()}
             <button className="button" type="button">
               Adicionar despesa
             </button>

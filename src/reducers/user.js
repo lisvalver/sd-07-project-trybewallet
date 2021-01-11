@@ -3,7 +3,6 @@ import { LOGIN } from '../actions';
 const INITIAL_STATE = { email: '' };
 
 const user = (state = INITIAL_STATE, action) => {
-  console.log(action);
   switch (action.type) {
   case LOGIN:
     return { ...state, email: action.email };

@@ -23,7 +23,7 @@ class WalletPanel extends Component {
               ))}
             </tr>
           </thead>
-          <tbody>XA XA XABLAU</tbody>
+          <tbody><tr><td>XA XA XABLAU</td></tr></tbody>
         </table>
       </section>
     );
