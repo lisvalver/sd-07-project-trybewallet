@@ -225,7 +225,7 @@ describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma
     expect(healthOption).toBeInTheDocument();
   });
   
-  test.only('Um botão com o texto \'Adicionar despesa\' que salva as informações da despesa no estado global e atualiza a soma de despesas no header', async () => {
+  test('Um botão com o texto \'Adicionar despesa\' que salva as informações da despesa no estado global e atualiza a soma de despesas no header', async () => {
     const { store } = renderWithRouterAndStore(<Wallet />, '/carteira');
     const addButton = await screen.findByText(/Adicionar despesa/i);
     const valueInput = await screen.findByTestId('value-input');
@@ -300,7 +300,7 @@ describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma
   });
 });
 
-describe('5 - [PÁGINA DA CARTEIRA] Desenvolva uma tabela com os gastos contendo as seguintes características:', () => {
+describe.only('5 - [PÁGINA DA CARTEIRA] Desenvolva uma tabela com os gastos contendo as seguintes características:', () => {
   const initial = initialStateWithExpenses;
 
   test('A tabela deve possuir um cabeçalho com os campos Descrição, Tag, Método de pagamento, Valor, Moeda, Câmbio utilizado, Valor convertido e Moeda de conversão', () => {

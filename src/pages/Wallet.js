@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import * as Actions from '../actions';
 
 import FormDespesa from '../components/FormDespesa';
+import TabelaGastos from '../components/TabelaGastos';
 
 class Wallet extends React.Component {
   constructor() {
@@ -39,6 +40,7 @@ class Wallet extends React.Component {
         </header>
 
         <FormDespesa currencies={ wallet.currencies } />
+        <TabelaGastos />
       </div>
     );
   }
