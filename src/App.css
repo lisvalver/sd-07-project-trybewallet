@@ -16,17 +16,17 @@ h1 {
 
 .info-fields {
   display: flex;
-  justify-content:flex-end;
+  justify-content: flex-end;
   width: 100%;
 }
 
-.emailContainer{
+.emailContainer {
   align-self: center;
   display: flex;
   margin-left: 10px;
 }
 
-.despesaContainer{
+.despesaContainer {
   align-self: center;
   display: flex;
   margin-right: 30px;
@@ -35,17 +35,19 @@ h1 {
 .despesaTot {
   margin-left: 20px;
 }
+
 .varExpenses {
   align-self: center;
   margin: 10px;
 }
+
 label {
   margin-left: 10px;
 }
 
 select {
-  margin-left: 5px;
   height: 22px;
+  margin-left: 5px;
   width: 80px;
 }
 
@@ -69,9 +71,9 @@ select {
 }
 
 .description {
+  height: 18px;
   margin-left: 3px;
   margin-right: 10px;
-  height: 18px;
   width: 200px;
 }
 
