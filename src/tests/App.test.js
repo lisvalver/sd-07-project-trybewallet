@@ -24,7 +24,7 @@ describe('1 - [PÁGINA DE LOGIN] Crie uma página inicial de login com os seguin
 
   test('Crie um local para que o usuário insira seu email e senha', () => {
     renderWithRouterAndStore(<App />, '/');
-    const email = screen.getByTestId('emai16 passedl-input');
+    const email = screen.getByTestId('email-input');
     const senha = screen.getByTestId('password-input');
 
     expect(email).toBeInTheDocument();

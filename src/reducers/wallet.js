@@ -3,7 +3,8 @@ import {
   ADD_EXPENSE,
   REQUEST_STARTED,
   REQUEST_FAIL,
-  REQUEST_EXCHANGES } from '../actions/wallet';
+  REQUEST_EXCHANGES,
+  DELETE_EXPENSE } from '../actions/wallet';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -30,7 +31,7 @@ const wallet = (state = INITIAL_STATE, action) => {
     return { ...state, isLoading: true };
   case REQUEST_FAIL:
     return { ...state, isLoading: false };
-  case types.DELETE_EXPENSE:
+  case DELETE_EXPENSE:
     return {
       ...state,
       expenses: [...state.expenses.filter((expense) => expense.id !== action.expenseId)],
