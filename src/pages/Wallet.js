@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import ExpenseForm from "../components/ExpenseForm";
-// import Table from "../components/Table";
+import Table from "../components/Table";
 import * as actions from '../actions/index';
 
 class Wallet extends React.Component {
@@ -47,7 +47,7 @@ class Wallet extends React.Component {
           <section>
             Gastos totais R$ 
             <p Adicione o atributo data-testid="total-field">
-            {total.toFixed(2)}
+            {0}
             </p>
           </section>
           <section>
@@ -56,7 +56,7 @@ class Wallet extends React.Component {
           </section>
         </header>
         <ExpenseForm />
-        {/* <Table /> */}
+        {<Table />}
       </div>
     );
   }

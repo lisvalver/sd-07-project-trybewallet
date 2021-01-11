@@ -8,6 +8,11 @@ export const addExpenses = (expenses) => ({
   expenses,
 });
 
+export const deleteExpense = (id) => ({
+  type: 'DELETE',
+  id,
+});
+
 export const chargeCurrencies = (currencies) => ({
   type: 'CURRENCIES',
   currencies,

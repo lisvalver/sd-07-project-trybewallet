@@ -96,7 +96,7 @@ class ExpenseForm extends React.Component {
               />
             </div>
           </label>{" "}
-          <label htmlFor="description">Descrição</label>{" "}
+          <label htmlFor="description">O que é?</label>{" "}
           <div>
             <input
               name="description"
@@ -109,7 +109,7 @@ class ExpenseForm extends React.Component {
             />
           </div>
           <label htmlFor="currency-input" data-testid="currency-input-label">
-            Moeda
+            Sigla
             <select
               style={{ marginLeft: 10 }}
               name="currency"
