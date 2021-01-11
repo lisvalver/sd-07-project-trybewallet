@@ -30,6 +30,11 @@ const wallet = (state = INITIAL_STATE, action) => {
     return { ...state, isLoading: true };
   case REQUEST_FAIL:
     return { ...state, isLoading: false };
+  case types.DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: [...state.expenses.filter((expense) => expense.id !== action.expenseId)],
+    };
   default:
     return state;
   }

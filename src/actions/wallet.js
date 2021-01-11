@@ -19,6 +19,12 @@ export const addExpense = (expense) => ({ type: ADD_EXPENSE, expense });
 export const REQUEST_FAIL = 'REQUEST_FAIL';
 export const requestFail = (error) => ({ type: REQUEST_FAIL, error });
 
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const deleteExpense = (expenseId) => ({
+  type: DELETE_EXPENSE,
+  expenseId,
+});
+
 export function fetchExchangeRates() {
   return async (dispatch) => {
     try {
