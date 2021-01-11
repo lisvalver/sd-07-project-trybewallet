@@ -60,7 +60,8 @@ class Table extends React.Component {
                   </button>
                 </td>
               </tr>
-            ))}
+            ),
+          )}
         </table>
       </section>
     );
