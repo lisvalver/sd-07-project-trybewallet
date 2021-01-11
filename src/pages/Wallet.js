@@ -33,7 +33,7 @@ class Wallet extends React.Component {
   }
 
   async handleClick() {
-    const { currencies, getWallet, getExpenses} = this.props;
+    const { currencies, getWallet, getExpenses } = this.props;
     await getWallet();
     this.setState((previous) => (
       {
