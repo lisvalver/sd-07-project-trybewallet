@@ -19,6 +19,12 @@ class TableExpenses extends React.Component {
     deleteExpenses(tr.id);
   }
 
+  handleValorConvertido(element) {
+    const { value, currency, exchangeRates } = element;
+    const valorConvertido = parseInt(value, 10) * exchangeRates[currency].ask;
+    return Math.round(valorConvertido * 100) / 100;
+  }
+
   tableExpenses() {
     const { expenses } = this.props;
     const table = (
@@ -33,20 +39,21 @@ class TableExpenses extends React.Component {
             currency,
             exchangeRates,
           } = element;
+          const currencyNowAsk = exchangeRates[currency].ask;
           return (
-            <tr className="tbody-expense" id={ id } key={ id }>
+            <tr className="tbody-expense" id={id} key={id}>
               <td>{description}</td>
               <td>{tag}</td>
               <td>{method}</td>
               <td>{value}</td>
               <td>{exchangeRates[currency].name}</td>
-              <td>{exchangeRates[currency].ask}</td>
-              <td>{parseInt(value, 10) * exchangeRates[currency].ask}</td>
+              <td>{Math.round(currencyNowAsk * 100) / 100}</td>
+              <td>{this.handleValorConvertido(element)}</td>
               <td>Real</td>
               <td>
                 <button
                   type="submit"
-                  onClick={ this.handleDelete }
+                  onClick={this.handleDelete}
                   data-testid="delete-btn"
                 >
                   LIXO
