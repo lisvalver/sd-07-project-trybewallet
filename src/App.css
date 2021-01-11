@@ -6,29 +6,47 @@ body {
   text-align: center;
 }
 
+.metPag {
+  width: 130px;
+}
+
 h1 {
   color: aliceblue;
 }
 
-p {
-  margin-left: 350px;
-  margin-top: 30px;
-}
-
 .info-fields {
   display: flex;
+  justify-content:flex-end;
+  width: 100%;
 }
 
+.emailContainer{
+  align-self: center;
+  display: flex;
+  margin-left: 10px;
+}
+
+.despesaContainer{
+  align-self: center;
+  display: flex;
+  margin-right: 30px;
+}
+
+.despesaTot {
+  margin-left: 20px;
+}
+.varExpenses {
+  align-self: center;
+  margin: 10px;
+}
 label {
   margin-left: 10px;
 }
 
 select {
   margin-left: 5px;
-}
-
-.currency {
-  margin-left: 5px;
+  height: 22px;
+  width: 80px;
 }
 
 .info-budget {
@@ -40,15 +58,21 @@ select {
   padding: 5px;
 }
 
-.expenses {
+.btnAdd {
+  margin: 10px;
+}
+
+.actualValue {
   margin-left: 5px;
   margin-right: 10px;
+  width: 50px;
 }
 
 .description {
   margin-left: 3px;
   margin-right: 10px;
-  width: 400px;
+  height: 18px;
+  width: 200px;
 }
 
 .header-user {

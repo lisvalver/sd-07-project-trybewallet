@@ -3,6 +3,7 @@ import getAPI from '../services/walletAPI';
 export const ADD_EMAIL = 'ADD_EMAIL';
 export const INSERT = 'INSERT';
 export const REQUEST_CURRENCY = 'REQUEST_CURRENCY';
+export const REQUEST_EXPENSES = 'REQUEST_EXPENSES';
 export const REQUEST_API_SUCCESS = 'REQUEST_API_SUCCESS';
 
 export const addClick = (email) => (
@@ -25,10 +26,17 @@ export const requestCurrency = () => (
   }
 );
 
+export const requestExpenses = (value) => (
+  {
+    type: REQUEST_EXPENSES,
+    value,
+  }
+);
+
 export function fetchWallet() {
   return async (dispatch) => {
     dispatch(requestCurrency());
     const jsonData = await getAPI();
-    dispatch(receiveApiSucces(jsonData));
+    return dispatch(receiveApiSucces(jsonData));
   };
 }

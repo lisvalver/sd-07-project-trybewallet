@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import emailOk from '../helpers/emailValidation';
 import { addClick } from '../actions';
 
@@ -28,10 +29,6 @@ class Login extends React.Component {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
-
-  // handleChangePassword(event) {
-  //   this.setState({ password: event.target.value });
-  // }
 
   render() {
     const { email, password, login } = this.state;
@@ -77,5 +74,9 @@ const mapDispatchToProps = (dispatch) => (
   {
     add: (email) => dispatch(addClick(email)),
   });
+
+Login.propTypes = {
+  add: PropTypes.element.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Login);

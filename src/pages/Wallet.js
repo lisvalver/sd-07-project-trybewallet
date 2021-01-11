@@ -1,21 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchWallet } from '../actions/index';
+import PropTypes from 'prop-types';
+import { fetchWallet, requestExpenses } from '../actions/index';
 
 class Wallet extends React.Component {
   constructor() {
     super();
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.state = {
+      id: 0,
+      value: 0,
       description: '',
-      expenses: 0,
-      currency: 'BRL',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      exchangeRates: {},
     };
   }
 
   componentDidMount() {
+    console.log('montei');
     const { getWallet } = this.props;
     getWallet();
   }
@@ -25,34 +32,104 @@ class Wallet extends React.Component {
     this.setState({ [name]: value });
   }
 
+  async handleClick() {
+    const { currencies, getWallet, getExpenses} = this.props;
+    await getWallet();
+    this.setState((previous) => (
+      {
+        exchangeRates: { ...previous.exchangeRates, ...currencies },
+        id: previous.id + 1,
+      }
+    ));
+    getExpenses(this.state);
+  }
+
   render() {
-    const { email, currencies } = this.props;
-    const { expenses, currency } = this.state;
-    console.log(currencies);
+    const { email, currencies, expenses } = this.props;
+    const totalExpenses = expenses.reduce((acc, curr) => {
+      const { value, exchangeRates, currency } = curr;
+      return acc + exchangeRates[currency].ask * value;
+    }, 0);
+
     return (
+      // isFetching ? <p>Loading...</p>
+      // : (
       <div>
         <header className="header-user">
           <h1>TrybeWallet</h1>
           <div className="info-fields">
-            <p data-testid="total-field">
-              Total : R$
-              {expenses}
-            </p>
-            <p className="currency" data-testid="header-currency-field">{currency}</p>
-            <p data-testid="email-field">{ email }</p>
+            <div className="emailContainer" data-testid="email-field">
+              <p>{ email }</p>
+            </div>
+            <div className="despesaContainer" data-testid="total-field">
+              <p className="despesaTot">
+                Despesa Total: R$
+              </p>
+              <p className="varExpenses">
+                { totalExpenses }
+              </p>
+              <p className="currency" data-testid="header-currency-field">BRL</p>
+            </div>
           </div>
         </header>
         <div className="info-budget">
           <label htmlFor="budget">
-            Despesas:
+            Valor:
             <input
-              className="expenses"
-              type="text"
+              className="value"
+              type="number"
               id="budget"
-              name="expenses"
+              name="value"
               data-testid="value-input"
-              onChange={ this.handleChange }
+              onChange={ (e) => this.handleChange(e) }
             />
+          </label>
+
+          <label htmlFor="currency" name="currency">
+            Moeda:
+            <select
+              id="currency"
+              data-testid="currency-input"
+              name="currency"
+              onChange={ (e) => this.handleChange(e) }
+            >
+              {Object.keys(currencies).map((item) => (item !== 'USDT' ? (
+                <option key={ item } value={ item } data-testid={ item }>{ item }</option>
+              ) : (
+                false
+              )))}
+            </select>
+          </label>
+          {/* <label htmlFor="metodo-de-pagamento" name="method"> */}
+          Método de Pagamento:
+          <select
+            className="metPag"
+            data-testid="method-input"
+            id="metodoDePagamento"
+            name="method"
+            onChange={ this.handleChange }
+          >
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
+            <option value="Cartão de débito">Cartão de débito</option>
+          </select>
+          {/* </label> */}
+          <label htmlFor="categoriesId" name="categories">
+            Tag:
+            <select
+              className="metPag"
+              data-testid="tag-input"
+              id="categoriesId"
+              name="tag"
+              onChange={ (e) => this.handleChange(e) }
+            >
+              {/* <option defaultValue value="Escolha">Faça sua escolha</option> */}
+              <option value="Alimentação">Alimentação</option>
+              <option value="Lazer">Lazer</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Saúde">Saúde</option>
+            </select>
           </label>
           <label htmlFor="budget">
             Descrição:
@@ -65,33 +142,38 @@ class Wallet extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-          {/* <select
-            data-testid="currency-input"
-            name="currency"
-            value={ currency }
-            onChange={ (e) => this.handleChange(e) }
-          >
-            {currencies.map((item) => (item !== 'USDT' ? (
-              <option key={ item } value={ item } data-testid={ item }>
-                {item}
-              </option>
-            ) : (
-              false
-            )))}
-          </select> */}
+          <div className="btnAdd">
+            <button type="button" onClick={ () => this.handleClick() }>
+              Adicionar despesa
+            </button>
+          </div>
         </div>
       </div>
+    // )
     );
   }
 }
-const mapStateToProps = ({ user: { email }, wallet: { currencies } }) => ({
-  email,
-  currencies,
-});
 
 const mapDispatchToProps = (dispatch) => (
   {
     getWallet: () => dispatch(fetchWallet()),
+    getExpenses: (arrayExpenses) => dispatch(requestExpenses(arrayExpenses)),
   });
+
+const mapStateToProps = ({ user: { email },
+  wallet: { currencies, isFetching, expenses } }) => ({
+  email,
+  currencies,
+  isFetching,
+  expenses,
+});
+
+Wallet.propTypes = {
+  getWallet: PropTypes.element.isRequired,
+  currencies: PropTypes.element.isRequired,
+  email: PropTypes.element.isRequired,
+  expenses: PropTypes.element.isRequired,
+  getExpenses: PropTypes.element.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
