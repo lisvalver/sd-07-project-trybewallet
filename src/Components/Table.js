@@ -53,7 +53,7 @@ class Table extends Component {
                   {item.value}
                   {' '}
                 </td>
-                <td >
+                <td>
                   {' '}
                   {item.exchangeRates[item.currency].name}
                   {' '}

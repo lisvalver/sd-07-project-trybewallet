@@ -2,9 +2,9 @@ const requestAPI = () => ({
   type: 'REQUESTAPI',
 });
 
-const getAPI = (payload, currency) => ({
+const getAPI = (responseAPI, currency) => ({
   type: 'GETAPI',
-  payload,
+  responseAPI,
   currency,
 });
 

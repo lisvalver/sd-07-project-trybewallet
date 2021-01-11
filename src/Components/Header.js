@@ -5,34 +5,28 @@ import { connect } from 'react-redux';
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      despesatotal: 0,
-    }
-
     this.calculaDespesa = this.calculaDespesa.bind(this);
   }
 
   calculaDespesa() {
     const { expenses } = this.props;
-    const despesatotal = (expenses.reduce((acc, item) => acc
-    + item.espense.value * item.exchangeRates[item.currency].ask, 0)).toFixed(2);
-    this.setState({ despesatotal }); 
+    return (expenses.reduce((acc, item) => acc
+    + item.value * item.exchangeRates[item.currency].ask, 0)).toFixed(2);
   }
 
   render() {
     const { email } = this.props;
-    const { despesatotal } = this.state; 
     return (
       <header>
         <section data-testid="email-field">
           Email:
           { ' ' }
-          { email }
+          { email === undefined ? 'email não inserido ' : email }
           { ' ' }
           <div data-testid="total-field">
             Despesas Totais: R$
             { ' ' }
-            { despesatotal }
+            { this.calculaDespesa() }
             { ' ' }
             <span data-testid="header-currency-field">BRL</span>
           </div>

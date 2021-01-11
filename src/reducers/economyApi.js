@@ -1,7 +1,7 @@
 const INITIAL_STATE = [
   {
     isFetching: false,
-    payload: {},
+    responseAPI: {},
     currency: '',
     error: '',
   },
@@ -14,12 +14,12 @@ function economyApi(state = INITIAL_STATE, action) {
   case 'GETAPI':
     return {
       ...state,
-      payload: action.payload,
+      responseAPI: action.responseAPI,
       currency: action.currency,
       isFetching: false,
     };
   case 'FAILEDAPI':
-    return { ...state, error: action.payload, isFetching: false };
+    return { ...state, error: action.error, isFetching: false };
   default:
     return state;
   }

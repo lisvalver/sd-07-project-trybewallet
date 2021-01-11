@@ -11,11 +11,11 @@ function wallet(state = INITIAL_STATE, action) {
     return {
       ...state,
       expenses: [
-        ...state.expenses, { 
-          ...action.expenses, 
-          exchangeRates: action.exchangeRates
+        ...state.expenses, {
+          ...action.expenses,
+          exchangeRates: action.exchangeRates,
         }],
-        controlId: state.controlId + 1,
+      controlId: state.controlId + 1,
     };
   default:
     return state;
