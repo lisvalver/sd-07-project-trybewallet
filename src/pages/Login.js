@@ -25,21 +25,25 @@ class Login extends React.Component {
 
   enableButton() {
     const { emailInput, passwordInput } = this.state;
+    console.log(passwordInput.length);
     const regexForEmail = /\S+@\S+\.\S+/;
-    const minlength = 6;
+    const minlength = 5;
     const passwordIsValid = passwordInput.length >= minlength;
-    console.log(passwordIsValid);
+    // Perguntar poque o length está saindo errado
     const emailIsValid = regexForEmail.test(emailInput);
-    console.log(emailIsValid);
     if (passwordIsValid && emailIsValid === true) {
       this.setState({
         disabled: false,
+      });
+    } else {
+      this.setState({
+        disabled: true,
       });
     }
   }
 
   render() {
-    const { emailInput, /* passwordInput, */ disabled } = this.state;
+    const { emailInput, passwordInput, disabled } = this.state;
     const { email } = this.props;
     // Perguntar o porquê de ter essa props
 
@@ -49,7 +53,7 @@ class Login extends React.Component {
           id="emailInput"
           name="emailInput"
           type="email"
-          /* value={ emailInput } */
+          value={ emailInput }
           data-testid="email-input"
           onChange={ (event) => this.handleChange(event) }
         />
@@ -57,7 +61,7 @@ class Login extends React.Component {
           id="passwordInput"
           name="passwordInput"
           type="password"
-          /* value={ passwordInput } */
+          value={ passwordInput }
           data-testid="password-input"
           onChange={ (event) => this.handleChange(event) }
         />

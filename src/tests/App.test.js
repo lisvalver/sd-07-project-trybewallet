@@ -50,14 +50,14 @@ describe('1 - [PÁGINA DE LOGIN] Crie uma página inicial de login com os seguin
     userEvent.type(email, 'email');
     userEvent.type(senha, '123456');
     expect(button).toBeDisabled();
-
+ 
     userEvent.type(email, 'email@com@');
     userEvent.type(senha, '123456');
     expect(button).toBeDisabled();
 
     userEvent.type(email, 'emailcom@');
     userEvent.type(senha, '123456');
-    expect(button).toBeDisabled();
+    expect(button).toBeDisabled(); 
 
     userEvent.type(email, 'alguem@email.com');
     userEvent.type(senha, '23456');
