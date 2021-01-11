@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+// import store from '../store';
 import * as Actions from '../actions';
-import * as api from '../services/api';
+// import * as api from '../services/api';
 
 class FormDespesa extends React.Component {
   constructor() {
@@ -21,8 +22,8 @@ class FormDespesa extends React.Component {
     };
   }
 
-  handleClick() {
-    const { putExpenses } = this.props;
+  async handleClick() {
+    const { fetchExchangeRates } = this.props;
     const {
       value,
       description,
@@ -31,7 +32,26 @@ class FormDespesa extends React.Component {
       category,
     } = this.state;
 
-    putExpenses(value, description, currency, paymentMethod, category);
+    await fetchExchangeRates(value, description, currency, paymentMethod, category);
+    // console.log(store.getState());
+    this.sumExpenses();
+  }
+
+  sumExpenses() {
+    const { wallet, sumAll } = this.props;
+    let sumValues = 0;
+
+    wallet.expenses.forEach((element) => {
+      const data = wallet.currencies.find(
+        (element2) => element2.code === element.currency,
+      );
+      console.log(data);
+      sumValues += parseFloat(data.ask) * parseFloat(element.value);
+      // console.log(sumValues);
+    });
+
+    sumAll(sumValues);
+
     this.setState({
       value: 0,
       description: '',
@@ -39,18 +59,6 @@ class FormDespesa extends React.Component {
       paymentMethod: '',
       category: '',
     });
-
-    this.sumExpenses();
-  }
-
-  sumExpenses() {
-    const { wallet, sumAll } = this.props;
-    let sumValues = 0;
-    wallet.expenses.forEach(async (element) => {
-      const data = await api.fetchCurrency(element.currency);
-      sumValues += data[0].ask * element.value;
-    });
-    sumAll(sumValues);
   }
 
   handleChange({ target }) {
@@ -86,7 +94,7 @@ class FormDespesa extends React.Component {
           </label>
 
           <label htmlFor="description">
-            Descrição:
+            Adicionar Descrição:
             <input
               data-testid="description-input"
               type="text"
@@ -97,9 +105,10 @@ class FormDespesa extends React.Component {
           </label>
 
           <label htmlFor="currency">
-            Moeda:
+            Selecionar moeda:
             <select
               data-testid="currency-input"
+              id="currency"
               name="currency"
               value={ currency }
               onChange={ this.handleChange }
@@ -117,6 +126,7 @@ class FormDespesa extends React.Component {
             Método de pagamento:
             <select
               data-testid="method-input"
+              id="paymentMethod"
               name="paymentMethod"
               value={ paymentMethod }
               onChange={ this.handleChange }
@@ -132,6 +142,7 @@ class FormDespesa extends React.Component {
             Categoria:
             <select
               data-testid="tag-input"
+              id="category"
               name="category"
               value={ category }
               onChange={ this.handleChange }
@@ -162,20 +173,27 @@ FormDespesa.propTypes = {
       name: PropTypes.string,
     }),
   ).isRequired,
-  putExpenses: PropTypes.func.isRequired,
   wallet: PropTypes.shape({
     expenses: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,
       }),
     ),
+    currencies: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string,
+        codein: PropTypes.string,
+        name: PropTypes.string,
+      }),
+    ),
   }).isRequired,
   sumAll: PropTypes.func.isRequired,
+  fetchExchangeRates: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-  putExpenses: Actions.putExpenses,
   sumAll: Actions.sumAll,
+  fetchExchangeRates: Actions.fetchExchangeRates,
 };
 
 const mapStateToProps = (state) => ({

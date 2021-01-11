@@ -11,6 +11,8 @@ export const signIn = (email) => ({
   payload: email,
 });
 
+//----------------------------------------------
+
 const readCurrencies = (currencies) => ({
   type: CURRENCIES,
   payload: currencies,
@@ -23,14 +25,26 @@ export function fetchCurrenciesThunk() {
   };
 }
 
-export const putExpenses = (value, description, currency, method, tag) => ({
+//----------------------------------------------
+
+export const putExpenses = (value, description, currency, method, tag, data) => ({
   type: EXPENSES,
   value,
   description,
   currency,
   method,
   tag,
+  data,
 });
+
+export function fetchExchangeRates(value, description, currency, method, tag) {
+  return async (dispatch) => {
+    const data = await api.fetchAllCurrencies();
+    dispatch(putExpenses(value, description, currency, method, tag, data));
+  };
+}
+
+//----------------------------------------------
 
 export const sumAll = (total) => ({
   type: SUM,

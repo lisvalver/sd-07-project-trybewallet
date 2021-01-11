@@ -10,20 +10,21 @@ const INITIAL_STATE = {
   wallet: {
     currencies: [],
     expenses: [
-      {
-        id: -1,
-        value: 0,
-        description: '',
-        currency: 'USD',
-        method: '',
-        tag: '',
-        exchangeRates: {},
-      },
+      // {
+      //   id: -1,
+      //   value: 0,
+      //   description: '',
+      //   currency: 'USD',
+      //   method: '',
+      //   tag: '',
+      //   exchangeRates: {},
+      // },
     ],
     sum: 0,
   },
 };
 
+let firstId = '-1';
 const wallet = (state = INITIAL_STATE.wallet, action) => {
   let allCurrencies;
 
@@ -36,18 +37,20 @@ const wallet = (state = INITIAL_STATE.wallet, action) => {
       ...state, currencies: [...allCurrencies],
     };
   case EXPENSES:
+    firstId = parseFloat(firstId) + 1;
     return {
       ...state,
       expenses: [
         ...state.expenses,
         {
-          id:
-            state.expenses[state.expenses.length - 1].id + 1,
+          id: firstId,
+          // state.expenses[state.expenses.length - 1].id + 1,
           value: action.value,
           description: action.description,
           currency: action.currency,
           method: action.method,
           tag: action.tag,
+          exchangeRates: action.data,
         },
       ],
     };
