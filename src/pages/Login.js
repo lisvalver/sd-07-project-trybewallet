@@ -17,14 +17,12 @@ class Login extends React.Component {
   }
 
   handleChange({ target }) {
-    console.log(target);
     const { name, value } = target;
     this.setState({ [name]: value }, () => this.enableButton());
   }
 
   enableButton() {
     const { emailInput, passwordInput } = this.state;
-    console.log(passwordInput.length);
     const regexForEmail = /\S+@\S+\.\S+/;
     const minlength = 6;
     const passwordIsValid = passwordInput.length >= minlength;
@@ -63,6 +61,7 @@ class Login extends React.Component {
           onChange={ (event) => this.handleChange(event) }
         />
         <Link to="/carteira">
+          {/* Não colocar um botão dentro de um link usar o history e o push para redirecionar */}
           <button
             type="button"
             disabled={ disabled }
