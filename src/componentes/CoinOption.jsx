@@ -22,7 +22,7 @@ class CoinOption extends Component {
         { currencies.map((curr) => (
           (
             <option key={ curr } value={ curr } data-testid={ curr }>
-                {curr}
+                { curr }
             </option>
           )
         )) }
