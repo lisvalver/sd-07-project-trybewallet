@@ -36,9 +36,6 @@ export default function wallet(state = initialState, action) {
     const roundValue = () => {
       const valueTotal = state.expenses.reduce((acc, item) => {
         const itemCurrency = item.currency;
-        if (itemCurrency === 'USD') {
-          return (item.cash * item.exchangeRates.USDT.ask) + acc;
-        }
         return (item.cash * item.exchangeRates[itemCurrency].ask) + acc;
       }, 0);
       const num = Math.round(valueTotal * 100);

@@ -86,6 +86,7 @@ class Wallet extends React.Component {
               <option value="ILS" data-testid="ILS">ILS</option>
               <option value="ETH" data-testid="ETH">ETH</option>
               <option value="XRP" data-testid="XRP">XRP</option>
+              <option value="USDT" data-testid="USDT">USDT</option>
             </select>
           </label>
           <label htmlFor="method-input">
