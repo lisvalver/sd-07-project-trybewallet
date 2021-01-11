@@ -116,7 +116,7 @@ describe('2 - [PÁGINA DA CARTEIRA] Crie uma página para sua carteira com as se
 describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira contendo as seguintes características:', () => {
   const initial = initialStateHeader;
 
-  test.skip('Um elemento que exiba o email do usuário que fez login.', () => {
+  test('Um elemento que exiba o email do usuário que fez login.', () => {
     const { store } = renderWithRouterAndStore(<Wallet />, '/carteira', initial);
     const emailField = screen.getByTestId('email-field');
 
@@ -124,7 +124,7 @@ describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira co
     expect(emailField).toContainHTML(store.getState().user.email);
   });
 
-  test.skip('Crie um campo com a despesa total gerada pela lista de gastos.', () => {
+  test('Crie um campo com a despesa total gerada pela lista de gastos.', () => {
     renderWithRouterAndStore(<Wallet />, '/carteira', initial);
     const totalField = screen.getByTestId('total-field');
 
@@ -132,7 +132,7 @@ describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira co
     expect(totalField).toContainHTML(INITIAL_VALUE);
   });
 
-  test.skip('Crie um campo que mostre que qual câmbio está sendo utilizado, que será neste caso \'BRL\'', () => {
+  test('Crie um campo que mostre que qual câmbio está sendo utilizado, que será neste caso \'BRL\'', () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const exchangeField = screen.getByTestId('header-currency-field');
 
@@ -142,21 +142,21 @@ describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira co
 });
 
 describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma despesa contendo as seguintes características:', () => {
-  test.skip('Um campo para adicionar o valor da despesa', async () => {
+  test('Um campo para adicionar o valor da despesa', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const valueInput = await screen.findByTestId('value-input');
 
     expect(valueInput).toBeInTheDocument();
   });
 
-  test.skip('Um campo para adicionar a descrição da despesa', async () => {
+  test('Um campo para adicionar a descrição da despesa', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const descriptionInput = await screen.findByTestId('description-input');
 
     expect(descriptionInput).toBeInTheDocument();
   });
 
-  test.skip('Um campo para selecionar em qual moeda será registrada a despesa', async () => {
+  test('Um campo para selecionar em qual moeda será registrada a despesa', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const currencyInput = await screen.findByTestId('currency-input');
     const USD = screen.getByTestId('USD');
@@ -195,7 +195,7 @@ describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma
     expect(USDT).not.toBeInTheDocument();
   });
 
-  test.skip('Um campo para selecionar qual método de pagamento será utilizado', async () => {
+  test('Um campo para selecionar qual método de pagamento será utilizado', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const methodInput = await screen.findByTestId('method-input');
     const moneyOption = screen.getByText(/Dinheiro/);
@@ -208,7 +208,7 @@ describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma
     expect(debitOption).toBeInTheDocument();
   });
 
-  test.skip('Um campo para selecionar uma categoria (tag) para a despesa.', async () => {
+  test('Um campo para selecionar uma categoria (tag) para a despesa.', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const tagInput = await screen.findByTestId('tag-input');
     const foodOption = screen.getByText(/Alimentação/);
@@ -225,7 +225,7 @@ describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma
     expect(healthOption).toBeInTheDocument();
   });
 
-  test.skip('Um botão com o texto \'Adicionar despesa\' que salva as informações da despesa no estado global e atualiza a soma de despesas no header', async () => {
+  test('Um botão com o texto \'Adicionar despesa\' que salva as informações da despesa no estado global e atualiza a soma de despesas no header', async () => {
     const { store } = renderWithRouterAndStore(<Wallet />, '/carteira');
     const addButton = await screen.findByText(/Adicionar despesa/i);
     const valueInput = await screen.findByTestId('value-input');

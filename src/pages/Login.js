@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { login } from '../actions';
-import FormLogin from '../components';
+import { FormLogin } from '../components';
 
 class Login extends React.Component {
   constructor() {
