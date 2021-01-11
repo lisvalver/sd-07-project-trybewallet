@@ -5,18 +5,23 @@ import { connect } from 'react-redux';
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.state = { 
+      despesatotal: 0,
+    }
+
     this.calculaDespesa = this.calculaDespesa.bind(this);
   }
 
   calculaDespesa() {
     const { expenses } = this.props;
-    return (expenses.reduce((acc, item) => acc
-    + item.value * item.exchangeRates[item.currency].ask, 0)).toFixed(2);
+    const despesatotal = (expenses.reduce((acc, item) => acc
+    + item.espense.value * item.exchangeRates[item.currency].ask, 0)).toFixed(2);
+    this.setState({ despesatotal }); 
   }
 
   render() {
-    const DespesasTotais = this.calculaDespesa();
     const { email } = this.props;
+    const { despesatotal } = this.state; 
     return (
       <header>
         <section data-testid="email-field">
@@ -27,7 +32,7 @@ class Header extends Component {
           <div data-testid="total-field">
             Despesas Totais: R$
             { ' ' }
-            { DespesasTotais }
+            { despesatotal }
             { ' ' }
             <span data-testid="header-currency-field">BRL</span>
           </div>

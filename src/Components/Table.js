@@ -33,45 +33,45 @@ class Table extends Component {
           {
             expenses.map((item) => (
               <tr key={ item.id }>
-                <td className="Descricao">
+                <td>
                   {' '}
                   {item.description}
                   {' '}
                 </td>
-                <td className="Tag">
+                <td>
                   {' '}
                   {item.tag}
                   {' '}
                 </td>
-                <td className="Metodo_pagamento">
+                <td>
                   {' '}
                   {item.method}
                   {' '}
                 </td>
-                <td className="Valor">
+                <td>
                   {' '}
                   {item.value}
                   {' '}
                 </td>
-                <td naclassNameme="Moeda">
+                <td >
                   {' '}
                   {item.exchangeRates[item.currency].name}
                   {' '}
                 </td>
-                <td className="Cambio_utilizado">
+                <td>
                   {' '}
                   {(parseFloat(item.exchangeRates[item.currency].ask)).toFixed(2)}
                   {' '}
                 </td>
-                <td className="Valor_convertido">
+                <td>
                   {' '}
                   {(parseFloat(item.exchangeRates[item.currency].ask)
                   * item.value).toFixed(2)}
                   {' '}
                 </td>
-                <td className="Moeda_conversao">
+                <td>
                   {' '}
-                  BRL
+                  Real Brasileiro
                   {' '}
                 </td>
                 <td>

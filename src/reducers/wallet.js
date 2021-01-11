@@ -10,8 +10,12 @@ function wallet(state = INITIAL_STATE, action) {
     action.expenses.id = state.controlId;
     return {
       ...state,
-      expenses: [...state.expenses, action.expenses],
-      controlId: state.controlId + 1,
+      expenses: [
+        ...state.expenses, { 
+          ...action.expenses, 
+          exchangeRates: action.exchangeRates
+        }],
+        controlId: state.controlId + 1,
     };
   default:
     return state;

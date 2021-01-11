@@ -7,32 +7,47 @@ class Despesas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
-      description: '',
-      currency: '',
-      method: 'Dinheiro',
-      tag: '',
+      expense: {
+        value: 0,
+        description: '',
+        currency: '',
+        method: 'Dinheiro',
+        tag: '',
+      },
     };
-    this.onInputChange = this.onInputChange.bind(this);
-    this.handleApi = this.handleApi.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  componentDidMount() {
+  componentDidMount(){
     const { fecthEconomy } = this.props;
     fecthEconomy();
   }
 
-  onInputChange({ target }) {
+  onChange({ target }) {
+    const { expense } = this.state;
     const { name, value } = target;
-    this.setState({ [name]: value });
+    this.setState({ expense: { ...expense, [name]: value } });
   }
 
-  handleApi() {
-    const { value, description, currency, method, tag } = this.state;
+  clearAll() {
+    this.setState((prevState) => ({
+      ...prevState,
+      expense: {
+        value: 0,
+        description: '',
+        currency: '',
+        method: '',
+        tag: '',
+      },
+    }));
+  }
+
+  async handleSubmit() {
     const { walletSave, fecthEconomy } = this.props;
-    fecthEconomy();
-    const { payload } = this.props;
-    walletSave({ value, description, currency, method, tag, exchangeRates: payload });
+    const { expense } = this.state;
+    const result = await fecthEconomy();
+    walletSave( expense, result.payload )
+    this.clearAll();
   }
 
   render() {
@@ -45,8 +60,7 @@ class Despesas extends Component {
       'Saúde',
     ];
     const { isFetching, currency } = this.props;
-    const { value, description } = this.state;
-
+    const { value, description } = this.state.expense;
     return (
       <div>
         {isFetching ? (
@@ -58,8 +72,8 @@ class Despesas extends Component {
               <input
                 name="value"
                 id="value"
-                value={ value }
-                onChange={ this.onInputChange }
+                value={value}
+                onChange={(event) => this.onChange(event)}
                 data-testid="value-input"
                 required
               />
@@ -69,8 +83,8 @@ class Despesas extends Component {
               <input
                 name="description"
                 id="description"
-                value={ description }
-                onChange={ this.onInputChange }
+                value={description}
+                onChange={(event) => this.onChange(event)}
                 data-testid="description-input"
                 required
               />
@@ -82,15 +96,16 @@ class Despesas extends Component {
                 name="currency"
                 id="currency"
                 data-testid="currency-input"
-                onChange={ this.onInputChange }
+                onChange={(event) => this.onChange(event)}
                 required
               >
                 <option value=""> Selecione uma opção </option>
-                { currency && currency.map((opcao) => (
-                  <option key={ opcao } data-testid={ opcao } value={ opcao }>
-                    {opcao}
-                  </option>
-                ))}
+                {currency &&
+                  currency.map((opcao) => (
+                    <option key={opcao} data-testid={opcao} value={opcao}>
+                      {opcao}
+                    </option>
+                  ))}
               </select>
             </label>
             <div>
@@ -101,11 +116,12 @@ class Despesas extends Component {
                   name="method"
                   id="method"
                   data-testid="method-input"
-                  onChange={ this.onInputChange }
+                  onChange={(event) => this.onChange(event)}
                   required
                 >
+                  <option value=""> Selecione uma opção </option>
                   {method.map((pag) => (
-                    <option key={ pag } data-testid={ pag } value={ pag }>
+                    <option key={pag} data-testid={pag} value={pag}>
                       {pag}
                     </option>
                   ))}
@@ -120,11 +136,12 @@ class Despesas extends Component {
                   name="tag"
                   id="tag"
                   data-testid="tag-input"
-                  onChange={ this.onInputChange }
+                  onChange={(event) => this.onChange(event)}
                   required
                 >
+                  <option value=""> Selecione uma opção </option>
                   {categoria.map((tag) => (
-                    <option key={ tag } data-testid={ tag } value={ tag }>
+                    <option key={tag} data-testid={tag} value={tag}>
                       {tag}
                     </option>
                   ))}
@@ -133,7 +150,7 @@ class Despesas extends Component {
             </div>
           </div>
         )}
-        <button type="button" onClick={ this.handleApi }>
+        <button type="button" onClick={() => this.handleSubmit() }>
           Adicionar Despesas
         </button>
       </div>
@@ -158,7 +175,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fecthEconomy: () => dispatch(fecthAction()),
-  walletSave: (expenses) => dispatch(wallet(expenses)),
+  walletSave: (expenses, exchangeRates) => dispatch(wallet(expenses, exchangeRates)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Despesas);
