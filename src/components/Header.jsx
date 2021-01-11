@@ -10,6 +10,7 @@ class Header extends React.Component {
       const { value, currency, exchangeRates } = expenses;
       return total + exchangeRates[currency].ask * value;
     }, 0);
+    if (expenseTot === undefined) return 0;
 
     return (
       <header className="header-wallet">

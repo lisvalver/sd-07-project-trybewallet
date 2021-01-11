@@ -9,6 +9,9 @@ function wallet(state = INITIAL_STATE, action) {
     return { ...state, currencies: { ...action.payload } };
   case 'ADD_EXPENSES':
     return { ...state, expenses: [...state.expenses, action.expense] };
+  case 'DEL_EXPENSES':
+    return { ...state,
+      expenses: [...state.expenses.filter((expense) => expense.id !== action.id)] };
   default:
     return state;
   }
