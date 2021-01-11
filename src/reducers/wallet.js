@@ -1,4 +1,4 @@
-import { ADD_CURRENCIES, ADD_EXPENSE } from '../actions/wallet';
+import { ADD_CURRENCIES, ADD_EXPENSE, DELETE_EXPENSE, EDITEXPENSE } from '../actions/wallet';
 
 const initialState = {
   currencies: [],
@@ -20,6 +20,17 @@ export default function (state = initialState, action) {
       totalExpense:
       totalExpense + (Number(action.expense.value)
       * action.expense.exchangeRates[action.expense.currency].ask),
+    };
+  case DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.filter(expense => expense.id !== action.expense.id)
+    };
+  case EDITEXPENSE:
+    console.log(action.expense); // está trazendo o objeto que desejo editar
+    return {
+      ...state,
+      // ...state, expenses: action.expense,
     };
   default:
     return state;

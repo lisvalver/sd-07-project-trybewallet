@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import RenderTable from '../components/RenderTable';
 import { addExpenses } from '../actions/wallet';
 import fetchAPI from '../actions/serviceAPI';
-// import './Wallet.css';
+import './Wallet.css';
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -62,8 +62,14 @@ class Wallet extends React.Component {
       expenses:
          { ...state.expenses, [name]: value } }));
   }
+  returnData = (expense) => {
+    console.log(expense)
+    // const expenses: { ...expense };
+    // this.setState({ ...expenses })
+  }
 
   render() {
+    // console.log(this.props)
     const { _Email, currencies, totalExpense } = this.props;
     const dez = 10;
     const { expenses } = this.state;
@@ -165,7 +171,7 @@ class Wallet extends React.Component {
             Adicionar Despesa
           </button>
         </form>
-        <RenderTable />
+        <RenderTable returnData={this.returnData} />
       </div>
     );
   }

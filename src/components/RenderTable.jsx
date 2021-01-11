@@ -2,15 +2,14 @@ import React from 'react';
 // import RenderRows from './RenderRows';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { eraseExpense } from '../actions/wallet';
+import { eraseExpense, editExpense } from '../actions/wallet';
 
 class RenderTable extends React.Component {
-  // apenas um teste
   showExpense(expense) {
     const { id, description, tag, method, value, currency, exchangeRates } = expense;
-    const { eraseExpenseDispatch } = this.props;
+    const { eraseExpenseDispatch, editExpenseDispatch } = this.props;  
     return (
-      <tr id={ id }>
+      <tr key={ id } id={ id }>
         <td>{description}</td>
         <td>{tag}</td>
         <td>{method}</td>
@@ -23,6 +22,7 @@ class RenderTable extends React.Component {
           <button
             type="button"
             data-testid="edit-btn"
+            onClick={ () => editExpenseDispatch(expense) }
           >
             Editar
           </button>
@@ -39,6 +39,9 @@ class RenderTable extends React.Component {
   }
 
   render() {
+    console.log(this.props);
+    const { returnData } = this.props;
+    // console.log(this.props.expenses)
     const { expenses } = this.props;
     return (
       <table className="centered">
@@ -69,11 +72,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   eraseExpenseDispatch: (expense) => dispatch(eraseExpense(expense)),
+  editExpenseDispatch: (expense) => dispatch(editExpense(expense)),
 });
 
 RenderTable.propTypes = {
   expenses: PropTypes.objectOf().isRequired,
   eraseExpenseDispatch: PropTypes.func.isRequired,
+  editExpenseDispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RenderTable);
