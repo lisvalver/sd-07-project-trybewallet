@@ -72,4 +72,8 @@ const mapDispatchToProps = (dispatch) => ({
   addEmail: (email) => dispatch(login(email)),
 });
 
+Login.propTypes = { addEmail: PropTypes.string };
+
+Login.defaultProps = { addEmail: '' };
+
 export default connect(null, mapDispatchToProps)(Login);

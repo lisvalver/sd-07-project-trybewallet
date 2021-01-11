@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 class Expenses extends React.Component {
   constructor() {
     super();
-    this.state = {
-      value: '',
-      description: '',
-      currency: '',
-      method: '',
-      tag: '',
-    };
+    // this.state = {
+    //   value: '',
+    //   description: '',
+    //   currency: '',
+    //   method: '',
+    //   tag: '',
+    // };
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -21,7 +21,7 @@ class Expenses extends React.Component {
   }
 
   render() {
-    const currencies = ['USD', 'CAD', 'EUR', 'GBP', 'ARS', 'BTC', 'LTC', 'JPY', 'CHF', 'AUD', 'CNY', 'ILS', 'ETH', 'XRP', 'USDT'];
+    const currencies = ['USD', 'CAD', 'EUR', 'GBP', 'ARS', 'BTC', 'LTC', 'XRP', 'USDT'];
     return (
       <form>
         <input
