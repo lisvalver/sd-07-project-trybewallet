@@ -15,10 +15,7 @@ const Header = () => (
       <p>
         <strong>Despesas: </strong>
         <em data-testid="total-field">0</em>
-      </p>
-      <p>
-        <strong>Moeda: </strong>
-        <em data-testid="header-currency-field">BRL</em>
+        <em data-testid="header-currency-field"> BRL</em>
       </p>
     </div>
   </div>

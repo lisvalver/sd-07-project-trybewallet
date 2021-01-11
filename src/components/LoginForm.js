@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import { logMeIn } from '../actions';
+import { LOGIN } from '../actions';
 
-class LoginForm extends React.Component {
+class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,26 +12,29 @@ class LoginForm extends React.Component {
       isDisable: true,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.loginCompare = this.loginCompare.bind(this);
   }
 
   handleChange({ target: { name, value } }) {
-    this.setState({ [name]: value }, this.loginCompare());
+    this.setState({ [name]: value }, this.loginCompare);
   }
 
   loginCompare() {
-    const { senha } = this.state;
-    const moreThanFive = 5;
-    console.log(senha);
-    if (senha.length > moreThanFive) (this.setState({ isDisable: false }));
-    else (this.setState({ isDisable: true }));
+    const { senha, email } = this.state;
+    const minimunLength = 6;
+    const emailFormat = /^.+@[a-zA-Z0-9_.%+-]+?\.[a-zA-Z]{2,3}$/;
+    if (senha.length >= minimunLength && emailFormat.test(email)) {
+      this.setState({ isDisable: false });
+    } else this.setState({ isDisable: true });
   }
 
   handleClick(event) {
-    const { history } = this.props;
-    event.preventDefault();
+    const { log } = this.props;
     const { email } = this.state;
-    history.push('carteira');
+    event.preventDefault();
+    log(email);
+    // history.push('/carteira');
   }
 
   render() {
@@ -69,12 +73,19 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = (store) => ({
-  store,
+const mapStateToProps = (state) => ({
+  email: state.user.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  log: (email) => dispatch(logMeIn(email)),
+  log: (email) => dispatch(LOGIN(email)),
 });
+
+LoginForm.propTypes = {
+  // history: PropTypes.shape({
+  //   push: PropTypes.func,
+  // }).isRequired,
+  log: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -1,10 +1,11 @@
 import React from 'react';
-import { Header, ExpenseForm } from '../components';
+import { Header, ExpenseForm, WalletPanel } from '../components';
 
 const Wallet = () => (
   <div>
     <Header />
     <ExpenseForm />
+    <WalletPanel />
   </div>
 );
 
