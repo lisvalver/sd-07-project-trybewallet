@@ -11,8 +11,6 @@ class Wallet extends React.Component {
       atualExpenses: 0,
       currency: 'USD',
     };
-
-    this.currenciesOption = this.currenciesOption.bind(this);
   }
 
   componentDidMount() {
@@ -20,19 +18,9 @@ class Wallet extends React.Component {
     getAPI();
   }
 
-  currenciesOption() {
-    const { currencies } = this.props;
-    const choosedCoin = Object(currencies);
-    const filtered = choosedCoin.filter(
-      (currencie) => currencie[0] !== 'USDT',
-    );
-    return filtered;
-  }
-
   render() {
     const { email, currencies } = this.props;
     const { atualExpenses, currency } = this.state;
-    const currenciesOption = this.currenciesOption();
 
     return (
       <div>
@@ -50,11 +38,7 @@ class Wallet extends React.Component {
             Descrição da despesa
             <input name="discription" type="text" data-testid="description-input" />
           </label>
-          <select data-testid="currency-input" name="currency" value={ currency }>
-            { currency.map((currencyID) => (
-              <CoinOption currency={ currencyID } />
-            ))}
-          </select>
+          <CoinOption />
         </form>
       </div>
     );
@@ -65,6 +49,7 @@ Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   currencies: PropTypes.arrayOf.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  getAPI: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
