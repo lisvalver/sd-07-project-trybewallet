@@ -179,4 +179,3 @@ AddExpense.propTypes = ({
 });
 
 export default connect(null, mapDispatchToProps)(AddExpense);
-// export default AddExpense;
