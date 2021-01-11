@@ -1,4 +1,4 @@
-import { ADD_EXPENSE, REMOVE_EXPENSE } from '../actions';
+import { ADD_EXPENSE, REMOVE_EXPENSE, ACTUALIZE_EXPENSE } from '../actions';
 
 const walletInitialState = {
   currencies: [],
@@ -16,6 +16,22 @@ function walletReducer(state = walletInitialState, action) {
     return {
       ...state,
       expenses: state.expenses.filter(({ id }) => id !== action.payload),
+    };
+  case ACTUALIZE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.map((expense) => (
+        (expense.id === action.payload.id) ? action.payload : expense)),
+      /*
+      The code above does the same than the bellow one:
+
+      expenses: state.expenses.map((expense) => {
+        if (expense.id === action.payload.id) {
+          return action.payload;
+        }
+        return expense;
+      }),
+      */
     };
   default:
     return state;

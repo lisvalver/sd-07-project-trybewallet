@@ -2,11 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WalletHeader from '../../components/WalletHeader';
-import { removeExpense } from '../../actions';
+import { removeExpense, editExpense, allowEdition } from '../../actions';
+
+import './style.css';
 
 class Wallet extends React.Component {
   constructor(props) {
     super(props);
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
@@ -15,12 +18,21 @@ class Wallet extends React.Component {
     tableRemoveExpense(expId);
   }
 
+  handleEdit(expEdit) {
+    const {
+      editExpense: tableEditExpense,
+      allowEdition: handleAllowEdition,
+    } = this.props;
+    tableEditExpense(expEdit);
+    handleAllowEdition();
+  }
+
   render() {
     const { expenses } = this.props;
     return (
       <>
         <WalletHeader />
-        <table>
+        <table className="expenses__table">
           <thead>
             <tr>
               <th>Descrição</th>
@@ -53,10 +65,19 @@ class Wallet extends React.Component {
                 <td>
                   <button
                     type="button"
+                    className="expense__delete"
                     data-testid="delete-btn"
                     onClick={ () => this.handleDelete(exp.id) }
                   >
                     Delete
+                  </button>
+                  <button
+                    type="button"
+                    className="expense__edit"
+                    data-testid="edit-btn"
+                    onClick={ () => this.handleEdit(exp) }
+                  >
+                    Edit
                   </button>
                 </td>
               </tr>
@@ -74,11 +95,15 @@ const mapStatetoProps = (state) => ({
 
 const mapDispatchToProps = {
   removeExpense,
+  editExpense,
+  allowEdition,
 };
 
 Wallet.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   removeExpense: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
+  allowEdition: PropTypes.func.isRequired,
 };
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Wallet);
