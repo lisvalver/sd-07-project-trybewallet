@@ -1,4 +1,4 @@
-import { ADD_EXPENSE } from '../actions';
+import { ADD_EXPENSE, DELETE_EXPENSE } from '../actions';
 import {
   GET_CURRENCIES, // REQUEST_CURRENCIES, FAILED_REQUEST,
 } from '../actions/fetchCurrencies';
@@ -11,10 +11,12 @@ function wallet(state = INITIAL_STATE, action) {
   case ADD_EXPENSE:
     return {
       ...state,
-      expenses: [
-        ...state.expenses,
-        { ...action.payload, id },
-      ],
+      expenses: [...state.expenses, { ...action.payload, id }],
+    };
+  case DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: [...state.expenses.filter(({ id: ids }) => ids !== +action.payload)],
     };
   case GET_CURRENCIES:
     return { ...state, currencies: action.payload };

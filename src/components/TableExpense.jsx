@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function TableExpense({ expenses }) {
+export default function TableExpense({ expenses, deleteExpense }) {
   return (
     <table>
       <thead>
@@ -39,7 +39,14 @@ export default function TableExpense({ expenses }) {
               <td>Real</td>
               <td>
                 <button data-testid="edit-btn" type="button">Editar despesa</button>
-                <button data-testid="delete-btn" type="button">Excluir</button>
+                <button
+                  id={ id }
+                  data-testid="delete-btn"
+                  type="button"
+                  onClick={ deleteExpense }
+                >
+                  Excluir
+                </button>
               </td>
             </tr>
           ))
@@ -51,4 +58,5 @@ export default function TableExpense({ expenses }) {
 
 TableExpense.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteExpense: PropTypes.func.isRequired,
 };

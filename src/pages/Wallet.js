@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { HeaderWallet, AddExpense, TableExpense } from '../components';
-import { addExpense, fetchCurrencies } from '../actions';
+import { addExpense, deleteExpense, fetchCurrencies } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
     super();
     this.changeState = this.changeState.bind(this);
     this.saveExpense = this.saveExpense.bind(this);
+    this.deleteExpense = this.deleteExpense.bind(this);
     this.verificationDates = this.verificationDates.bind(this);
     this.state = {
       exchangeRates: {},
@@ -52,6 +53,11 @@ class Wallet extends React.Component {
     dispatchExpense(this.state);
   }
 
+  deleteExpense({ target: { id } }) {
+    const { dispatchDeleteExpense } = this.props;
+    dispatchDeleteExpense(id);
+  }
+
   render() {
     const { email, expenses, currencies } = this.props;
     return (
@@ -63,7 +69,7 @@ class Wallet extends React.Component {
           currencies={ currencies }
           verificationDates={ this.verificationDates }
         />
-        <TableExpense expenses={ expenses } />
+        <TableExpense expenses={ expenses } deleteExpense={ this.deleteExpense } />
       </div>
     );
   }
@@ -75,6 +81,7 @@ const mapStateToProps = ({ user: { email }, wallet: { expenses, currencies } }) 
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchExpense: (payload) => dispatch(addExpense(payload)),
+  dispatchDeleteExpense: (payload) => dispatch(deleteExpense(payload)),
   acFetchCurrencies: () => dispatch(fetchCurrencies()),
 });
 
@@ -85,5 +92,6 @@ Wallet.propTypes = {
   currencies: PropTypes.objectOf(PropTypes.object).isRequired,
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   dispatchExpense: PropTypes.func.isRequired,
+  dispatchDeleteExpense: PropTypes.func.isRequired,
   acFetchCurrencies: PropTypes.func.isRequired,
 };
