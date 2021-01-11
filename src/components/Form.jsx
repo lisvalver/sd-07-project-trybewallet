@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Form extends Component {
   constructor(props) {
     super(props);
     this.fetchCurrencies = this.fetchCurrencies.bind(this);
     this.transformCurrencies = this.transformCurrencies.bind(this);
+    this.updateNumberOfExpenses = this.updateNumberOfExpenses.bind(this);
     this.state = {
       json: {},
+      numberOfExpenses: 0,
     };
   }
 
   componentDidMount() {
     this.fetchCurrencies();
+    this.updateNumberOfExpenses();
   }
 
   transformCurrencies(json) {
@@ -29,6 +33,11 @@ class Form extends Component {
           json,
         });
       });
+  }
+
+  updateNumberOfExpenses() {
+    const { expenses } = this.props;
+    this.setState({ numberOfExpenses: expenses.lenght });
   }
 
   render() {
@@ -93,9 +102,14 @@ class Form extends Component {
             data-testid="description-input"
           />
         </label>
+        <button type="submit">Adicionar Despesa</button>
       </form>
     );
   }
 }
 
-export default Form;
+const mapStateToProps = (state) => ({
+  expenses: state.wallet.expenses,
+});
+
+export default connect(mapStateToProps)(Form);
