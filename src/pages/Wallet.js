@@ -63,7 +63,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { email, currencies, total } = this.props;
+    const { email, currencies, total, expenses } = this.props;
     const { value } = this.state;
 
     return (
@@ -94,7 +94,7 @@ class Wallet extends React.Component {
           </section>
           <section>
             <label htmlFor="description-input">
-              Descrição da despesa
+              Descrição da despesa:
               <input
                 onChange={ this.setInputState }
                 name="description"
@@ -106,7 +106,7 @@ class Wallet extends React.Component {
           </section>
           <section>
             <label htmlFor="description-input">
-              Moeda
+              Moeda:
               <select
                 onChange={ this.setInputState }
                 name="currency"
@@ -125,7 +125,7 @@ class Wallet extends React.Component {
           </section>
           <section>
             <label htmlFor="method">
-              Método de pagamento
+              Método de pagamento:
               <select
                 id="method"
                 onChange={ this.setInputState }
@@ -140,7 +140,7 @@ class Wallet extends React.Component {
           </section>
           <section>
             <label htmlFor="category">
-              Categoria
+              Categoria:
               <select
                 id="category"
                 onChange={ this.setInputState }
@@ -159,6 +159,42 @@ class Wallet extends React.Component {
             <button type="button" onClick={ this.sendExpense }>Adicionar despesa</button>
           </section>
         </form>
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+          {
+            expenses ? expenses.map((expense, index) => (
+              <tbody key={ index }>
+                <tr>
+                  <td>{ expense.description }</td>
+                  <td>{ expense.tag }</td>
+                  <td>{ expense.method }</td>
+                  <td>{ expense.value }</td>
+                  <td>{ expense.exchangeRates[expense.currency].name }</td>
+                  <td>{ (+expense.exchangeRates[expense.currency].ask).toFixed(2) }</td>
+                  <td>
+                    {
+                      (expense.value * expense.exchangeRates[expense.currency].ask)
+                        .toFixed(2)
+                    }
+                  </td>
+                  <td>Real</td>
+                </tr>
+              </tbody>
+            )) : ''
+          }
+        </table>
       </div>
     );
   }
