@@ -24,7 +24,7 @@ const walletReducer = (state = INITIAL_STATE, action) => {
     // })
     return { ...state, currencies: Object.keys(action.payload).map((i) => action.payload[i]), exchangeRates: action.payload };
   case 'DELETE':
-    return { ...state, expenses: [state.expenses.filter((expense) => expense.id !== action.id)] };
+    return { ...state, expenses: state.expenses.filter((expense) => expense.id !== action.id) };
   default:
     return state;
   }
