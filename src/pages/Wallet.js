@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCurrencies, fetchExchange } from '../actions';
+import { getCurrencies, fetchExchange, deleteExpense } from '../actions';
 import fetchCurrencyApi from '../services/api';
 
 class Wallet extends React.Component {
@@ -11,6 +11,7 @@ class Wallet extends React.Component {
     this.fetchCurrencies = this.fetchCurrencies.bind(this);
     this.setInputState = this.setInputState.bind(this);
     this.sendExpense = this.sendExpense.bind(this);
+    this.deleteExpense = this.deleteExpense.bind(this);
 
     this.state = {
       value: 0,
@@ -60,6 +61,12 @@ class Wallet extends React.Component {
       method,
       tag,
     });
+  }
+
+  deleteExpense({ target: { id } }) {
+    const { removeExpense } = this.props;
+
+    removeExpense(id);
   }
 
   render() {
@@ -175,7 +182,7 @@ class Wallet extends React.Component {
           </thead>
           {
             expenses ? expenses.map((expense, index) => (
-              <tbody key={ index }>
+              <tbody key={ index } id={ expense.id }>
                 <tr>
                   <td>{ expense.description }</td>
                   <td>{ expense.tag }</td>
@@ -190,6 +197,15 @@ class Wallet extends React.Component {
                     }
                   </td>
                   <td>Real</td>
+                  <td>
+                    <button
+                      type="button"
+                      data-testid="delete-btn"
+                      onClick={ this.deleteExpense }
+                    >
+                      excluir
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             )) : ''
@@ -210,6 +226,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getExchange: (currencies) => dispatch(fetchExchange(currencies)),
   fetchCurrencies: (currencies) => dispatch(getCurrencies(currencies)),
+  removeExpense: (id) => dispatch(deleteExpense(id)),
 });
 
 Wallet.propTypes = {
@@ -219,6 +236,7 @@ Wallet.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
   total: PropTypes.number.isRequired,
+  removeExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
