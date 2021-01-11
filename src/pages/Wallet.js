@@ -119,7 +119,7 @@ class Wallet extends React.Component {
             </select>
           </label>
           <label htmlFor="infor">
-            Descrição:
+            Descrição:l
             <input
               data-testid="description-input"
               type="text"
