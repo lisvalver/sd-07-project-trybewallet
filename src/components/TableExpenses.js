@@ -41,7 +41,7 @@ class TableExpenses extends React.Component {
           } = element;
           const currencyNowAsk = exchangeRates[currency].ask;
           return (
-            <tr className="tbody-expense" id={id} key={id}>
+            <tr className="tbody-expense" id={ id } key={ id }>
               <td>{description}</td>
               <td>{tag}</td>
               <td>{method}</td>
@@ -53,7 +53,7 @@ class TableExpenses extends React.Component {
               <td>
                 <button
                   type="submit"
-                  onClick={this.handleDelete}
+                  onClick={ this.handleDelete }
                   data-testid="delete-btn"
                 >
                   LIXO
