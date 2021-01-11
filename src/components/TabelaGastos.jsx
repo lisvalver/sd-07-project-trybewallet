@@ -51,7 +51,7 @@ class TabelaGastos extends React.Component {
         </tr>
 
         {wallet.expenses.map((element) => (
-          <tr key={element.id}>
+          <tr key={ element.id }>
             <td>{element.description}</td>
             <td>{element.tag}</td>
             <td>{element.method}</td>
