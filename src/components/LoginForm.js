@@ -93,19 +93,16 @@ class LoginForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  email: state.user.email,
-});
+// const mapStateToProps = (state) => ({
+//   email: state.user.email,
+// });
 
 const mapDispatchToProps = (dispatch) => ({
   log: (email) => dispatch(LOGIN(email)),
 });
 
 LoginForm.propTypes = {
-  // history: PropTypes.shape({
-  //   push: PropTypes.func,
-  // }).isRequired,
   log: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(null, mapDispatchToProps)(LoginForm);

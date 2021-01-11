@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 class WalletPanel extends Component {
-  render() {
+  renderWalletHead() {
     const expenseHeader = [
       'Descrição',
       'Tag',
@@ -13,17 +13,30 @@ class WalletPanel extends Component {
       'Moeda de conversão',
       'Editar/Excluir',
     ];
+
+    return (
+      <thead>
+        <tr>
+          {expenseHeader.map((item) => (
+            <th key={ item }>{ item }</th>
+          ))}
+        </tr>
+      </thead>
+    );
+  }
+
+  renderWalletBody() {
+    return (
+      <tbody><tr><td>XA XA XABLAU</td></tr></tbody>
+    );
+  }
+
+  render() {
     return (
       <section>
         <table>
-          <thead>
-            <tr>
-              {expenseHeader.map((item) => (
-                <th key={ item }>{ item }</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody><tr><td>XA XA XABLAU</td></tr></tbody>
+          {this.renderWalletHead()}
+          {this.renderWalletBody()}
         </table>
       </section>
     );

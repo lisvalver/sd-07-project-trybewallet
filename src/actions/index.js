@@ -4,6 +4,8 @@ const ADD_EXPENSE = 'ADD_EXPENSE';
 const ADD_CURRENCY = 'ADD_CURRENCY';
 const DEL_EXPENSE = 'DEL_EXPENSE';
 
+export { ADD_USER, ADD_EXPENSE, ADD_CURRENCY, DEL_EXPENSE };
+
 export const LOGIN = (email) => ({ type: ADD_USER, email });
 
 export const CURRENCY = (currency) => ({ type: ADD_CURRENCY, currency });

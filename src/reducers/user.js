@@ -1,10 +1,10 @@
-import { LOGIN } from '../actions';
+import { ADD_USER } from '../actions';
 
 const INITIAL_STATE = { email: '' };
 
 const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case LOGIN:
+  case ADD_USER:
     return { ...state, email: action.email };
   default:
     return state;
