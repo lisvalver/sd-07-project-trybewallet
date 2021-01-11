@@ -22,10 +22,10 @@ class Form extends Component {
     getCurrencies();
   }
 
-  addExpense() {
+  async addExpense() {
     const { getCurrencies, dispatchAddExpense } = this.props;
     const expense = this.state;
-    getCurrencies();
+    await getCurrencies();
     dispatchAddExpense(expense);
   }
 
