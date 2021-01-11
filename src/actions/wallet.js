@@ -1,14 +1,14 @@
-/*export default async function callAPI() {
-  const url = 'https://economia.awesomeapi.com.br/json/all';
-  let apiResult = await fetch(url);
-  apiResult = await apiResult.json();
-  return apiResult;
-}*/
 import api from '../service/api';
 
-async function wallet(inputValues) {
-  const apiResult = await api();
-  return { type: 'NEW_EXPENSE', value: inputValues }
+function wallet(inputValues) {
+  return async (dispatch) => {
+    const apiResult = await api();
+    const { valueInput, currencyInput } = inputValues;
+    let quotation = apiResult[currencyInput];
+    quotation = quotation.ask;
+    const expense = valueInput * quotation;
+    return dispatch({ type: 'NEW_EXPENSE', value: { inputValues, apiResult, expense } });
+  }
 }
 
 export default wallet;

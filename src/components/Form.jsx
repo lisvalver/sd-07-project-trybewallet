@@ -8,7 +8,7 @@ class Form extends React.Component {
     super(props);
 
     this.state = {
-      valueInput: '',
+      valueInput: 0,
       descriptionInput: '',
       currencyInput: 'USD',
       methodInput: 'Dinheiro',
@@ -47,7 +47,6 @@ class Form extends React.Component {
     } = this.state;
 
     const { wallet } = this.props;
-    const teste = {...this.state};
 
     return(
       <fieldset>

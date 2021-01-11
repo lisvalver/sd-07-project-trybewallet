@@ -9,7 +9,8 @@ class Header extends React.Component {
 
   render() {
     const { email, totalExpense } = this.props;
-    const COIN_TYPE = 'BRL'
+    const coinType = 'BRL';
+    const initialValue = 0;
 
     return(
       <header>
@@ -23,10 +24,10 @@ class Header extends React.Component {
           <p>
             Despesa Total:
             <span data-testid="total-field">
-              { totalExpense }
+              { !totalExpense ? initialValue.toFixed(2) : totalExpense.toFixed(2) }
             </span>
             <span data-testid="header-currency-field">
-              { COIN_TYPE }
+              { coinType }
             </span>
           </p>
         </div>
@@ -36,17 +37,10 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const expensesArr = state.wallet.expenses;
+  const email = state.user.email;
+  const totalExpense = state.wallet.totalExpense;
 
-  const totalExpense = expensesArr.reduce((result, expense) => {
-    const value = expense.value;
-    const currency = expense.currency;
-    const teste2 = expense.exchangeRates[currency].ask;
-    const convertForBRL = Number(value) * Number(teste2);
-    return result + convertForBRL;
-  }, 0);
-
-  return ({ email: state.user.email, totalExpense });
+  return ({ email, totalExpense });
 }
 
 export default connect(mapStateToProps, null)(Header);
