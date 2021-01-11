@@ -43,6 +43,9 @@ class TableItem extends Component {
         <td>{ (parseFloat(value) * parseFloat(myCurrency.ask)).toFixed(2) }</td>
         <td>Real</td>
         <td>
+          <button type="button">
+            Editar
+          </button>
           <button
             type="button"
             onClick={ this.removeItem }

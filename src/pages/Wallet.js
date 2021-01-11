@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TableItem from '../components/TableItem';
+import Option from '../components/Option';
 import {
   fetchWalletExpenses,
   addWalletCurrencies,
@@ -23,7 +24,12 @@ class Wallet extends React.Component {
       currency: 'USD',
       method: 'dinheiro',
       tag: 'alimentacao',
+      currencies: [],
     };
+  }
+
+  componentDidMount() {
+    this.sendCurrencies();
   }
 
   handleChange({ target }) {
@@ -35,8 +41,8 @@ class Wallet extends React.Component {
     const { fetchCurrencies, addCurrencies } = this.props;
     const { wallet } = await fetchCurrencies();
     delete wallet.USDT;
-    // this.setState({ currencies: wallet });
     addCurrencies(wallet);
+    this.setState({ currencies: Object.keys(wallet) });
     return wallet;
   }
 
@@ -87,7 +93,7 @@ class Wallet extends React.Component {
 
   render() {
     const { user, wallet } = this.props;
-    const { value, description, currency, method, tag } = this.state;
+    const { value, description, currency, method, tag, currencies } = this.state;
     return (
       <div>
         <header>
@@ -123,48 +129,11 @@ class Wallet extends React.Component {
               data-testid="currency-input"
               onChange={ this.handleChange }
             >
-              <option value="USD" data-testid="USD">
-                USD
-              </option>
-              <option value="CAD" data-testid="CAD">
-                CAD
-              </option>
-              <option value="EUR" data-testid="EUR">
-                EUR
-              </option>
-              <option value="GBP" data-testid="GBP">
-                GBP
-              </option>
-              <option value="ARS" data-testid="ARS">
-                ARS
-              </option>
-              <option value="BTC" data-testid="BTC">
-                BTC
-              </option>
-              <option value="LTC" data-testid="LTC">
-                LTC
-              </option>
-              <option value="JPY" data-testid="JPY">
-                JPY
-              </option>
-              <option value="CHF" data-testid="CHF">
-                CHF
-              </option>
-              <option value="AUD" data-testid="AUD">
-                AUD
-              </option>
-              <option value="CNY" data-testid="CNY">
-                CNY
-              </option>
-              <option value="ILS" data-testid="ILS">
-                ILS
-              </option>
-              <option value="ETH" data-testid="ETH">
-                ETH
-              </option>
-              <option value="XRP" data-testid="XRP">
-                XRP
-              </option>
+              {
+                currencies.map((coin) => (
+                  <Option key={ coin } coin={ coin } />
+                ))
+              }
             </select>
           </label>
           <label htmlFor="method">
