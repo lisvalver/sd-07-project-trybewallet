@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import currencyAPI from '../services/currencyAPI';
-import { addExpense, updateTotalExpenses } from '../actions/index';
+import { addExpense, editInfo, updateExpense } from '../actions/index';
 
-class Form extends React.Component {
+
+class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,17 +15,33 @@ class Form extends React.Component {
       moeda: 'USD',
       pagamento: 'Dinheiro',
       categoria: 'Alimentação',
+      expenseId: '',
+      exchangeRates: {},
     };
     this.atualizaEstado = this.atualizaEstado.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.sendData = this.sendData.bind(this);
-    this.sumExpenses = this.sumExpenses.bind(this);
+    // this.sendData = this.sendData.bind(this);
+    // this.sumExpenses = this.sumExpenses.bind(this);
+    this.editExpenses = this.editExpenses.bind(this);
   }
 
   async componentDidMount() {
+    const { editInfo } = this.props;
+    const isEdit = editInfo ? Object.keys(editInfo).length : 0;
+    
     const currencyObj = await currencyAPI();
     const onlyCurrencies = Object.keys(currencyObj);
     this.atualizaEstado(onlyCurrencies);
+
+    await this.setState({
+      valor: editInfo.value,
+      despesa: editInfo.description,
+      moeda: editInfo.currency,
+      pagamento: editInfo.method,
+      categoria: editInfo.tag,
+      expenseId: editInfo.id,
+      exchangeRates: editInfo.exchangeRates,
+    })
   }
 
   atualizaEstado(currencies) {
@@ -39,33 +56,64 @@ class Form extends React.Component {
     });
   }
 
-  sumExpenses(value, exchange) {
-    return value * exchange;
-  }
+  // sumExpenses(value, exchange) {
+  //   return value * exchange;
+  // }
 
-  async sendData() {
-    const { add, nextId, update } = this.props;
-    const { valor, despesa, moeda, pagamento, categoria } = this.state;
-    const exchangeData = await currencyAPI();
-    const data = {
-      id: nextId,
+  // async sendData() {
+  //   const { editInfo } = this.props;
+  //   const isEdit = editInfo ? Object.keys(editInfo).length : 0;
+  //     if (isEdit === 1) {
+  //       return this.editExpenses()
+  //     }
+  //   const { add, nextId, update } = this.props;
+  //   const { valor, despesa, moeda, pagamento, categoria } = this.state;
+  //   const exchangeData = await currencyAPI();
+  //   const data = {
+  //     id: nextId,
+  //     value: valor,
+  //     description: despesa,
+  //     currency: moeda,
+  //     method: pagamento,
+  //     tag: categoria,
+  //     exchangeRates: exchangeData,
+  //   };
+  //   add(data);
+  //   const exchange = exchangeData[moeda].ask;
+  //   update(this.sumExpenses(valor, exchange));
+  // }
+
+  editExpenses() {
+    const { expenseId, valor, despesa, moeda, pagamento, categoria, exchangeRates } = this.state;
+    const { update } = this.props
+    const edited = {
+      id: expenseId,
       value: valor,
       description: despesa,
       currency: moeda,
       method: pagamento,
       tag: categoria,
-      exchangeRates: exchangeData,
-    };
-    add(data);
-    const exchange = exchangeData[moeda].ask;
-    update(this.sumExpenses(valor, exchange));
+      exchangeRates: exchangeRates,
+    }
+    update(edited)
+
+    // valor: 0,
+    // despesa: '',
+    // moeda: 'USD',
+    // pagamento: 'Dinheiro',
+    // categoria: 'Alimentação',
+    // expenseId: '',
+    // exchangeRates: {},
   }
 
   render() {
     const { validCurrency, valor, despesa, moeda, pagamento, categoria } = this.state;
+    // const { editInfo } = this.props;
+    // const isEdit = editInfo ? Object.keys(editInfo).length : 0;
+
     return (
       <div>
-        <span>FORMULÁRIO PARA ADICIONAR</span>
+      <span>FORMULÁRIO PARA EDITAR</span>
         <form>
           <input
             id="value-input"
@@ -144,9 +192,10 @@ class Form extends React.Component {
           </label>
           <button
             type="button"
-            onClick={ () => this.sendData() }
+            onClick={ () => this.editExpenses() }
+            // onClick={ isEdit === 0 ? () => this.sendData : () => this.editExpenses() }
           >
-            Adicionar despesa
+            Editar despesa
           </button>
         </form>
       </div>
@@ -156,16 +205,17 @@ class Form extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   add: (e) => dispatch(addExpense(e)),
-  update: (e) => dispatch(updateTotalExpenses(e)),
+  update: (e) => dispatch(updateExpense(e)),
 });
 
 const mapStateToProps = (state) => ({
   nextId: state.wallet.nextId,
+  editInfo: state.wallet.editInfo,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(EditForm);
 
-Form.propTypes = {
+EditForm.propTypes = {
   add: PropTypes.func,
   nextId: PropTypes.number,
   update: PropTypes.number,

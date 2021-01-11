@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteExpense } from '../actions';
+import { deleteExpense, editInfo } from '../actions';
 
 class Table extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this.renderTableData = this.renderTableData.bind(this);
     this.renderTableHeader = this.renderTableHeader.bind(this);
   }
 
   // Nestas funções eu usei como base este site: https://dev.to/abdulbasit313/an-easy-way-to-create-a-customize-dynamic-table-in-react-js-3igg
   renderTableData() {
-    const { expenses, deleteExp } = this.props;
+    const { expenses, deleteExp, edit } = this.props;
     return expenses.map((data, index) => {
       const { id, description, tag, method, value, currency, exchangeRates } = data;
       const {
@@ -30,6 +30,13 @@ class Table extends React.Component {
           <td>{(Math.round(ask * value * 100) / 100).toFixed(2)}</td>
           <td>Real</td>
           <td>
+            <button
+              data-testid="edit-btn"
+              type="button"
+              onClick={ () => edit(id) }
+            >
+              Editar
+            </button>
             <button
               data-testid="delete-btn"
               type="button"
@@ -79,6 +86,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   deleteExp: (e) => dispatch(deleteExpense(e)),
+  edit: (e) => dispatch(editInfo(e)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
