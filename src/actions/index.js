@@ -27,7 +27,14 @@ export function fetchCurrenciesThunk() {
 
 //----------------------------------------------
 
-export const putExpenses = (value, description, currency, method, tag, data) => ({
+export const putExpenses = (
+  value,
+  description,
+  currency,
+  method,
+  tag,
+  data,
+) => ({
   type: EXPENSES,
   value,
   description,
@@ -49,4 +56,9 @@ export function fetchExchangeRates(value, description, currency, method, tag) {
 export const sumAll = (total) => ({
   type: SUM,
   payload: total,
+});
+
+export const deleteRow = (id) => ({
+  type: 'DELETE',
+  payload: id,
 });
