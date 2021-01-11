@@ -22,7 +22,8 @@ class Despesas extends Component {
   }
 
   componentDidMount() {
-    fecthAction();
+    const { fecthActions } = this.props;
+    fecthActions();
   }
 
   onChange({ target }) {
@@ -45,11 +46,11 @@ class Despesas extends Component {
   }
 
   async handleSubmit() {
-    const { walletSave } = this.props;
+    const { walletSave, fecthActions } = this.props;
     const { expense } = this.state;
-    const result = await fecthAction();
+    const result = await fecthActions();
     walletSave(expense, result.responseAPI);
-    this.reset();
+    // this.reset();
   }
 
   render() {
@@ -160,6 +161,7 @@ class Despesas extends Component {
 Despesas.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   currency: PropTypes.objectOf.isRequired,
+  fecthActions: PropTypes.func.isRequired,
   walletSave: PropTypes.func.isRequired,
 };
 
@@ -171,7 +173,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fecthAction: () => dispatch(fecthAction()),
+  fecthActions: () => dispatch(fecthAction()),
   walletSave: (expenses, exchangeRates) => dispatch(wallet(expenses, exchangeRates)),
 });
 
