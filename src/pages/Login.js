@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import userAction from '../actions/index';
+import actions from '../actions/index';
 
 class Login extends React.Component {
   constructor(props) {
@@ -74,6 +74,7 @@ class Login extends React.Component {
     );
   }
 }
+const { userAction } = actions;
 const mapDispatchToProps = (dispatch) => ({
   addEmail: (e) => dispatch(userAction(e)),
 });
