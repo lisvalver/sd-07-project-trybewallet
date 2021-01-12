@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import loginUser from '../actions';
+import { loginUser } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -87,7 +87,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => {
-  console.log(state, 'state');
   return {
     logged: state.user.logged,
     userEmail: state.user.email,
