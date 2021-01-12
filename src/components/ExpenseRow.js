@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {} from '../actions';
+import { deleteExpense } from '../actions';
 
 class ExpenseRow extends Component {
+  constructor() {
+    super();
+    this.deleteMe = this.deleteMe.bind(this);
+  }
+
+  deleteMe() {
+    const { deleteIt, id } = this.props;
+    deleteIt(id);
+  }
+
   render() {
     const {
       value,
@@ -29,7 +39,7 @@ class ExpenseRow extends Component {
           <button type="button">
             Editar
           </button>
-          <button type="button">
+          <button type="button" data-testid="delete-btn" onClick={ this.deleteMe }>
             Excluir
           </button>
         </td>
@@ -41,17 +51,20 @@ class ExpenseRow extends Component {
 // const mapStateToProps = (state) => ({
 // });
 
-// const mapDispatchToProps = (dispatch) => ({
-// });
+const mapDispatchToProps = (dispatch) => ({
+  deleteIt: (id) => dispatch(deleteExpense(id)),
+});
 
 ExpenseRow.propTypes = ({
+  id: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
   method: PropTypes.string.isRequired,
   tag: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   exchangeRates: PropTypes.shape().isRequired,
+  deleteIt: PropTypes.func.isRequired,
 });
 
-export default ExpenseRow;
+export default connect(null, mapDispatchToProps)(ExpenseRow);
 // export default connect(mapStateToProps, mapDispatchToProps)(ExpenseRow);

@@ -26,6 +26,7 @@ class ExpensesTable extends Component {
           {expenses.map((expense) => (
             <ExpenseRow
               key={ expense.id }
+              id={ expense.id }
               value={ expense.value }
               currency={ expense.currency }
               method={ expense.method }

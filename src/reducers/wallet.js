@@ -4,6 +4,7 @@ import {
   FAILED_REQUEST,
   ADD_EXPENSE,
   TOTAL,
+  DELETE_EXPENSE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -39,6 +40,10 @@ function wallet(state = INITIAL_STATE, action) {
       );
     total = parseFloat(total.toFixed(2));
     return { ...state, total };
+  }
+  case DELETE_EXPENSE: {
+    const newExpenses = state.expenses.filter(({ id }) => id !== action.id);
+    return { ...state, expenses: newExpenses };
   }
   default:
     return state;

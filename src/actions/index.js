@@ -4,6 +4,7 @@ export const RECEIVE_CURRENCIES = 'RECEIVE_CURRENCIES';
 export const FAILED_REQUEST = 'FAILED_REQUEST';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const TOTAL = 'TOTAL';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 export const login = (value) => ({ type: LOGIN, value });
 
@@ -40,3 +41,5 @@ export const fetchAddExpense = (expense) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
+
+export const deleteExpense = (id) => ({ type: DELETE_EXPENSE, id });
