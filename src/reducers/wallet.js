@@ -9,11 +9,9 @@ export default function (state = INITIAL_STATE, action) {
   case 'CURRENCY':
     return { ...state, currencies: action.currency };
   case 'ADD_EXPENSE':
-    console.log(action.expense);
     return {
       ...state,
-      id: state.lenght,
-      expenses: [...state.expenses, { ...action.payload, id: state.id }],
+      expenses: [...state.expenses, { ...action.payload, id: state.expenses.length }],
     };
   default:
     return state;

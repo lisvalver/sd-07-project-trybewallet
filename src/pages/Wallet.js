@@ -36,10 +36,12 @@ class Wallet extends Component {
     const { addExp, currencyList, fetchMyCurrencyList } = this.props;
     await fetchMyCurrencyList();
     await this.setState({ exchangeRates: currencyList });
-    await addExp(this.state);
-    const { total, value } = this.state;
-    const totalNum = parseInt(total, 10);
-    const valueNum = parseInt(value, 10);
+    const { total, value, method, currency, tag,
+      description, exchangeRates } = this.state;
+    const toGlobalState = { method, currency, value, tag, description, exchangeRates };
+    await addExp(toGlobalState);
+    const totalNum = parseFloat(total);
+    const valueNum = (parseFloat(value) * (parseFloat(exchangeRates[currency].ask)));
     this.setState({
       total: totalNum + valueNum,
     });
@@ -123,7 +125,7 @@ class Wallet extends Component {
                 onChange={ (e) => this.setState({ tag: e.target.value }) }
                 value={ tag }
               >
-                <option>Alimentatação</option>
+                <option>Alimentação</option>
                 <option>Lazer</option>
                 <option>Trabalho</option>
                 <option>Transporte</option>
