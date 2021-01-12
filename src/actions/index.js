@@ -13,7 +13,6 @@ export const fetchingAPI = async (dispatch) => {
   const endpoint = 'https://economia.awesomeapi.com.br/json/all';
   const response = await fetch(endpoint);
   const data = await response.json();
-  console.log(data);
   dispatch(currencyAction(data));
   return data;
 };

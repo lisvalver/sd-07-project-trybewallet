@@ -25,15 +25,24 @@ class Wallet extends Component {
   }
 
   handleFetch() {
-    const { fetchMyCurrencyList } = this.props;
-    fetchMyCurrencyList();
+    const { fetchMyCurrencyList, expenses } = this.props;
+    if (expenses) {
+      fetchMyCurrencyList();
+    }
   }
 
-  async handleAddExpense() {
+  async handleAddExpense(event) {
+    event.preventDefault();
     const { addExp, currencyList, fetchMyCurrencyList } = this.props;
     await fetchMyCurrencyList();
     await this.setState({ exchangeRates: currencyList });
     await addExp(this.state);
+    const { total, value } = this.state;
+    const totalNum = parseInt(total, 10);
+    const valueNum = parseInt(value, 10);
+    this.setState({
+      total: totalNum + valueNum,
+    });
     this.setState({
       value: 0,
       description: '',
@@ -56,7 +65,7 @@ class Wallet extends Component {
           <span data-testid="header-currency-field">BRL</span>
         </div>
         <div>
-          <form onSubmit={ this.handleAddExpense }>
+          <form onSubmit={ (e) => this.handleAddExpense(e) }>
             <label htmlFor="expense">
               Valor da despeza:
               <input
@@ -132,18 +141,20 @@ class Wallet extends Component {
 const mapStateToProps = (state) => ({
   userLogin: state.user.email,
   currencyList: state.wallet.currencies,
-  expense: state.wallet.expense,
+  expenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMyCurrencyList: () => dispatch(action.fetchingAPI),
-  addExp: () => dispatch(action.newExpenseAction),
+  addExp: (expense) => dispatch(action.newExpenseAction(expense)),
 });
 
 Wallet.propTypes = {
   userLogin: PropTypes.string.isRequired,
   fetchMyCurrencyList: PropTypes.func.isRequired,
   currencyList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  addExp: PropTypes.func.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
