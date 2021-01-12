@@ -11,7 +11,9 @@ class Routes extends React.Component {
           <Route exact path="/">
             <Login />
           </Route>
-          <Route path="/wallet/:id" render={ (props) => <Wallet { ...props } /> } />
+          <Route path="/wallet">
+            <Wallet />
+          </Route>
         </Switch>
       </BrowserRouter>
     );
