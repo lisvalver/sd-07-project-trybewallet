@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 class Table extends Component {
   render() {
-    const { expensesAction } = this.props;
+    const { expenses } = this.props;
     return (
       <table>
         <thead>
@@ -21,7 +21,7 @@ class Table extends Component {
           </tr>
         </thead>
         <tbody>
-          {expensesAction.map((item) => (
+          {expenses.map((item) => (
             <tr key={ item.code }>
               <td key={ item.code }>{ item.description }</td>
               <td key={ item.code }>{ item.tag }</td>
@@ -47,11 +47,11 @@ class Table extends Component {
 }
 
 Table.propTypes = {
-  expensesAction: PropTypes.arrayOf(PropTypes.object).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  expensesAction: state.wallet.expenses,
+  expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(Table);

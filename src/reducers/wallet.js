@@ -1,39 +1,46 @@
-import { REQUEST_CURRENCY, REQUEST_CURRENCY_SUCCESS, ADD_EXPENSE } from '../actions';
-
 const INITIAL_STATE = {
   isFetching: false,
   currencies: [],
   expenses: [],
+  controlId: 0,
+  rates: {},
 };
 
-const currency = (state = INITIAL_STATE, action) => {
+const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case REQUEST_CURRENCY_SUCCESS:
-    delete action.USDT;
+  case 'ADD_EXPENSE':
+    action.expense.id = state.controlId;
+    action.expense.exchangeRates = state.rates;
     return {
       ...state,
-      currency: { ...action.currency },
-      isFetching: false,
+      expenses: [...state.expenses, action.expense],
+      controlId: state.controlId + 1,
     };
-  case REQUEST_CURRENCY:
+  case 'REQUEST_CURRENCIES':
     return {
       ...state,
       isFetching: true,
     };
-  case ADD_EXPENSE:
+  case 'RECEIVE_SUCCESS':
     return {
       ...state,
-      expenses: [
-        ...state.expenses,
-        {
-          ...action.payload,
-          id: state.expenses.length,
-          exchangeRates,
-        }],
+      currencies: action.currencies,
+      isFetching: false,
+    };
+  case 'RECEIVE_ERROR':
+    return {
+      ...state,
+      currencies: action.currencies,
+      isFetching: false,
+    };
+  case 'RECEIVE_FULL_EXCHANGE':
+    return {
+      ...state,
+      rates: action.exchangeRates,
     };
   default:
     return state;
   }
 };
 
-export default currency;
+export default wallet;

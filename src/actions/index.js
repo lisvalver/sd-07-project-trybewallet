@@ -1,33 +1,43 @@
-import getCurrency from '../services/api';
-
-export const login = (email, password) => ({
+export const login = (email) => ({
   type: 'USER',
   email,
-  password,
 });
 
-export const REQUEST_CURRENCY = 'REQUEST_CURRENCY';
-export const REQUEST_CURRENCY_SUCCESS = 'RECEIVE_CURRENCY_SUCCESS';
-
-export const requestCurrency = () => ({ type: REQUEST_CURRENCY });
-
-const receiveCurrencySuccess = (currency) => ({
-  type: REQUEST_CURRENCY_SUCCESS,
-  currency,
+export const addExpense = (expense) => ({
+  type: 'ADD_EXPENSE',
+  expense,
 });
 
-export function fetchCurrency() {
+const requestCurrencies = () => ({
+  type: 'REQUEST_CURRENCIES',
+});
+
+const receiveSuccess = (exchangeData) => ({
+  type: 'RECEIVE_SUCCESS',
+  currencies: Object.keys(exchangeData),
+});
+
+const receiveError = (error) => ({
+  type: 'RECEIVE_ERROR',
+  currencies: [error],
+});
+
+const receiveFullExchange = (fullExchangeData) => ({
+  type: 'RECEIVE_FULL_EXCHANGE',
+  exchangeRates: fullExchangeData,
+});
+
+export function apiFetchThunk() {
   return async (dispatch) => {
-    dispatch(requestCurrency());
-
-    const { currency } = await getCurrency();
-    dispatch(receiveCurrencySuccess(currency));
+    try {
+      dispatch(requestCurrencies());
+      const currencyRequest = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const response = await currencyRequest.json();
+      delete response.USDT;
+      dispatch(receiveSuccess(response));
+      dispatch(receiveFullExchange(response));
+    } catch (error) {
+      dispatch(receiveError(error));
+    }
   };
 }
-
-export const ADD_EXPENSE = 'ADD_EXPENSE';
-
-export const addExpense = (payload) => ({
-  type: ADD_EXPENSE,
-  payload,
-});
