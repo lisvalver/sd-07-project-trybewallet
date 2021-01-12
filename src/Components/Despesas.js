@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { fecthAction, wallet } from '../actions';
 
 class Despesas extends Component {
@@ -166,7 +167,6 @@ Despesas.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  responseAPI: state.economyApi.responseAPI,
   expenses: state.wallet.expenses,
   currency: state.economyApi.currency,
   isFetching: state.economyApi.isFetching,
