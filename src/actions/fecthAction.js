@@ -14,7 +14,7 @@ const failedAPI = (error) => ({
 });
 
 const fecthAction = () => (dispatch) => {
-  dispatch(requestAPI());
+  // dispatch(requestAPI());
   return fetch('https://economia.awesomeapi.com.br/json/all')
     .then((data) => data.json())
     .then((data) => {

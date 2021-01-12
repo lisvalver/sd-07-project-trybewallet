@@ -50,7 +50,7 @@ class Despesas extends Component {
     const { expense } = this.state;
     const result = await fecthActions();
     walletSave(expense, result.responseAPI);
-    // this.reset();
+    this.reset();
   }
 
   render() {
