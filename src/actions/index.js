@@ -33,32 +33,27 @@ export const deleteExpense = (id) => ({
   id,
 });
 
-export const updateGlobalCount = value => ({
+export const updateGlobalCount = (value) => ({
   type: UPDATE_COUNT,
   value,
-})
+});
 
 export function sendCurrencies() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestCoins());
-    return fetch('https://economia.awesomeapi.com.br/json/all').then(response =>
-      response.json().then(
-        data => dispatch(getAllCoins(Object.keys(data))),
-        error => dispatch(requestFail(error)),
-      ),
-    );
+    return fetch('https://economia.awesomeapi.com.br/json/all').then((response) => response.json()
+      .then((data) => dispatch(getAllCoins(Object.keys(data))),
+        (error) => dispatch(requestFail(error))));
   };
 }
 
 export function sendFormAndExhangesRates(form) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestCoins());
-    return fetch('https://economia.awesomeapi.com.br/json/all').then(response =>
-      response.json().then(
-        currencies => dispatch(getExpenses(form, currencies)),
-        error => dispatch(requestFail(error)),
-      ),
-    );
+    return fetch('https://economia.awesomeapi.com.br/json/all').then((response) => response.json().then(
+      (currencies) => dispatch(getExpenses(form, currencies)),
+      (error) => dispatch(requestFail(error)),
+    ));
   };
 }
 

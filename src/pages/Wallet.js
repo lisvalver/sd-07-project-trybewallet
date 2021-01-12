@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import FormWallet from '../components/FormWallet';
 import Header from '../components/HeaderWallet';
 import { deleteExpense, updateGlobalCount } from '../actions';
@@ -22,20 +23,31 @@ class Wallet extends React.Component {
   }
 
   sumExpenses() {
-    const { expenses } = this.props
-    return expenses.reduce((acc, cur) => {
-      return Math.round((cur.value * cur.exchangeRates[cur.currency].ask + acc) * 100) / 100;
-    }, 0)
+    const { getExpenses } = this.props;
+    return getExpenses.reduce(
+      (acc, cur) => Math.round(
+        (cur.value * cur.exchangeRates[cur.currency].ask + acc) * 100,
+      ) / 100,
+      0,
+    );
   }
 
   render() {
-    const { email, expenses, countExpense, deleteExpense, updateCount } = this.props;
-    // console.log(countExpense);
-    // console.log(expenses);
+    const {
+      getEmail,
+      getExpenses,
+      getCountExpense,
+      executeDeleteExpense,
+      executeUpdateCount,
+    } = this.props;
+    // console.log(getCountExpense);
+    // console.log(getExpenses);
     return (
       <div>
-        <Header email={email} total={countExpense} />
-        <FormWallet updateCount={ () => updateCount(this.sumExpenses()) } />
+        <Header email={ getEmail } total={ getCountExpense } />
+        <FormWallet
+          updateCount={ () => executeUpdateCount(this.sumExpenses()) }
+        />
         <section>
           <table>
             <thead>
@@ -51,7 +63,7 @@ class Wallet extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {expenses.map(expense => {
+              {getExpenses.map((expense) => {
                 const {
                   id,
                   description,
@@ -65,19 +77,21 @@ class Wallet extends React.Component {
                   [currency]: { name, ask },
                 } = exchangeRates;
                 return (
-                  <tr key={id}>
+                  <tr key={ id }>
                     <td>{description}</td>
                     <td>{tag}</td>
                     <td>{method}</td>
                     <td>{value}</td>
                     <td>{name}</td>
                     <td>{ask}</td>
-                    <td>{ this.convertValues(value, ask) }</td>
+                    <td>{this.convertValues(value, ask)}</td>
                     <td>Real</td>
                     <td>
                       <button
-                        data-testid='delete-btn'
-                        onClick={() => deleteExpense(id)}>
+                        type="button"
+                        data-testid="delete-btn"
+                        onClick={ () => executeDeleteExpense(id) }
+                      >
                         Deletar
                       </button>
                     </td>
@@ -92,15 +106,23 @@ class Wallet extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  email: state.user.email,
-  expenses: state.wallet.expenses,
-  countExpense: state.wallet.countExpense,
+const mapStateToProps = (state) => ({
+  getEmail: state.user.email,
+  getExpenses: state.wallet.expenses,
+  getCountExpense: state.wallet.countExpense,
 });
 
-const mapDispatchToProps = dispatch => ({
-  deleteExpense: id => dispatch(deleteExpense(id)),
-  updateCount: value => dispatch(updateGlobalCount(value)),
+const mapDispatchToProps = (dispatch) => ({
+  executeDeleteExpense: (id) => dispatch(deleteExpense(id)),
+  executeUpdateCount: (value) => dispatch(updateGlobalCount(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
+
+Wallet.propTypes = {
+  getEmail: PropTypes.string.isRequired,
+  getExpenses: PropTypes.arrayOf(Object).isRequired,
+  getCountExpense: PropTypes.number.isRequired,
+  executeDeleteExpense: PropTypes.func.isRequired,
+  executeUpdateCount: PropTypes.func.isRequired,
+};

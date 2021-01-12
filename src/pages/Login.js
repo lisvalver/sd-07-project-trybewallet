@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getEmail } from '../actions';
 import FormLogin from '../components/FormLogin';
 
@@ -43,7 +44,8 @@ class Login extends React.Component {
 
   loginAvaliator() {
     const { email, password } = this.state;
-    if (email.includes('@') && email.includes('.com') && password.length >= 6) {
+    const minLength = 6;
+    if (email.includes('@') && email.includes('.com') && password.length >= minLength) {
       this.setState({
         buttonDisable: false,
       });
@@ -56,18 +58,19 @@ class Login extends React.Component {
 
   render() {
     const { buttonDisable, email, password, redirect } = this.state;
-    if (redirect) return <Redirect to='/carteira' />;
+    if (redirect) return <Redirect to="/carteira" />;
     return (
       <div>
         <FormLogin
-          email={email}
-          password={password}
-          update={this.updateState}
+          email={ email }
+          password={ password }
+          update={ this.updateState }
         />
         <button
-          type='button'
-          disabled={buttonDisable}
-          onClick={this.updateEmailGlobal}>
+          type="button"
+          disabled={ buttonDisable }
+          onClick={ this.updateEmailGlobal }
+        >
           Entrar
         </button>
       </div>
@@ -75,8 +78,12 @@ class Login extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  updateEmail: value => dispatch(getEmail(value)),
+const mapDispatchToProps = (dispatch) => ({
+  updateEmail: (value) => dispatch(getEmail(value)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  updateEmail: PropTypes.func.isRequired,
+};

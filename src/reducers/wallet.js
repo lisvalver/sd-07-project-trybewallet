@@ -22,44 +22,44 @@ const INITIAL_STATE = {
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case typesActions.REQUEST_COINS:
-      return { ...state, isFetching: true };
-    case typesActions.SAVE_CURRENCIES:
-      return {
-        ...state,
-        isFetching: false,
-        error: '',
-        currencies: action.payload,
-      };
-    case typesActions.SAVE_EXPENSES:
-      return {
-        ...state,
-        isFetching: false,
-        error: '',
-        expenses: [
-          ...state.expenses,
-          {
-            id: state.nextId,
-            ...action.form,
-            exchangeRates: action.currencies,
-          },
-        ],
-        nextId: state.nextId + 1,
-      };
-    case typesActions.DELETE_EXPENSE:
-      return {
-        ...state,
-        // nextId: 0,
-        expenses: [
-          ...state.expenses.filter(expense => expense.id !== action.id),
-        ],
-      };
-    case typesActions.UPDATE_COUNT:
-      return { ...state, countExpense: action.value };
-    case typesActions.REQUEST_COINS_FAIL:
-      return { ...state, isFetching: false, error: action.error };
-    default:
-      return state;
+  case typesActions.REQUEST_COINS:
+    return { ...state, isFetching: true };
+  case typesActions.SAVE_CURRENCIES:
+    return {
+      ...state,
+      isFetching: false,
+      error: '',
+      currencies: action.payload,
+    };
+  case typesActions.SAVE_EXPENSES:
+    return {
+      ...state,
+      isFetching: false,
+      error: '',
+      expenses: [
+        ...state.expenses,
+        {
+          id: state.nextId,
+          ...action.form,
+          exchangeRates: action.currencies,
+        },
+      ],
+      nextId: state.nextId + 1,
+    };
+  case typesActions.DELETE_EXPENSE:
+    return {
+      ...state,
+      // nextId: 0,
+      expenses: [
+        ...state.expenses.filter((expense) => expense.id !== action.id),
+      ],
+    };
+  case typesActions.UPDATE_COUNT:
+    return { ...state, countExpense: action.value };
+  case typesActions.REQUEST_COINS_FAIL:
+    return { ...state, isFetching: false, error: action.error };
+  default:
+    return state;
   }
 };
 
