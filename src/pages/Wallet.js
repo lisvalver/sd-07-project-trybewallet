@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpenses, fetchCurrencies, sumTotalValue } from '../actions';
+import { addExpenses, fetchCurrencies } from '../actions';
 import Expenses from './componentes/Expenses';
 
 class Wallet extends React.Component {
@@ -9,21 +9,50 @@ class Wallet extends React.Component {
     super(props);
     this.handleFormInput = this.handleFormInput.bind(this);
     this.fetchAndSaveExpenses = this.fetchAndSaveExpenses.bind(this);
+    this.sumValue = this.sumValue.bind(this);
+    this.fetchCurrenciesNames = this.fetchCurrenciesNames.bind(this);
     this.state = {
       cash: 0,
       currency: 'USD',
       methodInput: 'Dinheiro',
       tagInput: 'Alimentação',
       infor: '',
+      value: 0,
+      currenciesNames:[],
     };
+  }
+ 
+  componentDidMount(){
+    this.fetchCurrenciesNames()
+  }
+  async fetchCurrenciesNames() {
+      try {
+        const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+        const currencies = await response.json();
+        const currenciesKeys = Object.keys(currencies);
+        return this.setState({currenciesNames: currenciesKeys})
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
+  sumValue() {
+    const { expenses } = this.props;
+    const valueTotal = expenses.reduce((acc, item) => {
+      const itemCurrency = item.currency;
+      return (item.cash * item.exchangeRates[itemCurrency].ask) + acc;
+    }, 0);
+    const num = Math.round(valueTotal * 100);
+    const numToFixed = (parseFloat(num).toFixed(2)) / 100;
+    return this.setState({value: numToFixed})
   }
 
   async fetchAndSaveExpenses() {
-    const { fetchCurrency, saveExpenses, sumTotal } = this.props;
+    const { fetchCurrency, saveExpenses } = this.props;
     const { cash, currency, methodInput, tagInput, infor } = this.state;
     await fetchCurrency();
     saveExpenses(cash, currency, methodInput, tagInput, infor);
-    sumTotal();
+    this.sumValue();
   }
 
   handleFormInput(event) {
@@ -32,8 +61,8 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { email, value } = this.props;
-    const { cash, currency, methodInput, tagInput, infor } = this.state;
+    const { email } = this.props;
+    const { cash, currency, methodInput, tagInput, infor, value, currenciesNames } = this.state;
     return (
       <div>
         <header>
@@ -42,8 +71,8 @@ class Wallet extends React.Component {
             { email }
           </span>
           <span>
-          Despesa Total: R$
             <span data-testid="total-field">
+            Despesa Total: R$
               { value }
             </span>
           </span>
@@ -73,21 +102,9 @@ class Wallet extends React.Component {
               value={ currency }
               onChange={ (event) => this.handleFormInput(event) }
             >
-              <option value="USD" data-testid="USD">USD</option>
-              <option value="CAD" data-testid="CAD">CAD</option>
-              <option value="EUR" data-testid="EUR">EUR</option>
-              <option value="GBP" data-testid="GBP">GBP</option>
-              <option value="ARS" data-testid="ARS">ARS</option>
-              <option value="BTC" data-testid="BTC">BTC</option>
-              <option value="LTC" data-testid="LTC">LTC</option>
-              <option value="JPY" data-testid="JPY">JPY</option>
-              <option value="CHF" data-testid="CHF">CHF</option>
-              <option value="AUD" data-testid="AUD">AUD</option>
-              <option value="CNY" data-testid="CNY">CNY</option>
-              <option value="ILS" data-testid="ILS">ILS</option>
-              <option value="ETH" data-testid="ETH">ETH</option>
-              <option value="XRP" data-testid="XRP">XRP</option>
-              <option value="USDT" data-testid="USDT">USDT</option>
+              { currenciesNames.map((element) => {
+                return <option value={element} >{element}</option>
+              })}
             </select>
           </label>
           <label htmlFor="method-input">
@@ -146,7 +163,8 @@ class Wallet extends React.Component {
 function mapStateToProps(state) {
   return {
     email: state.user.email,
-    value: state.wallet.value,
+    expenses: state.wallet.expenses,
+    currencies: state.wallet.currencies
   };
 }
 
@@ -156,7 +174,6 @@ function mapDispatchToProps(dispatch) {
       addExpenses(cash, currency, methodInput, tagInput, infor),
     ),
     fetchCurrency: () => dispatch(fetchCurrencies()),
-    sumTotal: () => dispatch(sumTotalValue()),
   };
 }
 

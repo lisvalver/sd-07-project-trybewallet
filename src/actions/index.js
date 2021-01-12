@@ -29,10 +29,6 @@ const requireCurrenciesSucess = (currencies) => ({
   payload: currencies,
 });
 
-const sumTotalValue = () => ({
-  type: 'SUM',
-});
-
 export function fetchCurrencies() {
   return async (dispatch) => {
     try {
@@ -48,5 +44,4 @@ export function fetchCurrencies() {
 export {
   addUser,
   addExpenses,
-  sumTotalValue,
 };
