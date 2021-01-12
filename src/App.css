@@ -45,6 +45,33 @@ label {
   margin-left: 10px;
 }
 
+.ItemsTable {
+  background-color: black;
+  border: 1px solid black;
+  color: rgb(239, 245, 244);
+}
+
+tbody {
+  border: 1px solid rgb(247, 244, 244);
+  background-color:#4e4f55;
+}
+td {
+  text-align: center;
+}
+
+.button-td {
+  display: flex;
+  margin-left: 30px;
+}
+
+.btnExcluir {
+  margin: 5px;
+}
+
+.btnEditar {
+  margin: 5px;
+}
+
 select {
   height: 22px;
   margin-left: 5px;

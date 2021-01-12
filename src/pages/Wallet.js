@@ -18,11 +18,11 @@ class Wallet extends React.Component {
       method: 'Dinheiro',
       tag: 'Alimentação',
       exchangeRates: {},
+      currencyValue: 0,
     };
   }
 
   componentDidMount() {
-    console.log('montei');
     const { getWallet } = this.props;
     getWallet();
   }
@@ -50,7 +50,8 @@ class Wallet extends React.Component {
       const { value, exchangeRates, currency } = curr;
       return acc + exchangeRates[currency].ask * value;
     }, 0);
-
+    console.log(currencies);
+    const totalValue = Number.parseFloat(totalExpenses).toFixed(2);
     return (
       // isFetching ? <p>Loading...</p>
       // : (
@@ -66,7 +67,7 @@ class Wallet extends React.Component {
                 Despesa Total: R$
               </p>
               <p className="varExpenses">
-                { totalExpenses }
+                { totalValue }
               </p>
               <p className="currency" data-testid="header-currency-field">BRL</p>
             </div>
@@ -105,7 +106,6 @@ class Wallet extends React.Component {
           <select
             className="metPag"
             data-testid="method-input"
-            id="metodoDePagamento"
             name="method"
             onChange={ this.handleChange }
           >
@@ -114,23 +114,21 @@ class Wallet extends React.Component {
             <option value="Cartão de débito">Cartão de débito</option>
           </select>
           {/* </label> */}
-          <label htmlFor="categoriesId" name="categories">
-            Tag:
-            <select
-              className="metPag"
-              data-testid="tag-input"
-              id="categoriesId"
-              name="tag"
-              onChange={ (e) => this.handleChange(e) }
-            >
-              {/* <option defaultValue value="Escolha">Faça sua escolha</option> */}
-              <option value="Alimentação">Alimentação</option>
-              <option value="Lazer">Lazer</option>
-              <option value="Trabalho">Trabalho</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Saúde">Saúde</option>
-            </select>
-          </label>
+          Tag:
+          <select
+            className="metPag"
+            data-testid="tag-input"
+            id="categoriesId"
+            name="tag"
+            onChange={ (e) => this.handleChange(e) }
+          >
+            {/* <option defaultValue value="Escolha">Faça sua escolha</option> */}
+            <option value="Alimentação">Alimentação</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saúde">Saúde</option>
+          </select>
           <label htmlFor="budget">
             Descrição:
             <input
@@ -148,6 +146,53 @@ class Wallet extends React.Component {
             </button>
           </div>
         </div>
+        <section className="ItemsTable">
+          <table>
+            <thead>
+              <tr>
+                <th className="description">Descrição</th>
+                <th className="description">Tag</th>
+                <th className="description">Método de pagamento</th>
+                <th className="description">Valor</th>
+                <th className="description">Moeda</th>
+                <th className="description">Câmbio utilizado</th>
+                <th className="description">Valor convertido</th>
+                <th className="description">Moeda de conversão</th>
+                <th className="description">Editar/Excluir</th>
+              </tr>
+            </thead>
+            <tbody className="request">
+              { Object.values(expenses).map((item, index) => (
+                <tr key={ index }>
+                  <td>{item.description}</td>
+                  <td>{item.tag}</td>
+                  <td>{item.method}</td>
+                  <td>{item.value}</td>
+                  <td>{item.exchangeRates[item.currency].name}</td>
+                  <td>{item.currency}</td>
+                  <td>{totalValue}</td>
+                  <td>Real</td>
+                  <div className="button-td">
+                    <button
+                      className="btnEditar"
+                      type="button"
+                      data-testid="delete-btn"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="btnExcluir"
+                      type="button"
+                      data-testid="delete-btn"
+                    >
+                      Excluir
+                    </button>
+                  </div>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
       </div>
     // )
     );
@@ -169,11 +214,11 @@ const mapStateToProps = ({ user: { email },
 });
 
 Wallet.propTypes = {
-  getWallet: PropTypes.element.isRequired,
-  currencies: PropTypes.element.isRequired,
-  email: PropTypes.element.isRequired,
+  getWallet: PropTypes.func.isRequired,
+  currencies: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
   expenses: PropTypes.element.isRequired,
-  getExpenses: PropTypes.element.isRequired,
+  getExpenses: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
