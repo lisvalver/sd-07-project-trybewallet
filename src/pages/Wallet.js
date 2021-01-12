@@ -42,24 +42,22 @@ class Wallet extends React.Component {
     const { wallet } = await fetchCurrencies();
     delete wallet.USDT;
     addCurrencies(wallet);
-    this.setState({ currencies: Object.keys(wallet) });
+    this.setState({ currencies: wallet });
     return wallet;
   }
 
-  async updateExpenses() {
+  updateExpenses() {
     const { addExpenses } = this.props;
-    const curruntCurrencies = await this.sendCurrencies();
     this.setState((prevState) => {
       const expenseInfo = prevState;
       const initialState = {
         id: expenseInfo.id + 1,
-        value: 0,
+        value: '',
         description: '',
         currency: 'USD',
         method: 'dinheiro',
         tag: 'alimentacao',
       };
-      expenseInfo.currencies = curruntCurrencies;
       addExpenses(expenseInfo);
       return initialState;
     });
@@ -94,18 +92,25 @@ class Wallet extends React.Component {
   render() {
     const { user, wallet } = this.props;
     const { value, description, currency, method, tag, currencies } = this.state;
+    const currenciesKeys = Object.keys(currencies);
     return (
       <div>
         <header>
-          <div data-testid="email-field">{user}</div>
-          <div data-testid="total-field">{ this.totalExpenses(wallet) }</div>
-          <div data-testid="header-currency-field">BRL</div>
+          <div className="email-container">
+            <div data-testid="email-field">{user}</div>
+          </div>
+          <div className="expenses-container">
+            <div data-testid="total-field">{ this.totalExpenses(wallet) }</div>
+          </div>
+          <div className="currency-container">
+            <div data-testid="header-currency-field">BRL</div>
+          </div>
         </header>
         <form>
           <label htmlFor="value">
             Valor:
             <input
-              type="number"
+              type="text"
               data-testid="value-input"
               name="value"
               value={ value }
@@ -129,11 +134,11 @@ class Wallet extends React.Component {
               data-testid="currency-input"
               onChange={ this.handleChange }
             >
-              {
-                currencies.map((coin) => (
-                  <Option key={ coin } coin={ coin } />
-                ))
-              }
+              { currenciesKeys.map((coin) => (
+                <Option
+                  key={ coin }
+                  currency={ coin }
+                />))}
             </select>
           </label>
           <label htmlFor="method">
@@ -143,9 +148,9 @@ class Wallet extends React.Component {
               data-testid="method-input"
               onChange={ this.handleChange }
             >
-              <option value="dinheiro">Dinheiro</option>
-              <option value="cartao-de-credito">Cartão de crédito</option>
-              <option value="cartao-de-debito">Cartão de débito</option>
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Cartão de crédito">Cartão de crédito</option>
+              <option value="Cartão de débito">Cartão de débito</option>
             </select>
           </label>
           <label htmlFor="tag">

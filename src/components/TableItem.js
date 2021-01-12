@@ -38,7 +38,7 @@ class TableItem extends Component {
         <td>{ tag }</td>
         <td>{ method }</td>
         <td>{ value }</td>
-        <td>{ myCurrency.name }</td>
+        <td>{ currency }</td>
         <td>{ parseFloat(myCurrency.ask).toFixed(2) }</td>
         <td>{ (parseFloat(value) * parseFloat(myCurrency.ask)).toFixed(2) }</td>
         <td>Real</td>

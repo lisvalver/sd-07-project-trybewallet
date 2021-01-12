@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
 class Option extends Component {
@@ -13,12 +12,8 @@ class Option extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  wallet: state.wallet,
-});
-
 Option.propTypes = {
   currency: propTypes.string,
 }.isRequired;
 
-export default connect(mapStateToProps, null)(Option);
+export default Option;
