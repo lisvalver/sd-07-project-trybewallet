@@ -29,21 +29,21 @@ class TableItem extends Component {
       method,
       value,
       currency,
-      currencies,
+      exchangeRates,
     } = expense;
-    const myCurrency = currencies[`${currency}`];
+    const myCurrency = exchangeRates[`${currency}`];
     return (
       <tr id={ id }>
         <td>{ description }</td>
         <td>{ tag }</td>
         <td>{ method }</td>
         <td>{ value }</td>
-        <td>{ currency }</td>
+        <td>{ myCurrency.name }</td>
         <td>{ parseFloat(myCurrency.ask).toFixed(2) }</td>
         <td>{ (parseFloat(value) * parseFloat(myCurrency.ask)).toFixed(2) }</td>
         <td>Real</td>
         <td>
-          <button type="button">
+          <button type="button" >
             Editar
           </button>
           <button
@@ -76,7 +76,7 @@ TableItem.propTypes = {
     method: propTypes.string,
     value: propTypes.number,
     currency: propTypes.string,
-    currencies: propTypes.objectOf(propTypes.object),
+    exchangeRates: propTypes.objectOf(propTypes.object),
   }),
   store: propTypes.shape({
     wallet: propTypes.shape({

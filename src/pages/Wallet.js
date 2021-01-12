@@ -24,7 +24,7 @@ class Wallet extends React.Component {
       currency: 'USD',
       method: 'dinheiro',
       tag: 'alimentacao',
-      currencies: [],
+      exchangeRates: [],
     };
   }
 
@@ -42,7 +42,7 @@ class Wallet extends React.Component {
     const { wallet } = await fetchCurrencies();
     delete wallet.USDT;
     addCurrencies(wallet);
-    this.setState({ currencies: wallet });
+    this.setState({ exchangeRates: wallet });
     return wallet;
   }
 
@@ -67,8 +67,8 @@ class Wallet extends React.Component {
     let totalExpenses = 0;
     const { expenses } = wallet;
     expenses.map((expense) => {
-      const { currency, currencies, value } = expense;
-      const myCurrency = currencies[`${currency}`];
+      const { currency, exchangeRates, value } = expense;
+      const myCurrency = exchangeRates[`${currency}`];
       totalExpenses += parseFloat(
         (parseFloat(value) * parseFloat(myCurrency.ask)).toFixed(2),
       );
@@ -91,25 +91,20 @@ class Wallet extends React.Component {
 
   render() {
     const { user, wallet } = this.props;
-    const { value, description, currency, method, tag, currencies } = this.state;
-    const currenciesKeys = Object.keys(currencies);
+    const { value, description, currency, method, tag, exchangeRates } = this.state;
+    const currenciesKeys = Object.keys(exchangeRates);
     return (
       <div>
         <header>
-          <div className="email-container">
-            <div data-testid="email-field">{user}</div>
-          </div>
-          <div className="expenses-container">
-            <div data-testid="total-field">{ this.totalExpenses(wallet) }</div>
-          </div>
-          <div className="currency-container">
-            <div data-testid="header-currency-field">BRL</div>
-          </div>
+          <div data-testid="email-field">{user}</div>
+          <div data-testid="total-field">{ this.totalExpenses(wallet) }</div>
+          <div data-testid="header-currency-field">BRL</div>
         </header>
         <form>
           <label htmlFor="value">
             Valor:
             <input
+              id="value"
               type="text"
               data-testid="value-input"
               name="value"
@@ -118,8 +113,9 @@ class Wallet extends React.Component {
             />
           </label>
           <label htmlFor="description">
-            Descrição
+            Descrição:
             <input
+              id="description"
               type="text"
               data-testid="description-input"
               name="description"
@@ -128,7 +124,9 @@ class Wallet extends React.Component {
             />
           </label>
           <label htmlFor="currency">
+            Moeda:
             <select
+              id="currency"
               name="currency"
               value={ currency }
               data-testid="currency-input"
@@ -142,7 +140,9 @@ class Wallet extends React.Component {
             </select>
           </label>
           <label htmlFor="method">
+            Método de Pagamento:
             <select
+              id="method"
               name="method"
               value={ method }
               data-testid="method-input"
@@ -154,7 +154,9 @@ class Wallet extends React.Component {
             </select>
           </label>
           <label htmlFor="tag">
+            Tag:
             <select
+              id="tag"
               name="tag"
               value={ tag }
               data-testid="tag-input"
@@ -177,12 +179,12 @@ class Wallet extends React.Component {
               <tr>
                 <th>Descrição</th>
                 <th>Tag</th>
-                <th>Método de Pagamento</th>
+                <th>Método de pagamento</th>
                 <th>Valor</th>
                 <th>Moeda</th>
                 <th>Câmbio utilizado</th>
                 <th>Valor convertido</th>
-                <th>Moeda de Conversão</th>
+                <th>Moeda de conversão</th>
                 <th>Editar/Excluir</th>
               </tr>
             </thead>
