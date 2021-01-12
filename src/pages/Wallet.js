@@ -29,13 +29,18 @@ class Wallet extends Component {
     fetchMyCurrencyList();
   }
 
-  handleAddExpense(event) {
-    event.preventDefault();
-    const { expenses, addExpense } = this.props;
-    const { value, description, currency, method, tag } = this.state;
-    const newExpense = { value, description, currency, method, tag };
-    addExpense(newExpense);
-    console.log(expenses);
+  async handleAddExpense() {
+    const { addExp, currencyList, fetchMyCurrencyList } = this.props;
+    await fetchMyCurrencyList();
+    await this.setState({ exchangeRates: currencyList });
+    await addExp(this.state);
+    this.setState({
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    });
   }
 
   render() {
@@ -132,7 +137,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchMyCurrencyList: () => dispatch(action.fetchingAPI),
-  addExpense: (expense) => dispatch(action.addExpense(expense)),
+  addExp: () => dispatch(action.newExpenseAction),
 });
 
 Wallet.propTypes = {

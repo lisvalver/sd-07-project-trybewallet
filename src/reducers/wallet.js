@@ -4,18 +4,16 @@ const INITIAL_STATE = {
   expenses: [],
 };
 
-const newExpense = (state = {}, action = {}) => {
-  const { expenses } = action;
-  const myExpense = { id: state.expenses.length, ...expenses };
-  return state.expenses.push(myExpense);
-};
-
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
   case 'CURRENCY':
     return { ...state, currencies: action.currency };
   case 'ADD_EXPENSE':
-    return newExpense(state, action);
+    return {
+      ...state,
+      id: state.id + 1,
+      expenses: [...state.expenses, { ...action.expense, id: state.id }],
+    };
   default:
     return state;
   }

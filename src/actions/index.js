@@ -18,14 +18,7 @@ export const fetchingAPI = async (dispatch) => {
   return data;
 };
 
-export const addExpense = (expense) => async (dispatch) => {
-  const fetching = await fetch('https://economia.awesomeapi.com.br/json/all');
-  const exchanges = await fetching.json();
-  dispatch({
-    type: 'ADD_EXPENSE',
-    expense: {
-      ...expense,
-      exchangeRates: exchanges,
-    },
-  });
-};
+export const newExpenseAction = (expense) => ({
+  type: 'ADD_EXPENSE',
+  payload: expense,
+});
