@@ -5,6 +5,7 @@ export const INSERT = 'INSERT';
 export const REQUEST_CURRENCY = 'REQUEST_CURRENCY';
 export const REQUEST_EXPENSES = 'REQUEST_EXPENSES';
 export const REQUEST_API_SUCCESS = 'REQUEST_API_SUCCESS';
+export const GET_CURRENCY = 'GET_CURRENCY';
 
 export const addClick = (email) => (
   {
@@ -29,6 +30,13 @@ export const requestCurrency = () => (
 export const requestExpenses = (value) => (
   {
     type: REQUEST_EXPENSES,
+    value,
+  }
+);
+
+export const getCurrency = (value) => (
+  {
+    type: GET_CURRENCY,
     value,
   }
 );

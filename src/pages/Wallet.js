@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchWallet, requestExpenses } from '../actions/index';
+import getCurrencyValue from '../helpers/getCurrencyValue';
+import { fetchWallet, requestExpenses, getCurrency } from '../actions/index';
 
 class Wallet extends React.Component {
   constructor() {
@@ -18,7 +19,6 @@ class Wallet extends React.Component {
       method: 'Dinheiro',
       tag: 'Alimentação',
       exchangeRates: {},
-      currencyValue: 0,
     };
   }
 
@@ -32,8 +32,8 @@ class Wallet extends React.Component {
     this.setState({ [name]: value });
   }
 
-  async handleClick() {
-    const { currencies, getWallet, getExpenses } = this.props;
+  async handleClick(array, coin) {
+    const { currencies, getWallet, getExpenses, dispatchtCurrency } = this.props;
     await getWallet();
     this.setState((previous) => (
       {
@@ -41,17 +41,19 @@ class Wallet extends React.Component {
         id: previous.id + 1,
       }
     ));
+
     getExpenses(this.state);
+    dispatchtCurrency(getCurrencyValue(array, coin));
   }
 
   render() {
-    const { email, currencies, expenses } = this.props;
+    const { email, currencies, expenses, currencyVal } = this.props;
     const totalExpenses = expenses.reduce((acc, curr) => {
       const { value, exchangeRates, currency } = curr;
       return acc + exchangeRates[currency].ask * value;
     }, 0);
-    console.log(currencies);
     const totalValue = Number.parseFloat(totalExpenses).toFixed(2);
+    const { currency } = this.state;
     return (
       // isFetching ? <p>Loading...</p>
       // : (
@@ -141,7 +143,7 @@ class Wallet extends React.Component {
             />
           </label>
           <div className="btnAdd">
-            <button type="button" onClick={ () => this.handleClick() }>
+            <button type="button" onClick={ () => this.handleClick(currencies, currency) }>
               Adicionar despesa
             </button>
           </div>
@@ -150,27 +152,27 @@ class Wallet extends React.Component {
           <table>
             <thead>
               <tr>
-                <th className="description">Descrição</th>
-                <th className="description">Tag</th>
-                <th className="description">Método de pagamento</th>
-                <th className="description">Valor</th>
-                <th className="description">Moeda</th>
-                <th className="description">Câmbio utilizado</th>
-                <th className="description">Valor convertido</th>
-                <th className="description">Moeda de conversão</th>
-                <th className="description">Editar/Excluir</th>
+                <th className="tbDesc">Descrição</th>
+                <th className="tbDesc">Tag</th>
+                <th className="tbDesc">Método de pagamento</th>
+                <th className="tbDesc">Valor</th>
+                <th className="tbDesc">Moeda</th>
+                <th className="tbDesc">Câmbio utilizado</th>
+                <th className="tbDesc">Valor convertido</th>
+                <th className="tbDesc">Moeda de conversão</th>
+                <th className="tbDesc">Editar/Excluir</th>
               </tr>
             </thead>
             <tbody className="request">
               { Object.values(expenses).map((item, index) => (
                 <tr key={ index }>
                   <td>{item.description}</td>
-                  <td>{item.tag}</td>
+                  <td className="tag">{item.tag}</td>
                   <td>{item.method}</td>
                   <td>{item.value}</td>
                   <td>{item.exchangeRates[item.currency].name}</td>
                   <td>{item.currency}</td>
-                  <td>{totalValue}</td>
+                  <td>{currencyVal}</td>
                   <td>Real</td>
                   <div className="button-td">
                     <button
@@ -203,14 +205,16 @@ const mapDispatchToProps = (dispatch) => (
   {
     getWallet: () => dispatch(fetchWallet()),
     getExpenses: (arrayExpenses) => dispatch(requestExpenses(arrayExpenses)),
+    dispatchtCurrency: (converted) => dispatch(getCurrency(converted)),
   });
 
 const mapStateToProps = ({ user: { email },
-  wallet: { currencies, isFetching, expenses } }) => ({
+  wallet: { currencies, isFetching, expenses, currencyVal } }) => ({
   email,
   currencies,
   isFetching,
   expenses,
+  currencyVal,
 });
 
 Wallet.propTypes = {
