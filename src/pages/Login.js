@@ -13,7 +13,8 @@ class Login extends React.Component {
     };
 
     this.validateInfos = this.validateInfos.bind(this);
-    this.click = this.click.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   validateInfos() {
@@ -23,11 +24,16 @@ class Login extends React.Component {
     return regex.test(email) && password.length >= minLength;
   }
 
-  click() {
+  handleClick() {
     const { loginDispatch, history } = this.props;
     const { email } = this.state;
     loginDispatch(email);
     history.push('/carteira');
+  }
+
+  handleInputChange({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value });
   }
 
   render() {
@@ -42,7 +48,7 @@ class Login extends React.Component {
               type="email"
               placeholder="Login"
               data-testid="email-input"
-              onChange={ (event) => this.setState({ email: event.target.value }) }
+              onChange={ this.handleInputChange }
               value={ email }
             />
           </label>
@@ -53,14 +59,14 @@ class Login extends React.Component {
               type="password"
               placeholder="password"
               data-testid="password-input"
-              onChange={ (event) => this.setState({ password: event.target.value }) }
+              onChange={ this.handleInputChange }
               value={ password }
             />
           </label>
           <button
             type="submit"
             disabled={ !this.validateInfos() }
-            onClick={ () => this.click() }
+            onClick={ () => this.handleClick() }
           >
             Entrar
           </button>
