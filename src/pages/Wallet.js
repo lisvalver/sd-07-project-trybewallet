@@ -54,8 +54,27 @@ class Wallet extends Component {
     });
   }
 
+  showExpenses() {
+    const { expenses } = this.props;
+    return expenses.forEach((element) => {
+      const { method, currency, tag, description, value, exchangeRates } = element;
+      return (
+        <tr>
+          <td>{ description }</td>
+          <td>{ tag }</td>
+          <td>{ method }</td>
+          <td>{ value }</td>
+          <td>{ exchangeRates[currency].name }</td>
+          <td>{ exchangeRates[currency].ask }</td>
+          <td>{ value * exchangeRates[currency].ask }</td>
+          <td>Real</td>
+        </tr>
+      );
+    });
+  }
+
   render() {
-    const { userLogin, currencyList } = this.props;
+    const { userLogin, currencyList, expenses } = this.props;
     const filterCurrencies = Object.keys(currencyList)
       .filter((currency) => currency !== 'USDT');
     const { value, description, currency, method, tag, total } = this.state;
@@ -134,6 +153,51 @@ class Wallet extends Component {
               <button type="submit">Adicionar despesa</button>
             </label>
           </form>
+          <table>
+            <thead>
+              <tr>
+                <th>Descrição</th>
+                <th>Tag</th>
+                <th>Método de pagamento</th>
+                <th>Valor</th>
+                <th>Moeda</th>
+                <th>Câmbio utilizado</th>
+                <th>Valor convertido</th>
+                <th>Moeda de conversão</th>
+                <td>Editar/Excluir</td>
+              </tr>
+            </thead>
+            { expenses.map((expense) => {
+              let moeda;
+              let cambio;
+              let valorConvertido;
+              if (expense !== undefined) {
+                if (expense.exchangeRates[expense.currency] !== undefined) {
+                  moeda = expense.exchangeRates[expense.currency].name;
+                }
+                if (expense.exchangeRates[expense.currency] !== undefined) {
+                  cambio = Number(expense.exchangeRates[expense.currency]
+                    .ask).toFixed(2);
+                  valorConvertido = (expense.exchangeRates[expense.currency]
+                    .ask * expense.value).toFixed(2);
+                }
+
+                return (
+                  <tr>
+                    <td>{ expense.description }</td>
+                    <td>{ expense.tag }</td>
+                    <td>{ expense.method }</td>
+                    <td>{ expense.value }</td>
+                    <td>{ moeda }</td>
+                    <td>{ cambio }</td>
+                    <td>{ valorConvertido }</td>
+                    <td>Real</td>
+                  </tr>
+                );
+              }
+              return null;
+            }) }
+          </table>
         </div>
       </div>
     );
