@@ -34,11 +34,12 @@ class FormWallet extends Component {
   }
 
   render() {
-    const { sendCost, currencies } = this.props;
+    const { sendCost, currencies, updateCount, expenses } = this.props;
     const { payment, tagCost, cost } = this.state;
     const { value, description, currency, method, tag } = cost;
     const filterCurrencies = currencies.filter(coin => coin !== 'USDT');
     // console.log(filterCurrencies);
+    // console.log(expenses.length);
     return (
       <form>
         <fieldset>
@@ -52,6 +53,7 @@ class FormWallet extends Component {
               id='value'
               value={value}
               onChange={this.getInformationsCost}
+              required
             />
           </div>
           <div>
@@ -63,6 +65,7 @@ class FormWallet extends Component {
               id='description'
               value={description}
               onChange={this.getInformationsCost}
+              required
             />
           </div>
           <div>
@@ -72,7 +75,8 @@ class FormWallet extends Component {
               name='currency'
               id='currency'
               value={currency}
-              onChange={this.getInformationsCost}>
+              onChange={this.getInformationsCost}
+              required>
               {filterCurrencies.map(coin => (
                 <option key={coin} data-testid={coin}>
                   {coin}
@@ -87,7 +91,8 @@ class FormWallet extends Component {
               name='method'
               id='method'
               value={method}
-              onChange={this.getInformationsCost}>
+              onChange={this.getInformationsCost}
+              required>
               {payment.map(method => (
                 <option key={method}>{method}</option>
               ))}
@@ -100,14 +105,20 @@ class FormWallet extends Component {
               name='tag'
               id='tag'
               value={tag}
-              onChange={this.getInformationsCost}>
+              onChange={this.getInformationsCost}
+              required>
               {tagCost.map(tag => (
                 <option key={tag}>{tag}</option>
               ))}
             </select>
           </div>
         </fieldset>
-        <button type='button' onClick={() => sendCost(cost)}>
+        <button
+          type='button'
+          onClick={() => {
+            sendCost(cost);
+            expenses.length !== 0 && updateCount();
+          }}>
           Adicionar despesa
         </button>
       </form>
@@ -117,6 +128,7 @@ class FormWallet extends Component {
 
 const mapStateToProps = ({ wallet }) => ({
   currencies: wallet.currencies,
+  expenses: wallet.expenses,
 });
 
 const mapDispatchToProps = dispatch => ({

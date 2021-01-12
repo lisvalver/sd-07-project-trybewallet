@@ -2,39 +2,40 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FormWallet from '../components/FormWallet';
 import Header from '../components/HeaderWallet';
-import { deleteExpense } from '../actions';
+import { deleteExpense, updateGlobalCount } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
     super();
 
-    this.updateValues = this.updateValues.bind(this);
     this.convertValues = this.convertValues.bind(this);
-
-    this.state = {
-      sumValues: 0,
-    };
+    this.sumExpenses = this.sumExpenses.bind(this);
   }
 
-  updateValues(value) {
-    this.setState(({ sumValues }) => ({
-      sumValues: sumValues + value,
-    }));
+  componentDidUpdate() {
+    console.log(this.sumExpenses());
   }
 
   convertValues(value, currency) {
-    const valueBR = (value * currency * 100) / 100;
+    const valueBR = Math.round(value * currency * 100) / 100;
     return valueBR;
   }
 
+  sumExpenses() {
+    const { expenses } = this.props
+    return expenses.reduce((acc, cur) => {
+      return Math.round((cur.value * cur.exchangeRates[cur.currency].ask + acc) * 100) / 100;
+    }, 0)
+  }
+
   render() {
-    const { sumValues } = this.state;
-    const { email, expenses, deleteExpense } = this.props;
-    console.log(expenses);
+    const { email, expenses, countExpense, deleteExpense, updateCount } = this.props;
+    // console.log(countExpense);
+    // console.log(expenses);
     return (
       <div>
-        <Header email={email} total={sumValues} />
-        <FormWallet />
+        <Header email={email} total={countExpense} />
+        <FormWallet updateCount={ () => updateCount(this.sumExpenses()) } />
         <section>
           <table>
             <thead>
@@ -71,10 +72,12 @@ class Wallet extends React.Component {
                     <td>{value}</td>
                     <td>{name}</td>
                     <td>{ask}</td>
-                    <td>{this.convertValues(value, ask)}</td>
+                    <td>{ this.convertValues(value, ask) }</td>
                     <td>Real</td>
                     <td>
-                      <button data-testid='delete-btn' onClick={deleteExpense}>
+                      <button
+                        data-testid='delete-btn'
+                        onClick={() => deleteExpense(id)}>
                         Deletar
                       </button>
                     </td>
@@ -92,10 +95,12 @@ class Wallet extends React.Component {
 const mapStateToProps = state => ({
   email: state.user.email,
   expenses: state.wallet.expenses,
+  countExpense: state.wallet.countExpense,
 });
 
 const mapDispatchToProps = dispatch => ({
-  deleteExpense: () => dispatch(deleteExpense()),
+  deleteExpense: id => dispatch(deleteExpense(id)),
+  updateCount: value => dispatch(updateGlobalCount(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

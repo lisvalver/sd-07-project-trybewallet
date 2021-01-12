@@ -17,6 +17,7 @@ const INITIAL_STATE = {
   isFetching: false,
   error: '',
   nextId: 0,
+  countExpense: 0,
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -48,9 +49,13 @@ const wallet = (state = INITIAL_STATE, action) => {
     case typesActions.DELETE_EXPENSE:
       return {
         ...state,
-        nextId: 0,
-        expenses: [ ...state.expenses.filter((expense, index) => expense.id !== index ) ],
+        // nextId: 0,
+        expenses: [
+          ...state.expenses.filter(expense => expense.id !== action.id),
+        ],
       };
+    case typesActions.UPDATE_COUNT:
+      return { ...state, countExpense: action.value };
     case typesActions.REQUEST_COINS_FAIL:
       return { ...state, isFetching: false, error: action.error };
     default:
