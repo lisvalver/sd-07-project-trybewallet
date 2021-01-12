@@ -38,6 +38,11 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       rates: action.exchangeRates,
     };
+  case 'DELETE_EXPENSE':
+    return {
+      ...state,
+      expenses: [...state.expenses.filter((expense) => expense.id !== action.expenseId)],
+    };
   default:
     return state;
   }

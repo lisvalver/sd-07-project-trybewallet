@@ -41,3 +41,8 @@ export function apiFetchThunk() {
     }
   };
 }
+
+export const deleteExpense = (expenseId) => ({
+  type: 'DELETE_EXPENSE',
+  expenseId,
+});
