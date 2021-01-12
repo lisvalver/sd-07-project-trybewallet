@@ -71,7 +71,7 @@ class Table extends Component {
                 </td>
                 <td>
                   {' '}
-                  Real Brasileiro
+                  Real
                   {' '}
                 </td>
                 <td>

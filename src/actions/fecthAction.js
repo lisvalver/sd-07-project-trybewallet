@@ -1,11 +1,9 @@
-// const requestAPI = () => ({
-//   type: 'REQUESTAPI',
-// });
-// dispatch(requestAPI());
+const requestAPI = () => ({
+  type: 'REQUESTAPI',
+});
 
-const getAPI = (responseAPI, currency) => ({
+const getAPI = (currency) => ({
   type: 'GETAPI',
-  responseAPI,
   currency,
 });
 
@@ -14,12 +12,16 @@ const failedAPI = (error) => ({
   error,
 });
 
-const fecthAction = () => (dispatch) => fetch('https://economia.awesomeapi.com.br/json/all')
-  .then((data) => data.json())
-  .then((data) => {
-    delete data.USDT;
-    const keys = Object.keys(data);
-    return dispatch(getAPI(data, keys));
-  })
-  .catch((error) => dispatch(failedAPI(error)));
+const fecthAction = () => (dispatch) => {
+  dispatch(requestAPI());
+  return fetch('https://economia.awesomeapi.com.br/json/all')
+    .then((data) => data.json())
+    .then((data) => {
+      delete data.USDT;
+      const keys = Object.keys(data);
+      return dispatch(getAPI(keys));
+    })
+    .catch((error) => dispatch(failedAPI(error)));
+};
+
 export default fecthAction;

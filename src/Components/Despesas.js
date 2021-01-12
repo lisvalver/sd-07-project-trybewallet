@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import { fecthAction, wallet } from '../actions';
+import { fecthAction, fecthActionUpdate, wallet } from '../actions';
 
 class Despesas extends Component {
   constructor(props) {
@@ -47,9 +46,10 @@ class Despesas extends Component {
   }
 
   async handleSubmit() {
-    const { walletSave, fecthActions } = this.props;
+    const { walletSave, fecthActionUpdates } = this.props;
     const { expense } = this.state;
-    const result = await fecthActions();
+    const result = await fecthActionUpdates();
+    console.log(result);
     walletSave(expense, result.responseAPI);
     this.reset();
   }
@@ -163,10 +163,12 @@ Despesas.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   currency: PropTypes.objectOf.isRequired,
   fecthActions: PropTypes.func.isRequired,
+  fecthActionUpdates: PropTypes.func.isRequired,
   walletSave: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  responseAPI: state.economyApi.responseAPI,
   expenses: state.wallet.expenses,
   currency: state.economyApi.currency,
   isFetching: state.economyApi.isFetching,
@@ -174,6 +176,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fecthActions: () => dispatch(fecthAction()),
+  fecthActionUpdates: () => dispatch(fecthActionUpdate()),
   walletSave: (expenses, exchangeRates) => dispatch(wallet(expenses, exchangeRates)),
 });
 

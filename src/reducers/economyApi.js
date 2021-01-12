@@ -14,8 +14,13 @@ function economyApi(state = INITIAL_STATE, action) {
   case 'GETAPI':
     return {
       ...state,
-      responseAPI: action.responseAPI,
       currency: action.currency,
+      isFetching: false,
+    };
+  case 'UPDATEAPI':
+    return {
+      ...state,
+      responseAPI: action.responseAPI,
       isFetching: false,
     };
   case 'FAILEDAPI':
