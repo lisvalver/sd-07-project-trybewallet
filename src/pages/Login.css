@@ -1,0 +1,21 @@
+body {
+  background-color: rgb(236, 236, 236);
+}
+
+.div-login {
+  background-color: rgb(234, 247, 255);
+  border: 1px solid #066a75 ;
+  height: 320px;
+  margin-left: 35%;
+  margin-top: 50px;
+  text-align: center;
+  width: 300px;  
+}
+
+.input-email {  
+  width: 200px;
+}
+
+.input-password {
+  width: 200px;
+}
