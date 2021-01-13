@@ -3,14 +3,14 @@
 import { REQUEST_API_SUCCESS,
   REQUEST_EXPENSES,
   REQUEST_CURRENCY,
-  GET_CURRENCY,
+  // GET_CURRENCY,
+  DELETE_ROW,
 } from '../actions/index';
 
 const INITIAL_VALUE = {
   currencies: [],
   expenses: [],
   isFetching: false,
-  currencyVal: 0,
 };
 
 function wallet(state = INITIAL_VALUE, action) {
@@ -24,8 +24,11 @@ function wallet(state = INITIAL_VALUE, action) {
     return { ...state, currencies: { ...action.value }, isFetching: false };
   case REQUEST_EXPENSES:
     return { ...state, expenses: [...state.expenses, action.value] };
-  case GET_CURRENCY:
-    return { ...state, currencyVal: action.value };
+  case DELETE_ROW:
+    return { ...state,
+      expenses: [...state.expenses.filter(({ id }) => id !== action.value)] };
+  // case GET_CURRENCY:
+  //   return { ...state, expenses: [{ currencyVal: action.value }] };
   default:
     return state;
   }

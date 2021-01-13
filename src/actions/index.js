@@ -6,6 +6,7 @@ export const REQUEST_CURRENCY = 'REQUEST_CURRENCY';
 export const REQUEST_EXPENSES = 'REQUEST_EXPENSES';
 export const REQUEST_API_SUCCESS = 'REQUEST_API_SUCCESS';
 export const GET_CURRENCY = 'GET_CURRENCY';
+export const DELETE_ROW = 'DELETE_ROW';
 
 export const addClick = (email) => (
   {
@@ -37,6 +38,13 @@ export const requestExpenses = (value) => (
 export const getCurrency = (value) => (
   {
     type: GET_CURRENCY,
+    value,
+  }
+);
+
+export const deleteRowAction = (value) => (
+  {
+    type: DELETE_ROW,
     value,
   }
 );

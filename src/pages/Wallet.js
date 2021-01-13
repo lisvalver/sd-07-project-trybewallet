@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import getCurrencyValue from '../helpers/getCurrencyValue';
-import { fetchWallet, requestExpenses, getCurrency } from '../actions/index';
+import { fetchWallet, requestExpenses,
+  getCurrency, deleteRowAction } from '../actions/index';
 
 class Wallet extends React.Component {
   constructor() {
@@ -38,19 +39,23 @@ class Wallet extends React.Component {
     this.setState((previous) => (
       {
         exchangeRates: { ...previous.exchangeRates, ...currencies },
-        id: previous.id + 1,
       }
     ));
 
     getExpenses(this.state);
     dispatchtCurrency(getCurrencyValue(array, coin));
+    this.setState((previous) => ({
+      value: 0,
+      id: previous.id + 1,
+    }));
   }
 
   render() {
-    const { email, currencies, expenses, currencyVal } = this.props;
+    const { email, currencies, expenses, deleteRow } = this.props;
+    const { value } = this.state;
     const totalExpenses = expenses.reduce((acc, curr) => {
-      const { value, exchangeRates, currency } = curr;
-      return acc + exchangeRates[currency].ask * value;
+      const { value: valor, exchangeRates, currency } = curr;
+      return acc + exchangeRates[currency].ask * valor;
     }, 0);
     const totalValue = Number.parseFloat(totalExpenses).toFixed(2);
     const { currency } = this.state;
@@ -76,17 +81,16 @@ class Wallet extends React.Component {
           </div>
         </header>
         <div className="info-budget">
-          <label htmlFor="budget">
-            Valor:
-            <input
-              className="value"
-              type="number"
-              id="budget"
-              name="value"
-              data-testid="value-input"
-              onChange={ (e) => this.handleChange(e) }
-            />
-          </label>
+          Valor:
+          <input
+            // className="value"
+            type="number"
+            id="budget"
+            name="value"
+            value={ value }
+            data-testid="value-input"
+            onChange={ (e) => this.handleChange(e) }
+          />
 
           <label htmlFor="currency" name="currency">
             Moeda:
@@ -131,19 +135,20 @@ class Wallet extends React.Component {
             <option value="Transporte">Transporte</option>
             <option value="Saúde">Saúde</option>
           </select>
-          <label htmlFor="budget">
-            Descrição:
-            <input
-              className="description"
-              type="text"
-              id="budget"
-              name="description"
-              data-testid="description-input"
-              onChange={ this.handleChange }
-            />
-          </label>
+          Descrição:
+          <input
+            className="description"
+            type="text"
+            id="budget"
+            name="description"
+            data-testid="description-input"
+            onChange={ this.handleChange }
+          />
           <div className="btnAdd">
-            <button type="button" onClick={ () => this.handleClick(currencies, currency) }>
+            <button
+              type="button"
+              onClick={ () => this.handleClick(currencies, currency) }
+            >
               Adicionar despesa
             </button>
           </div>
@@ -164,34 +169,45 @@ class Wallet extends React.Component {
               </tr>
             </thead>
             <tbody className="request">
-              { Object.values(expenses).map((item, index) => (
-                <tr key={ index }>
-                  <td>{item.description}</td>
-                  <td className="tag">{item.tag}</td>
-                  <td>{item.method}</td>
-                  <td>{item.value}</td>
-                  <td>{item.exchangeRates[item.currency].name}</td>
-                  <td>{item.currency}</td>
-                  <td>{currencyVal}</td>
-                  <td>Real</td>
-                  <div className="button-td">
-                    <button
-                      className="btnEditar"
-                      type="button"
-                      data-testid="delete-btn"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      className="btnExcluir"
-                      type="button"
-                      data-testid="delete-btn"
-                    >
-                      Excluir
-                    </button>
-                  </div>
-                </tr>
-              ))}
+              { expenses
+                .map(({ currency:
+                  moeda,
+                value:
+                  valor,
+                method,
+                exchangeRates,
+                description,
+                id,
+                tag,
+                }) => (
+                  <tr key={ id }>
+                    <td>{description}</td>
+                    <td className="tag">{tag}</td>
+                    <td>{method}</td>
+                    <td>{valor}</td>
+                    <td>{exchangeRates[moeda].name}</td>
+                    <td>{parseFloat(exchangeRates[moeda].ask).toFixed(2)}</td>
+                    <td>{parseFloat(exchangeRates[moeda].ask * valor).toFixed(2)}</td>
+                    <td>Real</td>
+                    <div className="button-td">
+                      <button
+                        className="btnEditar"
+                        type="button"
+                        data-testid="delete-btn"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="btnExcluir"
+                        type="button"
+                        data-testid="delete-btn"
+                        onClick={ () => deleteRow(id) }
+                      >
+                        Excluir
+                      </button>
+                    </div>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </section>
@@ -206,6 +222,7 @@ const mapDispatchToProps = (dispatch) => (
     getWallet: () => dispatch(fetchWallet()),
     getExpenses: (arrayExpenses) => dispatch(requestExpenses(arrayExpenses)),
     dispatchtCurrency: (converted) => dispatch(getCurrency(converted)),
+    deleteRow: (id) => dispatch(deleteRowAction(id)),
   });
 
 const mapStateToProps = ({ user: { email },
@@ -223,6 +240,8 @@ Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   expenses: PropTypes.element.isRequired,
   getExpenses: PropTypes.func.isRequired,
+  deleteRow: PropTypes.func.isRequired,
+  dispatchtCurrency: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
