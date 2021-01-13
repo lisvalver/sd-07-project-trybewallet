@@ -39,7 +39,6 @@ class Wallet extends React.Component {
       const object = Object.entries(rate).find((excha) => excha[0] === currencyName);
       const adjust = 10000;
       const total = parseInt(element * adjust, 10) / adjust;
-      console.log(object[1].ask);
       const exchange = parseInt(object[1].ask * adjust, 10) / adjust;
       const values = parseInt(value * adjust, 10) / adjust;
       return total + (exchange * values);
@@ -49,7 +48,7 @@ class Wallet extends React.Component {
 
   render() {
     const { returnParse, discoverName } = extraFunc;
-    const { user, addExpense, wallet } = this.props;
+    const { user, addExpense, wallet, delExpense } = this.props;
     const { expenses } = wallet;
     const { email } = user;
     const {
@@ -188,7 +187,16 @@ class Wallet extends React.Component {
                 <td key="currency">Real</td>
                 <td>
                   <button type="button">Editar</button>
-                  <button type="button">Excluir</button>
+                  <button
+                    type="button"
+                    data-testid="delete-btn"
+                    onClick={ async () => {
+                      await delExpense(values.id);
+                      this.totalField();
+                    } }
+                  >
+                    Excluir
+                  </button>
                 </td>
               </tr>
             ))}
@@ -202,14 +210,16 @@ const mapStateToProps = (state) => ({
   user: state.user,
   wallet: state.wallet,
 });
-const { addExpenseAction } = actions;
+const { addExpenseAction, delExpenseAction } = actions;
 const mapDispatchToProps = (dispatch) => ({
   addExpense: (e) => dispatch(addExpenseAction(e)),
+  delExpense: (e) => dispatch(delExpenseAction(e)),
 });
 
 Wallet.propTypes = {
   user: PropTypes.objectOf(PropTypes.string).isRequired,
   wallet: PropTypes.shape.isRequired,
   addExpense: PropTypes.func.isRequired,
+  delExpense: PropTypes.func.isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
