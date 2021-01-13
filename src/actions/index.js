@@ -5,7 +5,6 @@ const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 const SAVE_EXPENSES = 'SAVE_EXPENSES';
 const REQUEST_COINS_FAIL = 'REQUEST_COINS_FAIL';
 const DELETE_EXPENSE = 'DELETE_EXPENSE';
-const UPDATE_COUNT = 'UPDATE_COUNT';
 
 export const getEmail = (sendEmail) => ({
   type: UPDATE_EMAIL,
@@ -31,11 +30,6 @@ function requestFail(error) {
 export const deleteExpense = (id) => ({
   type: DELETE_EXPENSE,
   id,
-});
-
-export const updateGlobalCount = (value) => ({
-  type: UPDATE_COUNT,
-  value,
 });
 
 export function sendCurrencies() {
@@ -64,5 +58,4 @@ export const typesActions = {
   SAVE_EXPENSES,
   REQUEST_COINS_FAIL,
   DELETE_EXPENSE,
-  UPDATE_COUNT,
 };

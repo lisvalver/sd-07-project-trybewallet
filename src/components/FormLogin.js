@@ -43,7 +43,7 @@ class FormLogin extends Component {
 
 FormLogin.propTypes = {
   email: PropTypes.string.isRequired,
-  password: PropTypes.number.isRequired,
+  password: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
 };
 

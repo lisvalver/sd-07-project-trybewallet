@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FormWallet from '../components/FormWallet';
 import Header from '../components/HeaderWallet';
-import { deleteExpense, updateGlobalCount } from '../actions';
+import { deleteExpense } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
@@ -11,10 +11,6 @@ class Wallet extends React.Component {
 
     this.convertValues = this.convertValues.bind(this);
     this.sumExpenses = this.sumExpenses.bind(this);
-  }
-
-  componentDidUpdate() {
-    console.log(this.sumExpenses());
   }
 
   convertValues(value, currency) {
@@ -36,18 +32,13 @@ class Wallet extends React.Component {
     const {
       getEmail,
       getExpenses,
-      getCountExpense,
       executeDeleteExpense,
-      executeUpdateCount,
     } = this.props;
-    // console.log(getCountExpense);
     // console.log(getExpenses);
     return (
       <div>
-        <Header email={ getEmail } total={ getCountExpense } />
-        <FormWallet
-          updateCount={ () => executeUpdateCount(this.sumExpenses()) }
-        />
+        <Header email={ getEmail } total={ this.sumExpenses() } />
+        <FormWallet />
         <section>
           <table>
             <thead>
@@ -60,6 +51,7 @@ class Wallet extends React.Component {
                 <th>Câmbio utilizado</th>
                 <th>Valor convertido</th>
                 <th>Moeda de conversão</th>
+                <th>Editar/Excluir</th>
               </tr>
             </thead>
             <tbody>
@@ -83,16 +75,22 @@ class Wallet extends React.Component {
                     <td>{method}</td>
                     <td>{value}</td>
                     <td>{name}</td>
-                    <td>{ask}</td>
+                    <td>{parseFloat(ask).toFixed(2)}</td>
                     <td>{this.convertValues(value, ask)}</td>
                     <td>Real</td>
                     <td>
                       <button
                         type="button"
+                        data-testid="edit-btn"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        type="button"
                         data-testid="delete-btn"
                         onClick={ () => executeDeleteExpense(id) }
                       >
-                        Deletar
+                        Excluir
                       </button>
                     </td>
                   </tr>
@@ -109,12 +107,10 @@ class Wallet extends React.Component {
 const mapStateToProps = (state) => ({
   getEmail: state.user.email,
   getExpenses: state.wallet.expenses,
-  getCountExpense: state.wallet.countExpense,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   executeDeleteExpense: (id) => dispatch(deleteExpense(id)),
-  executeUpdateCount: (value) => dispatch(updateGlobalCount(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
@@ -122,7 +118,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
 Wallet.propTypes = {
   getEmail: PropTypes.string.isRequired,
   getExpenses: PropTypes.arrayOf(Object).isRequired,
-  getCountExpense: PropTypes.number.isRequired,
   executeDeleteExpense: PropTypes.func.isRequired,
-  executeUpdateCount: PropTypes.func.isRequired,
 };

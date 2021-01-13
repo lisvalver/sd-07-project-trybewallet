@@ -35,19 +35,18 @@ class FormWallet extends Component {
   }
 
   render() {
-    const { sendCost, currencies, updateCount, expenses } = this.props;
+    const { sendCost, currencies } = this.props;
     const { payment, tagCost, cost } = this.state;
     const { value, description, currency, method, tag } = cost;
     const filterCurrencies = currencies.filter((coin) => coin !== 'USDT');
     // console.log(filterCurrencies);
-    console.log(expenses);
     return (
       <form>
         <fieldset>
           <legend>Despesas</legend>
           <div>
             <label htmlFor="value">
-              Adicionar Despesa
+              VALOR
               <input
                 type="number"
                 data-testid="value-input"
@@ -61,7 +60,7 @@ class FormWallet extends Component {
           </div>
           <div>
             <label htmlFor="description">
-              Descrição Despesa
+              DESCRIÇÃO
               <input
                 type="text"
                 data-testid="description-input"
@@ -75,7 +74,7 @@ class FormWallet extends Component {
           </div>
           <div>
             <label htmlFor="currency">
-              Tipo da moeda
+              MOEDA
               <select
                 data-testid="currency-input"
                 name="currency"
@@ -94,7 +93,7 @@ class FormWallet extends Component {
           </div>
           <div>
             <label htmlFor="method">
-              Pagamento
+              PAGAMENTO
               <select
                 data-testid="method-input"
                 name="method"
@@ -111,7 +110,7 @@ class FormWallet extends Component {
           </div>
           <div>
             <label htmlFor="tag">
-              Despesa
+              TAG
               <select
                 data-testid="tag-input"
                 name="tag"
@@ -131,7 +130,6 @@ class FormWallet extends Component {
           type="button"
           onClick={ () => {
             sendCost(cost);
-            updateCount();
           } }
         >
           Adicionar despesa
@@ -143,7 +141,6 @@ class FormWallet extends Component {
 
 const mapStateToProps = ({ wallet }) => ({
   currencies: wallet.currencies,
-  expenses: wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -154,9 +151,7 @@ const mapDispatchToProps = (dispatch) => ({
 FormWallet.propTypes = {
   updateCurrencies: PropTypes.func.isRequired,
   sendCost: PropTypes.func.isRequired,
-  updateCount: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(String).isRequired,
-  expenses: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormWallet);
