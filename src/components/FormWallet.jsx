@@ -40,7 +40,7 @@ class FormWallet extends Component {
     const { value, description, currency, method, tag } = cost;
     const filterCurrencies = currencies.filter((coin) => coin !== 'USDT');
     // console.log(filterCurrencies);
-    // console.log(expenses.length);
+    console.log(expenses);
     return (
       <form>
         <fieldset>
@@ -103,8 +103,8 @@ class FormWallet extends Component {
                 onChange={ this.getInformationsCost }
                 required
               >
-                {payment.map((method) => (
-                  <option key={ method }>{method}</option>
+                {payment.map((payMethod) => (
+                  <option key={ payMethod }>{payMethod}</option>
                 ))}
               </select>
             </label>
@@ -120,8 +120,8 @@ class FormWallet extends Component {
                 onChange={ this.getInformationsCost }
                 required
               >
-                {tagCost.map((tag) => (
-                  <option key={ tag }>{tag}</option>
+                {tagCost.map((expenseTag) => (
+                  <option key={ expenseTag }>{expenseTag}</option>
                 ))}
               </select>
             </label>
@@ -129,9 +129,9 @@ class FormWallet extends Component {
         </fieldset>
         <button
           type="button"
-          onClick={() => {
+          onClick={() => { 
             sendCost(cost);
-            expenses.length !== 0 && updateCount();
+            updateCount(); 
           }}>
           Adicionar despesa
         </button>
@@ -152,10 +152,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 FormWallet.propTypes = {
   updateCurrencies: PropTypes.func.isRequired,
-  sendCost: PropTypes.func.isRequired, 
-  updateCount: PropTypes.func.isRequired, 
-  currencies: PropTypes.array.isRequired,
+  sendCost: PropTypes.func.isRequired,
+  updateCount: PropTypes.func.isRequired,
+  currencies: PropTypes.arrayOf(String).isRequired,
   expenses: PropTypes.arrayOf(Object).isRequired,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormWallet);
