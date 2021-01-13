@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpenseAction, fetchCurrencies } from '../actions/index';
+import { addExpenseAction, fetchCurrencies, editedExpenseAction } from '../actions/index';
 import Table from '../components/Table';
 
 class Wallet extends React.Component {
@@ -21,6 +21,7 @@ class Wallet extends React.Component {
     this.submitForm = this.submitForm.bind(this);
     this.updateState = this.updateState.bind(this);
     this.sumOfExpenses = this.sumOfExpenses.bind(this);
+    this.editExpense = this.editExpense.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +50,26 @@ class Wallet extends React.Component {
     });
   }
 
+  editExpense() {
+    const { editingId, arrayOfExpenses, currencies, confirmEditExpense } = this.props;
+
+    const {
+      value,
+      currency,
+      tag,
+      method,
+      description,
+    } = this.state;
+
+    arrayOfExpenses[editingId].value = value;
+    arrayOfExpenses[editingId].currency = currency;
+    arrayOfExpenses[editingId].description = description;
+    arrayOfExpenses[editingId].exchangeRates = currencies;
+    arrayOfExpenses[editingId].method = method;
+    arrayOfExpenses[editingId].tag = tag;
+    confirmEditExpense(arrayOfExpenses[editingId]);
+  }
+
   sumOfExpenses() {
     const { arrayOfExpenses } = this.props;
     const totalSpent = arrayOfExpenses.reduce((acc, current) => {
@@ -66,12 +87,30 @@ class Wallet extends React.Component {
 
   render() {
     const total = this.sumOfExpenses();
-    const { logged, currencies } = this.props;
+    const { logged, currencies, isEditing } = this.props;
     const {
       value,
       currency,
       method,
     } = this.state;
+
+    const editingButton = (
+      <button
+        type="button"
+        onClick={ this.editExpense }
+      >
+        Editar despesa
+      </button>
+    );
+
+    const addingButton = (
+      <button
+        type="button"
+        onClick={ this.submitForm }
+      >
+        Adicionar despesa
+      </button>
+    );
 
     return (
       <div>
@@ -155,12 +194,7 @@ class Wallet extends React.Component {
               <option value="Saúde" name="description">Saúde</option>
             </select>
           </label>
-          <button
-            onClick={ this.submitForm }
-            type="button"
-          >
-            Adicionar despesa
-          </button>
+          { isEditing ? editingButton : addingButton }
         </fieldset>
         <Table />
       </div>
@@ -172,19 +206,25 @@ const mapStateToProps = (state) => ({
   logged: state.user.email,
   arrayOfExpenses: state.wallet.expenses,
   currencies: state.wallet.currencies,
+  isEditing: state.wallet.isEditing,
+  editingId: state.wallet.editingId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addExpense: (expense) => dispatch(addExpenseAction(expense)),
   getCurrencies: () => dispatch(fetchCurrencies()),
+  confirmEditExpense: (expense) => dispatch(editedExpenseAction(expense, false)),
 });
 
 Wallet.propTypes = {
   arrayOfExpenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   logged: PropTypes.string.isRequired,
+  editingId: PropTypes.number.isRequired,
+  isEditing: PropTypes.bool.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
   getCurrencies: PropTypes.func.isRequired,
   addExpense: PropTypes.func.isRequired,
+  confirmEditExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

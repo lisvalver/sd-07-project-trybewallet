@@ -14,6 +14,18 @@ export const deleteExpenseAction = (id) => ({
   id,
 });
 
+export const editingExpenseAction = (editingId, bool) => ({
+  type: 'EDITING_EXPENSE',
+  editingId,
+  bool,
+});
+
+export const editedExpenseAction = (expense, bool) => ({
+  type: 'EDITED_EXPENSE',
+  expense,
+  bool,
+});
+
 export const login = (email) => ({
   type: 'LOGIN',
   email,
