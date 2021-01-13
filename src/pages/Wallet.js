@@ -1,18 +1,11 @@
-/* import React from 'react';
+import React from 'react';
 
 class Wallet extends React.Component {
   render() {
-    const { email } = this.props;
     return (
-      <header>
-        <p>{ email }</p>
-      </header>
+      <spam>Wallet</spam>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  email: state.rootReducer,
-});
-
-export default connect(mapStateToProps)(Wallet); */
+export default Wallet;
