@@ -4,15 +4,15 @@ body {
 
 .div-login {
   background-color: rgb(234, 247, 255);
-  border: 1px solid #066a75 ;
+  border: 1px solid #066a75;
   height: 320px;
   margin-left: 35%;
   margin-top: 50px;
   text-align: center;
-  width: 300px;  
+  width: 300px;
 }
 
-.input-email {  
+.input-email { 
   width: 200px;
 }
 
