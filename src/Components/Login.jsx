@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login } from '../actions/user.action';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -60,15 +61,18 @@ class Login extends React.Component {
             />
           </div>
           <span id="return-client" />
-          <button
-            type="button"
-            className="btn-login"
-            name="btn-login"
-            disabled={ !this.isValid() }
-            onClick={ this.callAction }
-          >
-            Entrar
-          </button>
+          <Link to="/wallet" data-testid="btn-login">
+            <button
+              type="button"
+              className="btn-login"
+              name="btn-login"
+              disabled={ !this.isValid() }
+              onClick={ this.callAction }
+              data-testid="button-login"
+            >
+              Entrar
+            </button>
+          </Link>
         </form>
         <a href="/" className="forgot-pass">Forgot password?</a>
       </div>
