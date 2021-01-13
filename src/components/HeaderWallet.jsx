@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Header extends Component {
   render() {
@@ -11,6 +12,11 @@ class Header extends Component {
       </header>
     );
   }
+}
+
+Header.propTypes = {
+  email: PropTypes.string.isRequired,
+  total: PropTypes.number.isRequired,
 }
 
 export default Header;

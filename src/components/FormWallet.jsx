@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { sendCurrencies, sendFormAndExhangesRates } from '../actions';
 
 class FormWallet extends Component {
@@ -37,7 +38,7 @@ class FormWallet extends Component {
     const { sendCost, currencies, updateCount, expenses } = this.props;
     const { payment, tagCost, cost } = this.state;
     const { value, description, currency, method, tag } = cost;
-    const filterCurrencies = currencies.filter(coin => coin !== 'USDT');
+    const filterCurrencies = currencies.filter((coin) => coin !== 'USDT');
     // console.log(filterCurrencies);
     // console.log(expenses.length);
     return (
@@ -45,76 +46,76 @@ class FormWallet extends Component {
         <fieldset>
           <legend>Despesas</legend>
           <div>
-            <label htmlFor='value'>Adicionar Despesa</label>
+            <label htmlFor="value">Adicionar Despesa</label>
             <input
-              type='number'
-              data-testid='value-input'
-              name='value'
-              id='value'
-              value={value}
-              onChange={this.getInformationsCost}
+              type="number"
+              data-testid="value-input"
+              name="value"
+              id="value"
+              value={ value }
+              onChange={ this.getInformationsCost }
               required
             />
           </div>
           <div>
-            <label htmlFor='description'>Descrição Despesa</label>
+            <label htmlFor="description">Descrição Despesa</label>
             <input
-              type='text'
-              data-testid='description-input'
-              name='description'
-              id='description'
-              value={description}
-              onChange={this.getInformationsCost}
+              type="text"
+              data-testid="description-input"
+              name="description"
+              id="description"
+              value={ description }
+              onChange={ this.getInformationsCost }
               required
             />
           </div>
           <div>
-            <label htmlFor='currency'>Tipo da moeda</label>
+            <label htmlFor="currency">Tipo da moeda</label>
             <select
-              data-testid='currency-input'
-              name='currency'
-              id='currency'
-              value={currency}
-              onChange={this.getInformationsCost}
+              data-testid="currency-input"
+              name="currency"
+              id="currency"
+              value={ currency }
+              onChange={ this.getInformationsCost }
               required>
               {filterCurrencies.map(coin => (
-                <option key={coin} data-testid={coin}>
+                <option key={ coin } data-testid={ coin }>
                   {coin}
                 </option>
               ))}
             </select>
           </div>
           <div>
-            <label htmlFor='method'>Pagamento</label>
+            <label htmlFor="method">Pagamento</label>
             <select
-              data-testid='method-input'
-              name='method'
-              id='method'
-              value={method}
-              onChange={this.getInformationsCost}
+              data-testid="method-input"
+              name="method"
+              id="method"
+              value={ method }
+              onChange={ this.getInformationsCost }
               required>
               {payment.map(method => (
-                <option key={method}>{method}</option>
+                <option key={ method }>{method}</option>
               ))}
             </select>
           </div>
           <div>
-            <label htmlFor='tag'>Despesa</label>
+            <label htmlFor="tag">Despesa</label>
             <select
-              data-testid='tag-input'
-              name='tag'
-              id='tag'
-              value={tag}
-              onChange={this.getInformationsCost}
+              data-testid="tag-input"
+              name="tag"
+              id="tag"
+              value={ tag }
+              onChange={ this.getInformationsCost }
               required>
               {tagCost.map(tag => (
-                <option key={tag}>{tag}</option>
+                <option key={ tag }>{tag}</option>
               ))}
             </select>
           </div>
         </fieldset>
         <button
-          type='button'
+          type="button"
           onClick={() => {
             sendCost(cost);
             expenses.length !== 0 && updateCount();
@@ -131,9 +132,17 @@ const mapStateToProps = ({ wallet }) => ({
   expenses: wallet.expenses,
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateCurrencies: currency => dispatch(sendCurrencies(currency)),
-  sendCost: form => dispatch(sendFormAndExhangesRates(form)),
+const mapDispatchToProps = (dispatch) => ({
+  updateCurrencies: (currency) => dispatch(sendCurrencies(currency)),
+  sendCost: (form) => dispatch(sendFormAndExhangesRates(form)),
 });
+
+FormWallet.propTypes = {
+  updateCurrencies: PropTypes.func.isRequired,
+  sendCost: PropTypes.func.isRequired, 
+  updateCount: PropTypes.func.isRequired, 
+  currencies: PropTypes.array.isRequired,
+  expenses: PropTypes.arrayOf(Object).isRequired,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormWallet);
