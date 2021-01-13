@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login } from '../actions/user.action';
 
@@ -81,5 +82,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(action);
   },
 });
+
+Login.propTypes = {
+  email: PropTypes.string.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Login);

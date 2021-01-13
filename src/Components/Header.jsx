@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes  from 'prop-types'
 import Logo from '../images/logo-wallet.jpg';
 
 class Header extends React.Component {
@@ -23,5 +24,10 @@ class Header extends React.Component {
     );
   }
 }
+
+Header.propTypes = {
+  user: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
+};
 
 export default Header;
