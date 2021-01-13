@@ -12,6 +12,7 @@ class Wallet extends React.Component {
     this.setInputState = this.setInputState.bind(this);
     this.sendExpense = this.sendExpense.bind(this);
     this.deleteExpense = this.deleteExpense.bind(this);
+    this.editExpense = this.editExpense.bind(this);
 
     this.state = {
       value: 0,
@@ -19,6 +20,8 @@ class Wallet extends React.Component {
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
+      editDisplay: 'none',
+      addDisplay: 'block',
     };
   }
 
@@ -61,6 +64,14 @@ class Wallet extends React.Component {
       method,
       tag,
     });
+
+    this.setState({
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    })
   }
 
   deleteExpense({ target: { id } }) {
@@ -69,9 +80,25 @@ class Wallet extends React.Component {
     removeExpense(id);
   }
 
+  editExpense({ target: { id } }) {
+    const { expenses } = this.props;
+    const currentEdit = expenses.find(expense => expense.id === +id);
+    console.log(expenses);
+    console.log(currentEdit);
+    this.setState({
+      value: currentEdit.value,
+      description: currentEdit.description,
+      currency: currentEdit.currency,
+      method: currentEdit.method,
+      tag: currentEdit.tag,
+      editDisplay: 'block',
+      addDisplay: 'none',
+    })
+  }
+
   render() {
     const { email, currencies, total, expenses } = this.props;
-    const { value } = this.state;
+    const { value, editDisplay, addDisplay, description, currency, method, tag } = this.state;
 
     return (
       <div>
@@ -108,6 +135,7 @@ class Wallet extends React.Component {
                 id="description-input"
                 data-testid="description-input"
                 type="text"
+                value={ description }
               />
             </label>
           </section>
@@ -115,9 +143,11 @@ class Wallet extends React.Component {
             <label htmlFor="description-input">
               Moeda:
               <select
+                id="select"
                 onChange={ this.setInputState }
                 name="currency"
                 data-testid="currency-input"
+                value={ currency }
               >
                 {currencies.map((currency) => (
                   <option
@@ -138,6 +168,7 @@ class Wallet extends React.Component {
                 onChange={ this.setInputState }
                 name="method"
                 data-testid="method-input"
+                value={ method }
               >
                 <option>Dinheiro</option>
                 <option>Cartão de crédito</option>
@@ -153,6 +184,7 @@ class Wallet extends React.Component {
                 onChange={ this.setInputState }
                 name="tag"
                 data-testid="tag-input"
+                value={ tag }
               >
                 <option>Alimentação</option>
                 <option>Lazer</option>
@@ -163,7 +195,8 @@ class Wallet extends React.Component {
             </label>
           </section>
           <section>
-            <button type="button" onClick={ this.sendExpense }>Adicionar despesa</button>
+            <button type="button" style={{display: addDisplay}} onClick={ this.sendExpense }>Adicionar despesa</button>
+            <button type="button" style={{display: editDisplay}}>Editar gasto</button>
           </section>
         </form>
         <table>
@@ -182,7 +215,7 @@ class Wallet extends React.Component {
           </thead>
           {
             expenses ? expenses.map((expense, index) => (
-              <tbody key={ index } id={ expense.id }>
+              <tbody key={ index }>
                 <tr>
                   <td>{ expense.description }</td>
                   <td>{ expense.tag }</td>
@@ -198,6 +231,14 @@ class Wallet extends React.Component {
                   </td>
                   <td>Real</td>
                   <td>
+                    <button
+                      id={ expense.id }
+                      type="button"
+                      data-testid="edit-btn"
+                      onClick={this.editExpense}
+                    >
+                      editar
+                    </button>
                     <button
                       type="button"
                       data-testid="delete-btn"

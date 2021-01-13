@@ -54,41 +54,46 @@ class Login extends React.Component {
     const { sendEmailFromProps } = this.props;
 
     return (
-      <form>
-        <section>
-          <label htmlFor="email-input">
-            Email
-            <input
-              id="email-input"
-              type="email"
-              data-testid="email-input"
-              onChange={ this.allowEmail }
-              required
-            />
-          </label>
-        </section>
-        <section>
-          <label htmlFor="password-input">
-            Senha
-            <input
-              id="password-input"
-              type="password"
-              data-testid="password-input"
-              onChange={ this.allowPassword }
-              required
-            />
-          </label>
-        </section>
-        <Link to="/carteira">
-          <button
-            type="button"
-            onClick={ () => sendEmailFromProps(email) }
-            disabled={ !(emailValid && passValid) }
-          >
-            Entrar
-          </button>
-        </Link>
-      </form>
+      <div class="form-wrapper">
+        <form>
+          <h1>Login</h1>
+          <section>
+            <label htmlFor="email-input">
+              Email
+              <input
+                id="email-input"
+                type="email"
+                data-testid="email-input"
+                onChange={ this.allowEmail }
+                required
+                />
+            </label>
+          </section>
+          <section>
+            <label htmlFor="password-input">
+              Senha
+              <input
+                id="password-input"
+                type="password"
+                data-testid="password-input"
+                onChange={ this.allowPassword }
+                required
+                />
+            </label>
+          </section>
+          <section>
+            <Link to="/carteira">
+              <button
+                type="button"
+                onClick={ () => sendEmailFromProps(email) }
+                disabled={ !(emailValid && passValid) }
+                >
+                Entrar
+              </button>
+            </Link>
+          </section>
+        </form>
+      </div>
     );
   }
 }
