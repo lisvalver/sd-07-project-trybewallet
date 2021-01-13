@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../actions';
 
@@ -9,6 +8,7 @@ class Login extends React.Component {
     super();
     this.handleChange = this.handleChange.bind(this);
     this.enableButton = this.enableButton.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.state = {
       emailInput: '',
       passwordInput: '',
@@ -38,9 +38,15 @@ class Login extends React.Component {
     }
   }
 
+  handleClick() {
+    const { emailInput } = this.state;
+    const { email, history } = this.props;
+    email(emailInput);
+    history.push('./carteira');
+  }
+
   render() {
     const { emailInput, passwordInput, disabled } = this.state;
-    const { email } = this.props;
 
     return (
       <div>
@@ -60,16 +66,13 @@ class Login extends React.Component {
           data-testid="password-input"
           onChange={ (event) => this.handleChange(event) }
         />
-        <Link to="/carteira">
-          {/* Não colocar um botão dentro de um link usar o history e o push para redirecionar */}
-          <button
-            type="button"
-            disabled={ disabled }
-            onClick={ () => email(emailInput) }
-          >
-            Entrar
-          </button>
-        </Link>
+        <button
+          type="button"
+          disabled={ disabled }
+          onClick={ (event) => this.handleClick(event) }
+        >
+          Entrar
+        </button>
       </div>
     );
   }
@@ -81,6 +84,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   email: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
