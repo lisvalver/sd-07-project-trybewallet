@@ -129,10 +129,11 @@ class FormWallet extends Component {
         </fieldset>
         <button
           type="button"
-          onClick={() => { 
+          onClick={ () => {
             sendCost(cost);
-            updateCount(); 
-          }}>
+            updateCount();
+          } }
+        >
           Adicionar despesa
         </button>
       </form>
