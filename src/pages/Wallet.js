@@ -46,8 +46,9 @@ class Wallet extends React.Component {
     return wallet;
   }
 
-  updateExpenses() {
-    const { addExpenses } = this.props;
+  async updateExpenses() {
+    const { addExpenses, fetchCurrencies } = this.props;
+    await fetchCurrencies();
     this.setState((prevState) => {
       const expenseInfo = prevState;
       const initialState = {
@@ -162,11 +163,11 @@ class Wallet extends React.Component {
               data-testid="tag-input"
               onChange={ this.handleChange }
             >
-              <option value="alimentacao">Alimentação</option>
-              <option value="lazer">Lazer</option>
-              <option value="trabalho">Trabalho</option>
-              <option value="transporte">Transporte</option>
-              <option value="saude">Saúde</option>
+              <option value="Alimentação">Alimentação</option>
+              <option value="Lazer">Lazer</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Saúde">Saúde</option>
             </select>
           </label>
           <button type="button" id="button-enter" onClick={ this.updateExpenses }>
