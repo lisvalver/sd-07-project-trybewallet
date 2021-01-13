@@ -1,8 +1,8 @@
-import React from "react";
-import { connect } from "react-redux";
-import ExpenseForm from "../components/ExpenseForm";
-import Table from "../components/Table";
-import * as actions from '../actions/index';
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import ExpenseForm from '../components/ExpenseForm';
+import Table from '../components/Table';
 
 class Wallet extends React.Component {
   render() {
@@ -40,8 +40,8 @@ const mapStateToProps = (state) => ({
   total: state.wallet.total,
 });
 
-// const mapDispatchToProps = (dispatch) => ({
-//   loadCurrencies: () => dispatch(actions.fetchCurrencies()),
-// });
-
 export default connect(mapStateToProps)(Wallet);
+
+Wallet.propTypes = {
+  email: PropTypes.string.isRequired,
+};

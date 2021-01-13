@@ -81,7 +81,7 @@ class ExpenseForm extends React.Component {
 
   render() {
     const { currencies } = this.props;
-    const { value, description, currency, method, tag, } = this.state;
+    const { value, description, currency, method, tag } = this.state;
     return (
       <div>
         <form>
@@ -127,13 +127,13 @@ class ExpenseForm extends React.Component {
             >
               {currencies
                 .filter((filterCurrency) => filterCurrency.codein !== 'BRLT')
-                .map((currency, index) => (
+                .map((currencyInfo, index) => (
                   <option
                     key={ index }
-                    value={ currency.code }
-                    data-testid={ currency.code }
+                    value={ currencyInfo.code }
+                    data-testid={ currencyInfo.code }
                   >
-                    {currency.code}
+                    {currencyInfo.code}
                   </option>
                 ))}
             </select>
@@ -209,6 +209,9 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
 
 ExpenseForm.propTypes = {
+  loadCurrencies: PropTypes.func.isRequired,
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  addExpenses: PropTypes.func.isRequired,
+  exchangeRates: PropTypes.objectOf(PropTypes.object).isRequired,
   currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
