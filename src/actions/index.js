@@ -15,7 +15,7 @@ export const addClick = (email) => (
   }
 );
 
-export const receiveApiSucces = (value) => (
+export const receiveApiSuccess = (value) => (
   {
     type: REQUEST_API_SUCCESS,
     value,
@@ -53,6 +53,6 @@ export function fetchWallet() {
   return async (dispatch) => {
     dispatch(requestCurrency());
     const jsonData = await getAPI();
-    return dispatch(receiveApiSucces(jsonData));
+    return dispatch(receiveApiSuccess(jsonData));
   };
 }

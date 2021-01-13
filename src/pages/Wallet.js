@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import getCurrencyValue from '../helpers/getCurrencyValue';
 import { fetchWallet, requestExpenses,
   getCurrency, deleteRowAction } from '../actions/index';
@@ -188,12 +188,19 @@ class Wallet extends React.Component {
                     <td>{exchangeRates[moeda].name}</td>
                     <td>{parseFloat(exchangeRates[moeda].ask).toFixed(2)}</td>
                     <td>{parseFloat(exchangeRates[moeda].ask * valor).toFixed(2)}</td>
-                    <td>Real</td>
-                    <div className="button-td">
+                    <td>
+                      {
+                        exchangeRates[moeda]
+                          .codein === 'BRL' ? 'Real' : exchangeRates[moeda]
+                            .codein
+                      }
+                    </td>
+                    {/* <td>{codein === 'BRL' ? 'Real' : codein}</td> */}
+                    <td className="button-td">
                       <button
                         className="btnEditar"
                         type="button"
-                        data-testid="delete-btn"
+                        // data-testid="delete-btn"
                       >
                         Editar
                       </button>
@@ -205,7 +212,7 @@ class Wallet extends React.Component {
                       >
                         Excluir
                       </button>
-                    </div>
+                    </td>
                   </tr>
                 ))}
             </tbody>
@@ -236,9 +243,9 @@ const mapStateToProps = ({ user: { email },
 
 Wallet.propTypes = {
   getWallet: PropTypes.func.isRequired,
-  currencies: PropTypes.func.isRequired,
+  currencies: PropTypes.arrayOf(string).isRequired,
   email: PropTypes.string.isRequired,
-  expenses: PropTypes.element.isRequired,
+  expenses: PropTypes.arrayOf(string).isRequired,
   getExpenses: PropTypes.func.isRequired,
   deleteRow: PropTypes.func.isRequired,
   dispatchtCurrency: PropTypes.func.isRequired,
