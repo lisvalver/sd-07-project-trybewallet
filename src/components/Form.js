@@ -42,6 +42,8 @@ class Form extends React.Component {
           <label htmlFor="value">
             Valor:
             <input
+              id="value"
+              type="number"
               data-testid="value-input"
               placeholder="Valor da despesa"
               name="value"
@@ -52,6 +54,7 @@ class Form extends React.Component {
           <label htmlFor="description">
             Descrição da despesa:
             <input
+              id="description"
               data-testid="description-input"
               placeholder="Descrição da despesa"
               name="description"
@@ -62,14 +65,16 @@ class Form extends React.Component {
           <label htmlFor="currency">
             Moeda:
             <select
+              id="currency"
               data-testid="currency-input"
               name="currency"
               value={ currency }
               onChange={ this.handleInputChange }
             >
-              <option value="">Selecione a moeda</option>
+              <option value="Selecione a moeda">Selecione a moeda</option>
               { currencies.map((curr) => (
                 <option
+                  id={ curr }
                   value={ curr }
                   key={ curr }
                   data-testid={ curr }
@@ -82,36 +87,42 @@ class Form extends React.Component {
           <label htmlFor="payment-method">
             Método de pagamento:
             <select
+              id="payment-method"
               data-testid="method-input"
               name="method"
               value={ method }
               onChange={ this.handleInputChange }
             >
-              <option>Selecione o método de pagamento</option>
-              <option>Dinheiro</option>
-              <option>Cartão de crédito</option>
-              <option>Cartão de débito</option>
+              <option
+                value="Selecione o método de pagamento"
+              >
+                Selecione o método de pagamento
+              </option>
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Cartão de crédito">Cartão de crédito</option>
+              <option value="Cartão de débito">Cartão de débito</option>
             </select>
           </label>
           <label htmlFor="tag">
             Categoria da despesa:
             <select
+              id="tag"
               data-testid="tag-input"
               name="tag"
               onChange={ this.handleInputChange }
               value={ tag }
             >
-              <option>Selecione a categoria</option>
-              <option>Alimentação</option>
-              <option>Lazer</option>
-              <option>Trabalho</option>
-              <option>Transporte</option>
-              <option>Saúde</option>
+              <option value="Selecione a categoria">Selecione a categoria</option>
+              <option value="Alimentação">Alimentação</option>
+              <option value="Lazer">Lazer</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Saúde">Saúde</option>
             </select>
           </label>
         </form>
         <button
-          type="submit"
+          type="button"
           onClick={ this.handleClick }
         >
           Adicionar despesa

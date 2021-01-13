@@ -21,7 +21,7 @@ export const startRequest = () => ({
 
 export const successRequest = (data) => ({
   type: SUCCESS_REQUEST,
-  currencies: Object.keys(data).filter((currencie) => currencie !== 'USDT'),
+  currencies: Object.keys(data).filter((currency) => currency !== 'USDT'),
 });
 
 export const failRequest = (error) => ({
