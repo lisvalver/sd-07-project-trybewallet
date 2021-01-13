@@ -5,58 +5,29 @@ import Table from "../components/Table";
 import * as actions from '../actions/index';
 
 class Wallet extends React.Component {
-  constructor() {
-    super();
-    this. state = {
-      total: 0,
-      isLoading: false,
-    }
-  }
-
-  sum() {
-    const { expenses } = this.props;
-    const totalExpenses = expenses.reduce((acc, curr) => (
-      parseFloat(acc) + (parseFloat(curr.value) * parseFloat(curr.exchangeRates[curr.currency].ask))
-    ), 0);
-    this.setState({
-      total: totalExpenses,
-    });
-  }
-  // componentDidMount() {
-  //   const { dispatch, loadCurrencies } = this.props;
-  //   // this.setState({
-  //   //   isLoading: true,
-  //   // }, async () => {
-  //   //   const data = loadCurrencies();
-  //   //   this.setState({
-  //   //     moedas: [data]
-  //   //   })
-  //   // })
-  //   loadCurrencies();
-  // }
   render() {
-    const { email, currencies, expenses, total } = this.props;
-    // const { moedas } = this.state;
-    console.log(currencies);
+    const { email } = this.props;
     return (
       <div>
         <header>
           <section>
-            Bem vindo<p data-testid="email-field">{email}</p>
+            Bem vindo
+            <p data-testid="email-field">{email}</p>
           </section>
           <section>
-            Gastos totais R$ 
+            Gastos totais R$
             <p Adicione o atributo data-testid="total-field">
-            {0}
+              {0}
             </p>
           </section>
           <section>
-            Seus gastos estão sendo convertidos para{" "}
+            Seus gastos estão sendo convertidos para
+            {' '}
             <p data-testid="header-currency-field">BRL</p>
           </section>
         </header>
         <ExpenseForm />
-        {<Table />}
+        <Table />
       </div>
     );
   }

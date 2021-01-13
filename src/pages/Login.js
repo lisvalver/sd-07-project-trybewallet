@@ -43,7 +43,7 @@ class Login extends React.Component {
 
   handleSubmit() {
     const { login, history } = this.props;
-    const email = this.state.email;
+    const { email } = this.state;
     login(email);
     history.push('/carteira');
   }

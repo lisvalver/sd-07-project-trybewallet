@@ -15,18 +15,22 @@ class Table extends React.Component {
     const { deleteExpense } = this.props;
     return (
       <tr key={ description }>
-        <td>{description}</td>
-        <td>{tag}</td>
-        <td>{method}</td>
-        <td>{value}</td>
-        <td>{exchangeRates[currency].name}</td>
-        <td>{parseFloat(exchangeRates[currency].ask).toFixed(2)}</td>
-        <td>
-          {parseFloat(value) * parseFloat(exchangeRates[currency].ask)}
-        </td>
+        <td>{ description }</td>
+        <td>{ tag }</td>
+        <td>{ method }</td>
+        <td>{ value }</td>
+        <td>{ exchangeRates[currency].name }</td>
+        <td>{ parseFloat(exchangeRates[currency].ask).toFixed(2) }</td>
+        <td>{ parseFloat(value) * parseFloat(exchangeRates[currency].ask) }</td>
         <td>Real</td>
         <td>
-          <button type="button" data-testid="delete-btn" onClick={() => deleteExpense(id)}>Deletar</button>
+          <button
+            type="button"
+            data-testid="delete-btn"
+            onClick={ () => deleteExpense(id) }
+          >
+            Deletar
+          </button>
         </td>
       </tr>
     );
@@ -51,7 +55,7 @@ class Table extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {expenses.map((expense) => this.renderElements(expense))}
+            { expenses.map((expense) => this.renderElements(expense)) }
           </tbody>
         </table>
       </div>

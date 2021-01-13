@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as actions from '../actions/index';
 
 class ExpenseForm extends React.Component {
   constructor(props) {
     super(props);
-    const { currencies } = this.props;
     this.state = {
       expense: [],
       value: '',
@@ -13,7 +13,6 @@ class ExpenseForm extends React.Component {
       method: '',
       currency: '',
       tag: '',
-      exchangeRates: currencies,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,14 +34,15 @@ class ExpenseForm extends React.Component {
   handleChange(event) {
     const { target } = event;
     const { name, value } = target;
-    this.setState({
-      [name]: value,
-    }, this.buttonValidation);
+    this.setState(
+      {
+        [name]: value,
+      },
+      this.buttonValidation,
+    );
   }
 
   resetState() {
-    const { currencies } = this.props;
-    const filteredCurrencies = currencies.filter((filterCurrency) => filterCurrency.codein != 'BRLT')
     this.setState({
       expense: [],
       value: '',
@@ -50,8 +50,7 @@ class ExpenseForm extends React.Component {
       method: '',
       currency: '',
       tag: '',
-      exchangeRates: filteredCurrencies,
-    })
+    });
   }
 
   async handleSubmit(event) {
@@ -59,8 +58,11 @@ class ExpenseForm extends React.Component {
     const { expenses, addExpenses, loadCurrencies, exchangeRates } = this.props;
     const { value, description, method, currency, tag } = this.state;
     await loadCurrencies();
-    const { currencies } = this.props;
-    const filteredCurrencies = currencies.filter((filterCurrency) => filterCurrency.codein != 'BRLT').sort()
+    console.log(exchangeRates);
+    // const { currencies } = this.props;
+    // const filteredCurrencies = currencies
+    //   .filter((filterCurrency) => filterCurrency.codein != "BRLT")
+    //   .sort();
     this.setState({
       expense: {
         id: expenses.length,
@@ -69,16 +71,17 @@ class ExpenseForm extends React.Component {
         description,
         method,
         tag,
-        exchangeRates: exchangeRates,
+        exchangeRates,
       },
     });
-    addExpenses(this.state.expense);
-    console.log(this.state.expense);
-    console.log(expenses);
+    const { expense } = this.state;
+    addExpenses(expense);
+    this.resetState();
   }
 
   render() {
     const { currencies } = this.props;
+    const { value, description, currency, method, tag, } = this.state;
     return (
       <div>
         <form>
@@ -91,45 +94,59 @@ class ExpenseForm extends React.Component {
                 placeholder="Digite seu despesa"
                 id="value"
                 type="text"
-                value={this.state.value}
-                onChange={this.handleChange}
+                value={ value }
+                onChange={ this.handleChange }
               />
             </div>
-          </label>{" "}
-          <label htmlFor="description">O que é?</label>{" "}
-          <div>
-            <input
-              name="description"
-              data-testid="description-input"
-              placeholder="Descrição da despesa"
-              id="description"
-              type="text"
-              value={this.state.description}
-              onChange={this.handleChange}
-            />
-          </div>
+          </label>
+          {' '}
+          <label htmlFor="description">
+            O que é?
+            <div>
+              <input
+                name="description"
+                data-testid="description-input"
+                placeholder="Descrição da despesa"
+                id="description"
+                type="text"
+                value={ description }
+                onChange={ this.handleChange }
+              />
+            </div>
+          </label>
+          {' '}
           <label htmlFor="currency-input" data-testid="currency-input-label">
             Sigla
             <select
-              style={{ marginLeft: 10 }}
+              style={ { marginLeft: 10 } }
               name="currency"
-              onChange={this.handleChange}
+              onChange={ this.handleChange }
               id="currency-input"
               data-testid="currency-input"
-              value={this.state.currency}
+              value={ currency }
             >
-            {currencies.filter((filterCurrency) => filterCurrency.codein != 'BRLT').map((currency) => <option value={currency.code} data-testid={currency.code} />)}
+              {currencies
+                .filter((filterCurrency) => filterCurrency.codein !== 'BRLT')
+                .map((currency, index) => (
+                  <option
+                    key={ index }
+                    value={ currency.code }
+                    data-testid={ currency.code }
+                  >
+                    {currency.code}
+                  </option>
+                ))}
             </select>
           </label>
           <label htmlFor="method-input" data-testid="method-input-label">
             Forma de pagamento
             <select
-              style={{ marginLeft: 10 }}
+              style={ { marginLeft: 10 } }
               name="method"
-              onChange={this.handleChange}
+              onChange={ this.handleChange }
               id="method-input"
               data-testid="method-input"
-              value={this.state.method}
+              value={ method }
             >
               <option value="Dinheiro" data-testid="method-option">
                 Dinheiro
@@ -145,34 +162,31 @@ class ExpenseForm extends React.Component {
           <label htmlFor="tag-input" data-testid="tag-input-label">
             Categoria
             <select
-              style={{ marginLeft: 10 }}
+              style={ { marginLeft: 10 } }
               name="tag"
-              onChange={this.handleChange}
+              onChange={ this.handleChange }
               id="tag-input"
               data-testid="tag-input"
-              value={this.state.tag}
+              value={ tag }
             >
               <option value="Alimentação" data-testid="tag-option">
-              Alimentação
+                Alimentação
               </option>
               <option value="Lazer" data-testid="tag-option">
-              Lazer
+                Lazer
               </option>
               <option value="Trabalho" data-testid="tag-option">
-              Trabalho
+                Trabalho
               </option>
               <option value="Transporte" data-testid="tag-option">
-              Transporte
+                Transporte
               </option>
               <option value="Saúde" data-testid="tag-option">
-              Saúde
+                Saúde
               </option>
             </select>
           </label>
-          <button
-            type="button"
-            onClick={this.handleSubmit}
-          >
+          <button type="button" onClick={ this.handleSubmit }>
             Adicionar despesa
           </button>
         </form>
@@ -193,3 +207,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
+
+ExpenseForm.propTypes = {
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
