@@ -46,72 +46,85 @@ class FormWallet extends Component {
         <fieldset>
           <legend>Despesas</legend>
           <div>
-            <label htmlFor="value">Adicionar Despesa</label>
-            <input
-              type="number"
-              data-testid="value-input"
-              name="value"
-              id="value"
-              value={ value }
-              onChange={ this.getInformationsCost }
-              required
-            />
+            <label htmlFor="value">
+              Adicionar Despesa
+              <input
+                type="number"
+                data-testid="value-input"
+                name="value"
+                id="value"
+                value={ value }
+                onChange={ this.getInformationsCost }
+                required
+              />
+            </label>
           </div>
           <div>
-            <label htmlFor="description">Descrição Despesa</label>
-            <input
-              type="text"
-              data-testid="description-input"
-              name="description"
-              id="description"
-              value={ description }
-              onChange={ this.getInformationsCost }
-              required
-            />
+            <label htmlFor="description">
+              Descrição Despesa
+              <input
+                type="text"
+                data-testid="description-input"
+                name="description"
+                id="description"
+                value={ description }
+                onChange={ this.getInformationsCost }
+                required
+              />
+            </label>
           </div>
           <div>
-            <label htmlFor="currency">Tipo da moeda</label>
-            <select
-              data-testid="currency-input"
-              name="currency"
-              id="currency"
-              value={ currency }
-              onChange={ this.getInformationsCost }
-              required>
-              {filterCurrencies.map(coin => (
-                <option key={ coin } data-testid={ coin }>
-                  {coin}
-                </option>
-              ))}
-            </select>
+            <label htmlFor="currency">
+              Tipo da moeda
+              <select
+                data-testid="currency-input"
+                name="currency"
+                id="currency"
+                value={ currency }
+                onChange={ this.getInformationsCost }
+                required
+              >
+                {filterCurrencies.map((coin) => (
+                  <option key={ coin } data-testid={ coin }>
+                    {coin}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
           <div>
-            <label htmlFor="method">Pagamento</label>
-            <select
-              data-testid="method-input"
-              name="method"
-              id="method"
-              value={ method }
-              onChange={ this.getInformationsCost }
-              required>
-              {payment.map(method => (
-                <option key={ method }>{method}</option>
-              ))}
-            </select>
+            <label htmlFor="method">
+              Pagamento
+              <select
+                data-testid="method-input"
+                name="method"
+                id="method"
+                value={ method }
+                onChange={ this.getInformationsCost }
+                required
+              >
+                {payment.map((method) => (
+                  <option key={ method }>{method}</option>
+                ))}
+              </select>
+            </label>
           </div>
           <div>
-            <label htmlFor="tag">Despesa</label>
-            <select
-              data-testid="tag-input"
-              name="tag"
-              id="tag"
-              value={ tag }
-              onChange={ this.getInformationsCost }
-              required>
-              {tagCost.map(tag => (
-                <option key={ tag }>{tag}</option>
-              ))}
-            </select>
+            <label htmlFor="tag">
+              Despesa
+              <select
+                data-testid="tag-input"
+                name="tag"
+                id="tag"
+                value={ tag }
+                onChange={ this.getInformationsCost }
+                required
+              >
+                {tagCost.map((tag) => (
+                  <option key={ tag }>{tag}</option>
+                ))}
+              </select>
+            </label>
           </div>
         </fieldset>
         <button

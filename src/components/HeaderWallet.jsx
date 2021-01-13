@@ -6,9 +6,9 @@ class Header extends Component {
     const { email, total } = this.props;
     return (
       <header>
-        <p data-testid='email-field'>{email}</p>
-        <p data-testid='total-field'>{total}</p>
-        <p data-testid='header-currency-field'>BRL</p>
+        <p data-testid="email-field">{email}</p>
+        <p data-testid="total-field">{total}</p>
+        <p data-testid="header-currency-field">BRL</p>
       </header>
     );
   }
@@ -17,6 +17,6 @@ class Header extends Component {
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
-}
+};
 
 export default Header;

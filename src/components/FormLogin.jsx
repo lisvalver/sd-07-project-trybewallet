@@ -10,7 +10,8 @@ class FormLogin extends Component {
           <legend>LOGIN</legend>
           <h1>Hello, TrybeWallet!</h1>
           <div>
-            <label htmlFor="email">E-mail:
+            <label htmlFor="email">
+              E-mail:
               <input
                 data-testid="email-input"
                 type="email"
@@ -22,7 +23,8 @@ class FormLogin extends Component {
             </label>
           </div>
           <div>
-            <label htmlFor="password">Senha:
+            <label htmlFor="password">
+              Senha:
               <input
                 data-testid="password-input"
                 type="password"
@@ -43,6 +45,6 @@ FormLogin.propTypes = {
   email: PropTypes.string.isRequired,
   password: PropTypes.number.isRequired,
   update: PropTypes.func.isRequired,
-}
+};
 
 export default FormLogin;
