@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { newExpense } from '../actions';
-import apiCurrency from '../services/api';
+import { newExpense, currencyApi } from '../actions';
+import apiWallet from '../services/api';
 
 class AddExpenses extends Component {
   constructor(props) {
     super(props);
 
     this.currencyArray = this.currencyArray.bind(this);
+    this.addExpenses = this.addExpenses.bind(this);
 
     this.state = {
       exchangeRates: {},
@@ -22,7 +23,7 @@ class AddExpenses extends Component {
   }
 
   async componentDidMount() {
-    const currency = await apiCurrency();
+    const currency = await apiWallet();
     this.currencyArray(currency);
   }
 
@@ -33,10 +34,12 @@ class AddExpenses extends Component {
   }
 
   addExpenses() {
-    const { send } = this.props;
+    const { api, send, randomId } = this.props;
     const { exchangeRates, currency, description, method, tag, value } = this.state;
+    const numberId = randomId;
 
     send({
+      id: numberId,
       exchangeRates,
       currency,
       description,
@@ -52,6 +55,8 @@ class AddExpenses extends Component {
       tag: 'Alimentação',
       description: '',
     });
+
+    api();
   }
 
   render() {
@@ -65,7 +70,6 @@ class AddExpenses extends Component {
             <input
               type="number"
               min="0"
-              id="value"
               data-testid="value-input"
               onChange={ (e) => this.setState({ value: e.target.value }) }
               value={ value }
@@ -81,20 +85,21 @@ class AddExpenses extends Component {
             >
               {Object.values(exchangeRates)
                 .filter((element) => element.codein !== 'BRLT')
-                .map((item) => (
+                .map((i) => (
                   <option
-                    key={ item.code }
-                    value={ item.code }
-                    data-testid={ item.code }
+                    key={ i.code }
+                    value={ i.code }
+                    data-testid={ i.code }
                   >
-                    {item.code}
+                    {i.code}
                   </option>
                 ))}
             </select>
           </label>
-          <label htmlFor>
+          <label htmlFor="pagamento">
             Método de Pagamento:
             <select
+              id="pagamento"
               data-testid="method-input"
               onChange={ (e) => this.setState({ method: e.target.value }) }
               value={ method }
@@ -104,9 +109,10 @@ class AddExpenses extends Component {
               <option value="Cartão de débito">Cartão de débito</option>
             </select>
           </label>
-          <label htmlFor>
+          <label htmlFor="tag">
             Tag:
             <select
+              id="tag"
               data-testid="tag-input"
               onChange={ (e) => this.setState({ tag: e.target.value }) }
               value={ tag }
@@ -131,6 +137,7 @@ class AddExpenses extends Component {
           </label>
           <button
             type="button"
+            onClick={ () => this.addExpenses() }
           >
             Adicionar despesa
           </button>
@@ -141,13 +148,16 @@ class AddExpenses extends Component {
 }
 
 AddExpenses.propTypes = {
-  send: PropTypes.func.isRequired,
-};
+  send: PropTypes.func,
+  randomId: PropTypes.number,
+  api: PropTypes.func,
+}.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
-  send: (addExpenses) => dispatch(newExpense(addExpenses)),
+  send: (addExpense) => dispatch(newExpense(addExpense)),
+  api: (currency) => dispatch(currencyApi(currency)),
 });
 
-const mapStateToProps = ({ wallet: { expenses } }) => ({ expenses });
+const mapStateToProps = ({ wallet: { expenses, randomId } }) => ({ expenses, randomId });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddExpenses);

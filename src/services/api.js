@@ -1,6 +1,6 @@
 const endPoint = 'https://economia.awesomeapi.com.br/json/all';
 
-const api = async () => {
+const apiWallet = async () => {
   try {
     const request = await fetch(endPoint);
     const response = await request.json();
@@ -10,4 +10,4 @@ const api = async () => {
   }
 };
 
-export default api;
+export default apiWallet;

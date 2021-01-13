@@ -6,6 +6,12 @@ class Header extends Component {
   sumExpenses() {
     const { expenses } = this.props;
     console.log(expenses);
+    if (expenses.length === 0) return 0;
+    let result = 0;
+    expenses.forEach(({ value, exchangeRates, currency }) => {
+      result += value * exchangeRates[currency].ask;
+    });
+    return Number(result).toFixed(2);
   }
 
   render() {
@@ -18,7 +24,8 @@ class Header extends Component {
           { email }
         </span>
         <span data-testid="total-field">
-          0
+          Despesa total:
+          {this.sumExpenses()}
         </span>
         <span data-testid="header-currency-field">BRL</span>
       </div>
@@ -27,6 +34,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
+  expenses: PropTypes.arrayOf(PropTypes.object),
   email: PropTypes.string,
 }.isRequired;
 
