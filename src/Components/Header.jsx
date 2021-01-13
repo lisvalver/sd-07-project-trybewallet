@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes  from 'prop-types'
+import PropTypes from 'prop-types';
 import Logo from '../images/logo-wallet.jpg';
 
 class Header extends React.Component {
