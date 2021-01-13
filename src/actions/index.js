@@ -5,6 +5,7 @@ export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const SEND_EMAIL = 'SEND_EMAIL';
 export const GET_EXCHANGE = 'GET_EXCHANGE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 
 export const sendEmail = (email) => ({
   type: SEND_EMAIL,
@@ -34,3 +35,8 @@ export const fetchExchange = (currenciesObj) => async (dispatch) => {
 
   dispatch(addExpense({ ...currenciesObj, exchangeRates }, converted));
 };
+
+export const editExpense = (expenses) => ({
+  type: EDIT_EXPENSE,
+  expenses,
+});

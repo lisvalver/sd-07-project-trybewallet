@@ -54,7 +54,7 @@ class Login extends React.Component {
     const { sendEmailFromProps } = this.props;
 
     return (
-      <div class="form-wrapper">
+      <div className="form-wrapper">
         <form>
           <h1>Login</h1>
           <section>
@@ -66,7 +66,7 @@ class Login extends React.Component {
                 data-testid="email-input"
                 onChange={ this.allowEmail }
                 required
-                />
+              />
             </label>
           </section>
           <section>
@@ -78,7 +78,7 @@ class Login extends React.Component {
                 data-testid="password-input"
                 onChange={ this.allowPassword }
                 required
-                />
+              />
             </label>
           </section>
           <section>
@@ -87,7 +87,7 @@ class Login extends React.Component {
                 type="button"
                 onClick={ () => sendEmailFromProps(email) }
                 disabled={ !(emailValid && passValid) }
-                >
+              >
                 Entrar
               </button>
             </Link>
