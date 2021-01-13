@@ -1,4 +1,6 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
+import { RECEIVE_FAILURE, RECEIVE_SUCCESS, REQUEST, ADD } from '../actions/type';
+
 const INITIAL_STATE = {
   user: {
     email: '',
@@ -11,12 +13,7 @@ const INITIAL_STATE = {
   },
 };
 
-const RECEIVE_FAILURE = 'RECEIVE_FAILURE';
-const RECEIVE_SUCCESS = 'RECEIVE_SUCCESS';
-const REQUEST = 'REQUEST';
-
 const wallet = (state = INITIAL_STATE.wallet, action) => {
-  // console.log('received action:', action);
   switch (action.type) {
   case REQUEST:
     return {
@@ -28,7 +25,7 @@ const wallet = (state = INITIAL_STATE.wallet, action) => {
     return {
       ...state,
       isFetching: false,
-      currencies: { ...action.currencies },
+      currencies: action.value,
     };
   case RECEIVE_FAILURE:
     return {
@@ -36,6 +33,8 @@ const wallet = (state = INITIAL_STATE.wallet, action) => {
       isFetching: false,
       error: 'erro',
     };
+  case ADD:
+    return { ...state, expenses: [...state.expenses, action.expenses] };
   default:
     return state;
   }

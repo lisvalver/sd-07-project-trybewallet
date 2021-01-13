@@ -1,14 +1,10 @@
 // Coloque aqui suas actions
-const LOGIN = 'LOGIN';
-const RECEIVE_FAILURE = 'RECEIVE_FAILURE';
-const RECEIVE_SUCCESS = 'RECEIVE_SUCCESS';
-const REQUEST = 'REQUEST';
+import { LOGIN, RECEIVE_FAILURE, RECEIVE_SUCCESS, REQUEST, ADD } from '../actions/type'
 
 const loginActions = (value) => ({ type: LOGIN, value });
 
-const receiveFailure = (error) => ({
+const receiveFailure = () => ({
   type: RECEIVE_FAILURE,
-  error,
 });
 
 const receiveSuccess = (value) => ({
@@ -18,6 +14,11 @@ const receiveSuccess = (value) => ({
 
 const request = () => ({
   type: REQUEST,
+});
+
+const add = (expenses) => ({
+  type: ADD,
+  expenses,
 });
 
 const fetchCurrency = () => async (dispatch) => {
@@ -31,4 +32,4 @@ const fetchCurrency = () => async (dispatch) => {
   }
 };
 
-export { loginActions, fetchCurrency };
+export { loginActions, fetchCurrency, add };
