@@ -13,5 +13,3 @@ export const CURRENCY = (currency) => ({ type: ADD_CURRENCY, currency });
 export const EXPENSE = (expense) => ({ type: ADD_EXPENSE, expense });
 
 export const DELEXPENSE = (id) => ({ type: DEL_EXPENSE, id });
-// Object.keys(currencies)
-// .filter((coin) => coin !== 'USDT')

@@ -43,4 +43,8 @@ class WalletPanel extends Component {
   }
 }
 
-export default WalletPanel;
+const mapStateToProps = (state) => ({
+  expenses: state.wallet.expenses,
+});
+
+export default connect(mapStateToProps, null)(WalletPanel);
