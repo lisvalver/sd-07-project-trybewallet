@@ -18,6 +18,7 @@ class Table extends React.Component {
               <th>Câmbio utilizado</th>
               <th>Valor convertido</th>
               <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
             </tr>
             { expenses.map((exp) => {
               const {
@@ -32,11 +33,12 @@ class Table extends React.Component {
                   <td>{ exchangeRates[currency].name }</td>
                   <td>
                     R$
-                    { parseFloat((exchangeRates[currency].ask)).toFixed(2) }
+                    { Math.round(parseFloat((exchangeRates[currency].ask)) * 100) / 100 }
                   </td>
                   <td>
                     R$
-                    { parseFloat((value * exchangeRates[currency].ask)).toFixed(2) }
+                    { Math.round(parseFloat(value * exchangeRates[currency].ask) * 100)
+                    / 100 }
                   </td>
                   <td>Real</td>
                 </tr>
