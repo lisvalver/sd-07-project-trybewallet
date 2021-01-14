@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { login } from '../actions/index';
@@ -72,8 +73,6 @@ const mapDispatchToProps = (dispatch) => ({
   addEmail: (email) => dispatch(login(email)),
 });
 
-Login.propTypes = { addEmail: PropTypes.string };
-
-Login.defaultProps = { addEmail: '' };
+Login.propTypes = { addEmail: PropTypes.func.isRequired };
 
 export default connect(null, mapDispatchToProps)(Login);
