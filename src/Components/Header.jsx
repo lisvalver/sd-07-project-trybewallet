@@ -18,7 +18,9 @@ class Header extends React.Component {
           <div className="amount-wallet" data-testid="total-field">
             <p className="label">Despesas:</p>
             { amount }
-            { cambio }
+            <span data-testid="header-currency-field">
+              { cambio }
+            </span>
           </div>
         </div>
       </div>
