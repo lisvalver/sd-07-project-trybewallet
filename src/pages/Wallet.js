@@ -9,6 +9,7 @@ class Wallet extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.reduceExchange = this.reduceExchange.bind(this);
+    this.expensesTable = this.expensesTable.bind(this);
 
     this.state = {
       value: 0,
@@ -35,6 +36,24 @@ class Wallet extends React.Component {
     return expense.reduce((acc, vt) => acc
       + parseFloat(vt.value)
       * parseFloat(vt.exchangeRates[vt.currency].ask), 0).toFixed(2);
+  }
+
+  expensesTable(expenses) {
+    const { description, tag, method, value, exchangeRates, currency } = expenses;
+    return (
+      <tr key={ description }>
+        <td>{ description }</td>
+        <td>{ tag }</td>
+        <td>{ method }</td>
+        <td>{ value }</td>
+        <td>{ exchangeRates[currency].name }</td>
+        <td>{ parseFloat(exchangeRates[currency].ask).toFixed(2) }</td>
+        <td>
+          {((value) * (exchangeRates[currency].ask)).toFixed(2) }
+        </td>
+        <td>Real</td>
+      </tr>
+    );
   }
 
   render() {
@@ -149,6 +168,25 @@ class Wallet extends React.Component {
             Adicionar despesa
           </button>
         </form>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+            {expenses.map((expense) => this.expensesTable(expense))}
+          </tbody>
+        </table>
       </div>);
   }
 }
@@ -165,13 +203,7 @@ const mapDispatchToProps = {
 };
 
 Wallet.propTypes = {
-  expenses: PropTypes.shape({
-    currency: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    method: PropTypes.string.isRequired,
-    tag: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  }).isRequired,
+  expenses: PropTypes.instanceOf(Object).isRequired,
   email: PropTypes.func.isRequired,
   thunkApi: PropTypes.func.isRequired,
   addExpenses: PropTypes.func.isRequired,
