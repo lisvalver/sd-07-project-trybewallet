@@ -5,7 +5,13 @@ import { connect } from 'react-redux';
 class Header extends React.Component {
   render() {
     const { user } = this.props;
-    return <div>{user.email}</div>;
+    return (
+      <div>
+        <div data-testid="email-field">{user.email}</div>
+        <div data-testid="total-field">0</div>
+        <div data-testid="header-currency-field">BRL</div>
+      </div>
+    );
   }
 }
 
