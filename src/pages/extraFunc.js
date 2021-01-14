@@ -10,7 +10,7 @@ const discoverName = (target, exchangeRates, values) => {
     const valueConvert = values.value * exchangeValue;
     obj[1].converted = parseInt(valueConvert * adjust, 10) / adjust;
   }
-  obj[1].newAsk = Math.round(obj[1].ask * adjust) / adjust;
+  obj[1].newAsk = (Math.round(obj[1].ask * adjust) / adjust).toFixed(2);
   return obj[1];
 };
 

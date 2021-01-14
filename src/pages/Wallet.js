@@ -18,6 +18,8 @@ class Wallet extends React.Component {
       method: 'Cartão de crédito',
       tag: 'Lazer',
       totalValue: 0,
+      editState: false,
+      expenseNumber: 0,
     };
   }
 
@@ -48,18 +50,20 @@ class Wallet extends React.Component {
 
   render() {
     const { returnParse, discoverName } = extraFunc;
-    const { user, addExpense, wallet, delExpense } = this.props;
+    const { user, addExpense, wallet, delExpense, editExpense } = this.props;
     const { expenses } = wallet;
     const { email } = user;
     const {
       exchangeRates,
       value,
-      id,
       description,
       currency,
       method,
       tag,
       totalValue,
+      editState,
+      expenseNumber,
+      id,
     } = this.state;
     return (
       <div>
@@ -143,12 +147,22 @@ class Wallet extends React.Component {
             <button
               type="button"
               onClick={ async () => {
-                this.setState({ id: id + 1, description: '', value: 0 });
-                await addExpense(this.state);
-                this.totalField();
+                if (editState) {
+                  await editExpense(this.state);
+                  this.totalField();
+                  this.setState(({ id: expenseNumber, editState: false }));
+                } else {
+                  await addExpense(this.state);
+                  await this.setState({
+                    description: '',
+                    value: 0,
+                    expenseNumber: expenseNumber + 1,
+                    id: id + 1 });
+                  this.totalField();
+                }
               } }
             >
-              Adicionar Despesas
+              {editState ? 'Editar Despesa' : 'Adicionar Despesa'}
             </button>
           </form>
         </div>
@@ -186,7 +200,15 @@ class Wallet extends React.Component {
                 </td>
                 <td key="currency">Real</td>
                 <td>
-                  <button type="button">Editar</button>
+                  <button
+                    type="button"
+                    data-testid="edit-btn"
+                    onClick={ () => {
+                      this.setState({ editState: true, id: values.id });
+                    } }
+                  >
+                    Editar
+                  </button>
                   <button
                     type="button"
                     data-testid="delete-btn"
@@ -210,10 +232,11 @@ const mapStateToProps = (state) => ({
   user: state.user,
   wallet: state.wallet,
 });
-const { addExpenseAction, delExpenseAction } = actions;
+const { addExpenseAction, delExpenseAction, editExpenseAction } = actions;
 const mapDispatchToProps = (dispatch) => ({
   addExpense: (e) => dispatch(addExpenseAction(e)),
   delExpense: (e) => dispatch(delExpenseAction(e)),
+  editExpense: (e) => dispatch(editExpenseAction(e)),
 });
 
 Wallet.propTypes = {
@@ -221,5 +244,6 @@ Wallet.propTypes = {
   wallet: PropTypes.shape.isRequired,
   addExpense: PropTypes.func.isRequired,
   delExpense: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
