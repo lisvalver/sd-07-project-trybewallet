@@ -10,6 +10,7 @@ class Login extends React.Component {
     this.state = {
       emailUser: '',
       passUser: '',
+      btn: true,
     };
     this.handleChange = this.handleChange.bind(this);
     this.isValid = this.isValid.bind(this);
@@ -22,21 +23,25 @@ class Login extends React.Component {
     email(emailUser);
   }
 
+  isValid() {
+    const { emailUser, passUser } = this.state;
+    const minLengt = 5;
+    const result = /\S+@\S+\.\S+/.test(emailUser) && passUser.length >= minLengt;
+    console.log(result);
+    this.setState({ btn: !result });
+  }
+
   handleChange(event) {
     event.preventDefault();
     const { target: { name }, target: { value } } = event;
     this.setState({
       [name]: value,
     });
-  }
-
-  isValid() {
-    const { emailUser, passUser } = this.state;
-    const minLengt = 6;
-    return /\S+@\S+\.\S+/.test(emailUser) && passUser >= minLengt;
+    this.isValid();
   }
 
   render() {
+    const { btn } = this.state;
     return (
       <div className="container-form">
         <form>
@@ -61,12 +66,12 @@ class Login extends React.Component {
             />
           </div>
           <span id="return-client" />
-          <Link to="/wallet" data-testid="btn-login">
+          <Link to="/carteira" data-testid="btn-login">
             <button
               type="button"
               className="btn-login"
               name="btn-login"
-              disabled={ !this.isValid() }
+              disabled={ btn }
               onClick={ this.callAction }
               data-testid="button-login"
             >

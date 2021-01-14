@@ -11,7 +11,7 @@ class Routes extends React.Component {
           <Route exact path="/">
             <Login />
           </Route>
-          <Route path="/wallet">
+          <Route path="/carteira">
             <Wallet />
           </Route>
         </Switch>

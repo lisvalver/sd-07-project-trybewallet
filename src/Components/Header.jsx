@@ -11,11 +11,11 @@ class Header extends React.Component {
           <img src={ Logo } alt="logo" />
         </div>
         <div className="status-wallet">
-          <div className="user-wallet">
+          <div className="user-wallet" data-testid="email-field">
             <p className="label">Email:</p>
             { user }
           </div>
-          <div className="amount-wallet">
+          <div className="amount-wallet" data-testid="total-field">
             <p className="label">Despesas:</p>
             { amount }
           </div>
