@@ -32,11 +32,9 @@ class Table extends React.Component {
                   <td>{ value }</td>
                   <td>{ exchangeRates[currency].name }</td>
                   <td>
-                    R$
                     { Math.round(parseFloat((exchangeRates[currency].ask)) * 100) / 100 }
                   </td>
                   <td>
-                    R$
                     { Math.round(parseFloat(value * exchangeRates[currency].ask) * 100)
                     / 100 }
                   </td>
