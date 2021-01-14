@@ -65,6 +65,30 @@ class Login extends React.Component {
 
   render() {
     const { loginBtn } = this.state;
+    let btn;
+    if (loginBtn) {
+      btn = (
+        <button
+          type="button"
+          disabled={ loginBtn }
+          onClick={ () => this.loginBtn() }
+          style={ { background: 'rgb(235, 212, 12, 0.5)' } }
+        >
+          Entrar
+        </button>
+      );
+    } else {
+      btn = (
+        <button
+          type="button"
+          disabled={ loginBtn }
+          onClick={ () => this.loginBtn() }
+        >
+          Entrar
+        </button>
+      );
+    }
+
     return (
       <div className="login-container">
         <h1>l o g i n</h1>
@@ -87,13 +111,7 @@ class Login extends React.Component {
           title="6 or more characters"
           onChange={ this.inputOnChange }
         />
-        <button
-          type="button"
-          disabled={ loginBtn }
-          onClick={ () => this.loginBtn() }
-        >
-          Entrar
-        </button>
+        {btn}
       </div>
     );
   }
@@ -109,7 +127,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   getLogin: PropTypes.func.isRequired,
-  history: PropTypes.shape.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Login);
