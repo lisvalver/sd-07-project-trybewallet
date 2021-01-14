@@ -1,29 +1,43 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import React, { Component } from 'react';
+// import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
 
-class Header extends Component {
-  render() {
-    const { emailInfo } = this.props;
-    return (
-      <header>
-        <ul>
-          <li data-testid="email-field">
-            {emailInfo}
-          </li>
-          <li data-testid="total-field">
-            0
-          </li>
-          <li data-testid="header-currency-field">
-            BRL
-          </li>
-        </ul>
-      </header>
-    );
-  }
-}
+// class Header extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.expensesAmount = this.expensesAmount.bind(this);
+//     this.state = {
+//       amount: 0,
+//     };
+//   }
 
-Header.propTypes = {
-  emailInfo: PropTypes.string.isRequired,
-};
+//   expensesAmount() {
+//     const { expenses } = this.props;
+//     let amount = 0;
+//     if (expenses.length === 0) {
+//       this.setState({ amount });
+//     }
+//     expenses.forEach((expense) => {
+//       amount += parseFloat(expense.value);
+//     });
+//     this.setState({ amount });
+//   }
 
-export default Header;
+//   render() {
+//     const { emailInfo } = this.props;
+//     const { amount } = this.state;
+//     return (
+      
+//     );
+//   }
+// }
+
+// const mapStateToProps = (state) => ({
+//   expenses: state.wallet.expenses,
+// });
+
+// Header.propTypes = {
+//   emailInfo: PropTypes.string.isRequired,
+// };
+
+// export default connect(mapStateToProps)(Header);

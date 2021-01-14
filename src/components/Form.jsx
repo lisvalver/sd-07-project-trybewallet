@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import addExpense from '../actions/addExpense';
 
 class Form extends Component {
@@ -16,9 +17,10 @@ class Form extends Component {
       value: 0,
       description: '',
       currency: 'USD',
-      method: 'money',
-      tag: 'food',
+      method: '',
+      tag: '',
       exchangeRates: {},
+      amount: 0,
     };
   }
 
@@ -30,6 +32,18 @@ class Form extends Component {
   handleChange({ target }) {
     const { name, value } = target;
     this.setState({ [name]: value });
+  }
+
+  expensesAmount() {
+    const { expenses } = this.props;
+    let amount = 0;
+    if (expenses.length === 0) {
+      this.setState({ amount });
+    }
+    expenses.forEach((expense) => {
+      amount += parseFloat(expense.value);
+    });
+    this.setState({ amount });
   }
 
   dispatchExpense(e) {
@@ -53,6 +67,7 @@ class Form extends Component {
           tag,
           id,
         } = this.state;
+        console.log(this.state);
         addExpenseToStore({
           value,
           description,
@@ -63,7 +78,10 @@ class Form extends Component {
           exchangeRates,
         });
       })
-      .then(() => this.updateNumberOfExpenses());
+      .then(() => {
+        this.updateNumberOfExpenses();
+        this.expensesAmount();
+      });
   }
 
   transformCurrencies(json) {
@@ -86,7 +104,6 @@ class Form extends Component {
   updateNumberOfExpenses() {
     const { expenses } = this.props;
     const id = expenses.length;
-    console.log(id);
     this.setState({ id });
   }
 
@@ -98,12 +115,26 @@ class Form extends Component {
       currency,
       method,
       tag,
+      amount,
     } = this.state;
-    const { expenses } = this.props;
+    const { expenses, emailInfo } = this.props;
     console.log(expenses);
     const currencies = this.transformCurrencies(json);
     return (
-      <form>
+      <div>
+        <header>
+          <ul>
+            <li data-testid="email-field">
+              {emailInfo}
+            </li>
+            <li data-testid="total-field">
+              {amount}
+            </li>
+            <li data-testid="header-currency-field">
+              BRL
+            </li>
+          </ul>
+        </header>
         <label htmlFor="value">
           Valor:
           <input
@@ -142,9 +173,9 @@ class Form extends Component {
             onChange={ (e) => this.handleChange(e) }
             data-testid="method-input"
           >
-            <option value="money">Dinheiro</option>
-            <option value="credit-card">Cartão de crédito</option>
-            <option value="debit-card">Cartão de débito</option>
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
+            <option value="Cartão de débito">Cartão de débito</option>
           </select>
         </label>
         <label htmlFor="tag">
@@ -156,11 +187,11 @@ class Form extends Component {
             onChange={ (e) => this.handleChange(e) }
             data-testid="tag-input"
           >
-            <option value="food">Alimentação</option>
-            <option value="fun">Lazer</option>
-            <option value="work">Trabalho</option>
-            <option value="transport">Transporte</option>
-            <option value="health">Saúde</option>
+            <option value="Alimentação">Alimentação</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saúde">Saúde</option>
           </select>
         </label>
         <label htmlFor="description">
@@ -180,13 +211,14 @@ class Form extends Component {
         >
           Adicionar Despesa
         </button>
-      </form>
+      </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
+  emailInfo: state.user.email,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -194,5 +226,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(addExpense(payload));
   },
 });
+
+Form.propTypes = {
+  addExpenseToStore: PropTypes.func.isRequired,
+  expenses: PropTypes.shape({}).isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
