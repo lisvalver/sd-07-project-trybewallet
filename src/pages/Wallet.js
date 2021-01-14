@@ -21,20 +21,21 @@ class Wallet extends React.Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.fetchCurrenciesNames();
   }
-  
+
   async fetchCurrenciesNames() {
-      try {
-        const response = await fetch('https://economia.awesomeapi.com.br/json/all');
-        const currencies = await response.json();
-        const currenciesKeys = Object.keys(currencies);
-        const currenciesKeysFilter = currenciesKeys.filter((name) => name !== "USDT")
-        return this.setState({currenciesNames: currenciesKeysFilter})
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const currencies = await response.json();
+      const currenciesKeys = Object.keys(currencies);
+      const currenciesKeysFilter = currenciesKeys.filter((name) => name !== "USDT");
+      return this.setState({ currenciesNames: currenciesKeysFilter });
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
   sumValue() {
@@ -45,7 +46,7 @@ class Wallet extends React.Component {
     }, 0);
     const num = Math.round(valueSum * 100);
     const numToFixed = (parseFloat(num).toFixed(2)) / 100;
-    return numToFixed
+    return numToFixed;
   }
 
   async fetchAndSaveExpenses() {
@@ -59,24 +60,26 @@ class Wallet extends React.Component {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
+
   render() {
     const { email } = this.props;
     const { value, currency, method, tag, description, currenciesNames } = this.state;
     return (
       <div>
-        <header >
-              <ul>
-                <li>
-                E-mail:
-                { email }
-                </li>
-                <li data-testid="total-field">
-                Despesa total: R$ { this.sumValue() }
-                </li>
-                <li data-testid="header-currency-field">
-                BRL
-                </li>
-              </ul>
+        <header>
+          <ul>
+            <li>
+              E-mail:
+              { email }
+            </li>
+            <li data-testid="total-field">
+              Despesa total: R$
+              { this.sumValue() }
+            </li>
+            <li data-testid="header-currency-field">
+              BRL
+            </li>
+          </ul>
         </header>
         <form>
           <ul>
@@ -169,7 +172,7 @@ class Wallet extends React.Component {
         </form>
         <Expenses />
       </div>
-    );
+);
   }
 }
 
