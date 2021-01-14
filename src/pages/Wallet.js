@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchCurrencies, saveExpenseAction, deleteExpense } from '../actions';
+import { fetchCurrencies,
+  saveExpenseAction,
+  deleteExpense,
+  updateExpense } from '../actions';
 
 import Table from '../components/Table';
 import ExpenseItem from '../components/ExpenseItem';
@@ -13,6 +16,8 @@ class Wallet extends React.Component {
     this.handleSaveExpense = this.handleSaveExpense.bind(this);
     this.totalCost = this.totalCost.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleEditExpense = this.handleEditExpense.bind(this);
     this.state = {
       currencies: [],
       value: 0,
@@ -21,6 +26,8 @@ class Wallet extends React.Component {
       tag: '',
       description: '',
       totalCost: 0,
+      isEditing: false,
+      editExpense: {},
     };
   }
 
@@ -73,6 +80,34 @@ class Wallet extends React.Component {
     });
   }
 
+  async handleEditExpense() {
+    const { value, currency, method, tag, description, editExpense } = this.state;
+    const { editExpenseItem } = this.props;
+    const expenseItem = {
+      id: editExpense.id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: editExpense.exchangeRates,
+    };
+    await editExpenseItem(expenseItem);
+    this.setState({ isEditing: false });
+  }
+
+  handleEdit(event, expense) {
+    this.setState({
+      isEditing: true,
+      editExpense: expense,
+      value: expense.value,
+      currency: expense.currency,
+      method: expense.method,
+      tag: expense.tag,
+      description: expense.description,
+    });
+  }
+
   render() {
     const {
       currencies,
@@ -82,10 +117,12 @@ class Wallet extends React.Component {
       tag,
       description,
       totalCost,
+      isEditing,
     } = this.state;
 
     const { expenses, handleDeleteExpense } = this.props;
     const { emailProp } = this.props;
+    console.log(expenses);
     return (
       <div>
         <h1>TrybeWallet</h1>
@@ -176,18 +213,27 @@ class Wallet extends React.Component {
             </select>
           </label>
         </form>
-        <button
-          type="button"
-          onClick={ this.handleSaveExpense }
-        >
-          Adicionar despesa
-        </button>
+        <div>
+          <button
+            disabled={ !isEditing }
+            type="button"
+            onClick={ this.handleEditExpense }
+          >
+            Editar despesa
+          </button>
+          <button disabled={ isEditing } type="button" onClick={ this.handleSaveExpense }>
+            Adicionar despesa
+          </button>
+        </div>
         <Table />
-        {expenses.map((expense) => (<ExpenseItem
-          key={ expense.id }
-          expense={ expense }
-          handleDelete={ handleDeleteExpense }
-        />))}
+        <div>
+          {expenses.map((expense) => (<ExpenseItem
+            key={ expense.id }
+            expense={ expense }
+            handleDelete={ handleDeleteExpense }
+            handleEdit={ this.handleEdit }
+          />))}
+        </div>
       </div>
     );
   }
@@ -203,9 +249,11 @@ const mapDispatchToProps = (dispatch) => ({
   updateCurrencies: () => dispatch(fetchCurrencies()),
   saveExpense: (expense) => dispatch(saveExpenseAction(expense)),
   handleDeleteExpense: (e) => dispatch(deleteExpense(e.target.name)),
+  editExpenseItem: (expense) => dispatch(updateExpense(expense)),
 });
 
 Wallet.propTypes = {
+  editExpenseItem: PropTypes.func.isRequired,
   updateCurrencies: PropTypes.func.isRequired,
   currencyState: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   expenses: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,

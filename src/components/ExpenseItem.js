@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './styles.css';
 
-function ExpenseItem({ expense, handleDelete }) {
+function ExpenseItem({ expense, handleDelete, handleEdit }) {
   const { description, tag, method, value, currency, exchangeRates, id } = expense;
   const rate = parseFloat(exchangeRates[currency].ask);
   const converted = (parseFloat(value) * rate).toFixed(2);
@@ -25,6 +25,13 @@ function ExpenseItem({ expense, handleDelete }) {
               <td>
                 <button
                   type="button"
+                  data-testid="edit-btn"
+                  onClick={ (e) => handleEdit(e, expense) }
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
                   data-testid="delete-btn"
                   name={ id }
                   onClick={ handleDelete }
@@ -41,6 +48,7 @@ function ExpenseItem({ expense, handleDelete }) {
 }
 
 ExpenseItem.propTypes = {
+  handleEdit: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
   expense: PropTypes.shape({
     description: PropTypes.string.isRequired,

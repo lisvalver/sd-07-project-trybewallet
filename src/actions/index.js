@@ -12,6 +12,7 @@ export const FAILED_REQUEST = 'FAILED_REQUEST';
 export const POST_EXPENSES = 'POST_EXPENSES';
 
 export const DELETE = 'DELETE';
+export const UPDATE_EXPENSE = 'UPDATE_EXPENSE';
 
 export const saveUserEmail = (payload) => ({
   type: EMAIL,
@@ -71,4 +72,9 @@ export function saveExpenseAction(expense) {
 export const deleteExpense = (id) => ({
   type: DELETE,
   id,
+});
+
+export const updateExpense = (expenseItem) => ({
+  type: UPDATE_EXPENSE,
+  payload: expenseItem,
 });
