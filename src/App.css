@@ -21,48 +21,51 @@ body {
   padding: 12px 20px;
   width: 100%;
 }
-table{
+
+table {
   margin: 0 auto 25px;
   margin-top: 50px;
   padding: 40px 25px 30px;
   width: 1000px;
 }
-th{
+
+th {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
   padding: 20px 15px;
   text-align: left;
-  font-weight: 500;
-  font-size: 12px;
-  color: #fff;
   text-transform: uppercase;
-  background-color: rgba(255,255,255,0.3);
 }
-td{
+
+td {
+  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 12px;
+  font-weight: 300;
   padding: 15px;
   text-align: left;
   vertical-align:middle;
-  font-weight: 300;
-  font-size: 12px;
-  color: #fff;
-  border-bottom: solid 1px rgba(255,255,255,0.1);
 }
 
 ul {
+  background-color: rgb(51, 51, 51);
   list-style-type: none;
   margin: 0;
-  padding: 0;
   overflow: hidden;
-  background-color: #333;
+  padding: 0;
 }
 
 li {
+  color: white;
   float: left;
   text-decoration: none;
-  color: white;
 }
 
 li label {
-  display: block;
   color: white;
+  display: block;
   text-align: center;
   padding: 14px 16px;
 }
