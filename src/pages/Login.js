@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { login } from '../actions';
+import './Login.css';
 
 class Login extends React.Component {
   constructor(props) {
@@ -46,11 +47,15 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        <form>
-          <label htmlFor="email">
-            Login
+      <div className="body">
+        <form className="formulario">
+          <label
+            htmlFor="email"
+            className="input"
+          >
+            E-mail
             <input
+              className="caixa"
               id="email"
               data-testid="email-input"
               type="email"
@@ -59,9 +64,10 @@ class Login extends React.Component {
               name="email"
             />
           </label>
-          <label htmlFor="password">
+          <label htmlFor="password" className="senha">
             Senha
             <input
+              className="caixa"
               id="password"
               data-testid="password-input"
               type="password"
@@ -71,6 +77,7 @@ class Login extends React.Component {
             />
           </label>
           <button
+            className="button"
             type="submit"
             disabled={ !this.emailIsValid() }
             onClick={ this.click }
