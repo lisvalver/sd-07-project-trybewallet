@@ -41,7 +41,9 @@ class Form extends Component {
       this.setState({ amount });
     }
     expenses.forEach((expense) => {
-      amount += parseFloat(expense.value);
+      const { currency, exchangeRates, value } = expense;
+      const currencyValue = parseFloat(exchangeRates[currency].ask);
+      amount += parseFloat(value) * currencyValue;
     });
     this.setState({ amount });
   }
@@ -229,7 +231,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 Form.propTypes = {
   addExpenseToStore: PropTypes.func.isRequired,
-  expenses: PropTypes.shape({}).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  emailInfo: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
