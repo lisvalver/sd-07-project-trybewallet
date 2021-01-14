@@ -47,16 +47,16 @@ class Wallet extends React.Component {
         ...previouState.form,
         exchangeRates: currencies,
       },
-
     }));
-    await addExpenses(form);
-    const valueConverted = form.value * form.exchangeRates[form.currency].ask;
+    await addExpenses(this.state.form);
+    const valueConverted = form.value * currencies[form.currency].ask;
     const acum = parseFloat(totalExpenses) + parseFloat(valueConverted);
     await this.setState((previouState) => ({
       ...previouState,
       form: {
         ...previouState.form,
         value: valueConverted,
+        exchangeRates: currencies,
       },
       expenses,
       totalExpenses: acum,
