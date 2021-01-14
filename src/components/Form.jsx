@@ -16,8 +16,8 @@ class Form extends Component {
       value: 0,
       description: '',
       currency: 'USD',
-      method: '',
-      tag: '',
+      method: 'money',
+      tag: 'food',
       exchangeRates: {},
     };
   }
@@ -35,15 +35,6 @@ class Form extends Component {
   dispatchExpense(e) {
     e.preventDefault();
     const { addExpenseToStore } = this.props;
-    const {
-      exchangeRates,
-      value,
-      description,
-      currency,
-      method,
-      tag,
-      id,
-    } = this.state;
     const endpoint = 'https://economia.awesomeapi.com.br/json/all';
     fetch(endpoint)
       .then((respose) => respose.json())
@@ -52,15 +43,26 @@ class Form extends Component {
           exchangeRates: { ...rates },
         });
       })
-      .then(() => addExpenseToStore({
-        value,
-        description,
-        currency,
-        method,
-        tag,
-        id,
-        exchangeRates,
-      }))
+      .then(() => {
+        const {
+          exchangeRates,
+          value,
+          description,
+          currency,
+          method,
+          tag,
+          id,
+        } = this.state;
+        addExpenseToStore({
+          value,
+          description,
+          currency,
+          method,
+          tag,
+          id,
+          exchangeRates,
+        });
+      })
       .then(() => this.updateNumberOfExpenses());
   }
 
@@ -116,6 +118,7 @@ class Form extends Component {
           Moeda:
           <select
             name="currency"
+            id="currency"
             value={ currency }
             onChange={ (e) => this.handleChange(e) }
             data-testid="currency-input"
@@ -134,6 +137,7 @@ class Form extends Component {
           Método de Pagamento:
           <select
             name="method"
+            id="method"
             value={ method }
             onChange={ (e) => this.handleChange(e) }
             data-testid="method-input"
@@ -147,6 +151,7 @@ class Form extends Component {
           Tag:
           <select
             name="tag"
+            id="tag"
             value={ tag }
             onChange={ (e) => this.handleChange(e) }
             data-testid="tag-input"
@@ -163,6 +168,7 @@ class Form extends Component {
           <input
             type="text"
             name="description"
+            id="description"
             value={ description }
             onChange={ (e) => this.handleChange(e) }
             data-testid="description-input"
