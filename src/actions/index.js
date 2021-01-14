@@ -8,14 +8,14 @@ const addUser = (email, password) => ({
   },
 });
 
-const addExpenses = (cash, currency, methodInput, tagInput, infor) => ({
+const addExpenses = (value, currency, method, tag, description) => ({
   type: 'EXPENSER',
   payload: {
-    cash,
+    value,
     currency,
-    methodInput,
-    tagInput,
-    infor,
+    method,
+    tag,
+    description,
   },
 });
 

@@ -8,16 +8,7 @@ const initialState = {
 export default function wallet(state = initialState, action) {
   switch (action.type) {
   case 'EXPENSER': {
-    const idList = state.expenses.map(((objectExpenses) => objectExpenses.id));
-    let foud = false;
-    let idRadom;
-    const milParaterNumDeTresDigitos = 1000;
-    do {
-      idRadom = Math.ceil(Math.random() * milParaterNumDeTresDigitos);
-      if (!idList.includes(idRadom)) {
-        foud = true;
-      }
-    } while (!foud);
+    const idRadom = state.expenses.length;
     return { ...state,
       expenses:
       [...state.expenses,
@@ -26,7 +17,7 @@ export default function wallet(state = initialState, action) {
           exchangeRates: state.currencies }] };
   }
   case 'REQUIRE_CURRENCE_SUCESS':
-    return { ...state, currencies: {...action.payload} };
+    return { ...state, currencies: { ...action.payload } };
   case 'REQUIRE_FAIL':
     return { ...state, error: action.payload };
   case 'REQUIRE_CURRENCE_AND_VALUE':

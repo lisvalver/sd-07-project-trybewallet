@@ -124,7 +124,7 @@ describe('3 - [PÁGINA DA CARTEIRA] Crie um header para a página de carteira co
     expect(emailField).toContainHTML(store.getState().user.email);
   });
 
-  test.only('Crie um campo com a despesa total gerada pela lista de gastos.', () => {
+  test('Crie um campo com a despesa total gerada pela lista de gastos.', () => {
     renderWithRouterAndStore(<Wallet />, '/carteira', initial);
     const totalField = screen.getByTestId('total-field');
 
@@ -326,7 +326,7 @@ describe('5 - [PÁGINA DA CARTEIRA] Desenvolva uma tabela com os gastos contendo
     expect(thEditarExcluir).toBeInTheDocument();
   });
 
-  test('A tabela deve ser alimentada pelo estado da aplicação, que estará disponível na chave expenses que vem do reducer wallet.', () => {
+  test.only('A tabela deve ser alimentada pelo estado da aplicação, que estará disponível na chave expenses que vem do reducer wallet.', () => {
     renderWithRouterAndStore(<Wallet />, '/carteira', initial);
     expect(screen.getAllByRole('cell', { name: 'Dez dólares' })[0]).toBeInTheDocument();
     expect(screen.getAllByRole('cell', { name: 'Lazer' })[0]).toBeInTheDocument();

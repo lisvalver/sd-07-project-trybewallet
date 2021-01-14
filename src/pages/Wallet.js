@@ -12,25 +12,26 @@ class Wallet extends React.Component {
     this.sumValue = this.sumValue.bind(this);
     this.fetchCurrenciesNames = this.fetchCurrenciesNames.bind(this);
     this.state = {
-      cash: 0,
-      currency: 'USD',
-      methodInput: 'Dinheiro',
-      tagInput: 'Alimentação',
-      infor: '',
       value: 0,
-      currenciesNames:[],
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      description: '',
+      currenciesNames: [],
     };
   }
- 
+
   componentDidMount(){
-    this.fetchCurrenciesNames()
+    this.fetchCurrenciesNames();
   }
+  
   async fetchCurrenciesNames() {
       try {
         const response = await fetch('https://economia.awesomeapi.com.br/json/all');
         const currencies = await response.json();
         const currenciesKeys = Object.keys(currencies);
-        return this.setState({currenciesNames: currenciesKeys})
+        const currenciesKeysFilter = currenciesKeys.filter((name) => name !== "USDT")
+        return this.setState({currenciesNames: currenciesKeysFilter})
       } catch (error) {
         console.log(error);
       }
@@ -38,122 +39,134 @@ class Wallet extends React.Component {
 
   sumValue() {
     const { expenses } = this.props;
-    const valueTotal = expenses.reduce((acc, item) => {
+    const valueSum = expenses.reduce((acc, item) => {
       const itemCurrency = item.currency;
-      return (item.cash * item.exchangeRates[itemCurrency].ask) + acc;
+      return (item.value * item.exchangeRates[itemCurrency].ask) + acc;
     }, 0);
-    const num = Math.round(valueTotal * 100);
+    const num = Math.round(valueSum * 100);
     const numToFixed = (parseFloat(num).toFixed(2)) / 100;
-    return this.setState({value: numToFixed})
+    return numToFixed
   }
 
   async fetchAndSaveExpenses() {
     const { fetchCurrency, saveExpenses } = this.props;
-    const { cash, currency, methodInput, tagInput, infor } = this.state;
+    const { value, currency, method, tag, description } = this.state;
     await fetchCurrency();
-    saveExpenses(cash, currency, methodInput, tagInput, infor);
-    this.sumValue();
+    saveExpenses(value, currency, method, tag, description);
   }
 
   handleFormInput(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
-
   render() {
     const { email } = this.props;
-    const { cash, currency, methodInput, tagInput, infor, value, currenciesNames } = this.state;
+    const { value, currency, method, tag, description, currenciesNames } = this.state;
     return (
       <div>
-        <header>
-          <span data-testid="email-field">
-            E-mail:
-            { email }
-          </span>
-          <span>
-            <span data-testid="total-field">
-            Despesa Total: R$
-              { value }
-            </span>
-          </span>
-          <span data-testid="header-currency-field">
-            BRL
-          </span>
+        <header >
+              <ul>
+                <li>
+                E-mail:
+                { email }
+                </li>
+                <li data-testid="total-field">
+                Despesa total: R$ { this.sumValue() }
+                </li>
+                <li data-testid="header-currency-field">
+                BRL
+                </li>
+              </ul>
         </header>
         <form>
-          <label htmlFor="cash">
-            Valor:
-            <input
-              name="cash"
-              id="cash"
-              type="number"
-              data-testid="value-input"
-              pattern="\d*"
-              min="0"
-              value={ cash }
-              onChange={ (event) => this.handleFormInput(event) }
-            />
-          </label>
-          <label htmlFor="currency">
-            <select
-              id="currency"
-              data-testid="currency-input"
-              name="currency"
-              value={ currency }
-              onChange={ (event) => this.handleFormInput(event) }
-            >
-              { currenciesNames.map((element) => {
-                return <option value={element} >{element}</option>
+          <ul>
+            <li>
+              <label htmlFor="value">
+                Valor:
+                <input
+                name="value"
+                id="value"
+                type="number"
+                data-testid="value-input"
+                pattern="\d*"
+                min="0"
+                value={ value }
+                onChange={ (event) => this.handleFormInput(event) }
+                />
+              </label>
+            </li>
+            <li>
+              Moeda
+              <label htmlFor="currency">
+                <select
+                id="currency"
+                data-testid="currency-input"
+                name="currency"
+                value={ currency }
+                onChange={ (event) => this.handleFormInput(event) }
+                >
+                { currenciesNames.map((element) => {
+                  return <option value={element} data-testid={element}>{element}</option>
               })}
-            </select>
-          </label>
-          <label htmlFor="method-input">
-            Método de Pagamento:
-            <select
-              data-testid="method-input"
-              id="method-input"
-              name="methodInput"
-              value={ methodInput }
-              onChange={ (event) => this.handleFormInput(event) }
-            >
-              <option value="Dinheiro">Dinheiro</option>
-              <option value="Cartão de crédito">Cartão de crédito</option>
-              <option value="Cartão de débito">Cartão de débito</option>
-            </select>
-          </label>
-          <label htmlFor="tag-input">
-            <select
-              data-testid="tag-input"
-              id="tag-input"
-              name="tagInput"
-              value={ tagInput }
-              onChange={ (event) => this.handleFormInput(event) }
-            >
-              <option value="Alimentação">Alimentação</option>
-              <option value="Lazer">Lazer</option>
-              <option value="Trabalho">Trabalho</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Saúde">Saúde</option>
-            </select>
-          </label>
-          <label htmlFor="infor">
-            Descrição:
-            <input
-              data-testid="description-input"
-              type="text"
-              id="infor"
-              name="infor"
-              value={ infor }
-              onChange={ (event) => this.handleFormInput(event) }
-            />
-          </label>
+                </select>
+              </label>
+            </li>
+            <li>
+              Método de Pagamento
+              <label htmlFor="method-input">
+                <select
+                data-testid="method-input"
+                id="method-input"
+                name="method"
+                value={ method }onChange={ (event) => this.handleFormInput(event) }
+                >
+                  <option value="Dinheiro">Dinheiro</option>
+                  <option value="Cartão de crédito">Cartão de crédito</option>
+                  <option value="Cartão de débito">Cartão de débito</option>
+                </select>
+              </label>
+            </li>
+            <li>
+              Tag
+              <label htmlFor="tag-input">
+                <select
+                data-testid="tag-input"
+                id="tag-input"
+                name="tag"
+                value={ tag }
+                onChange={ (event) => this.handleFormInput(event) }
+                >
+                  <option value="Alimentação">Alimentação</option>
+                  <option value="Lazer">Lazer</option>
+                  <option value="Trabalho">Trabalho</option>
+                  <option value="Transporte">Transporte</option>
+                  <option value="Saúde">Saúde</option>
+                </select>
+              </label>
+            </li>
+            <li>
+              <label htmlFor="description-input">
+                <input
+                data-testid="description-input"
+                type="text"
+                id="description-input"
+                name="description"
+                placeholder="Descrição"
+                value={ description }
+                onChange={ (event) => this.handleFormInput(event) }
+                />
+              </label>
+            </li>
+            <li>
+              <button
+              type="button"
+              onClick={ this.fetchAndSaveExpenses }
+              >
+              Adicionar despesa
+              </button>
+            </li>
+          </ul>
         </form>
-        <button
-          type="button"
-          onClick={ this.fetchAndSaveExpenses }
-        >
-          Adicionar despesa
-        </button>
         <Expenses />
       </div>
     );
