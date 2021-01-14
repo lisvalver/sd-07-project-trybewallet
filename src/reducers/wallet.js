@@ -1,6 +1,7 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 import {
   NEW_EXPENSE,
+  DELETE_EXPENSE,
   FETCHING,
   REQUEST_SUCCESS,
 } from '../actions';
@@ -29,6 +30,11 @@ const wallet = (state = INITIAL_STATE_WALLET, action) => {
     return ({
       expenses: [...state.expenses, action.expenses],
       randomId: state.randomId + 1,
+    });
+  case DELETE_EXPENSE:
+    return ({
+      ...state,
+      expenses: action.expenses,
     });
   default:
     return state;

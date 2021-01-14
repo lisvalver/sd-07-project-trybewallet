@@ -2,7 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { deleteExpense } from '../actions';
+
 class List extends Component {
+  deleteExpenses({ target: { value } }) {
+    const { expenses, delet } = this.props;
+    const newWallet = expenses.filter((item) => item.id !== Number(value));
+    delet(newWallet);
+  }
+
   render() {
     const { expenses } = this.props;
 
@@ -58,6 +66,14 @@ class List extends Component {
               <span role="cell">
                 Real
               </span>
+              <button
+                type="button"
+                value={ expense.id }
+                data-testid="delete-btn"
+                onClick={ (e) => this.deleteExpenses(e) }
+              >
+                Excluir
+              </button>
             </div>
           ))}
         </div>
@@ -68,6 +84,7 @@ class List extends Component {
 
 List.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  delet: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ wallet: { expenses, currencies } }) => ({
@@ -75,4 +92,8 @@ const mapStateToProps = ({ wallet: { expenses, currencies } }) => ({
   currencies,
 });
 
-export default connect(mapStateToProps)(List);
+const mapDispatchToProps = (dispatch) => ({
+  delet: (expense) => dispatch(deleteExpense(expense)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);
