@@ -27,7 +27,6 @@ class Login extends React.Component {
     const { emailUser, passUser } = this.state;
     const minLengt = 5;
     const result = /\S+@\S+\.\S+/.test(emailUser) && passUser.length >= minLengt;
-    console.log(result);
     this.setState({ btn: !result });
   }
 
@@ -41,7 +40,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { btn } = this.state;
+    const { btn, emailUser, passUser} = this.state;
     return (
       <div className="container-form">
         <form>
@@ -53,6 +52,7 @@ class Login extends React.Component {
               data-testid="email-input"
               name="emailUser"
               onChange={ this.handleChange }
+              value={ emailUser }
             />
           </div>
           <div className="input-group">
@@ -63,6 +63,7 @@ class Login extends React.Component {
               data-testid="password-input"
               name="passUser"
               onChange={ this.handleChange }
+              value={ passUser }
             />
           </div>
           <span id="return-client" />
