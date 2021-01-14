@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchCurrency, addExpenses } from '../actions';
+import Table from '../components/Table';
 
 class Wallet extends React.Component {
   constructor() {
@@ -30,7 +31,6 @@ class Wallet extends React.Component {
     const { addExpensesA, fetchCurrencyA, currencies, expenses } = this.props;
     const { id } = this.state;
     let newId = 0;
-    console.log(expenses.length);
     if (expenses.length === 0) {
       newId = id;
     } else {
@@ -84,6 +84,7 @@ class Wallet extends React.Component {
   render() {
     const newTotal = this.showAdd();
     const { email } = this.props;
+    const { value } = this.state;
     return (
       <div>
         <header>
@@ -104,7 +105,7 @@ class Wallet extends React.Component {
             data-testid="value-input"
             name="value"
             onChange={ this.handleChange }
-            value={ 0 }
+            value={ value }
           />
           <textarea
             data-testid="description-input"
@@ -186,6 +187,7 @@ class Wallet extends React.Component {
             Adicionar despesa
           </button>
         </form>
+        <Table />
       </div>
     );
   }
@@ -212,7 +214,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Wallet.propTypes = {
-  expenses: PropTypes.arrayOf.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
