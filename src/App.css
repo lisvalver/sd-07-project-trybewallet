@@ -1,58 +1,56 @@
 @font-face {
-  src: url(./fonts/Halaney-Demo.otf);
   font-family: Halaney;
+  src: url('./fonts/Halaney-Demo.otf');
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
   background: #2b333b;
   color: white;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .login-container {
-  width: 300px;
+  left: 50%;
   padding: 40px;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
   text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
 }
 
 .login-container h1 {
-  margin: 0 0 30px 0;
-  font-size: 3rem;
   font-family: Halaney, sans-serif;
+  font-size: 3rem;
+  margin: 0 0 30px;
 }
 
-.login-container input[type = 'email'],
-.login-container input[type = 'password']  {
+input {
+  background: none;
   border: 2px solid white;
   border-radius: 25px;
-  background: none;
-  margin: 25px 0 15px 0;
-  font-size: 1.1rem;
   color: rgb(206, 204, 204);
-  text-align: center;
+  font-size: 1.1rem;
   height: 50px;
+  margin: 25px 0 15px;
+  text-align: center;
   transition: 0.25s ease-in-out;
 }
 
-.login-container input[type = 'email']:focus,
-.login-container input[type = 'password']:focus {
+input:focus {
   border: 2px solid rgb(235, 212, 12);
 }
 
 .login-container button {
- background: rgb(235, 212, 12);
- border-radius: 25px;
- border: 0;
- width: 284px;
- height: 56px;
- color: #2b333b;
- margin-top: 30px;
- letter-spacing: 2.5px;
- font-size: 1.2rem;
+  background: rgb(235, 212, 12);
+  border: 0;
+  border-radius: 25px;
+  color: #2b333b;
+  font-size: 1.2rem;
+  height: 56px;
+  letter-spacing: 2.5px;
+  margin-top: 30px;
+  width: 284px;
 }
