@@ -40,7 +40,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { btn, emailUser, passUser} = this.state;
+    const { btn, emailUser, passUser } = this.state;
     return (
       <div className="container-form">
         <form>
