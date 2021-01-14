@@ -1,41 +1,58 @@
-.App {
+@font-face {
+  src: url(./fonts/Halaney-Demo.otf);
+  font-family: Halaney;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #2b333b;
+  color: white;
+}
+
+.login-container {
+  width: 300px;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.login-container h1 {
+  margin: 0 0 30px 0;
+  font-size: 3rem;
+  font-family: Halaney, sans-serif;
 }
 
-@media ( prefers-reduced-motion : no-preference ) {
-
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.login-container input[type = 'email'],
+.login-container input[type = 'password']  {
+  border: 2px solid white;
+  border-radius: 25px;
+  background: none;
+  margin: 25px 0 15px 0;
+  font-size: 1.1rem;
+  color: rgb(206, 204, 204);
+  text-align: center;
+  height: 50px;
+  transition: 0.25s ease-in-out;
 }
 
-.App-header {
-  align-items: center;
-  background-color: #282c34;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  justify-content: center;
-  min-height: 100vh;
+.login-container input[type = 'email']:focus,
+.login-container input[type = 'password']:focus {
+  border: 2px solid rgb(235, 212, 12);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+.login-container button {
+ background: rgb(235, 212, 12);
+ border-radius: 25px;
+ border: 0;
+ width: 284px;
+ height: 56px;
+ color: #2b333b;
+ margin-top: 30px;
+ letter-spacing: 2.5px;
+ font-size: 1.2rem;
 }
