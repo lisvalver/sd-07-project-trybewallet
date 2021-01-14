@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { sendCurrencies, sendFormAndExhangesRates } from '../actions';
+import { sendCurrencies, sendFormAndExhangesRates, editExpense } from '../actions';
 
 class FormWallet extends Component {
   constructor() {
     super();
 
     this.getInformationsCost = this.getInformationsCost.bind(this);
+    this.updateCostEdit = this.updateCostEdit.bind(this);
+    this.sendNewForm = this.sendNewForm.bind(this);
 
     this.state = {
       payment: ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'],
@@ -19,12 +21,21 @@ class FormWallet extends Component {
         method: 'Dinheiro',
         tag: 'Alimentação',
       },
+      isEditingLocal: false,
     };
   }
 
   componentDidMount() {
     const { updateCurrencies } = this.props;
     updateCurrencies();
+  }
+
+  componentDidUpdate() {
+    const { isEditingGlobal } = this.props;
+    const { isEditingLocal } = this.state;
+    if (isEditingGlobal && isEditingGlobal !== isEditingLocal) {
+      this.updateCostEdit();
+    }
   }
 
   getInformationsCost({ target }) {
@@ -34,8 +45,37 @@ class FormWallet extends Component {
     }));
   }
 
+  updateCostEdit() {
+    const { id, expenses, isEditingGlobal } = this.props;
+    // console.log(isEditingGlobal);
+    if (isEditingGlobal) {
+      const obj = expenses.find((objExpense) => objExpense.id === id);
+      const { value, description, currency, method, tag } = obj;
+      // console.log(obj);
+      this.setState({
+        cost: {
+          value,
+          description,
+          currency,
+          method,
+          tag,
+          id,
+        },
+        isEditingLocal: true,
+      });
+    }
+  }
+
+  sendNewForm(cost) {
+    const { editForm } = this.props;
+    this.setState({
+      isEditingLocal: false,
+    },
+    () => editForm(cost));
+  }
+
   render() {
-    const { sendCost, currencies } = this.props;
+    const { sendCost, isEditingGlobal, currencies } = this.props;
     const { payment, tagCost, cost } = this.state;
     const { value, description, currency, method, tag } = cost;
     const filterCurrencies = currencies.filter((coin) => coin !== 'USDT');
@@ -129,10 +169,14 @@ class FormWallet extends Component {
         <button
           type="button"
           onClick={ () => {
-            sendCost(cost);
+            if (isEditingGlobal) {
+              this.sendNewForm(cost);
+            } else {
+              sendCost(cost);
+            }
           } }
         >
-          Adicionar despesa
+          { isEditingGlobal ? 'Editar despesa' : 'Adicionar despesa' }
         </button>
       </form>
     );
@@ -140,18 +184,25 @@ class FormWallet extends Component {
 }
 
 const mapStateToProps = ({ wallet }) => ({
+  expenses: wallet.expenses,
   currencies: wallet.currencies,
+  isEditingGlobal: wallet.isEditingForm,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   updateCurrencies: (currency) => dispatch(sendCurrencies(currency)),
   sendCost: (form) => dispatch(sendFormAndExhangesRates(form)),
+  editForm: (form) => dispatch(editExpense(form)),
 });
 
 FormWallet.propTypes = {
   updateCurrencies: PropTypes.func.isRequired,
   sendCost: PropTypes.func.isRequired,
+  editForm: PropTypes.func.isRequired,
+  expenses: PropTypes.arrayOf(Object).isRequired,
   currencies: PropTypes.arrayOf(String).isRequired,
+  isEditingGlobal: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormWallet);

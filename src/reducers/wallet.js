@@ -17,6 +17,7 @@ const INITIAL_STATE = {
   isFetching: false,
   error: '',
   nextId: 0,
+  isEditingForm: false,
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
@@ -53,6 +54,19 @@ const wallet = (state = INITIAL_STATE, action) => {
         ...state.expenses.filter((expense) => expense.id !== action.id),
       ],
     };
+  case typesActions.EDIT_EXPENSE:
+    return {
+      ...state,
+      isEditingForm: false,
+      expenses: state.expenses.map((expense) => {
+        if (expense.id === action.form.id) {
+          return { ...expense, ...action.form };
+        }
+        return expense;
+      }),
+    };
+  case typesActions.EDIT_FORM:
+    return { ...state, isEditingForm: !state.isEditingForm };
   case typesActions.REQUEST_COINS_FAIL:
     return { ...state, isFetching: false, error: action.error };
   default:

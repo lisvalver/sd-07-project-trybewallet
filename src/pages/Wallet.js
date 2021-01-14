@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FormWallet from '../components/FormWallet';
 import Header from '../components/HeaderWallet';
-import { deleteExpense } from '../actions';
+import { deleteExpense, editForm } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
@@ -11,6 +11,20 @@ class Wallet extends React.Component {
 
     this.convertValues = this.convertValues.bind(this);
     this.sumExpenses = this.sumExpenses.bind(this);
+    this.editButton = this.editButton.bind(this);
+
+    this.state = {
+      id: '',
+    };
+  }
+
+  editButton(id) {
+    const { enableEditForm } = this.props;
+    console.log(id, 'id_edit');
+    this.setState({
+      id,
+    },
+    () => enableEditForm());
   }
 
   convertValues(value, currency) {
@@ -34,11 +48,13 @@ class Wallet extends React.Component {
       getExpenses,
       executeDeleteExpense,
     } = this.props;
+    const { id } = this.state;
     // console.log(getExpenses);
+    console.log(id, 'id_expense');
     return (
       <div>
         <Header email={ getEmail } total={ this.sumExpenses() } />
-        <FormWallet />
+        <FormWallet id={ id } />
         <section>
           <table>
             <thead>
@@ -57,7 +73,7 @@ class Wallet extends React.Component {
             <tbody>
               {getExpenses.map((expense) => {
                 const {
-                  id,
+                  idExpense,
                   description,
                   tag,
                   method,
@@ -69,7 +85,7 @@ class Wallet extends React.Component {
                   [currency]: { name, ask },
                 } = exchangeRates;
                 return (
-                  <tr key={ id }>
+                  <tr key={ idExpense }>
                     <td>{description}</td>
                     <td>{tag}</td>
                     <td>{method}</td>
@@ -82,13 +98,14 @@ class Wallet extends React.Component {
                       <button
                         type="button"
                         data-testid="edit-btn"
+                        onClick={ () => this.editButton(idExpense) }
                       >
                         Editar
                       </button>
                       <button
                         type="button"
                         data-testid="delete-btn"
-                        onClick={ () => executeDeleteExpense(id) }
+                        onClick={ () => executeDeleteExpense(idExpense) }
                       >
                         Excluir
                       </button>
@@ -111,6 +128,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   executeDeleteExpense: (id) => dispatch(deleteExpense(id)),
+  enableEditForm: () => dispatch(editForm()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
@@ -119,4 +137,5 @@ Wallet.propTypes = {
   getEmail: PropTypes.string.isRequired,
   getExpenses: PropTypes.arrayOf(Object).isRequired,
   executeDeleteExpense: PropTypes.func.isRequired,
+  enableEditForm: PropTypes.func.isRequired,
 };
