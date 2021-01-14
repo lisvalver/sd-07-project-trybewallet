@@ -1,6 +1,7 @@
 import api from '../service/api';
 
-function wallet(inputValues) {
+/*
+export function wallet(inputValues) {
   return async (dispatch) => {
     const apiResult = await api();
     const { valueInput, currencyInput } = inputValues;
@@ -8,7 +9,16 @@ function wallet(inputValues) {
     quotation = quotation.ask;
     const expense = valueInput * quotation;
     return dispatch({ type: 'NEW_EXPENSE', value: { inputValues, apiResult, expense } });
+  };
+}
+*/
+
+export function apiAction() {
+  return async (dispatch) => {
+    const apiResult = await api();
+    return dispatch({ type: 'CURRENCIES', value: apiResult })
   }
 }
 
-export default wallet;
+export function newExpese(input)
+

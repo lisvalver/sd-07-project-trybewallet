@@ -1,10 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { apiAction } from '../actions/wallet';
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
 
+  }
+
+  componentDidMount() {
+    const { callApi } = this.props
   }
 
   render() {
@@ -42,5 +47,9 @@ const mapStateToProps = (state) => {
 
   return ({ email, totalExpense });
 }
+
+mapDispatchToProps = (dispatch) => ({
+  callApi: () => dispatch(apiAction())
+});
 
 export default connect(mapStateToProps, null)(Header);
