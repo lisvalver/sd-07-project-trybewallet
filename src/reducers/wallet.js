@@ -4,12 +4,27 @@ const initialState = {
   currencies: ['USD', 'BRL'],
   expenses: [],
   apiData: {},
+  editingExpense: false,
+  selectedExpense: {},
+  selectedId: 0,
 };
 
 const walletDetails = (state = initialState, action) => {
   switch (action.type) {
+  case 'EDITED_EXPENSE':
+    return { ...state,
+      editingExpense: false,
+      expenses:
+      [...state.expenses.filter((expense) => expense.id !== state.selectedExpense.id),
+        { ...action.payload, id: state.selectedId }],
+    };
   case 'DATA_FETCHED':
     return { ...state, apiData: action.payload };
+  case 'EDIT_EXPENSE':
+    return { ...state,
+      editingExpense: true,
+      selectedExpense: state.expenses[action.payload],
+      selectedId: action.payload };
   case 'STORE_CURRENCIES':
     return {
       ...state,
