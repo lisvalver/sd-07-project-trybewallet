@@ -7,15 +7,42 @@ class Form extends Component {
     this.fetchCurrencies = this.fetchCurrencies.bind(this);
     this.transformCurrencies = this.transformCurrencies.bind(this);
     this.updateNumberOfExpenses = this.updateNumberOfExpenses.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       json: {},
       numberOfExpenses: 0,
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: '',
+      tag: '',
+      exchangeRates: {},
     };
   }
+
+  // expenses: [{
+  //   "id": 0,
+  //   "value": "3",
+  //   "description": "Hot Dog",
+  //   "currency": "USD",
+  //   "method": "Dinheiro",
+  //   "tag": "Alimentação",
+  //   "exchangeRates": {
+  //     "USD": {
+  //       "code": "USD",
+  //       "name": "Dólar Comercial",
+  //       "ask": "5.6208",
+  //       ...
+  //     },
 
   componentDidMount() {
     this.fetchCurrencies();
     this.updateNumberOfExpenses();
+  }
+
+  handleChange({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value });
   }
 
   transformCurrencies(json) {
@@ -41,39 +68,52 @@ class Form extends Component {
   }
 
   render() {
-    const { json } = this.state;
+    const {
+      json,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+    } = this.state;
     const currencies = this.transformCurrencies(json);
     console.log(currencies);
     return (
       <form>
-        <label htmlFor="valueInput">
+        <label htmlFor="value">
           Valor:
           <input
             type="number"
-            name="valueInput"
+            name="value"
+            value={ value }
+            onChange={ (e) => this.handleChange(e) }
             data-testid="value-input"
           />
         </label>
-        <label htmlFor="currencyInput">
+        <label htmlFor="currency">
           Moeda:
           <select
-            name="currencyInput"
+            name="currency"
+            value={ currency }
+            onChange={ (e) => this.handleChange(e) }
             data-testid="currency-input"
           >
-            {currencies.map((currency, index) => (
+            {currencies.map((currencyName, index) => (
               <option
                 key={ index }
-                data-testid={ currency }
+                data-testid={ currencyName }
               >
-                {currency}
+                {currencyName}
               </option>
             ))}
           </select>
         </label>
-        <label htmlFor="methodInput">
+        <label htmlFor="method">
           Método de Pagamento:
           <select
-            name="methodInput"
+            name="method"
+            value={ method }
+            onChange={ (e) => this.handleChange(e) }
             data-testid="method-input"
           >
             <option value="money">Dinheiro</option>
@@ -81,10 +121,12 @@ class Form extends Component {
             <option value="debit-card">Cartão de débito</option>
           </select>
         </label>
-        <label htmlFor="tagInput">
+        <label htmlFor="tag">
           Tag:
           <select
-            name="tagInput"
+            name="tag"
+            value={ tag }
+            onChange={ (e) => this.handleChange(e) }
             data-testid="tag-input"
           >
             <option value="food">Alimentação</option>
@@ -94,11 +136,13 @@ class Form extends Component {
             <option value="health">Saúde</option>
           </select>
         </label>
-        <label htmlFor="descriptionInput">
+        <label htmlFor="description">
           Descrição:
           <input
             type="text"
-            name="descriptionInput"
+            name="description"
+            value={ description }
+            onChange={ (e) => this.handleChange(e) }
             data-testid="description-input"
           />
         </label>
