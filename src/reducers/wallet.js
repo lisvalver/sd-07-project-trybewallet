@@ -4,7 +4,6 @@ import { FETCHING, FETCH_SUCCESS, DELETE_EXPENSE } from '../actions';
 const INITIAL_STATE = {
   currencies: {},
   expenses: [],
-  exchangeRates: {},
   fetching: false,
   total: 0,
 };
