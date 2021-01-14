@@ -39,7 +39,6 @@ class Wallet extends React.Component {
   async addExpense() {
     const { addExpenses, getCurrencies, expenses, currencies } = this.props;
     const { totalExpenses } = this.state;
-    const { form } = this.state;
     await getCurrencies();
 
     await this.setState((previouState) => ({
@@ -49,7 +48,8 @@ class Wallet extends React.Component {
         exchangeRates: currencies,
       },
     }));
-    await addExpenses(this.state.form);
+    const { form } = this.state;
+    await addExpenses(form);
     const valueConverted = form.value * currencies[form.currency].ask;
     const acum = parseFloat(totalExpenses) + parseFloat(valueConverted);
     await this.setState((previouState) => ({
@@ -82,6 +82,7 @@ class Wallet extends React.Component {
     const { form } = this.state;
     const { totalExpenses } = this.state;
     const { expenses, email } = this.props;
+    console.log(expenses)
     return (
       <div>
         <header data-testid="email-field">
@@ -177,11 +178,11 @@ class Wallet extends React.Component {
               <td>{ e.tag }</td>
               <td>{ e.method }</td>
               <td>{ e.value }</td>
-              <td>{ e.currency }</td>
-              <td>{ e.description }</td>
-              <td>{ e.description }</td>
-              <td>{ e.description }</td>
-              {/* <td>Editar/Excluir</td> */}
+              <td>{ e.exchangeRates[e.currency].name }</td>
+              <td>{ parseFloat(e.exchangeRates[e.currency].ask).toFixed(2) }</td>
+              <td>{ parseFloat(e.exchangeRates[e.currency].ask * e.value).toFixed(2) }</td>
+              <td>Real</td>
+              
             </tr>
           ))}
         </table>
