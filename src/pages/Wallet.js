@@ -84,7 +84,6 @@ class Wallet extends React.Component {
         <form>
           <ul>
             <li>
-              <label htmlFor="value">
                 Valor:
                 <input
                   name="value"
@@ -96,11 +95,8 @@ class Wallet extends React.Component {
                   value={ value }
                   onChange={ (event) => this.handleFormInput(event) }
                 />
-              </label>
             </li>
             <li>
-              Moeda
-              <label htmlFor="currency">
                 <select
                   id="currency"
                   data-testid="currency-input"
@@ -112,11 +108,8 @@ class Wallet extends React.Component {
                   <option value={element} data-testid={element}>{element}</option>)
               })}
                 </select>
-              </label>
             </li>
             <li>
-              Método de Pagamento
-              <label htmlFor="method-input">
                 <select
                 data-testid="method-input"
                 id="method-input"
@@ -127,11 +120,8 @@ class Wallet extends React.Component {
                   <option value="Cartão de crédito">Cartão de crédito</option>
                   <option value="Cartão de débito">Cartão de débito</option>
                 </select>
-              </label>
             </li>
             <li>
-              Tag
-              <label htmlFor="tag-input">
                 <select
                 data-testid="tag-input"
                 id="tag-input"
@@ -145,10 +135,8 @@ class Wallet extends React.Component {
                   <option value="Transporte">Transporte</option>
                   <option value="Saúde">Saúde</option>
                 </select>
-              </label>
             </li>
             <li>
-              <label htmlFor="description-input">
                 <input
                 data-testid="description-input"
                 type="text"
@@ -158,7 +146,6 @@ class Wallet extends React.Component {
                 value={ description }
                 onChange={ (event) => this.handleFormInput(event) }
                 />
-              </label>
             </li>
             <li>
               <button
