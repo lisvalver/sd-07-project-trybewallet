@@ -1,6 +1,7 @@
 export const ADD_LOGIN = 'ADD_LOGIN';
 export const REQUEST_CURRENCY = 'REQUEST_CURRENCY';
 export const RECIVE_CURRENCY = 'RECIVE_CURRENCY';
+export const RECIVE_EXPENSE = 'RECIVE_EXPENSE';
 
 export const addLoginAction = (email) => ({
   type: ADD_LOGIN,
@@ -24,3 +25,8 @@ export function fetchCurrency() {
       .then((currencies) => dispatch(reciveCurrency(currencies)));
   };
 }
+
+export const addExpenses = (expenses) => ({
+  type: RECIVE_EXPENSE,
+  expenses,
+});
