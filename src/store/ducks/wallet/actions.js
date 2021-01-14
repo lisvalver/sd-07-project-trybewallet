@@ -36,3 +36,8 @@ export const submitExpenses = (values) => ({
   type: walletTypes.SUBMIT_EXPENSES,
   values,
 });
+
+export const deleteExpense = (expense) => ({
+  type: walletTypes.DELETE_EXPENSE,
+  expense,
+});

@@ -21,9 +21,9 @@ class FormWallet extends Component {
   }
 
   componentDidMount() {
-    const { getCoins } = this.props;
+    const { fetchCoins } = this.props;
     // setTimeout(() => console.log("Currencies:", this.props.currencies), 3000)
-    getCoins();
+    fetchCoins();
   }
 
   handleChanges({ target }) {
@@ -35,8 +35,8 @@ class FormWallet extends Component {
 
   async handleClick() {
     const { expenses } = this.state;
-    const { submitExpenses, getCoins } = this.props;
-    await getCoins();
+    const { submitExpenses, fetchCoins } = this.props;
+    await fetchCoins();
     submitExpenses(expenses);
   }
 
@@ -124,12 +124,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getCoins: () => dispatch(actions.fetchCoins()),
+  fetchCoins: () => dispatch(actions.fetchCoins()),
   submitExpenses: (values) => dispatch(actions.submitExpenses(values)),
 });
 
 FormWallet.propTypes = {
-  getCoins: PropTypes.func.isRequired,
+  fetchCoins: PropTypes.func.isRequired,
   submitExpenses: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

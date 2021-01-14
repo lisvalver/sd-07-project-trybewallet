@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { deleteExpense } from '../../store/ducks/wallet/actions';
 
 class TableWallet extends Component {
   constructor() {
@@ -20,7 +21,8 @@ class TableWallet extends Component {
     ));
   }
 
-  toGenerateTableBodyElements(dataTableBody) {
+  toGenerateTableBodyElements(dataTableBody, deleteFunc) {
+    // const { deleteExpense } = this.props;
     return Object.values(dataTableBody).map((item) => (
       <tr key={ item.id }>
         <td>{item.description}</td>
@@ -40,7 +42,7 @@ class TableWallet extends Component {
           <button
             type="button"
             data-testid="delete-btn"
-            // onClick={this._}
+            onClick={ () => deleteFunc(item) }
           >
             X
           </button>
@@ -50,7 +52,7 @@ class TableWallet extends Component {
   }
 
   render() {
-    const { tableData } = this.props;
+    const { tableData, deleteExpenseProps } = this.props;
     const tableHead = [
       'Descrição',
       'Tag',
@@ -62,14 +64,14 @@ class TableWallet extends Component {
       'Moeda de conversão',
       'Editar/Excluir',
     ];
-    console.log(Object.values(tableData));
+
     return (
       <table>
         <thead>
           <tr>{this.toGenerateTableHeadElements(tableHead)}</tr>
         </thead>
         <tbody>
-          {this.toGenerateTableBodyElements(tableData)}
+          {this.toGenerateTableBodyElements(tableData, deleteExpenseProps)}
         </tbody>
       </table>
     );
@@ -80,8 +82,13 @@ const mapStateToProps = (state) => ({
   tableData: state.wallet.expenses,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  deleteExpenseProps: (id) => dispatch(deleteExpense(id)),
+});
+
 TableWallet.propTypes = {
   tableData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteExpenseProps: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(TableWallet);
+export default connect(mapStateToProps, mapDispatchToProps)(TableWallet);
