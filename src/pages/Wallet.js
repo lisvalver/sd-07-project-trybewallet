@@ -82,7 +82,6 @@ class Wallet extends React.Component {
     const { form } = this.state;
     const { totalExpenses } = this.state;
     const { expenses, email } = this.props;
-    console.log(expenses)
     return (
       <div>
         <header data-testid="email-field">
@@ -180,9 +179,10 @@ class Wallet extends React.Component {
               <td>{ e.value }</td>
               <td>{ e.exchangeRates[e.currency].name }</td>
               <td>{ parseFloat(e.exchangeRates[e.currency].ask).toFixed(2) }</td>
-              <td>{ parseFloat(e.exchangeRates[e.currency].ask * e.value).toFixed(2) }</td>
+              <td>
+                { parseFloat(e.exchangeRates[e.currency].ask * e.value).toFixed(2) }
+              </td>
               <td>Real</td>
-              
             </tr>
           ))}
         </table>
