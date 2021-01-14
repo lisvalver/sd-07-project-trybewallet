@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class ExpensesTable extends Component {
@@ -20,7 +21,7 @@ class ExpensesTable extends Component {
     const { expenses } = this.props;
     const listOfExpenses = expenses.map((expense) => {
       const { description, tag, method, value, exchangeRates, currency } = expense;
-      const { name, ask, timestamp } = exchangeRates[currency];
+      const { name, ask } = exchangeRates[currency];
       const exchange = Number(ask).toFixed(2);
       const multiplication = value * ask;
       const convertedValue = multiplication.toFixed(2);
@@ -78,5 +79,9 @@ class ExpensesTable extends Component {
 const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
+
+ExpensesTable.propTypes = {
+  expenses: PropTypes.array,
+}.isRequired;
 
 export default connect(mapStateToProps)(ExpensesTable);
