@@ -1,6 +1,21 @@
-export const LOGIN_EMAIL = 'LOGIN_EMAIL';
+import { LOGIN_EMAIL, userInfoAction } from './user';
+import {
+  ADD_EXPENSE,
+  addExpenseAction,
+  REQUEST, RECEIVE_SUCCESS,
+  RECEIVE_ERROR,
+  EXCHANGE_CURRENCY,
+  fetchCurrenciesThunk,
+} from './wallet';
 
-export const userInfoAction = (email) => ({
-  type: LOGIN_EMAIL,
-  email,
-});
+export default {
+  LOGIN_EMAIL,
+  userInfoAction,
+  ADD_EXPENSE,
+  addExpenseAction,
+  REQUEST,
+  RECEIVE_SUCCESS,
+  RECEIVE_ERROR,
+  EXCHANGE_CURRENCY,
+  fetchCurrenciesThunk,
+};

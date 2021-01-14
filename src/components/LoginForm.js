@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { userInfoAction } from '../actions';
+import actions from '../actions';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -62,9 +62,9 @@ class LoginForm extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  emailDispatch: (email) => dispatch(userInfoAction(email)),
-});
+const mapDispatchToProps = {
+  emailDispatch: (email) => actions.userInfoAction(email),
+};
 
 LoginForm.propTypes = {
   emailDispatch: PropTypes.func.isRequired,

@@ -1,4 +1,4 @@
-import { LOGIN_EMAIL } from '../actions';
+import actions from '../actions';
 
 const INITIAL_STATE = {
   email: '',
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 function userReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case LOGIN_EMAIL:
+  case actions.LOGIN_EMAIL:
     return {
       ...state,
       email: action.email,
