@@ -25,7 +25,8 @@ class Expenses extends React.Component {
           const askFixed = (parseFloat(Math.round(currencyAsk * 100)).toFixed(2)) / 100;
           const realValue = (value * currencyAsk);
           const realValueFixed = (parseFloat(
-            Math.round(realValue * 100)).toFixed(2)) / 100;
+            Math.round(realValue * 100)
+            ).toFixed(2)) / 100;
           return (
             <tr key={ index } className="table-row">
               <td>{ description }</td>
@@ -41,12 +42,12 @@ class Expenses extends React.Component {
               <td>Real Brasileiro</td>
               <td>
                 <button
-                type='button'
+                  type="button"
                 >
                   Editar
                 </button>
                 <button
-                type='button'
+                  type="button"
                 >
                   Excluir
                 </button>

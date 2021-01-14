@@ -30,7 +30,7 @@ class Wallet extends React.Component {
       const response = await fetch('https://economia.awesomeapi.com.br/json/all');
       const currencies = await response.json();
       const currenciesKeys = Object.keys(currencies);
-      const currenciesKeysFilter = currenciesKeys.filter((name) => name !== "USDT");
+      const currenciesKeysFilter = currenciesKeys.filter((name) => name !== 'USDT');
       return this.setState({ currenciesNames: currenciesKeysFilter });
     }
     catch (error) {
@@ -87,14 +87,14 @@ class Wallet extends React.Component {
               <label htmlFor="value">
                 Valor:
                 <input
-                name="value"
-                id="value"
-                type="number"
-                data-testid="value-input"
-                pattern="\d*"
-                min="0"
-                value={ value }
-                onChange={ (event) => this.handleFormInput(event) }
+                  name="value"
+                  id="value"
+                  type="number"
+                  data-testid="value-input"
+                  pattern="\d*"
+                  min="0"
+                  value={ value }
+                  onChange={ (event) => this.handleFormInput(event) }
                 />
               </label>
             </li>
@@ -102,14 +102,14 @@ class Wallet extends React.Component {
               Moeda
               <label htmlFor="currency">
                 <select
-                id="currency"
-                data-testid="currency-input"
-                name="currency"
-                value={ currency }
-                onChange={ (event) => this.handleFormInput(event) }
+                  id="currency"
+                  data-testid="currency-input"
+                  name="currency"
+                  value={ currency }
+                  onChange={ (event) => this.handleFormInput(event) }
                 >
-                { currenciesNames.map((element) => {
-                  return <option value={element} data-testid={element}>{element}</option>
+                  { currenciesNames.map((element) => { return (
+                  <option value={element} data-testid={element}>{element}</option>)
               })}
                 </select>
               </label>
