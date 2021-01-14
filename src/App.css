@@ -83,3 +83,33 @@
   font-size: larger;
   text-align: end;
 }
+
+.table-field-content {
+  background-color: #2ec18b;
+  display: flex;
+  height: 10vh;
+}
+
+.table-field {
+  align-items: center;
+  border-left: 2px solid #19684a;
+  display: flex;
+  font-size: 0.7em;
+  justify-content: center;
+  overflow: scroll;
+  width: 12.5vw;
+}
+
+.table-line {
+  display: flex;
+}
+
+.table-cell {
+  align-items: center;
+  border-left: 2px solid #19684a;
+  display: flex;
+  font-size: 0.7em;
+  justify-content: center;
+  overflow: scroll;
+  width: 10.55vw;
+}
