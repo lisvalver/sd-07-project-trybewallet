@@ -1,5 +1,5 @@
 // Coloque aqui suas actions
-import { LOGIN, RECEIVE_FAILURE, RECEIVE_SUCCESS, REQUEST, ADD } from '../actions/type'
+import { LOGIN, RECEIVE_FAILURE, RECEIVE_SUCCESS, REQUEST, ADD } from './type';
 
 const loginActions = (value) => ({ type: LOGIN, value });
 

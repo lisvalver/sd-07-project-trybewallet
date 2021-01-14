@@ -1,5 +1,5 @@
 // Esse reducer será responsável por tratar as informações da pessoa usuária
-import { LOGIN, RECEIVE_FAILURE, RECEIVE_SUCCESS, REQUEST, ADD } from '../actions/type'
+import { LOGIN } from '../actions/type';
 
 const INITIAL_STATE = {
   user: {

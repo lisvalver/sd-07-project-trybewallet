@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchCurrency, add } from '../actions';
 
 class Wallet extends React.Component {
-
   constructor() {
     super();
     this.state = {
@@ -21,7 +21,8 @@ class Wallet extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getCurrencies();
+    const { getCurrencies } = this.props;
+    getCurrencies();
   }
 
   handleChange({ target }) {
@@ -36,40 +37,31 @@ class Wallet extends React.Component {
   }
 
   async addExpense() {
-    const { addExpenses, getCurrencies } = this.props;
+    const { addExpenses, getCurrencies, expenses, currencies } = this.props;
+    const { totalExpenses, form } = this.state;
     await getCurrencies();
-
-    // console.log(this.state)
-
-    // const rate = this.props.currencies.find((curr) => curr = this.state.form.currency)
-    // console.log(rate)
-
-    const acum = parseFloat(this.state.totalExpenses) + parseFloat(this.state.form.value)
-
-
-
-
 
     await this.setState((previouState) => ({
       ...previouState,
       form: {
         ...previouState.form,
-        exchangeRates: this.props.currencies,
+        exchangeRates: currencies,
       },
-      expenses: this.props.expenses,
+
+    }));
+    await addExpenses(form);
+    const valueConverted = form.value * form.exchangeRates[form.currency].ask;
+    const acum = parseFloat(totalExpenses) + parseFloat(valueConverted);
+    await this.setState((previouState) => ({
+      ...previouState,
+      form: {
+        ...previouState.form,
+        value: valueConverted,
+      },
+      expenses,
       totalExpenses: acum,
 
     }));
-
-
-    await addExpenses(this.state.form);
-
-    console.log(this.state.form.exchangeRates)
-
-    console.log(this.state.form.currency)
-
-    console.log(this.state.form.exchangeRates.find((curr) => curr === 'USD'))
-
     this.setState((previouState) => ({
       ...previouState,
       form: {
@@ -81,24 +73,24 @@ class Wallet extends React.Component {
         value: 0,
       },
     }));
-
-
   }
 
   render() {
     const currencylist = ['USD', 'CAD', 'EUR', 'GBP', 'ARS',
       'BTC', 'LTC', 'JPY', 'CHF', 'AUD', 'CNY', 'ILS', 'ETH', 'XRP'];
-    const { value, description } = this.state.form;
+    const { form } = this.state;
+    const { totalExpenses } = this.state;
+    const { expenses, email } = this.props;
     return (
       <div>
         <header data-testid="email-field">
-          { this.props.email.email }
+          { email.email }
         </header>
-        <div data-testid="total-field">{ this.totalExpenses }</div>
+        <div data-testid="total-field">{ totalExpenses }</div>
         <div data-testid="header-currency-field">BRL</div>
         <input
           name="value"
-          value={ value }
+          value={ form.value }
           placeholder="valor da despesa"
           type="number"
           data-testid="value-input"
@@ -109,11 +101,10 @@ class Wallet extends React.Component {
           type="text"
           data-testid="description-input"
           name="description"
-          value = { description }
+          value={ form.description }
           onChange={ this.handleChange }
         />
         <label htmlFor="currency">
-          Moeda
           <select
             data-testid="currency-input"
             id="currency"
@@ -168,13 +159,32 @@ class Wallet extends React.Component {
         >
           Adicionar Despesas
         </button>
-        <div>
-
-          { this.props.expenses.map((e) => (
-            <div>{ e.id } </div>
+        <table>
+          <tr>
+            <th>Descrição</th>
+            <th>Tag</th>
+            <th>Método de pagamento</th>
+            <th>Valor</th>
+            <th>Moeda</th>
+            <th>Câmbio utilizado</th>
+            <th>Valor convertido</th>
+            <th>Moeda de conversão</th>
+          </tr>
+          { expenses.map((e) => (
+            <tr key={ e }>
+              <td>{ e.description }</td>
+              <td>{ e.tag }</td>
+              <td>{ e.method }</td>
+              <td>{ e.value }</td>
+              <td>{ e.currency }</td>
+              <td>{ e.description }</td>
+              <td>{ e.description }</td>
+              <td>{ e.description }</td>
+              {/* <td>Editar/Excluir</td> */}
+            </tr>
           ))}
-
-        </div>
+        </table>
+        <div>Editar/Excluir</div>
       </div>
     );
   }
@@ -192,3 +202,11 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToPros)(Wallet);
+
+Wallet.propTypes = {
+  email: PropTypes.string.isRequired,
+  addExpenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.object).isRequired,
+  getCurrencies: PropTypes.func.isRequired,
+  expenses: PropTypes.func.isRequired,
+};
