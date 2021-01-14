@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'propTypes';
+import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
 import getCurrencies from '../services/currencyAPI';
+import { EXPENSE } from '../actions';
 
 class ExpenseForm extends Component {
   constructor(props) {
@@ -146,8 +148,16 @@ class ExpenseForm extends Component {
   }
 }
 
+// const mapStateToProps = (state) => ({
+//   email: state.user.email,
+// });
+
+const mapDispatchToProps = (dispatch) => ({
+  expense: (exInput) => dispatch(EXPENSE(exInput)),
+});
+
 ExpenseForm.propTypes = {
   expense: PropTypes.func.isRequired,
 };
 
-export default ExpenseForm;
+export default connect(null, mapDispatchToProps)(ExpenseForm);
