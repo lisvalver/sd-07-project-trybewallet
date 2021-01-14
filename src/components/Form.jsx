@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import addExpense from '../actions/addExpense';
 
 class Form extends Component {
   constructor(props) {
@@ -7,10 +8,11 @@ class Form extends Component {
     this.fetchCurrencies = this.fetchCurrencies.bind(this);
     this.transformCurrencies = this.transformCurrencies.bind(this);
     this.updateNumberOfExpenses = this.updateNumberOfExpenses.bind(this);
+    this.dispatchExpense = this.dispatchExpense.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       json: {},
-      numberOfExpenses: 0,
+      id: 0,
       value: 0,
       description: '',
       currency: 'USD',
@@ -45,6 +47,37 @@ class Form extends Component {
     this.setState({ [name]: value });
   }
 
+  dispatchExpense(e) {
+    e.preventDefault();
+    const { addExpenseToStore } = this.props;
+    const {
+      exchangeRates,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      id,
+    } = this.state;
+    const endpoint = 'https://economia.awesomeapi.com.br/json/all';
+    fetch(endpoint)
+      .then((respose) => respose.json())
+      .then((rates) => {
+        this.setState({
+          exchangeRates: { ...rates },
+        });
+      })
+      .then(() => addExpenseToStore({
+        value,
+        description,
+        currency,
+        method,
+        tag,
+        id,
+        exchangeRates,
+      }));
+  }
+
   transformCurrencies(json) {
     const currenciesKeys = Object.keys(json);
     const currenciesPattern = currenciesKeys.filter((currency) => currency !== 'USDT');
@@ -76,6 +109,8 @@ class Form extends Component {
       method,
       tag,
     } = this.state;
+    const { expenses } = this.props;
+    console.log(expenses);
     const currencies = this.transformCurrencies(json);
     console.log(currencies);
     return (
@@ -146,7 +181,12 @@ class Form extends Component {
             data-testid="description-input"
           />
         </label>
-        <button type="submit">Adicionar Despesa</button>
+        <button
+          type="submit"
+          onClick={ (e) => this.dispatchExpense(e) }
+        >
+          Adicionar Despesa
+        </button>
       </form>
     );
   }
@@ -156,4 +196,10 @@ const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
-export default connect(mapStateToProps)(Form);
+const mapDispatchToProps = (dispatch) => ({
+  addExpenseToStore: (payload) => {
+    dispatch(addExpense(payload));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
