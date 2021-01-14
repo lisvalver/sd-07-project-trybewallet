@@ -38,7 +38,8 @@ class Wallet extends React.Component {
 
   async addExpense() {
     const { addExpenses, getCurrencies, expenses, currencies } = this.props;
-    const { totalExpenses, form } = this.state;
+    const { totalExpenses } = this.state;
+    const { form } = this.state;
     await getCurrencies();
 
     await this.setState((previouState) => ({
