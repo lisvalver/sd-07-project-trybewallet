@@ -4,7 +4,7 @@ import Logo from '../images/logo-wallet.jpg';
 
 class Header extends React.Component {
   render() {
-    const { user, amount } = this.props;
+    const { user, amount, cambio } = this.props;
     return (
       <div className="container-header">
         <div className="logo-wallet">
@@ -18,6 +18,7 @@ class Header extends React.Component {
           <div className="amount-wallet" data-testid="total-field">
             <p className="label">Despesas:</p>
             { amount }
+            { cambio }
           </div>
         </div>
       </div>
@@ -28,6 +29,7 @@ class Header extends React.Component {
 Header.propTypes = {
   user: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
+  cambio: PropTypes.string.isRequired,
 };
 
 export default Header;

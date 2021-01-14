@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../Components/Header';
 import WalletFunction from '../Components/WalletFunction';
 import Table from '../Components/WalletTable';
@@ -9,21 +11,17 @@ class Wallet extends React.Component {
     super(props);
 
     this.state = {
-      user: {
-        email: '',
-      },
-      wallet: {
-        currencies: [],
-        expenses: [],
-      },
+      amount: 0,
+      cambio: 'BRL',
     };
   }
 
   render() {
-    const { user, wallet } = this.state;
+    const { amount, cambio } = this.state;
+    const { email } = this.props;
     return (
       <div className="container-wallet">
-        <Header user={ user.email } amount={ wallet.currencies } />
+        <Header user={ email } amount={ amount } cambio={ cambio } />
         <div className="body-wallet">
           <WalletFunction />
           <Table />
@@ -33,4 +31,11 @@ class Wallet extends React.Component {
   }
 }
 
-export default Wallet;
+Wallet.propTypes = {
+  email: PropTypes.string.isRequired,
+};
+const mapStateToProps = (state) => ({
+  email: state.user.email,
+});
+
+export default connect(mapStateToProps)(Wallet);

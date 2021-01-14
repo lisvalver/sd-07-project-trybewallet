@@ -80,7 +80,7 @@ class Login extends React.Component {
             </button>
           </Link>
         </form>
-        <a href="/" className="forgot-pass">Forgot password?</a>
+        <a href="/forgot" className="forgot-pass">Forgot password?</a>
       </div>
     );
   }
