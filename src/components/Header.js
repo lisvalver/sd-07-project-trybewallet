@@ -9,8 +9,10 @@ class Header extends React.Component {
   }
 
   sumExpenses(expenses) {
-    return expenses.reduce((acc, curr) => acc
-      + (parseFloat(curr.value) * parseFloat(curr.exchangeRates[curr.currency].ask)), 0);
+    return expenses.reduce((acc, curr) => Math.round((acc
+      + (parseFloat(curr.value)
+      * parseFloat(curr.exchangeRates[curr.currency].ask))) * 100)
+      / 100, 0);
   }
 
   render() {

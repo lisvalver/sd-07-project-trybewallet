@@ -10,11 +10,6 @@ export const emailUser = (email) => ({
   email,
 });
 
-export const addExpense = (expense) => ({
-  type: ADD_EXPENSE,
-  expense,
-});
-
 export const startRequest = () => ({
   type: START_REQUEST,
 });
@@ -29,22 +24,36 @@ export const failRequest = (error) => ({
   error,
 });
 
-export const requestExchanges = (data) => ({
+export const requestExchanges = (addExpense, data) => ({
   type: REQUEST_EXCHANGES,
   exchangeRates: data,
+  addExpense,
 });
 
-export function fetchAPIExchanges() {
+export function fetchAPICurrencies() {
   return async (dispatch) => {
     dispatch(startRequest());
     try {
       const api = await fetch('https://economia.awesomeapi.com.br/json/all');
       const json = await api.json();
       dispatch(successRequest(json));
-      dispatch(requestExchanges(json));
     } catch (error) {
       console.log(error);
-      dispatch(failRequest());
+      dispatch(failRequest(error));
+    }
+  };
+}
+
+export function fetchAPIExchanges(addExpense) {
+  return async (dispatch) => {
+    dispatch(startRequest());
+    try {
+      const api = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const json = await api.json();
+      dispatch(requestExchanges(addExpense, json));
+    } catch (error) {
+      console.log(error);
+      dispatch(failRequest(error));
     }
   };
 }

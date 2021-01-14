@@ -1,5 +1,4 @@
 import {
-  ADD_EXPENSE,
   START_REQUEST,
   SUCCESS_REQUEST,
   REQUEST_EXCHANGES,
@@ -10,21 +9,12 @@ const WALLET_INITIAL_STATE = {
   currencies: [],
   expenses: [],
   isFetching: false,
-  expenseId: 0,
-  rates: {},
+  nextId: 0,
   error: '',
 };
 
 const wallet = (state = WALLET_INITIAL_STATE, action) => {
   switch (action.type) {
-  case ADD_EXPENSE:
-    action.expense.id = state.expenseId;
-    action.expense.exchangeRates = state.rates;
-    return ({
-      ...state,
-      expenses: [...state.expenses, action.expense],
-      expenseId: state.expenseId + 1,
-    });
   case START_REQUEST:
     return {
       ...state,
@@ -39,7 +29,9 @@ const wallet = (state = WALLET_INITIAL_STATE, action) => {
   case REQUEST_EXCHANGES:
     return {
       ...state,
-      rates: action.exchangeRates,
+      expenses: [...state.expenses,
+        { ...action.addExpense, id: state.nextId, exchangeRates: action.exchangeRates }],
+      nextId: state.nextId + 1,
     };
   case FAIL_REQUEST:
     return {

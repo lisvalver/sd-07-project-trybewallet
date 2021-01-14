@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addExpense, fetchAPIExchanges } from '../actions/index';
+import { fetchAPICurrencies, fetchAPIExchanges } from '../actions/index';
 
 class Form extends React.Component {
   constructor(props) {
@@ -18,8 +18,8 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchAPI } = this.props;
-    fetchAPI();
+    const { sendCurrencies } = this.props;
+    sendCurrencies();
   }
 
   handleInputChange({ target }) {
@@ -28,9 +28,8 @@ class Form extends React.Component {
   }
 
   handleClick() {
-    const { addExpenses, fetchAPI } = this.props;
-    addExpenses(this.state);
-    fetchAPI();
+    const { sendExpenses } = this.props;
+    sendExpenses(this.state);
   }
 
   render() {
@@ -136,13 +135,13 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchAPI: () => dispatch(fetchAPIExchanges()),
-  addExpenses: (expense) => dispatch(addExpense(expense)),
+  sendCurrencies: () => dispatch(fetchAPICurrencies()),
+  sendExpenses: (expense) => dispatch(fetchAPIExchanges(expense)),
 });
 
 Form.propTypes = {
-  fetchAPI: PropTypes.func.isRequired,
-  addExpenses: PropTypes.func.isRequired,
+  sendCurrencies: PropTypes.func.isRequired,
+  sendExpenses: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
