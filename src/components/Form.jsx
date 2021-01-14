@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import wallet from '../actions/wallet';
-import callAPI from '../service/api';
+// import wallet from '../actions/wallet';
+// import callAPI from '../service/api';
 
 class Form extends React.Component {
   constructor(props) {
@@ -10,26 +10,33 @@ class Form extends React.Component {
     this.state = {
       valueInput: 0,
       descriptionInput: '',
-      currencyInput: 'USD',
+      currencyInput: 'BRL',
       methodInput: 'Dinheiro',
       tagInput: 'Alimentação',
-      currencyList: [],
     };
 
     this.updateStateInputs = this.updateStateInputs.bind(this);
-  }
+    this.filterCurrencies = this.filterCurrencies.bind(this);
+  }  // componentDidMount() {
+  //   this.getCurrencyList();
+  // }
 
-  componentDidMount() {
-    this.getCurrencyList();
-  }
 
-  getCurrencyList() {
-    this.setState(async () => {
-      const fetchResult = await callAPI();
-      const currencyList = Object.keys(fetchResult);
-      const expectedCurrencyList = currencyList.filter((currentCurrency) => 'USDT' !== currentCurrency);
-      this.setState({ currencyList: expectedCurrencyList });
-    });
+
+  // getCurrencyList() {
+  //   this.setState(async () => {
+  //     const fetchResult = await callAPI();
+  //     const currencyList = Object.keys(fetchResult);
+  //     const expectedCurrencyList = currencyList.filter((currentCurrency) => 'USDT' !== currentCurrency);
+  //     this.setState({ currencyList: expectedCurrencyList });
+  //   });
+  // }
+
+  filterCurrencies() {
+    const { currencies } = this.props;
+    const keysOfCurrencies = Object.keys(currencies);
+    const filteredCurrencies = keysOfCurrencies.filter((currentCurrency) => 'USDT' !== currentCurrency);
+    return filteredCurrencies;
   }
 
   updateStateInputs({ target }) {
@@ -38,7 +45,6 @@ class Form extends React.Component {
 
   render() {
     const {
-      currencyList,
       valueInput,
       descriptionInput,
       currencyInput,
@@ -46,7 +52,7 @@ class Form extends React.Component {
       tagInput,
     } = this.state;
 
-    const { wallet } = this.props;
+    const currencyList = this.filterCurrencies();
 
     return(
       <fieldset>
@@ -119,7 +125,7 @@ class Form extends React.Component {
         </label>
         <button
           type="submit"
-          onClick={ () => wallet(this.state) }
+          // onClick={ () => wallet(this.state) }
         >
           Adicionar despesa
         </button>
@@ -128,8 +134,13 @@ class Form extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  wallet: (inputValues) => dispatch(wallet(inputValues)),
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
 });
 
-export default connect(null, mapDispatchToProps)(Form);
+// const mapDispatchToProps = (dispatch) => ({
+//   wallet: (inputValues) => dispatch(wallet(inputValues)),
+// });
+
+// export default connect(null, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, null)(Form);

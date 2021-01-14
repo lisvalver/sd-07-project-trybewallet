@@ -1,21 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { apiAction } from '../actions/wallet';
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
 
-  }
-
-  componentDidMount() {
-    const { callApi } = this.props
+    this.state = {
+      totalExpense: 0,
+      currency: 'BRL',
+    };
   }
 
   render() {
-    const { email, totalExpense } = this.props;
-    const coinType = 'BRL';
-    const initialValue = 0;
+    const { email } = this.props;
+    const { totalExpense, currency } = this.state;
+    console.log(email);
+    // const initialValue = 0;
 
     return(
       <header>
@@ -29,10 +29,10 @@ class Header extends React.Component {
           <p>
             Despesa Total:
             <span data-testid="total-field">
-              { !totalExpense ? initialValue.toFixed(2) : totalExpense.toFixed(2) }
+              { totalExpense.toFixed(2) }
             </span>
             <span data-testid="header-currency-field">
-              { coinType }
+              { currency }
             </span>
           </p>
         </div>
@@ -41,15 +41,9 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const email = state.user.email;
-  const totalExpense = state.wallet.totalExpense;
-
-  return ({ email, totalExpense });
-}
-
-mapDispatchToProps = (dispatch) => ({
-  callApi: () => dispatch(apiAction())
+const mapStateToProps = (state) => ({
+  email: state.user.email,
+  currencies: state.wallet.currencies,
 });
 
 export default connect(mapStateToProps, null)(Header);
