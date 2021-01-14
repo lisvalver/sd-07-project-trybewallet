@@ -22,21 +22,6 @@ class Form extends Component {
     };
   }
 
-  // expenses: [{
-  //   "id": 0,
-  //   "value": "3",
-  //   "description": "Hot Dog",
-  //   "currency": "USD",
-  //   "method": "Dinheiro",
-  //   "tag": "Alimentação",
-  //   "exchangeRates": {
-  //     "USD": {
-  //       "code": "USD",
-  //       "name": "Dólar Comercial",
-  //       "ask": "5.6208",
-  //       ...
-  //     },
-
   componentDidMount() {
     this.fetchCurrencies();
     this.updateNumberOfExpenses();
@@ -75,7 +60,8 @@ class Form extends Component {
         tag,
         id,
         exchangeRates,
-      }));
+      }))
+      .then(() => this.updateNumberOfExpenses());
   }
 
   transformCurrencies(json) {
@@ -97,7 +83,9 @@ class Form extends Component {
 
   updateNumberOfExpenses() {
     const { expenses } = this.props;
-    this.setState({ numberOfExpenses: expenses.lenght });
+    const id = expenses.length;
+    console.log(id);
+    this.setState({ id });
   }
 
   render() {
@@ -112,7 +100,6 @@ class Form extends Component {
     const { expenses } = this.props;
     console.log(expenses);
     const currencies = this.transformCurrencies(json);
-    console.log(currencies);
     return (
       <form>
         <label htmlFor="value">
