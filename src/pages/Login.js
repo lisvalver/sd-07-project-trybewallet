@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getLogin } from '../actions';
+import PropTypes from 'prop-types';
+import { login } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -16,14 +17,14 @@ class Login extends React.Component {
 
   inputOnChange({ target: { name, value } }) {
     this.setState({ [name]: value });
-    this.loginValidation()
+    this.loginValidation();
   }
 
   emailChecker() {
-    const emailValue = this.state.email;
-   
-    const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    
+    const { email: emailValue } = this.state;
+
+    const emailFormat = /^[a-z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
     let emailCheck = false;
     if (emailValue.match(emailFormat)) {
       emailCheck = true;
@@ -32,7 +33,7 @@ class Login extends React.Component {
   }
 
   passwordChecker() {
-    const passwordValue = this.state.password;
+    const { password: passwordValue } = this.state;
 
     const passwordFormat = /.{5,}/;
 
@@ -48,56 +49,67 @@ class Login extends React.Component {
     const check2 = this.passwordChecker();
 
     if (check1 && check2) {
-      this.setState({ loginBtn: false },
-      () => console.log(this.state.loginBtn));
+      this.setState({ loginBtn: false });
     } else {
-      this.setState({ loginBtn: true },
-      () => console.log(this.state.loginBtn));
+      this.setState({ loginBtn: true });
     }
   }
 
   loginBtn() {
     const { history, getLogin } = this.props;
     const { email, password } = this.state;
-    
+
     getLogin(email, password);
     history.push('/carteira');
   }
 
   render() {
+    const { loginBtn } = this.state;
     return (
-      <div className='login-container'>
+      <div className="login-container">
         <h1>l o g i n</h1>
         <input
-          type='email'
-          name='email'
-          id='email-input'
-          data-testid='email-input'
-          placeholder='e m a i l'
-          pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{3,}$'
-          onChange={this.inputOnChange}
-        ></input>
+          type="email"
+          name="email"
+          id="email-input"
+          data-testid="email-input"
+          placeholder="e m a i l"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{3,}$"
+          onChange={ this.inputOnChange }
+        />
         <input
-          type='password'
-          name='password'
-          id='password-input'
-          data-testid='password-input'
-          placeholder='p a s s wo r d'
-          pattern='.{5,}' title='6 or more characters'
-          onChange={this.inputOnChange}
-        ></input>
-        <button disabled={ this.state.loginBtn } onClick={() => this.loginBtn()}>Entrar</button>
+          type="password"
+          name="password"
+          id="password-input"
+          data-testid="password-input"
+          placeholder="p a s s wo r d"
+          pattern=".{5,}"
+          title="6 or more characters"
+          onChange={ this.inputOnChange }
+        />
+        <button
+          type="button"
+          disabled={ loginBtn }
+          onClick={ () => this.loginBtn() }
+        >
+          Entrar
+        </button>
       </div>
     );
   }
 }
 
 const mapStatetoProps = (state) => ({
-  state: state,
+  state,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getLogin: (email, password) => dispatch(getLogin(email, password))
-})
+  getLogin: (email, password) => dispatch(login(email, password)),
+});
+
+Login.propTypes = {
+  getLogin: PropTypes.func.isRequired,
+  history: PropTypes.shape.isRequired,
+};
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Login);

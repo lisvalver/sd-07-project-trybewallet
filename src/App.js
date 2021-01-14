@@ -5,13 +5,13 @@ import Wallet from './pages/Wallet';
 import './App.css';
 
 class App extends React.Component {
-  render () {
+  render() {
     return (
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path='/carteira' component={ Wallet } />
+        <Route path="/carteira" component={ Wallet } />
       </Switch>
-    )
+    );
   }
 }
 
