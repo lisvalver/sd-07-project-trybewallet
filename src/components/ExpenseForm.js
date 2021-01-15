@@ -8,6 +8,7 @@ class ExpenseForm extends Component {
     super(props);
 
     this.state = {
+      // exchangeRates: {},
       value: 0,
       description: '',
       currency: '',
