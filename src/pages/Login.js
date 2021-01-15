@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login, apiWallet } from '../actions';
-import getCurrency from '../services/issAPI';
+import { login } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -38,14 +37,8 @@ class Login extends React.Component {
   // Nicholas Torres J. Vasconcelos
 
   click() {
-    const { loginDispatch, apiWalletDispatch, history } = this.props;
+    const { loginDispatch, history } = this.props;
 
-    const currencyApi = async () => {
-      const api = await getCurrency();
-      apiWalletDispatch(api);
-      console.log('oi');
-    };
-    currencyApi();
     const { email } = this.state;
     loginDispatch(email);
     history.push('/carteira');
@@ -97,7 +90,6 @@ class Login extends React.Component {
 }
 const mapDispatchToProps = (dispatch) => ({
   loginDispatch: (email) => dispatch(login(email)),
-  apiWalletDispatch: (email) => dispatch(apiWallet(email)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
