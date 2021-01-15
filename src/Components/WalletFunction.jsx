@@ -6,11 +6,20 @@ class WalletFunction extends React.Component {
       <div className="container-function">
         <label htmlFor="valor">
           Valor:
-          <input type="text" id="valor" className="input-function" />
+          <input
+            type="text"
+            id="valor"
+            className="input-function"
+            data-testid="value-input"
+          />
+        </label>
+        <label htmlFor="descricao">
+          Descrição:
+          <input type="text" id="descricao" data-testid="description-input" />
         </label>
         <label htmlFor="moeda">
           Moeda:
-          <select id="moeda">
+          <select id="moeda" data-testid="currency-input">
             <option>  </option>
           </select>
         </label>
@@ -32,10 +41,6 @@ class WalletFunction extends React.Component {
             <option value="transporte"> Transporte </option>
             <option value="saúde"> Saúde </option>
           </select>
-        </label>
-        <label htmlFor="descricao">
-          Descrição:
-          <input type="text" id="descricao" />
         </label>
         <button className="btn-wallet" type="submit">
           Adcionar despesa
