@@ -1,6 +1,8 @@
-export const USER_INFORMATION = 'USER_INFORMATION';
+import types from './types';
 
-export const userEmail = (email) => ({
-  type: USER_INFORMATION,
+const userEmail = (email) => ({
+  type: types.USER_INFORMATION,
   email,
 });
+
+export default userEmail;

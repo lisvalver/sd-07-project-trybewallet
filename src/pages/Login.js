@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { userEmail } from '../actions';
+import userEmail from '../actions';
 
 const Login = (props) => {
   const [userInfo, setUserInfo] = useState({
@@ -30,8 +30,7 @@ const Login = (props) => {
     setUserInfo((previous) => ({ ...previous, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = () => {
     dispatch(userEmail(userInfo.email));
     const { history } = props;
     history.push('/carteira');
@@ -68,9 +67,9 @@ const Login = (props) => {
           </label>
         </div>
         <button
-          type="submit"
+          type="button"
           disabled={ submit }
-          onClick={ (event) => handleSubmit(event) }
+          onClick={ (event) => handleSubmit(event.target) }
         >
           Entrar
         </button>

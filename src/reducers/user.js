@@ -1,4 +1,4 @@
-import { USER_INFORMATION } from '../actions';
+import types from '../actions/types';
 
 const INITIAL_STATE = {
   email: '',
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 export default function user(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case USER_INFORMATION: {
+  case types.USER_INFORMATION: {
     return { ...state, email: action.email };
   }
   default:
