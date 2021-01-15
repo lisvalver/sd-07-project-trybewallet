@@ -5,6 +5,8 @@ export const FAILED_REQUEST = 'FAILED_REQUEST';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const TOTAL = 'TOTAL';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+export const SAVE_EXPENSE = 'SAVE_EXPENSE';
 
 export const login = (value) => ({ type: LOGIN, value });
 
@@ -27,6 +29,7 @@ export const fetchCurrencies = () => async (dispatch) => {
 };
 
 const addExpense = (expense) => ({ type: ADD_EXPENSE, expense });
+export const saveExpenses = (expense) => ({ type: SAVE_EXPENSE, expense });
 const total = () => ({ type: TOTAL });
 
 export const fetchAddExpense = (expense) => async (dispatch) => {
@@ -43,3 +46,4 @@ export const fetchAddExpense = (expense) => async (dispatch) => {
 };
 
 export const deleteExpense = (id) => ({ type: DELETE_EXPENSE, id });
+export const editExpense = (id) => ({ type: EDIT_EXPENSE, id });

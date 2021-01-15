@@ -5,6 +5,7 @@ import Header from '../components/WalletHeader';
 import AddExpense from '../components/AddExpense';
 import ExpensesTable from '../components/ExpensesTable';
 import { fetchCurrencies } from '../actions';
+import EditExpense from '../components/EditExpense';
 
 class Wallet extends Component {
   async componentDidMount() {
@@ -13,13 +14,18 @@ class Wallet extends Component {
   }
 
   render() {
-    const { currencies, expenseIndex, isFetching } = this.props;
+    const { currencies, expenseIndex, isFetching, isEditing } = this.props;
     return (
       <div>
         <Header />
         {
-          !isFetching && (
+          !isFetching && !isEditing && (
             <AddExpense currencies={ currencies } expenseIndex={ expenseIndex } />
+          )
+        }
+        {
+          isEditing && (
+            <EditExpense />
           )
         }
         <ExpensesTable />
@@ -32,6 +38,7 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   expenseIndex: state.wallet.expenseIndex,
   isFetching: state.wallet.isFetching,
+  isEditing: state.wallet.isEditing,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -41,6 +48,7 @@ const mapDispatchToProps = (dispatch) => ({
 Wallet.propTypes = ({
   currencies: PropTypes.shape(PropTypes.object).isRequired,
   isFetching: PropTypes.bool.isRequired,
+  isEditing: PropTypes.bool.isRequired,
   fetchApi: PropTypes.func.isRequired,
   expenseIndex: PropTypes.number.isRequired,
 });

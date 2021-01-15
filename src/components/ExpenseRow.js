@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { deleteExpense } from '../actions';
+import { deleteExpense, editExpense } from '../actions';
 
 class ExpenseRow extends Component {
   constructor() {
     super();
+    this.editMe = this.editMe.bind(this);
     this.deleteMe = this.deleteMe.bind(this);
+  }
+
+  editMe() {
+    const { editIt, id } = this.props;
+    editIt(id);
   }
 
   deleteMe() {
@@ -36,7 +42,7 @@ class ExpenseRow extends Component {
         <td>{convertedValue}</td>
         <td>Real</td>
         <td>
-          <button type="button">
+          <button type="button" data-testid="edit-btn" onClick={ this.editMe }>
             Editar
           </button>
           <button type="button" data-testid="delete-btn" onClick={ this.deleteMe }>
@@ -48,11 +54,9 @@ class ExpenseRow extends Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-// });
-
 const mapDispatchToProps = (dispatch) => ({
   deleteIt: (id) => dispatch(deleteExpense(id)),
+  editIt: (id) => dispatch(editExpense(id)),
 });
 
 ExpenseRow.propTypes = ({
@@ -64,7 +68,7 @@ ExpenseRow.propTypes = ({
   description: PropTypes.string.isRequired,
   exchangeRates: PropTypes.shape().isRequired,
   deleteIt: PropTypes.func.isRequired,
+  editIt: PropTypes.func.isRequired,
 });
 
 export default connect(null, mapDispatchToProps)(ExpenseRow);
-// export default connect(mapStateToProps, mapDispatchToProps)(ExpenseRow);

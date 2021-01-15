@@ -5,6 +5,8 @@ import {
   ADD_EXPENSE,
   TOTAL,
   DELETE_EXPENSE,
+  EDIT_EXPENSE,
+  SAVE_EXPENSE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -12,6 +14,8 @@ const INITIAL_STATE = {
   expenses: [],
   expenseIndex: 0,
   isFetching: false,
+  isEditing: false,
+  editingId: null,
   error: '',
   total: 0,
 };
@@ -30,6 +34,15 @@ function wallet(state = INITIAL_STATE, action) {
       expenses: [...state.expenses, action.expense],
       expenseIndex: action.expense.id + 1,
     };
+  case SAVE_EXPENSE: {
+    const newExpenses = [...state.expenses];
+    newExpenses[action.expense.id] = action.expense;
+    return {
+      ...state,
+      expenses: newExpenses,
+      isEditing: false,
+    };
+  }
   case TOTAL: {
     let total = state.expenses
       .reduce(
@@ -44,6 +57,9 @@ function wallet(state = INITIAL_STATE, action) {
   case DELETE_EXPENSE: {
     const newExpenses = state.expenses.filter(({ id }) => id !== action.id);
     return { ...state, expenses: newExpenses };
+  }
+  case EDIT_EXPENSE: {
+    return { ...state, isEditing: true, editingId: action.id };
   }
   default:
     return state;
