@@ -201,7 +201,7 @@ FormWallet.propTypes = {
   editForm: PropTypes.func.isRequired,
   expenses: PropTypes.arrayOf(Object).isRequired,
   currencies: PropTypes.arrayOf(String).isRequired,
-  isEditingGlobal: PropTypes.bool,
+  isEditingGlobal: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired,
 };
 
