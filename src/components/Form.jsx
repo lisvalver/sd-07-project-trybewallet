@@ -30,7 +30,6 @@ class Form extends Component {
 
   handleClick() {
     const { expense, api, sendObj, currencies } = this.props;
-    console.log(expense);
     const {
       value,
       description,
@@ -49,6 +48,12 @@ class Form extends Component {
       exchangeRates: currencies,
     };
     sendObj(sendExpense);
+    return sendExpense;
+  }
+
+  handleTable() {
+    const { expense } = this.props;
+    console.log(expense);
   }
 
   render() {

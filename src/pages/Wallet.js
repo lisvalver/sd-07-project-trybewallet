@@ -2,14 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Form from '../components/Form';
+import './Wallet.css';
+import Table from '../components/Table';
 
 class Wallet extends React.Component {
-  /*
-  constructor() {
-    super();
-    this.sum = this.sum.bind(this);
-  } */
-
   sum() {
     const { currency } = this.props;
     const valor = currency.map(({ value, exchangeRates, currency: moeda }) => {
@@ -39,14 +35,7 @@ class Wallet extends React.Component {
         </p>
 
         <Form />
-
-        <header>
-          <span>Descrição</span>
-          <span>Tag</span>
-          <span>Método de pagamento</span>
-          <span>Valor</span>
-          <span>Moeda</span>
-        </header>
+        <Table />
       </div>
     );
   }
