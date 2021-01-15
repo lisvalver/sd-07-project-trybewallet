@@ -3,6 +3,20 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class Header extends React.Component {
+  constructor() {
+    super();
+    this.calcExpenses = this.calcExpenses.bind(this);
+  }
+
+  calcExpenses() {
+    const { wallet } = this.props;
+    if (wallet.length === 0) return 0;
+    amount = wallet.reduce((previousValue, { value }) => {
+      const montante = previousValue + value;
+      return montante;
+    }, 0);
+  }
+
   render() {
     const { email } = this.props;
 
@@ -25,6 +39,7 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  wallet: state.wallet,
 });
 
 export default connect(mapStateToProps, null)(Header);
