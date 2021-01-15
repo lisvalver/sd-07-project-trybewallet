@@ -30,8 +30,8 @@ class Table extends Component {
               currency,
               exchangeRates,
             } = expense;
-            const rate = parseFloat(exchangeRates[currency].ask).toFixed(2);
-            const converted = (rate * value).toFixed(2);
+            const rate = parseFloat(exchangeRates[currency].ask);
+            const rounded = Math.round(rate * value * 100) / 100;
             return (
               <tr key={ index }>
                 <td>{description}</td>
@@ -39,8 +39,8 @@ class Table extends Component {
                 <td>{method}</td>
                 <td>{value}</td>
                 <td>{exchangeRates[currency].name}</td>
-                <td>{rate}</td>
-                <td>{converted}</td>
+                <td>{rate.toFixed(2)}</td>
+                <td>{rounded.toFixed(2)}</td>
                 <td>Real</td>
                 <td>--</td>
               </tr>
