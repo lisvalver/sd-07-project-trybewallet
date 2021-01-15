@@ -39,7 +39,6 @@ class Form extends React.Component {
   }
 
   async handleButton() {
-    const { addExp } = this.props;
     const {
       valor,
       moeda,
@@ -65,7 +64,7 @@ class Form extends React.Component {
         expenses: [expense],
       });
 
-      addExp([expense]);
+      this.attAddExp();
     } else {
       const expense = {
         id: expenses.length,
@@ -81,11 +80,12 @@ class Form extends React.Component {
         expenses: [...expenses, expense],
       });
 
-      await attAddExp();
+      await this.attAddExp();
     }
   }
 
   async attAddExp() {
+    const { addExp } = this.props;
     const { expenses } = this.state;
     await addExp(expenses);
   }

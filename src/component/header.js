@@ -11,7 +11,7 @@ class Header extends React.Component {
   calcExpenses() {
     const { wallet } = this.props;
     if (wallet.length === 0) return 0;
-    amount = wallet.reduce((previousValue, { value }) => {
+    return wallet.reduce((previousValue, { value }) => {
       const montante = previousValue + value;
       return montante;
     }, 0);
