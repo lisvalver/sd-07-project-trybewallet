@@ -42,7 +42,7 @@ class Header extends Component {
         <p>
           <strong>Despesas: </strong>
           {/* this.total() */}
-          <em data-testid="total-field">{0}</em>
+          <em data-testid="total-field">{ this.total() }</em>
           <em data-testid="header-currency-field"> BRL</em>
         </p>
       </div>
