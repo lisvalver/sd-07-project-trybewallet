@@ -67,7 +67,7 @@ class Wallet extends React.Component {
       <div>
         <header>
           <ul>
-            <li>
+            <li data-testid="email-field">
               E-mail:
               { email }
             </li>
