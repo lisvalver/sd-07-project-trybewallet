@@ -47,7 +47,7 @@ class FormWallet extends Component {
 
   updateCostEdit() {
     const { id, expenses, isEditingGlobal } = this.props;
-    // console.log(isEditingGlobal);
+    // console.log(typeof id);
     if (isEditingGlobal) {
       const obj = expenses.find((objExpense) => objExpense.id === id);
       const { value, description, currency, method, tag } = obj;
@@ -201,7 +201,7 @@ FormWallet.propTypes = {
   editForm: PropTypes.func.isRequired,
   expenses: PropTypes.arrayOf(Object).isRequired,
   currencies: PropTypes.arrayOf(String).isRequired,
-  isEditingGlobal: PropTypes.bool.isRequired,
+  isEditingGlobal: PropTypes.bool,
   id: PropTypes.number.isRequired,
 };
 

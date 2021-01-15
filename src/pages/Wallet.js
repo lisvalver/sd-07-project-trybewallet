@@ -14,15 +14,15 @@ class Wallet extends React.Component {
     this.editButton = this.editButton.bind(this);
 
     this.state = {
-      id: '',
+      idExpense: '',
     };
   }
 
-  editButton(id) {
+  editButton(idExpense) {
     const { enableEditForm } = this.props;
-    console.log(id, 'id_edit');
+    // console.log(id, 'id_edit');
     this.setState({
-      id,
+      idExpense,
     },
     () => enableEditForm());
   }
@@ -48,13 +48,12 @@ class Wallet extends React.Component {
       getExpenses,
       executeDeleteExpense,
     } = this.props;
-    const { id } = this.state;
-    // console.log(getExpenses);
-    console.log(id, 'id_expense');
+    const { idExpense } = this.state;
+    // console.log(id, 'id_expense');
     return (
       <div>
         <Header email={ getEmail } total={ this.sumExpenses() } />
-        <FormWallet id={ id } />
+        <FormWallet id={ idExpense } />
         <section>
           <table>
             <thead>
@@ -73,7 +72,7 @@ class Wallet extends React.Component {
             <tbody>
               {getExpenses.map((expense) => {
                 const {
-                  idExpense,
+                  id,
                   description,
                   tag,
                   method,
@@ -85,7 +84,7 @@ class Wallet extends React.Component {
                   [currency]: { name, ask },
                 } = exchangeRates;
                 return (
-                  <tr key={ idExpense }>
+                  <tr key={ id }>
                     <td>{description}</td>
                     <td>{tag}</td>
                     <td>{method}</td>
@@ -98,14 +97,14 @@ class Wallet extends React.Component {
                       <button
                         type="button"
                         data-testid="edit-btn"
-                        onClick={ () => this.editButton(idExpense) }
+                        onClick={ () => this.editButton(id) }
                       >
                         Editar
                       </button>
                       <button
                         type="button"
                         data-testid="delete-btn"
-                        onClick={ () => executeDeleteExpense(idExpense) }
+                        onClick={ () => executeDeleteExpense(id) }
                       >
                         Excluir
                       </button>
