@@ -46,10 +46,25 @@ class AddExpense extends React.Component {
     } = this.state;
     await fetchRates(value, description, currency, paymentMethod, category);
     this.addExpenses();
+    this.setState({
+      value: 0,
+      description: '',
+      currency: '',
+      paymentMethod: '',
+      category: '',
+    });
   }
 
   addExpenses() {
-    // const { wallet } = this.props;
+    const { wallet, sumTotal } = this.props;
+    let sumValues = 0;
+    let exchangeRateConverted;
+    wallet.expenses.forEach((expenses, index) => {
+      exchangeRateConverted = Object.values(wallet.expenses[index].exchangeRates);
+      const data = exchangeRateConverted.find((rate) => rate.code === expenses.currency);
+      sumValues += data.ask * expenses.value;
+    });
+    sumTotal(sumValues);
   }
 
   render() {
@@ -155,6 +170,7 @@ class AddExpense extends React.Component {
 const mapDispatchToProps = {
   populateCurrenciesApi: Actions.populateCurrenciesApi,
   fetchRates: Actions.fetchRates,
+  sumTotal: Actions.sumTotal,
 };
 
 const mapStateToProps = (state) => ({
@@ -164,9 +180,10 @@ const mapStateToProps = (state) => ({
 AddExpense.propTypes = {
   populateCurrenciesApi: PropTypes.func.isRequired,
   fetchRates: PropTypes.func.isRequired,
+  sumTotal: PropTypes.func.isRequired,
   wallet: PropTypes.shape({
-    currencies: PropTypes,
-    expenses: PropTypes,
+    currencies: PropTypes.arrayOf,
+    expenses: PropTypes.arrayOf,
   }).isRequired,
 };
 

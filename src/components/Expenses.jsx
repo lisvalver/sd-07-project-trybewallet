@@ -1,9 +1,11 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
 class Expenses extends React.Component {
   render() {
+    const { wallet } = this.props;
+    const { expenses } = wallet;
     return (
       <div>
         <h2>Tabela de Gastos</h2>
@@ -45,4 +47,8 @@ class Expenses extends React.Component {
   }
 }
 
-export default Expenses;
+const mapStateToProps = (state) => ({
+  wallet: state.wallet,
+});
+
+export default connect(mapStateToProps)(Expenses);

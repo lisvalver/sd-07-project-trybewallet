@@ -4,10 +4,16 @@ import * as api from '../services/api';
 const SIGN_IN = 'SIGN_IN';
 const FETCH_CURRENCIES = 'FETCH_CURRENCIES';
 const EXPENSES = 'EXPENSES';
+const TOTAL = 'TOTAL';
 
 export const signIn = (email) => ({
   type: SIGN_IN,
   email,
+});
+
+export const sumTotal = (total) => ({
+  type: TOTAL,
+  total,
 });
 
 const populateCurrencies = (data) => ({
