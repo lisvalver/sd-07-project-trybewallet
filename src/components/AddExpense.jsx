@@ -35,9 +35,21 @@ class AddExpense extends React.Component {
     });
   }
 
-  handleClick() {
-    // Lógica do clique
-    console.log('Clicado');
+  async handleClick() {
+    const { fetchRates } = this.props;
+    const {
+      value,
+      description,
+      currency,
+      paymentMethod,
+      category,
+    } = this.state;
+    await fetchRates(value, description, currency, paymentMethod, category);
+    this.addExpenses();
+  }
+
+  addExpenses() {
+    // const { wallet } = this.props;
   }
 
   render() {
@@ -84,9 +96,9 @@ class AddExpense extends React.Component {
               onChange={ this.handleChange }
             >
               <option>Selecione</option>
-              {/* Estudante Arthur Massaini: */}
+              {/* Lógica do estudante Arthur Massaini: */}
               {/* https://github.com/tryber/sd-07-project-trybewallet/pull/35 */}
-              {wallet.expenses.map((currencyCode) => (
+              {wallet.currencies.map((currencyCode) => (
                 <option key={ currencyCode } data-testid={ currencyCode }>
                   {currencyCode}
                 </option>
@@ -142,6 +154,7 @@ class AddExpense extends React.Component {
 
 const mapDispatchToProps = {
   populateCurrenciesApi: Actions.populateCurrenciesApi,
+  fetchRates: Actions.fetchRates,
 };
 
 const mapStateToProps = (state) => ({
@@ -150,7 +163,9 @@ const mapStateToProps = (state) => ({
 
 AddExpense.propTypes = {
   populateCurrenciesApi: PropTypes.func.isRequired,
+  fetchRates: PropTypes.func.isRequired,
   wallet: PropTypes.shape({
+    currencies: PropTypes,
     expenses: PropTypes,
   }).isRequired,
 };

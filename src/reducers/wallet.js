@@ -1,6 +1,7 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 
 const FETCH_CURRENCIES = 'FETCH_CURRENCIES';
+const EXPENSES = 'EXPENSES';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -12,7 +13,20 @@ const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case FETCH_CURRENCIES:
     allCurrencies = Object.keys(action.data).filter((currency) => currency !== 'USDT');
-    return { ...state, expenses: allCurrencies };
+    return { ...state, currencies: allCurrencies };
+  case EXPENSES:
+    return { ...state,
+      expenses: [
+        ...state.expenses, {
+          value: action.value,
+          description: action.description,
+          currency: action.currency,
+          method: action.method,
+          tag: action.tag,
+          exchangeRates: action.data,
+        },
+      ],
+    };
   default:
     return state;
   }
