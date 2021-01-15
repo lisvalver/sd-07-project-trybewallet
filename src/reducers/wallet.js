@@ -4,6 +4,7 @@ import {
   REQUEST_CURRENCY,
   FAILED_REQUEST,
   SEND_OBJECT_EXPENSE,
+  REMOVE_EXPENSE,
 } from '../actions';
 
 const WALLETS = {
@@ -27,6 +28,12 @@ function wallet(state = WALLETS, action) {
     return { ...state, error: action.payload };
   case SEND_OBJECT_EXPENSE:
     return { ...state, expenses: state.expenses.concat(action.payload) };
+  case REMOVE_EXPENSE:
+    return { ...state,
+      expenses: [
+        ...state.expenses.filter((expense) => expense.id !== action.payload),
+      ],
+    };
   default:
     return state;
   }
