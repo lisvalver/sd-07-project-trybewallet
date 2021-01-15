@@ -4,6 +4,21 @@ import { connect } from 'react-redux';
 import logo from '../images/trybe-400x400.jpg';
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.total = this.total.bind(this);
+  }
+
+  total() {
+    const { expenses } = this.props;
+    const total = expenses
+      .reduce((
+        acc,
+        { value, currency, exchangeRate },
+      ) => (acc + exchangeRate[currency].ask * value), 0);
+    return total;
+  }
+
   renderTitle() {
     return (<h1>Wallet</h1>);
   }
@@ -26,7 +41,8 @@ class Header extends Component {
         </p>
         <p>
           <strong>Despesas: </strong>
-          <em data-testid="total-field">0</em>
+          {/* this.total() */}
+          <em data-testid="total-field">{0}</em>
           <em data-testid="header-currency-field"> BRL</em>
         </p>
       </div>
@@ -46,10 +62,12 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expenses: state.wallet.expenses,
 });
 
 Header.propTypes = {
   email: PropTypes.string,
+  expenses: PropTypes.arrayOf(Object).isRequired,
 };
 
 Header.defaultProps = {

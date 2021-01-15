@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { DELEXPENSE } from '../actions';
 
 class WalletPanel extends Component {
   renderWalletHead() {
@@ -19,7 +21,7 @@ class WalletPanel extends Component {
       <thead>
         <tr>
           {expenseHeader.map((item) => (
-            <th key={ item }>{ item }</th>
+            <th key={ item }>{item}</th>
           ))}
         </tr>
       </thead>
@@ -27,8 +29,43 @@ class WalletPanel extends Component {
   }
 
   renderWalletBody() {
+    const { excludes, expenses } = this.props;
     return (
-      <tbody><tr><td>XA XA XABLAU</td></tr></tbody>
+      <tbody>
+        {expenses.map((expense) => (
+          <tr key={ expense.id }>
+            <td>{expense.description}</td>
+            <td>{expense.tag}</td>
+            <td>{expense.method}</td>
+            <td>{expense.value}</td>
+            <td>{expense.currency}</td>
+            <td>{Number(expense.exchangeRates[expense.currency].ask).toFixed(2)}</td>
+            <td>
+              {Number(expense.exchangeRates[expense.currency].ask).toFixed(2)
+              * expense.value}
+            </td>
+            <td>Real</td>
+            <td>
+              <button
+                className="btn-edit"
+                type="button"
+                onClick={ () => console.log('xaxablau') }
+                disabled
+              >
+                eDitar
+              </button>
+              <button
+                className="btn-exclude"
+                type="button"
+                data-testid="delete-btn"
+                onClick={ () => excludes(expense.id) }
+              >
+                eXcluir
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
     );
   }
 
@@ -48,4 +85,13 @@ const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
-export default connect(mapStateToProps, null)(WalletPanel);
+const mapDispatchToProps = (dispatch) => ({
+  excludes: (expense) => dispatch(DELEXPENSE(expense)),
+});
+
+WalletPanel.propTypes = {
+  expenses: PropTypes.objectOf(PropTypes.number).isRequired,
+  excludes: PropTypes.objectOf(PropTypes.number).isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WalletPanel);
