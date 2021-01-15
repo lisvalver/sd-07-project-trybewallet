@@ -19,10 +19,11 @@ class WalletHeader extends React.Component {
 
   render() {
     const { email, expenses } = this.props;
+    const totalSum = this.sumExpenses(expenses);
     return (
       <header>
         <span data-testid="email-field">{ email }</span>
-        <span data-testid="total-field">{ this.sumExpenses(expenses) }</span>
+        <span data-testid="total-field">{ totalSum.toFixed(2) }</span>
         <span data-testid="header-currency-field">BRL</span>
       </header>
     );
