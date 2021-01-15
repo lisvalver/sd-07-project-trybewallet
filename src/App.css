@@ -6,7 +6,7 @@ html , body , header , .login-grid , .wallet-grid {
   width: 100%;
 }
 
-.login-grid {
+.login-grid , .wallet-grid {
   flex-direction: column;
 }
 
