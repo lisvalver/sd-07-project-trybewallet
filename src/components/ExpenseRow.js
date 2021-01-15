@@ -30,7 +30,7 @@ class ExpenseRow extends Component {
       exchangeRates,
     } = this.props;
     const convertedValue = parseFloat((exchangeRates[currency].ask * value).toFixed(2));
-    const convertedAsk = parseFloat(parseFloat(exchangeRates[currency].ask).toFixed(2));
+    const convertedAsk = parseFloat(exchangeRates[currency].ask).toFixed(2);
     return (
       <tr>
         <td>{description}</td>
