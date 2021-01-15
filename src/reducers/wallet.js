@@ -1,5 +1,5 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { ADDEXPENSE } from '../actions';
+import { ADDEXPENSE, DELEXPENSE } from '../actions';
 
 const initialState = {
   currencies: [],
@@ -19,6 +19,8 @@ export default function wallet(state = initialState, action) {
         },
       ],
     };
+  case DELEXPENSE:
+    return { ...state, expenses: state.expenses.filter(({ id }) => id !== action.id) };
   default:
     return state;
   }

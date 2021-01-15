@@ -7,6 +7,21 @@ import ExpenseLine from './ExpenseLine';
 class ExpensesTable extends Component {
   render() {
     const { expenses } = this.props;
+    const renderLines = (
+      <tbody>
+        {expenses
+          .map((expense, index) => <ExpenseLine key={ index } expense={ expense } />)}
+      </tbody>
+    );
+
+    const noRenderLines = (
+      <tbody>
+        <tr>
+          <td>Without Expenses</td>
+        </tr>
+      </tbody>
+    );
+
     return (
       <table>
         <thead>
@@ -22,10 +37,7 @@ class ExpensesTable extends Component {
             <th>Editar/Excluir</th>
           </tr>
         </thead>
-        <tbody>
-          {expenses
-            .map((expense, index) => <ExpenseLine key={ index } expense={ expense } />)}
-        </tbody>
+        { expenses.length > 0 ? renderLines : noRenderLines }
       </table>
     );
   }
