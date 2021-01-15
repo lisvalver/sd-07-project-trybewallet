@@ -1,18 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import currencyApi from '../services/currency';
-import { addExpenses } from '../actions';
+import { addExpenses, addAmount } from '../actions';
 
 class Form extends React.Component {
   constructor() {
     super();
     this.inputChange = this.inputChange.bind(this);
     this.handleButton = this.handleButton.bind(this);
+    this.calcExpenses = this.calcExpenses.bind(this);
 
     this.state = {
       valor: 0,
       currency: [],
-      moeda: '',
+      moeda: 'USD',
       pagamento: 'Dinheiro',
       tag: 'Alimentação',
       despesa: '',
@@ -84,14 +86,25 @@ class Form extends React.Component {
     }
   }
 
+  calcExpenses() {
+    const { expenses } = this.state;
+    if (expenses.length === 0) return 0;
+    return expenses.reduce((previousValue, { value, exchangeRates, currency }) => {
+      const { ask } = exchangeRates[currency];
+      const montante = previousValue + (ask * parseFloat(value));
+      return montante;
+    }, 0);
+  }
+
   async attAddExp() {
-    const { addExp } = this.props;
+    const { addExp, addAmo } = this.props;
     const { expenses } = this.state;
     await addExp(expenses);
+    await addAmo(this.calcExpenses());
   }
 
   render() {
-    const { currency } = this.state;
+    const { currency, valor } = this.state;
     return (
       <div>
         <form>
@@ -104,6 +117,7 @@ class Form extends React.Component {
               type="number"
               data-testid="value-input"
               onChange={ this.inputChange }
+              value={ valor }
             />
           </label>
 
@@ -213,6 +227,12 @@ class Form extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   addExp: (exp) => dispatch(addExpenses(exp)),
+  addAmo: (amount) => dispatch(addAmount(amount)),
 });
 
 export default connect(null, mapDispatchToProps)(Form);
+
+Form.propTypes = {
+  addAmo: PropTypes.func.isRequired,
+  addExp: PropTypes.func.isRequired,
+};
