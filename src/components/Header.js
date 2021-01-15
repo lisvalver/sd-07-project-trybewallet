@@ -8,9 +8,16 @@ class Header extends Component {
     const { email, expenses } = this.props;
     let expensesTotal = 0;
 
+    const calcExpense = ({ value, currency, exchangeRates }) => {
+      const result = parseInt(value, 10) * exchangeRates[currency].ask;
+      return result;
+    };
+
     if (expenses.length > 0) {
       expensesTotal = expenses
-        .reduce((acc, { value, currency, exchangeRates }) => parseInt(value, 10) * exchangeRates[currency].ask + acc, 0);
+        .reduce(
+          (acc, expense) => calcExpense(expense) + acc, 0,
+        );
     }
 
     return (

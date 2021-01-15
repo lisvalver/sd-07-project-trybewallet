@@ -14,7 +14,6 @@ class ExpensesForm extends Component {
       currency: '',
       method: '',
       tag: '',
-      exchangeRates: [],
     };
 
     this.fetchCurency = this.fetchCurency.bind(this);
@@ -50,8 +49,7 @@ class ExpensesForm extends Component {
       currency: '',
       method: '',
       tag: '',
-      exchangeRates: [],
-    })
+    });
   }
 
   async fetchExpenses() {
@@ -88,30 +86,34 @@ class ExpensesForm extends Component {
 
     return (
       <form>
-        <label htmlFor="value">Expense Value:</label>
-        <input
-          type="text"
-          id="value"
-          name="value"
-          value={ value }
-          data-testid="value-input"
-          onChange={ this.getHandle }
-        />
-          
-        <label htmlFor="description">Expense Description:</label>
-        <input
-          type="text"
-          name="description"
-          value={ description }
-          id="description"
-          data-testid="description-input"
-          onChange={ this.getHandle }
-        />
-        
-        <label htmlFor="currency">Expense Currency:</label>
+        <label htmlFor="value">
+          Expense Value:
+          <input
+            type="text"
+            id="value"
+            name="value"
+            value={ value }
+            data-testid="value-input"
+            onChange={ this.getHandle }
+          />
+        </label>
+
+        <label htmlFor="description">
+          Expense Description:
+          <input
+            type="text"
+            name="description"
+            value={ description }
+            id="description"
+            data-testid="description-input"
+            onChange={ this.getHandle }
+          />
+        </label>
+
+        <span>Expense Currency:</span>
         <select
           name="currency"
-          id="currency-input"
+          id="currency"
           data-testid="currency-input"
           onChange={ this.getHandle }
         >
@@ -129,7 +131,7 @@ class ExpensesForm extends Component {
             ))}
         </select>
 
-        <label htmlFor="method">Payment Method:</label>
+        <span>Payment Method:</span>
         <select
           name="method"
           id="method"
@@ -149,7 +151,7 @@ class ExpensesForm extends Component {
             ))}
         </select>
 
-        <label htmlFor="tag">Expense Category:</label>
+        <span>Expense Category:</span>
         <select
           name="tag"
           id="tag"
