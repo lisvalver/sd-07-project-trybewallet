@@ -1,13 +1,15 @@
 import React from 'react';
 // import * as api from '../services/api';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as Actions from '../actions';
 
 class AddExpense extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.fetchApi = this.fetchApi.bind(this);
     this.state = {
       value: 0,
       description: '',
@@ -15,6 +17,15 @@ class AddExpense extends React.Component {
       paymentMethod: '',
       category: '',
     };
+  }
+
+  componentDidMount() {
+    this.fetchApi();
+  }
+
+  async fetchApi() {
+    const { populateCurrenciesApi } = this.props;
+    await populateCurrenciesApi();
   }
 
   handleChange({ target }) {
@@ -37,6 +48,7 @@ class AddExpense extends React.Component {
       paymentMethod,
       category,
     } = this.state;
+    const { wallet } = this.props;
     return (
       <div className="App">
         <form>
@@ -72,55 +84,13 @@ class AddExpense extends React.Component {
               onChange={ this.handleChange }
             >
               <option>Selecione</option>
-              <option key="USD" data-testid="USD">
-                USD
-              </option>
-              <option key="CAD" data-testid="CAD">
-                CAD
-              </option>
-              <option key="EUR" data-testid="EUR">
-                EUR
-              </option>
-              <option key="GBP" data-testid="GBP">
-                GBP
-              </option>
-              <option key="ARS" data-testid="ARS">
-                ARS
-              </option>
-              <option key="BTC" data-testid="BTC">
-                BTC
-              </option>
-              <option key="LTC" data-testid="LTC">
-                LTC
-              </option>
-              <option key="JPY" data-testid="JPY">
-                JPY
-              </option>
-              <option key="CHF" data-testid="CHF">
-                CHF
-              </option>
-              <option key="AUD" data-testid="AUD">
-                AUD
-              </option>
-              <option key="CNY" data-testid="CNY">
-                CNY
-              </option>
-              <option key="ILS" data-testid="ILS">
-                ILS
-              </option>
-              <option key="ETH" data-testid="ETH">
-                ETH
-              </option>
-              <option key="XRP" data-testid="XRP">
-                XRP
-              </option>
               {/* Estudante Arthur Massaini: */}
               {/* https://github.com/tryber/sd-07-project-trybewallet/pull/35 */}
-              {/* {currencies.map((element) => (
-                <option key={ element.name } data-testid={ element.code }>
-                  {element.code}
+              {wallet.expenses.map((currencyCode) => (
+                <option key={ currencyCode } data-testid={ currencyCode }>
+                  {currencyCode}
                 </option>
-              ))} */}
+              ))}
             </select>
           </label>
 
@@ -170,4 +140,19 @@ class AddExpense extends React.Component {
   }
 }
 
-export default AddExpense;
+const mapDispatchToProps = {
+  populateCurrenciesApi: Actions.populateCurrenciesApi,
+};
+
+const mapStateToProps = (state) => ({
+  wallet: state.wallet,
+});
+
+AddExpense.propTypes = {
+  populateCurrenciesApi: PropTypes.func.isRequired,
+  wallet: PropTypes.shape({
+    expenses: PropTypes,
+  }).isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddExpense);

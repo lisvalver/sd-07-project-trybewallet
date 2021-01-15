@@ -96,11 +96,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.email,
+  user: state.user,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
-
-// Você deve criar um local para que a pessoa usuária insira seu email e senha. Utilize o atributo data-testid="email-input" para o email e data-testid="password-input" para a senha.
-
-// Crie um botão com o texto ‘Entrar’.
