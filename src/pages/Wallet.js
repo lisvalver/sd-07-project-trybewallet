@@ -1,13 +1,11 @@
 import React from 'react';
 import Header from '../components/Header';
 import AddExpense from '../components/AddExpense';
-import * as api from '../services/api';
 // import Expenses from '../components/Expenses';
+// import * as api from '../services/api';
 
 class Wallet extends React.Component {
   render() {
-    const currencies = api.fetchCurrencies();
-    console.log(currencies);
     return (
       <div>
         <Header />

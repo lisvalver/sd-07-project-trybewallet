@@ -1,4 +1,5 @@
 import React from 'react';
+// import * as api from '../services/api';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 
@@ -6,6 +7,7 @@ class AddExpense extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.state = {
       value: 0,
       description: '',
@@ -22,10 +24,21 @@ class AddExpense extends React.Component {
     });
   }
 
+  handleClick() {
+    // Lógica do clique
+    console.log('Clicado');
+  }
+
   render() {
-    const { value, description, currency, paymentMethod, category } = this.state;
+    const {
+      value,
+      description,
+      currency,
+      paymentMethod,
+      category,
+    } = this.state;
     return (
-      <div>
+      <div className="App">
         <form>
           <label htmlFor="value">
             Valor:
@@ -58,7 +71,7 @@ class AddExpense extends React.Component {
               value={ currency }
               onChange={ this.handleChange }
             >
-              <option>Escolha</option>
+              <option>Selecione</option>
               <option key="USD" data-testid="USD">
                 USD
               </option>
@@ -101,8 +114,9 @@ class AddExpense extends React.Component {
               <option key="XRP" data-testid="XRP">
                 XRP
               </option>
-              {/* Estudante Arthur Massaini:
-              {currencies.map((element) => (
+              {/* Estudante Arthur Massaini: */}
+              {/* https://github.com/tryber/sd-07-project-trybewallet/pull/35 */}
+              {/* {currencies.map((element) => (
                 <option key={ element.name } data-testid={ element.code }>
                   {element.code}
                 </option>
@@ -119,7 +133,7 @@ class AddExpense extends React.Component {
               value={ paymentMethod }
               onChange={ this.handleChange }
             >
-              <option>Escolha</option>
+              <option>Selecione</option>
               <option>Dinheiro</option>
               <option>Cartão de crédito</option>
               <option>Cartão de débito</option>
@@ -135,7 +149,7 @@ class AddExpense extends React.Component {
               value={ category }
               onChange={ this.handleChange }
             >
-              <option>Escolha</option>
+              <option>Selecione</option>
               <option>Alimentação</option>
               <option>Lazer</option>
               <option>Trabalho</option>
@@ -146,7 +160,7 @@ class AddExpense extends React.Component {
 
           <button
             type="button"
-            // onClick={ this.handleClick }
+            onClick={ this.handleClick }
           >
             Adicionar despesas
           </button>
