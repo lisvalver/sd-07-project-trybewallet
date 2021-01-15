@@ -80,7 +80,7 @@ class Wallet extends React.Component {
     });
   }
 
-  async handleEditExpense() {
+  handleEditExpense() {
     const { value, currency, method, tag, description, editExpense } = this.state;
     const { editExpenseItem } = this.props;
     const expenseItem = {
@@ -92,7 +92,7 @@ class Wallet extends React.Component {
       tag,
       exchangeRates: editExpense.exchangeRates,
     };
-    await editExpenseItem(expenseItem);
+    editExpenseItem(expenseItem);
     this.setState({ isEditing: false });
   }
 

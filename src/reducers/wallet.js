@@ -31,7 +31,7 @@ const walletReducer = (state = INITIAL_STATE, action) => {
       ...state,
       expenses: [...state
         .expenses.filter((expense) => expense.id !== parseInt(action.payload.id, 10)),
-      action.payload].sort((a, b) => a.id < b.id),
+      action.payload].sort((a, b) => a.id - b.id),
     };
   default:
     return state;
