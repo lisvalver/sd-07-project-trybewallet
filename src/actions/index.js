@@ -2,6 +2,7 @@ import * as currencyAPI from '../services/api';
 
 const LOGIN = 'LOGIN';
 const ADD_EXPENSE = 'ADD_EXPENSE';
+const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 const REQUEST_CURRENCY = 'GET_CURRENCY';
 const REQUEST_CURRENCY_FAIL = 'REQUEST_CURRENCY_FAIL';
 
@@ -27,6 +28,13 @@ export function addExpense(expenseDetails, exchangeRates) {
   return ({
     type: ADD_EXPENSE,
     payload: Object.assign(expenseDetails, { exchangeRates }),
+  });
+}
+
+export function removeExpense(id) {
+  return ({
+    type: REMOVE_EXPENSE,
+    payload: id,
   });
 }
 
