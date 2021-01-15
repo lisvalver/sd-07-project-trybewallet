@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchCurrencies, addExpense } from '../actions';
 
 class Form extends React.Component {
@@ -8,8 +9,8 @@ class Form extends React.Component {
     this.state = {
       value: '',
       currency: '',
-      method:'',
-      tag:'',
+      method: '',
+      tag: '',
       description: '',
     };
 
@@ -18,8 +19,8 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchCurrencies } = this.props;
-    fetchCurrencies(); // enviando a action fetchMovies
+    const { getCurrencies } = this.props;
+    getCurrencies(); // enviando a action fetchMovies
   }
 
   handleChange({ target: { name, value } }) {
@@ -27,9 +28,9 @@ class Form extends React.Component {
   }
 
   async clickButton() {
-    const { fetchCurrencies, addExpense } = this.props;
-    await fetchCurrencies();
-    addExpense(this.state);
+    const { getCurrencies, add } = this.props;
+    await getCurrencies();
+    add(this.state);
   }
 
   render() {
@@ -110,8 +111,8 @@ class Form extends React.Component {
   }
 }
 const mapDispatchToProps = (dispatch) => ({
-  fetchCurrencies: () => dispatch(fetchCurrencies()),
-  addExpense: (expense) => dispatch(addExpense(expense)),
+  getCurrencies: () => dispatch(fetchCurrencies()),
+  add: (expense) => dispatch(addExpense(expense)),
 });
 
 const mapStateToProps = (state) => ({
@@ -120,3 +121,9 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
+
+Form.propTypes = {
+  getCurrencies: PropTypes.func.isRequired,
+  add: PropTypes.func.isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
