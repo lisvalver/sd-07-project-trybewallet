@@ -3,6 +3,7 @@ import {
   SUCCESS_REQUEST,
   REQUEST_EXCHANGES,
   FAIL_REQUEST,
+  REMOVE_EXPENSE,
 } from '../actions/index';
 
 const WALLET_INITIAL_STATE = {
@@ -38,6 +39,11 @@ const wallet = (state = WALLET_INITIAL_STATE, action) => {
       ...state,
       error: action.error,
       isFetching: false,
+    };
+  case REMOVE_EXPENSE:
+    return {
+      ...state,
+      expenses: [...state.expenses.filter((exp) => exp.id !== action.id)],
     };
   default:
     return state;

@@ -4,6 +4,7 @@ export const START_REQUEST = 'START_REQUEST';
 export const SUCCESS_REQUEST = 'SUCCESS_REQUEST';
 export const FAIL_REQUEST = 'FAIL_REQUEST';
 export const REQUEST_EXCHANGES = 'REQUEST_EXCHANGES';
+export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 
 export const emailUser = (email) => ({
   type: USER_EMAIL,
@@ -28,6 +29,11 @@ export const requestExchanges = (addExpense, data) => ({
   type: REQUEST_EXCHANGES,
   exchangeRates: data,
   addExpense,
+});
+
+export const removeExpense = (id) => ({
+  type: REMOVE_EXPENSE,
+  id,
 });
 
 export function fetchAPICurrencies() {
