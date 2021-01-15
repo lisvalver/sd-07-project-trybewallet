@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import AddExpense from '../components/AddExpense';
-// import Expenses from '../components/Expenses';
+import Expenses from '../components/Expenses';
 // import * as api from '../services/api';
 
 class Wallet extends React.Component {
@@ -10,7 +10,7 @@ class Wallet extends React.Component {
       <div>
         <Header />
         <AddExpense />
-        {/* <Expenses /> */}
+        <Expenses />
       </div>
     );
   }
