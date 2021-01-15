@@ -1,8 +1,3 @@
-#root {
-  height: 100%;
-  width: 100%;
-}
-
 html , body , header , .login-grid , .wallet-grid {
   align-items: center;
   display: flex;
