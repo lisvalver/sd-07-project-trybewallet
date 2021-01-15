@@ -110,7 +110,7 @@ class Form extends React.Component {
         <form>
 
           <label htmlFor="valor">
-            Valor
+            valor
             <input
               id="valor"
               name="valor"
@@ -122,7 +122,7 @@ class Form extends React.Component {
           </label>
 
           <label htmlFor="despesa">
-            Descrição
+            descrição
             <input
               id="despesa"
               name="despesa"
@@ -133,7 +133,7 @@ class Form extends React.Component {
           </label>
 
           <label htmlFor="moeda">
-            Moeda
+            moeda
             <select
               id="moeda"
               name="moeda"
@@ -153,7 +153,7 @@ class Form extends React.Component {
           </label>
 
           <label htmlFor="pagamento">
-            Método Pagamento
+            método pagamento
             <select
               id="pagamento"
               name="pagamento"
@@ -179,7 +179,7 @@ class Form extends React.Component {
           </label>
 
           <label htmlFor="tag">
-            Tag
+            tag
             <select
               id="tag"
               name="tag"

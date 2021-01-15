@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+const { format } = new Intl.NumberFormat('pt-BR',
+  { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+
 class Header extends React.Component {
   render() {
     const { email, amount } = this.props;
@@ -13,7 +16,7 @@ class Header extends React.Component {
           { email }
         </div>
         <div data-testid="total-field">
-          { amount ? amount : 0 }
+          { amount ? format(amount) : 0 }
         </div>
         <div data-testid="header-currency-field">
           Câmbio: BRL
