@@ -22,9 +22,17 @@ class Wallet extends React.Component {
     this.handleInput = this.handleInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleFetch = this.handleFetch.bind(this);
+    this.handleForm = this.handleForm.bind(this);
   }
 
-  componentDidMount() { this.handleFetch(); }
+  componentDidMount() {
+    this.handleFetch();
+    this.handleForm();
+  }
+
+  // componentDidUpdate() {
+  //   this.handleForm();
+  // }
 
   async handleFetch() {
     const { apiFetch } = this.props;
@@ -47,6 +55,7 @@ class Wallet extends React.Component {
     addExp(expenses);
     this.setState({
       expenses: {
+        id: 0,
         method: 'Dinheiro',
         tag: 'Alimentação',
         description: '',
@@ -56,21 +65,38 @@ class Wallet extends React.Component {
       } });
   }
 
+  handleForm(updateExpense) {
+    // const { expenses } = this.state;
+    console.log(updateExpense);
+    const editExpense = { ...updateExpense };
+    console.log(editExpense);
+    // this.setState({
+    //   expenses: {
+    //     id: updateExpense.id,
+    //     method: updateExpense.method,
+    //     tag: updateExpense.tag,
+    //     description: updateExpense.description,
+    //     currency: updateExpense.currency,
+    //     value: updateExpense.value,
+    //     exchangeRates: { ...expenses.exchangeRates },
+    //   } });
+    // this.setState({ expenses: ...updateExpense });
+  }
+
   handleInput(event) {
     const { target: { name, value } } = event;
     this.setState((state) => ({ ...state,
       expenses:
          { ...state.expenses, [name]: value } }));
   }
-  returnData = (expense) => {
-    console.log(expense)
-    // const expenses: { ...expense };
-    // this.setState({ ...expenses })
-  }
 
   render() {
-    // console.log(this.props)
     const { _Email, currencies, totalExpense } = this.props;
+    // console.log(this.props.updateExpense) // consigo recuperar a expense do botão editar
+    const { updateExpense } = this.props;
+    if (updateExpense.length !== 0) {
+      this.handleForm(updateExpense);
+    }
     const dez = 10;
     const { expenses } = this.state;
     const { value, method, description, tag, currency } = expenses;
@@ -171,7 +197,7 @@ class Wallet extends React.Component {
             Adicionar Despesa
           </button>
         </form>
-        <RenderTable returnData={this.returnData} />
+        <RenderTable handleForm={ this.handleForm } />
       </div>
     );
   }
@@ -184,8 +210,10 @@ const mapStateToProps = (state) => ({
   _Email: state.user.email,
   currencies: state.wallet.currencies,
   totalExpense: state.wallet.totalExpense,
+  updateExpense: state.wallet.updateExpense,
 });
 Wallet.propTypes = {
+  updateExpense: PropTypes.objectOf.isRequired,
   _Email: PropTypes.string.isRequired,
   currencies: PropTypes.objectOf.isRequired,
   apiFetch: PropTypes.func.isRequired,

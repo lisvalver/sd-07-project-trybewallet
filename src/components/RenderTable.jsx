@@ -40,7 +40,6 @@ class RenderTable extends React.Component {
 
   render() {
     console.log(this.props);
-    const { returnData } = this.props;
     // console.log(this.props.expenses)
     const { expenses } = this.props;
     return (

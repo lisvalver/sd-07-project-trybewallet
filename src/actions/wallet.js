@@ -15,7 +15,7 @@ export const eraseExpense = (expense) => (
 );
 export const editExpense = (expense) => (
   { type: EDITEXPENSE, expense }
-)
+);
 // 2 - criar action creators para cada situação da requisição API
 
 // function fetchSuccess(currencies) {
