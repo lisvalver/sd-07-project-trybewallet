@@ -1,19 +1,31 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import { addExpense } from '../actions';
 import fetchDataCurency from '../api/api';
 
 class ExpensesForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currencyOptions: [],
+      currenciesOption: [],
+      currency: [],
     };
 
     this.fetchCurency = this.fetchCurency.bind(this);
+    this.getHandle = this.getHandle.bind(this);
+    this.fetchExpenses = this.fetchExpenses.bind(this);
   }
 
   componentDidMount() {
     this.fetchCurency();
+  }
+
+  getHandle({ target }) {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    });
   }
 
   async fetchCurency() {
@@ -22,12 +34,27 @@ class ExpensesForm extends Component {
       .filter((currency) => currency !== 'USDT');
 
     this.setState({
-      currencyOptions: currencies,
+      currenciesOption: currencies,
     });
   }
 
+  async fetchExpenses() {
+    const { value, description, currency, method, tag } = this.state;
+    const { regExpense } = this.props;
+    const exchangeRates = await fetchDataCurency();
+    const expenseObject = {
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates,
+    };
+    regExpense(expenseObject);
+  }
+
   render() {
-    const { currencyOptions } = this.state;
+    const { currenciesOption } = this.state;
     const paymentsMethod = [
       'Dinheiro',
       'Cartão de crédito',
@@ -46,19 +73,30 @@ class ExpensesForm extends Component {
       <form>
         <label htmlFor="expense">
           Expense Value:
-          <input type="number" data-testid="value-input" />
+          <input
+            type="number"
+            name="value"
+            data-testid="value-input"
+            onChange={ this.getHandle }
+          />
         </label>
         <label htmlFor="expense-description">
           Expense Description:
-          <input type="text" data-testid="description-input" />
+          <input
+            type="text"
+            name="description"
+            data-testid="description-input"
+            onChange={ this.getHandle }
+          />
         </label>
         <label htmlFor="expense-option">
           Expense Currency:
           <select
-            name="expense-option"
+            name="currency"
             data-testid="currency-input"
+            onChange={ this.getHandle }
           >
-            {currencyOptions
+            {currenciesOption.sort()
               .map((option, index) => (
                 <option
                   key={ index }
@@ -74,8 +112,9 @@ class ExpensesForm extends Component {
         <label htmlFor="payment-method">
           Payment Method:
           <select
-            name="payment-method"
+            name="method"
             data-testid="method-input"
+            onChange={ this.getHandle }
           >
             {paymentsMethod
               .map((payment, index) => (
@@ -92,8 +131,9 @@ class ExpensesForm extends Component {
         <label htmlFor="expense-category">
           Expense Category:
           <select
-            name="expense-category"
+            name="tag"
             data-testid="tag-input"
+            onChange={ this.getHandle }
           >
             {expenseCategory
               .map((expense, index) => (
@@ -107,10 +147,18 @@ class ExpensesForm extends Component {
               ))}
           </select>
         </label>
-        <button type="button">Adicionar despesa</button>
+        <button type="button" onClick={ this.fetchExpenses }>Adicionar despesa</button>
       </form>
     );
   }
 }
 
-export default ExpensesForm;
+ExpensesForm.propTypes = {
+  regExpense: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  regExpense: (objectExpense) => (dispatch(addExpense(objectExpense))),
+});
+
+export default connect(null, mapDispatchToProps)(ExpensesForm);

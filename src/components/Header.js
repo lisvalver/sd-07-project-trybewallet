@@ -6,7 +6,13 @@ import { connect } from 'react-redux';
 class Header extends Component {
   render() {
     const { email, expenses } = this.props;
-    const expensesTotal = expenses.reduce((expense, acc) => expense + acc, 0);
+    let expensesTotal = 0;
+
+    if (expenses.length > 0) {
+      expensesTotal = expenses
+        .reduce((acc, { value }) => parseInt(value, 10) + acc, 0);
+    }
+
     return (
       <header>
         <span data-testid="email-field">{ email }</span>
