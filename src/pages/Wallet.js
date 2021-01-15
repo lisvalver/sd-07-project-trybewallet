@@ -39,6 +39,14 @@ class Wallet extends React.Component {
         </p>
 
         <Form />
+
+        <header>
+          <span>Descrição</span>
+          <span>Tag</span>
+          <span>Método de pagamento</span>
+          <span>Valor</span>
+          <span>Moeda</span>
+        </header>
       </div>
     );
   }

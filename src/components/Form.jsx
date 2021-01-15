@@ -30,6 +30,7 @@ class Form extends Component {
 
   handleClick() {
     const { expense, api, sendObj, currencies } = this.props;
+    console.log(expense);
     const {
       value,
       description,
@@ -153,6 +154,9 @@ const mapStateToProps = (state) => ({
 
 Form.propTypes = {
   api: PropTypes.func.isRequired,
+  expense: PropTypes.arrayOf(Object).isRequired,
+  sendObj: PropTypes.func.isRequired,
+  currencies: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
