@@ -30,7 +30,7 @@ class ExpenseForm extends Component {
     event.preventDefault();
     updateCurrencies();
     addExpense(this.state);
-    this.setState({ id: id + 1 });
+    this.setState({ id: Number(id) + 1 });
   }
 
   handleChange({ target: { name, value } }) {
@@ -184,7 +184,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addExpense: (expense) => dispatch(EXPENSE(expense)),
+  addExpense: (expenses) => dispatch(EXPENSE(expenses)),
   updateCurrencies: () => dispatch(FETCHCODE()),
 });
 

@@ -18,31 +18,36 @@ class WalletPanel extends Component {
     ];
 
     return (
-      <thead>
-        <tr>
-          {expenseHeader.map((item) => (
-            <th key={ item }>{item}</th>
-          ))}
-        </tr>
-      </thead>
+      <tr>
+        {expenseHeader.map((item) => (
+          <th key={ item }>{item}</th>
+        ))}
+      </tr>
     );
   }
 
   renderWalletBody() {
     const { excludes, expenses } = this.props;
     return (
-      <tbody>
-        {expenses.map((expense) => (
-          <tr key={ expense.id }>
-            <td>{expense.description}</td>
-            <td>{expense.tag}</td>
-            <td>{expense.method}</td>
-            <td>{expense.value}</td>
-            <td>{expense.currency}</td>
-            <td>{Number(expense.exchangeRates[expense.currency].ask).toFixed(2)}</td>
+      expenses.map((expense) => {
+        const {
+          id,
+          description,
+          tag,
+          method,
+          value,
+          currency,
+          exchangeRates } = expense;
+        return (
+          <tr key={ id }>
+            <td>{description}</td>
+            <td>{tag}</td>
+            <td>{method}</td>
+            <td>{value}</td>
+            <td>{exchangeRates[currency].name}</td>
+            <td>{Number(exchangeRates[currency].ask).toFixed(2)}</td>
             <td>
-              {Number(expense.exchangeRates[expense.currency].ask).toFixed(2)
-              * expense.value}
+              {Number((exchangeRates[currency].ask) * (value)).toFixed(2)}
             </td>
             <td>Real</td>
             <td>
@@ -58,14 +63,14 @@ class WalletPanel extends Component {
                 className="btn-exclude"
                 type="button"
                 data-testid="delete-btn"
-                onClick={ () => excludes(expense.id) }
+                onClick={ () => excludes(id) }
               >
                 eXcluir
               </button>
             </td>
           </tr>
-        ))}
-      </tbody>
+        );
+      })
     );
   }
 

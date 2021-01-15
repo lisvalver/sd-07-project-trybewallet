@@ -4,21 +4,6 @@ import { connect } from 'react-redux';
 import logo from '../images/trybe-400x400.jpg';
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.total = this.total.bind(this);
-  }
-
-  total() {
-    const { expenses } = this.props;
-    const total = expenses
-      .reduce((
-        acc,
-        { value, currency, exchangeRate },
-      ) => (acc + exchangeRate[currency].ask * value), 0);
-    return total;
-  }
-
   renderTitle() {
     return (<h1>Wallet</h1>);
   }
@@ -33,7 +18,7 @@ class Header extends Component {
   }
 
   renderLoginBoard() {
-    const { email } = this.props;
+    const { email, total } = this.props;
     return (
       <div>
         <p>
@@ -41,8 +26,7 @@ class Header extends Component {
         </p>
         <p>
           <strong>Despesas: </strong>
-          {/* this.total() */}
-          <em data-testid="total-field">{ this.total() }</em>
+          <em data-testid="total-field">{ total || 0 }</em>
           <em data-testid="header-currency-field"> BRL</em>
         </p>
       </div>
@@ -62,16 +46,17 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  expenses: state.wallet.expenses,
+  total: state.wallet.total,
 });
 
 Header.propTypes = {
   email: PropTypes.string,
-  expenses: PropTypes.arrayOf(Object).isRequired,
+  total: PropTypes.number,
 };
 
 Header.defaultProps = {
   email: 'Não logado!',
+  total: 0,
 };
 
 export default connect(mapStateToProps, null)(Header);
