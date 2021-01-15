@@ -12,9 +12,9 @@ class Header extends React.Component {
           Email:
           { email }
         </div>
-        <span data-testid="total-field">
-          { amount }
-        </span>
+        <div data-testid="total-field">
+          { amount ? amount : 0 }
+        </div>
         <div data-testid="header-currency-field">
           Câmbio: BRL
         </div>
