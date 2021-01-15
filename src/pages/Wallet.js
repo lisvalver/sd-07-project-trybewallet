@@ -32,8 +32,7 @@ class Wallet extends React.Component {
       const currenciesKeys = Object.keys(currencies);
       const currenciesKeysFilter = currenciesKeys.filter((name) => name !== 'USDT');
       return this.setState({ currenciesNames: currenciesKeysFilter });
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -84,60 +83,62 @@ class Wallet extends React.Component {
         <form>
           <ul>
             <li>
-                Valor:
-                <input
-                  name="value"
-                  id="value"
-                  type="number"
-                  data-testid="value-input"
-                  pattern="\d*"
-                  min="0"
-                  value={ value }
-                  onChange={ (event) => this.handleFormInput(event) }
-                />
+              <input
+                name="value"
+                id="value"
+                type="number"
+                data-testid="value-input"
+                pattern="\d*"
+                min="0"
+                placeholder="Valor"
+                value={ value }
+                onChange={ (event) => this.handleFormInput(event) }
+              />
             </li>
             <li>
-                <select
-                  id="currency"
-                  data-testid="currency-input"
-                  name="currency"
-                  value={ currency }
-                  onChange={ (event) => this.handleFormInput(event) }
-                >
-                  { currenciesNames.map((element) => { return (
-                  <option value={element} data-testid={element}>{element}</option>)
-              })}
-                </select>
+              <select
+                id="currency"
+                data-testid="currency-input"
+                name="currency"
+                value={ currency }
+                onChange={ (event) => this.handleFormInput(event) }
+              >
+                { currenciesNames.map((el, i) => (
+                  <option key={ i } value={ el } data-testid={ el }>
+                    { el }
+                  </option>)) }
+              </select>
             </li>
             <li>
-                <select
+              <select
                 data-testid="method-input"
                 id="method-input"
                 name="method"
-                value={ method }onChange={ (event) => this.handleFormInput(event) }
-                >
-                  <option value="Dinheiro">Dinheiro</option>
-                  <option value="Cartão de crédito">Cartão de crédito</option>
-                  <option value="Cartão de débito">Cartão de débito</option>
-                </select>
+                value={ method }
+                onChange={ (event) => this.handleFormInput(event) }
+              >
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Cartão de crédito">Cartão de crédito</option>
+                <option value="Cartão de débito">Cartão de débito</option>
+              </select>
             </li>
             <li>
-                <select
+              <select
                 data-testid="tag-input"
                 id="tag-input"
                 name="tag"
                 value={ tag }
                 onChange={ (event) => this.handleFormInput(event) }
-                >
-                  <option value="Alimentação">Alimentação</option>
-                  <option value="Lazer">Lazer</option>
-                  <option value="Trabalho">Trabalho</option>
-                  <option value="Transporte">Transporte</option>
-                  <option value="Saúde">Saúde</option>
-                </select>
+              >
+                <option value="Alimentação">Alimentação</option>
+                <option value="Lazer">Lazer</option>
+                <option value="Trabalho">Trabalho</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Saúde">Saúde</option>
+              </select>
             </li>
             <li>
-                <input
+              <input
                 data-testid="description-input"
                 type="text"
                 id="description-input"
@@ -145,21 +146,21 @@ class Wallet extends React.Component {
                 placeholder="Descrição"
                 value={ description }
                 onChange={ (event) => this.handleFormInput(event) }
-                />
+              />
             </li>
             <li>
               <button
-              type="button"
-              onClick={ this.fetchAndSaveExpenses }
+                type="button"
+                onClick={ this.fetchAndSaveExpenses }
               >
-              Adicionar despesa
+                Adicionar despesa
               </button>
             </li>
           </ul>
         </form>
         <Expenses />
       </div>
-);
+    );
   }
 }
 
@@ -167,7 +168,7 @@ function mapStateToProps(state) {
   return {
     email: state.user.email,
     expenses: state.wallet.expenses,
-    currencies: state.wallet.currencies
+    currencies: state.wallet.currencies,
   };
 }
 
