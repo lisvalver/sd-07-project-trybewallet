@@ -1,4 +1,4 @@
-html, body, #root {
+html, body, #root, header, .login-grid, .wallet-grid {
   align-items: center;
   display: flex;
   height: 100%;
@@ -7,8 +7,16 @@ html, body, #root {
 }
 
 .login-grid {
-  align-items: center;
-  display: flex;
   flex-direction: column;
-  justify-content: center;
+}
+
+.wallet-grid {
+  align-items: flex-start;
+}
+
+header {
+  height: auto;
+  justify-content: space-between;
+  margin-left: 10px;
+  margin-right: 10px;
 }
