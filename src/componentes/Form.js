@@ -3,16 +3,18 @@ import { connect } from 'react-redux';
 
 class Form extends React.Component {
   render() {
+    const { api } = this.props;
     return (
 
       <form>
+
         <label htmlFor="valor">
           Valor:
           <input name="valor" data-testid="value-input" />
         </label>
 
         <select data-testid="currency-input">
-          <option>Moeda:</option>
+          <option>{api}</option>
         </select>
         <select
           data-testid="method-input"
@@ -45,6 +47,7 @@ class Form extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  api: state.api,
 });
 
 export default connect(mapStateToProps)(Form);
