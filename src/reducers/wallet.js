@@ -15,7 +15,7 @@ export default function wallet(state = initialState, action) {
         ...state.expenses,
         {
           ...action.objectExpense,
-          id: state.expenses.length + 1,
+          id: state.expenses.length,
         },
       ],
     };

@@ -10,7 +10,7 @@ class Header extends Component {
 
     if (expenses.length > 0) {
       expensesTotal = expenses
-        .reduce((acc, { value }) => parseInt(value, 10) + acc, 0);
+        .reduce((acc, { value, currency, exchangeRates }) => parseInt(value, 10) * exchangeRates[currency].ask + acc, 0);
     }
 
     return (
@@ -33,7 +33,6 @@ Header.propTypes = ({
 const mapStatetoProps = (state) => ({
   email: state.user.email,
   expenses: state.wallet.expenses,
-  currency: state.wallet.currency,
 });
 
 export default connect(mapStatetoProps)(Header);
