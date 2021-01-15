@@ -63,7 +63,7 @@ class WalletPanel extends Component {
                 className="btn-exclude"
                 type="button"
                 data-testid="delete-btn"
-                onClick={ () => excludes(id) }
+                onClick={ () => excludes(expense) }
               >
                 eXcluir
               </button>

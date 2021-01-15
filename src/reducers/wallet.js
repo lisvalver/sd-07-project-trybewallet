@@ -33,7 +33,7 @@ function wallet(state = INITIAL_STATE, action) {
   case DEL_EXPENSE:
     return {
       ...state,
-      expenses: state.expenses.filter((item) => item.id !== action.expense.id),
+      expenses: state.expenses.filter((item) => item !== action.expense),
     };
   case ADD_CURRENCY:
     return { ...state, currencies: action.currencies };
