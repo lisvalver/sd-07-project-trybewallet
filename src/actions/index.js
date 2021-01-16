@@ -6,7 +6,7 @@ export const changeEmail = (email) => ({
   email,
 });
 
-export const requestCoin = (payload) => ({
-  type: 'teste',
+export const teste = (payload) => ({
+  type: types.TESTE,
   payload,
 });

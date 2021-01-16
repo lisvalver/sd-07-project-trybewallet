@@ -12,6 +12,7 @@ class Login extends Component {
       password: '',
       isValid: false,
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.isValid = this.isValid.bind(this);
     this.clickedFunction = this.clickedFunction.bind(this);
@@ -36,7 +37,6 @@ class Login extends Component {
   clickedFunction() {
     const { history } = this.props;
     const { email } = this.state;
-
     history.push('/carteira');
     changeEmail(email);
   }
@@ -49,7 +49,7 @@ class Login extends Component {
         <h1> Trybe Wallet </h1>
         <form className="login">
           <label htmlFor="email">
-            Login
+            Email
             <input
               id="email"
               data-testid="email-input"
@@ -84,11 +84,11 @@ class Login extends Component {
   }
 }
 
-const mapDispathToProps = (dispatch) => ({
-  changeEmail: (email) => dispatch(changeEmail(email)),
+const mapDispatchToProps = (dispatch) => ({
+  user: (email) => dispatch(changeEmail(email)),
 });
 
-export default connect(null, mapDispathToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   history: PropTypes.shape({
