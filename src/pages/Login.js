@@ -45,10 +45,11 @@ class Login extends React.Component {
   }
 
   changeEmailInTheStore() {
-    const { sendMail } = this.props;
+    const { sendMail, history } = this.props;
     const { email } = this.state;
 
     sendMail(email);
+    history.push('/carteira');
   }
 
   render() {
@@ -67,15 +68,13 @@ class Login extends React.Component {
             data-testid="password-input"
             onChange={ (event) => this.passwordValidation(event) }
           />
-          <Link to="/carteira">
-            <button
-              type="button"
-              disabled={ autentic }
-              onClick={ () => this.changeEmailInTheStore() }
-            >
-              Entrar
-            </button>
-          </Link>
+          <button
+            type="button"
+            disabled={ autentic }
+            onClick={ () => this.changeEmailInTheStore() }
+          >
+            Entrar
+          </button>
         </form>
       </div>
     );

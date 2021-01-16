@@ -9,7 +9,7 @@ class Wallet extends React.Component {
     super();
     this.state = {
       atualExpenses: 0,
-      currency: 'USD',
+      currency: 'BRL',
     };
   }
 
@@ -27,7 +27,7 @@ class Wallet extends React.Component {
         <header>
           <h3 data-testid="email-field">{ email }</h3>
           <h4 data-testid="total-field">{ atualExpenses }</h4>
-          <h4 data-testid="header-currency-field">{ currencies }</h4>
+          <h4 data-testid="header-currency-field">{ currency }</h4>
         </header>
         <form>
           <label htmlFor="addExpenses">
@@ -38,7 +38,9 @@ class Wallet extends React.Component {
             Descrição da despesa
             <input name="discription" type="text" data-testid="description-input" />
           </label>
-          <CoinOption />
+          <label htmlFor="options">
+            <CoinOption name="options"/>
+          </label>
         </form>
       </div>
     );

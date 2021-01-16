@@ -19,17 +19,13 @@ class CoinOption extends Component {
         value={ currencies }
         data-testid="currency-input"
       >
-        { currencies.map((curr) => (
-          (
-            <option key={ curr } value={ curr } data-testid={ curr }>
-                { curr }
-            </option>
-          )
-        )) }
+        <option>reaprendendo o codigo</option>
       </select>
     );
   }
 }
+
+//action.payload
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
