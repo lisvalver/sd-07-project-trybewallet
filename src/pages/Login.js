@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { currentLogin } from '../actions';
 
@@ -85,6 +84,7 @@ Login.propTypes = {
   sendMail: PropTypes.shape({
     email: PropTypes.string.isRequired,
   }).isRequired,
+  history: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

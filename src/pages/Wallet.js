@@ -9,12 +9,14 @@ class Wallet extends React.Component {
     super();
     this.state = {
       description: '',
-      method: 'Dinheiro',
+      payment: 'Dinheiro',
       currency: 'BRL',
       tag: 'Alimentação',
       atualExpenses: 0,
       total: 0,
     };
+
+    this.handleEvent = this.handleEvent.bind(this);
   }
 
   componentDidMount() {
@@ -22,9 +24,16 @@ class Wallet extends React.Component {
     getAPI();
   }
 
+  handleEvent({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+    console.log(name);
+    console.log(value);
+  }
+
   render() {
-    const { email, currencies } = this.props;
-    const { atualExpenses, currency } = this.state;
+    const { email } = this.props;
+    const { atualExpenses, currency, method, tag } = this.state;
 
     return (
       <div>
@@ -36,15 +45,52 @@ class Wallet extends React.Component {
         <form>
           <label htmlFor="addExpenses">
             Adicione valor da despesa
-            <input name="addExpenses" type="number" data-testid="value-input" />
+            <input
+              name="addExpenses"
+              type="number"
+              data-testid="value-input"
+              onChange={ this.handleEvent }
+            />
           </label>
           <label htmlFor="discription">
             Descrição da despesa
-            <input name="discription" type="text" data-testid="description-input" />
+            <input
+              name="discription"
+              type="text"
+              data-testid="description-input"
+              onChange={ this.handleEvent }
+            />
           </label>
-          <label htmlFor="options">
-            <CoinOption name="options"/>
+          <CoinOption />
+          <label htmlFor="payment">
+            Selecione Método de Pagamento:
+            <select
+              name="payment"
+              data-testid="method-input"
+              onChange={ this.handleEvent }
+              value={ method }
+            >
+              <option>Dinheiro</option>
+              <option>Cartão de crédito</option>
+              <option>Cartão de débito</option>
+            </select>
           </label>
+          <label htmlFor="tag">
+            Tag:
+            <select
+              data-testid="tag-input"
+              name="tag"
+              onChange={ this.handleEvent }
+              value={ tag }
+            >
+              <option>Alimentação</option>
+              <option>Lazer</option>
+              <option>Trabalho</option>
+              <option>Transporte</option>
+              <option>Saúde</option>
+            </select>
+          </label>
+          <button type="submit">Adicionar despesa</button>
         </form>
       </div>
     );
@@ -53,8 +99,6 @@ class Wallet extends React.Component {
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
-  currencies: PropTypes.arrayOf.isRequired,
-  isFetching: PropTypes.bool.isRequired,
   getAPI: PropTypes.func.isRequired,
 };
 
