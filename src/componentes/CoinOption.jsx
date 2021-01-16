@@ -11,16 +11,25 @@ class CoinOption extends Component {
   }
 
   render() {
+    const { currency } = this.state;
     const { currencies } = this.props;
+    const coinsOptions = Object.keys(currencies).filter((curr) => curr !== 'USDT');
     return (
+      <div>
       <select
-        id="currency"
-        name="currency"
-        value={ currencies }
-        data-testid="currency-input"
-      >
-        <option>reaprendendo o codigo</option>
-      </select>
+                data-testid="currency-input"
+                id="currency"
+                onChange={ (event) => this.setState({ currency: event.target.value }) }
+                value={ currency }
+              >
+                {coinsOptions.map((element, index) => (
+                  <option data-testid={ element } key={ index } value={ element }>
+                    {element}
+                  </option>
+                ))}
+                ;
+              </select>
+        </div>
     );
   }
 }

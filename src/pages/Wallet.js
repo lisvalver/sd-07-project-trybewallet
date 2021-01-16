@@ -8,8 +8,12 @@ class Wallet extends React.Component {
   constructor() {
     super();
     this.state = {
-      atualExpenses: 0,
+      description: '',
+      method: 'Dinheiro',
       currency: 'BRL',
+      tag: 'Alimentação',
+      atualExpenses: 0,
+      total: 0,
     };
   }
 
