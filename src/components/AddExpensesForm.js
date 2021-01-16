@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addExpense } from '../actions';
 import fetchDataCurency from '../api/api';
 
-class ExpensesForm extends Component {
+class AddExpensesForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -177,7 +177,7 @@ class ExpensesForm extends Component {
   }
 }
 
-ExpensesForm.propTypes = {
+AddExpensesForm.propTypes = {
   regExpense: PropTypes.func.isRequired,
 };
 
@@ -185,4 +185,4 @@ const mapDispatchToProps = (dispatch) => ({
   regExpense: (objectExpense) => (dispatch(addExpense(objectExpense))),
 });
 
-export default connect(null, mapDispatchToProps)(ExpensesForm);
+export default connect(null, mapDispatchToProps)(AddExpensesForm);

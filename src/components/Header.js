@@ -7,7 +7,6 @@ class Header extends Component {
   render() {
     const { email, expenses } = this.props;
     let expensesTotal = 0;
-
     const calcExpense = ({ value, currency, exchangeRates }) => {
       const result = parseInt(value, 10) * exchangeRates[currency].ask;
       return result;

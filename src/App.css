@@ -6,8 +6,16 @@ html , body , header , .login-grid , .wallet-grid {
   width: 100%;
 }
 
+.hidden {
+  display: none;
+}
+
 .login-grid , .wallet-grid {
   flex-direction: column;
+}
+
+.show {
+  display: visible;
 }
 
 .wallet-grid {
