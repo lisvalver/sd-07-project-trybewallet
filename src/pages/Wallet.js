@@ -12,8 +12,8 @@ class Wallet extends React.Component {
       currency: 'BRL',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      atualExpenses: 0,
-      total: 0,
+      valueInput: 0,
+      value: 0,
       id: -1,
       exchangeRates: {}
     };
@@ -33,37 +33,38 @@ class Wallet extends React.Component {
   }
 
   addExpenses() {
-    const { addingExpenses, curr, currencies } = this.props;
-    const { total, atualExpenses, id } = this.state;
+    const { addingExpenses, curr, currencies, getAPI } = this.props;
+    const { value, valueInput, id } = this.state;
     const moeda = curr;
-    let newTotal = parseInt(total, 10) + parseInt(atualExpenses, 10);
+    let newvalue = parseInt(value, 10) + parseInt(valueInput, 10);
     let newId = parseInt(id, 10);
     this.setState({ exchangeRates: currencies });
     // newId === 0 ? this.setState({ id: newId }) : this.setState({ id: newId }, newId += 1);
     this.setState({currency: moeda}, () => { addingExpenses(this.state) });
-    this.setState({ total: newTotal });
+    this.setState({ value: `${newvalue}` });
     this.setState({ id: newId + 1 });
+    getAPI();
   }
 
   render() {
     const { email } = this.props;
-    const { description, atualExpenses, total, currency, method, tag } = this.state;
+    const { description, valueInput, value, currency, method, tag } = this.state;
 
     return (
       <div>
         <header>
           <h3 data-testid="email-field">{ email }</h3>
-          <h4 data-testid="total-field">{ total }</h4>
+          <h4 data-testid="total-field">{ value }</h4>
           <h4 data-testid="header-currency-field">{ currency }</h4>
         </header>
         <form>
-          <label htmlFor="atualExpenses">
+          <label htmlFor="valueInput">
             Adicione valor da despesa
             <input
-              name="atualExpenses"
+              name="valueInput"
               type="number"
               data-testid="value-input"
-              value={ atualExpenses }
+              value={ valueInput }
               onChange={ this.handleEvent }
             />
           </label>
