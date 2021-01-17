@@ -1,10 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ForEachExpenses from './ForEachExpenses';
 
 class Table extends React.Component {
   render() {
-
     const { expenses } = this.props;
     const renderLines = (
       <tbody>
@@ -14,9 +14,9 @@ class Table extends React.Component {
     );
 
     const noRenderLines = (
-        <tr>
-          <td>Without Expenses</td>
-        </tr>
+      <tr>
+        <td>Without Expenses</td>
+      </tr>
     );
 
     return (
@@ -37,6 +37,21 @@ class Table extends React.Component {
     );
   }
 }
+
+Table.propTypes = {
+  expenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      currency: PropTypes.string,
+      description: PropTypes.string,
+      exchangeRates: PropTypes.objectOf(
+        PropTypes.object,
+      ),
+      method: PropTypes.string,
+      tag: PropTypes.string,
+      value: PropTypes.number,
+    }),
+  ).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,

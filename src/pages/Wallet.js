@@ -16,7 +16,7 @@ class Wallet extends React.Component {
       valueInput: 0,
       value: 0,
       id: -1,
-      exchangeRates: {}
+      exchangeRates: {},
     };
 
     this.handleEvent = this.handleEvent.bind(this);
@@ -37,11 +37,10 @@ class Wallet extends React.Component {
     const { addingExpenses, curr, currencies, getAPI } = this.props;
     const { value, valueInput, id } = this.state;
     const moeda = curr;
-    let newvalue = parseInt(value, 10) + parseInt(valueInput, 10);
-    let newId = parseInt(id, 10);
+    const newvalue = parseInt(value, 10) + parseInt(valueInput, 10);
+    const newId = parseInt(id, 10);
     this.setState({ exchangeRates: currencies });
-    // newId === 0 ? this.setState({ id: newId }) : this.setState({ id: newId }, newId += 1);
-    this.setState({currency: moeda}, () => { addingExpenses(this.state) });
+    this.setState({ currency: moeda }, () => { addingExpenses(this.state); });
     this.setState({ value: `${newvalue}` });
     this.setState({ id: newId + 1 });
     getAPI();
@@ -80,37 +79,31 @@ class Wallet extends React.Component {
             />
           </label>
           <CoinOption name="currency" />
-          <label htmlFor="method">
-            Selecione Método de Pagamento:
-
-          </label>
-            <select
-              name="method"
-              data-testid="method-input"
-              onChange={ this.handleEvent }
-              value={ method }
-            >
-              <option>Dinheiro</option>
-              <option>Cartão de crédito</option>
-              <option>Cartão de débitoo</option>
-            </select>
-          <label htmlFor="tag">
-            Tag:
-
-          </label>
-            <select
-              data-testid="tag-input"
-              name="tag"
-              onChange={ this.handleEvent }
-              value={ tag }
-            >
-              <option>Alimentação</option>
-              <option>Lazer</option>
-              <option>Trabalho</option>
-              <option>Transporte</option>
-              <option>Saúde</option>
-            </select>
-          <button type="button" onClick={ this.addExpenses } >Adicionar despesa</button>
+          Selecione Método de Pagamento:
+          <select
+            name="method"
+            data-testid="method-input"
+            onChange={ this.handleEvent }
+            value={ method }
+          >
+            <option>Dinheiro</option>
+            <option>Cartão de crédito</option>
+            <option>Cartão de débitoo</option>
+          </select>
+          Tag:
+          <select
+            data-testid="tag-input"
+            name="tag"
+            onChange={ this.handleEvent }
+            value={ tag }
+          >
+            <option>Alimentação</option>
+            <option>Lazer</option>
+            <option>Trabalho</option>
+            <option>Transporte</option>
+            <option>Saúde</option>
+          </select>
+          <button type="button" onClick={ this.addExpenses }>Adicionar despesa</button>
         </form>
         <Table />
       </div>
@@ -121,6 +114,11 @@ class Wallet extends React.Component {
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   getAPI: PropTypes.func.isRequired,
+  curr: PropTypes.number.isRequired,
+  currencies: PropTypes.objectOf(
+    PropTypes.object,
+  ).isRequired,
+  addingExpenses: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

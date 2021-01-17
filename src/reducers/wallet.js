@@ -1,4 +1,8 @@
-import { REQUEST_MOEDA, REQUEST_MOEDA_SUCESS, REQUEST_FAIL, CHOOSED_CURRENCY, ADD_EXPENSES } from '../actions/index';
+import { REQUEST_MOEDA,
+  REQUEST_MOEDA_SUCESS,
+  REQUEST_FAIL,
+  CHOOSED_CURRENCY,
+  ADD_EXPENSES } from '../actions/index';
 
 const INICIAL_STATE = {
   currencies: [],
@@ -18,9 +22,9 @@ const userWallet = (state = INICIAL_STATE, action) => {
   case CHOOSED_CURRENCY:
     return { ...state, curr: action.payload };
   case ADD_EXPENSES:
-    return { 
+    return {
       ...state,
-      expenses: [ ...state.expenses, action.payload ],
+      expenses: [...state.expenses, action.payload],
     };
   default:
     return state;

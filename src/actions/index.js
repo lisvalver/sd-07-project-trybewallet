@@ -28,17 +28,17 @@ const requestMoedaFail = (error) => ({
 
 export const currencyToStore = (payload) => ({
   type: 'CHOOSED_CURRENCY',
-  payload, 
+  payload,
 });
 
 export const addExpensesToStore = (payload) => ({
   type: 'ADD_EXPENSES',
-  payload, 
+  payload,
 });
 
 export const setRatesToStore = (payload) => ({
   type: 'SET_RATES',
-  payload, 
+  payload,
 });
 
 export function fetchMoedaAPI() {
