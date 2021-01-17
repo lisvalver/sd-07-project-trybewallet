@@ -4,8 +4,7 @@ export const REQUEST_MOEDA_SUCESS = 'REQUEST_MOEDA_SUCESS';
 export const REQUEST_FAIL = 'REQUEST_FAIL';
 export const CHOOSED_CURRENCY = 'CHOOSED_CURRENCY';
 export const ADD_EXPENSES = 'ADD_EXPENSES';
-
-export const ADD_DESPESA = 'ADD_DESPESA';
+export const DELET_EXPENSES = 'DELET_EXPENSES';
 
 export const currentLogin = (user) => ({
   type: 'LOGIN_OK',
@@ -38,6 +37,11 @@ export const addExpensesToStore = (payload) => ({
 
 export const setRatesToStore = (payload) => ({
   type: 'SET_RATES',
+  payload,
+});
+
+export const deleteExpense = (payload) => ({
+  type: 'DELETAR_EXPENSES',
   payload,
 });
 
