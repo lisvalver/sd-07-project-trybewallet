@@ -3,6 +3,7 @@ export const REQUEST_MOEDA = 'REQUEST_MOEDA';
 export const REQUEST_MOEDA_SUCESS = 'REQUEST_MOEDA_SUCESS';
 export const REQUEST_FAIL = 'REQUEST_FAIL';
 export const CHOOSED_CURRENCY = 'CHOOSED_CURRENCY';
+export const ADD_EXPENSES = 'ADD_EXPENSES';
 
 export const ADD_DESPESA = 'ADD_DESPESA';
 
@@ -27,6 +28,16 @@ const requestMoedaFail = (error) => ({
 
 export const currencyToStore = (payload) => ({
   type: 'CHOOSED_CURRENCY',
+  payload, 
+});
+
+export const addExpensesToStore = (payload) => ({
+  type: 'ADD_EXPENSES',
+  payload, 
+});
+
+export const setRatesToStore = (payload) => ({
+  type: 'SET_RATES',
   payload, 
 });
 

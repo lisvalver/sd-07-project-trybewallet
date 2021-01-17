@@ -7,7 +7,7 @@ class CoinOption extends Component {
   constructor() {
     super();
     this.state = {
-      currency: '',
+      curr: '',
     };
 
     this.changeCurrency = this.changeCurrency.bind(this);
@@ -15,7 +15,7 @@ class CoinOption extends Component {
 
   changeCurrency({ target }) {
     const { currencyChoosed } = this.props;
-    this.setState({ currency: target.value });
+    this.setState({ curr: target.value });
     currencyChoosed(target.value);
   }
 
