@@ -17,6 +17,7 @@ class Wallet extends React.Component {
     };
 
     this.handleEvent = this.handleEvent.bind(this);
+    this.addExpenses = this.addExpenses.bind(this);
   }
 
   componentDidMount() {
@@ -30,6 +31,8 @@ class Wallet extends React.Component {
     console.log(name);
     console.log(value);
   }
+
+  addExpenses() {}
 
   render() {
     const { email } = this.props;
@@ -92,16 +95,7 @@ class Wallet extends React.Component {
               <option>Saúde</option>
             </select>
           </label>
-          <button type="button" onClick={
-            () => {
-              console.log(this.state.description);
-              console.log(this.props.currency);
-              console.log(this.state.method);
-              console.log(this.state.tag);
-              console.log(this.state.atualExpenses);
-              console.log(this.state.total);
-            }}
-          >clica</button>
+          <button type="button" onClick={ this.addExpenses } >clica</button>
         </form>
       </div>
     );
