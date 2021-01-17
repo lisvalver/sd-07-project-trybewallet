@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { currencyToStore } from '../actions'
+import { currencyToStore } from '../actions';
 
 class CoinOption extends Component {
   constructor() {
@@ -35,7 +35,8 @@ class CoinOption extends Component {
             <option data-testid={ element } key={ index } value={ element }>
               {element}
             </option>
-          ))};
+          ))
+          };
         </select>
       </div>
     );
