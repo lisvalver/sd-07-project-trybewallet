@@ -15,7 +15,6 @@ class ForEachExpenses extends React.Component {
     console.log(expenses);
     console.log(target.id);
     let listOfExpenses = expenses;
-    listOfExpenses.splice(target.id, 1);
     deletar(listOfExpenses.splice(target.id, 1))
   }
 
@@ -27,6 +26,7 @@ class ForEachExpenses extends React.Component {
       tag,
       method,
       value,
+      // valueInput,
       currency,
       exchangeRates,
     } = expense;
@@ -36,9 +36,11 @@ class ForEachExpenses extends React.Component {
         <td>{ description }</td>
         <td>{ tag }</td>
         <td>{ method }</td>
+        {/* <td>{ valueInput }</td> */}
         <td>{ value }</td>
         <td>{ exchangeRates[currency].name }</td>
         <td>{ Math.round(exchangeRates[currency].ask * 100) / 100 }</td>
+        {/* <td>{ Math.round(valueInput * exchangeRates[currency].ask * 100) / 100 }</td> */}
         <td>{ Math.round(value * exchangeRates[currency].ask * 100) / 100 }</td>
         <td>Real</td>
         <td>
