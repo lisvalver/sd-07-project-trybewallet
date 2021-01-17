@@ -35,10 +35,10 @@ class Login extends Component {
   }
 
   clickedFunction() {
-    const { history } = this.props;
+    const { history, user } = this.props;
     const { email } = this.state;
     history.push('/carteira');
-    changeEmail(email);
+    user(email);
   }
 
   render() {

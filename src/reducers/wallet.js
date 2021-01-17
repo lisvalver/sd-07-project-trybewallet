@@ -5,12 +5,33 @@ const INITIAL_STATE = {
   currencies: {},
   expenses: [],
   total: 0,
+  isFetching: false,
 };
 
 function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case types.TESTE:
-    return { currencies: action.payload };
+  case types.REQUEST_SUCCES:
+    return {
+      ...state,
+      isFetching: true,
+    };
+  case types.RECIVE_SUCCES:
+    return {
+      ...state,
+      isFetching: false,
+      currencies: action.value,
+    };
+  case types.RECIVE_FAIL:
+    return {
+      ...state,
+      isFetching: false,
+      error: 'error',
+    };
+  case types.ADD_EXPENSES:
+    return {
+      ...state,
+      expenses: [...state.expenses, action.expenses],
+    };
   default:
     return state;
   }
