@@ -1,7 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import ForEachExpenses from './ForEachExpenses';
 
 class Table extends React.Component {
   render() {
+
+    const { expenses } = this.props;
+    const renderLines = (
+      <tbody>
+        {expenses
+          .map((expense, index) => <ForEachExpenses key={ index } expense={ expense } />)}
+      </tbody>
+    );
+
+    const noRenderLines = (
+        <tr>
+          <td>Without Expenses</td>
+        </tr>
+    );
+
     return (
       <table>
         <tr>
@@ -15,22 +32,14 @@ class Table extends React.Component {
           <th>Moeda de conversão</th>
           <th>Editar/Excluir</th>
         </tr>
-        <tr>
-          <td>John</td>
-          <td>Doe</td>
-        </tr><tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>Doe</td>
-          <td>Doe</td>
-          <td>Doe</td>
-        </tr><tr>
-          <td>John</td>
-          <td>Doe</td>
-        </tr>
+        { expenses.length > 0 ? renderLines : noRenderLines }
       </table>
     );
   }
 }
 
-export default Table;
+const mapStateToProps = (state) => ({
+  expenses: state.wallet.expenses,
+});
+
+export default connect(mapStateToProps)(Table);
