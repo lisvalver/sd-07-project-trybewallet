@@ -1,8 +1,8 @@
-import { REQUEST_MOEDA, REQUEST_MOEDA_SUCESS, REQUEST_FAIL } from '../actions/index';
+import { REQUEST_MOEDA, REQUEST_MOEDA_SUCESS, REQUEST_FAIL, ADD_DESPESA } from '../actions/index';
 
 const INICIAL_STATE = {
   currencies: ['BRL'],
-  expenses: [0],
+  expenses: [],
   isFetching: false,
 };
 

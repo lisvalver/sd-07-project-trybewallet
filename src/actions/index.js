@@ -3,6 +3,8 @@ export const REQUEST_MOEDA = 'REQUEST_MOEDA';
 export const REQUEST_MOEDA_SUCESS = 'REQUEST_MOEDA_SUCESS';
 export const REQUEST_FAIL = 'REQUEST_FAIL';
 
+export const ADD_DESPESA = 'ADD_DESPESA';
+
 export const currentLogin = (user) => ({
   type: 'LOGIN_OK',
   user,

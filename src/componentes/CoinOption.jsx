@@ -6,7 +6,7 @@ class CoinOption extends Component {
   constructor() {
     super();
     this.state = {
-      currency: 'USD',
+      currency: 'BRL',
     };
   }
 
