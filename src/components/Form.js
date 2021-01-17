@@ -13,13 +13,7 @@ const Form = (props) => {
   const [expenses, setExpenses] = useState([]);
   const { wallet, userCurrency, userSum } = props;
 
-  const {
-    value,
-    currency,
-    paymentMethod,
-    category,
-    description,
-  } = expenses;
+  const { value } = expenses;
 
   const handleChange = (event) => {
     const { target } = event;
@@ -52,7 +46,6 @@ const Form = (props) => {
               type="number"
               id="value"
               name="value"
-              value={ value }
               data-testid="value-input"
               onChange={ (event) => handleChange(event) }
             />
@@ -64,7 +57,6 @@ const Form = (props) => {
             <select
               id="currency"
               name="currency"
-              value={ currency }
               data-testid="currency-input"
               onChange={ (event) => handleChange(event) }
             >
@@ -83,7 +75,6 @@ const Form = (props) => {
             <select
               id="method"
               name="method"
-              value={ paymentMethod }
               data-testid="method-input"
               onChange={ (event) => handleChange(event) }
             >
@@ -102,7 +93,6 @@ const Form = (props) => {
             <select
               id="tag"
               name="tag"
-              value={ category }
               data-testid="tag-input"
               onChange={ (event) => handleChange(event) }
             >
@@ -122,7 +112,6 @@ const Form = (props) => {
               type="text"
               id="description"
               name="description"
-              value={ description }
               data-testid="description-input"
               onChange={ (event) => handleChange(event) }
             />
@@ -130,7 +119,7 @@ const Form = (props) => {
         </div>
         <div>
           <button
-            type="button"
+            type="reset"
             className="btn btn-outline-success"
             onClick={ handleClick }
           >

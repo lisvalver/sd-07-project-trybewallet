@@ -48,6 +48,13 @@ const Table = () => {
                 >
                   Apagar
                 </button>
+                <button
+                  type="button"
+                  data-testid="edit-btn"
+                  onClick={ () => dispatch(userRemove(userExpense.id)) }
+                >
+                  Editar despesa
+                </button>
               </td>
             </tr>
           ))}
