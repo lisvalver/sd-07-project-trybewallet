@@ -1,9 +1,10 @@
-import { REQUEST_MOEDA, REQUEST_MOEDA_SUCESS, REQUEST_FAIL, ADD_DESPESA } from '../actions/index';
+import { REQUEST_MOEDA, REQUEST_MOEDA_SUCESS, REQUEST_FAIL, CHOOSED_CURRENCY } from '../actions/index';
 
 const INICIAL_STATE = {
-  currencies: ['BRL'],
+  currencies: [],
   expenses: [],
   isFetching: false,
+  currency: 'BRL',
 };
 
 const userWallet = (state = INICIAL_STATE, action) => {
@@ -14,6 +15,8 @@ const userWallet = (state = INICIAL_STATE, action) => {
     return { ...state, isFetching: false, currencies: { ...action.payload } };
   case REQUEST_FAIL:
     return { ...state, isFetching: false, currencies: { ...action.error } };
+  case CHOOSED_CURRENCY:
+    return { ...state, currency: action.payload };
   default:
     return state;
   }

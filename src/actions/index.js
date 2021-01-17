@@ -2,6 +2,7 @@ export const LOGIN_OK = 'LOGIN_OK';
 export const REQUEST_MOEDA = 'REQUEST_MOEDA';
 export const REQUEST_MOEDA_SUCESS = 'REQUEST_MOEDA_SUCESS';
 export const REQUEST_FAIL = 'REQUEST_FAIL';
+export const CHOOSED_CURRENCY = 'CHOOSED_CURRENCY';
 
 export const ADD_DESPESA = 'ADD_DESPESA';
 
@@ -22,6 +23,11 @@ const requestMoedaSucess = (payload) => ({
 const requestMoedaFail = (error) => ({
   type: 'REQUEST_FAIL',
   error,
+});
+
+export const currencyToStore = (payload) => ({
+  type: 'CHOOSED_CURRENCY',
+  payload, 
 });
 
 export function fetchMoedaAPI() {

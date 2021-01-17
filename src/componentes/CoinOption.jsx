@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { currencyToStore } from '../actions'
 
 class CoinOption extends Component {
   constructor() {
     super();
     this.state = {
-      currency: 'BRL',
+      currency: '',
     };
+
+    this.changeCurrency = this.changeCurrency.bind(this);
+  }
+
+  changeCurrency({ target }) {
+    const { currencyChoosed } = this.props;
+    this.setState({ currency: target.value });
+    currencyChoosed(target.value);
   }
 
   render() {
@@ -16,25 +25,26 @@ class CoinOption extends Component {
     const coinsOptions = Object.keys(currencies).filter((curr) => curr !== 'USDT');
     return (
       <div>
-      <select
-                data-testid="currency-input"
-                id="currency"
-                onChange={ (event) => this.setState({ currency: event.target.value }) }
-                value={ currency }
-              >
-                {coinsOptions.map((element, index) => (
-                  <option data-testid={ element } key={ index } value={ element }>
-                    {element}
-                  </option>
-                ))}
-                ;
-              </select>
-        </div>
+        <select
+          data-testid="currency-input"
+          name="currency"
+          onChange={ this.changeCurrency }
+          value={ currency }
+        >
+          {coinsOptions.map((element, index) => (
+            <option data-testid={ element } key={ index } value={ element }>
+              {element}
+            </option>
+          ))};
+        </select>
+      </div>
     );
   }
 }
 
-//action.payload
+const mapDispatchToProps = (dispatch) => ({
+  currencyChoosed: (payload) => dispatch(currencyToStore(payload)),
+});
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
@@ -45,4 +55,4 @@ CoinOption.propTypes = {
   currency: propTypes.string,
 }.isRequired;
 
-export default connect(mapStateToProps)(CoinOption);
+export default connect(mapStateToProps, mapDispatchToProps)(CoinOption);

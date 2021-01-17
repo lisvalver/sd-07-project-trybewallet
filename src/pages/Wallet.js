@@ -63,11 +63,11 @@ class Wallet extends React.Component {
               onChange={ this.handleEvent }
             />
           </label>
-          <CoinOption />
+          <CoinOption name="currency" />
           <label htmlFor="payment">
             Selecione Método de Pagamento:
             <select
-              name="payment"
+              name="method"
               data-testid="method-input"
               onChange={ this.handleEvent }
               value={ method }
@@ -92,6 +92,16 @@ class Wallet extends React.Component {
               <option>Saúde</option>
             </select>
           </label>
+          <button type="button" onClick={
+            () => {
+              console.log(this.state.description);
+              console.log(this.props.currency);
+              console.log(this.state.method);
+              console.log(this.state.tag);
+              console.log(this.state.atualExpenses);
+              console.log(this.state.total);
+            }}
+          >clica</button>
         </form>
       </div>
     );
@@ -112,6 +122,7 @@ const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
   currencies: state.wallet.currencies,
   isFetching: state.wallet.isFetching,
+  currency: state.wallet.currency,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
