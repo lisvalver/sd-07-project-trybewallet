@@ -6,22 +6,17 @@ import { currencyToStore } from '../actions';
 class CoinOption extends Component {
   constructor() {
     super();
-    this.state = {
-      curr: '',
-    };
 
     this.changeCurrency = this.changeCurrency.bind(this);
   }
 
   changeCurrency({ target }) {
     const { currencyChoosed } = this.props;
-    this.setState({ curr: target.value });
     currencyChoosed(target.value);
   }
 
   render() {
-    const { currency } = this.state;
-    const { currencies } = this.props;
+    const { currencies, currency } = this.props;
     const coinsOptions = Object.keys(currencies).filter((curr) => curr !== 'USDT');
     return (
       <div>
@@ -35,8 +30,8 @@ class CoinOption extends Component {
             <option data-testid={ element } key={ index } value={ element }>
               {element}
             </option>
-          ))
-          };
+          ))}
+          ;
         </select>
       </div>
     );
