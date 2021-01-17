@@ -5,7 +5,6 @@ const INICIAL_STATE = {
   expenses: [],
   isFetching: false,
   curr: 'BRL',
-  exchangeRates: {},
 };
 
 const userWallet = (state = INICIAL_STATE, action) => {

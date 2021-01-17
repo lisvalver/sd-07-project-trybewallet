@@ -15,6 +15,7 @@ class Wallet extends React.Component {
       atualExpenses: 0,
       total: 0,
       id: -1,
+      exchangeRates: {}
     };
 
     this.handleEvent = this.handleEvent.bind(this);
@@ -32,11 +33,12 @@ class Wallet extends React.Component {
   }
 
   addExpenses() {
-    const { addingExpenses, curr } = this.props;
+    const { addingExpenses, curr, currencies } = this.props;
     const { total, atualExpenses, id } = this.state;
     const moeda = curr;
     let newTotal = parseInt(total, 10) + parseInt(atualExpenses, 10);
     let newId = parseInt(id, 10);
+    this.setState({ exchangeRates: currencies });
     // newId === 0 ? this.setState({ id: newId }) : this.setState({ id: newId }, newId += 1);
     this.setState({currency: moeda}, () => { addingExpenses(this.state) });
     this.setState({ total: newTotal });
