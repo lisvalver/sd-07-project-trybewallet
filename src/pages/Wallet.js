@@ -10,7 +10,7 @@ class Wallet extends React.Component {
     this.state = {
       description: '',
       currency: 'BRL',
-      payment: 'Dinheiro',
+      method: 'Dinheiro',
       tag: 'Alimentação',
       atualExpenses: 0,
       total: 0,
@@ -27,11 +27,13 @@ class Wallet extends React.Component {
   handleEvent({ target }) {
     const { name, value } = target;
     this.setState({ [name]: value });
+    console.log(name);
+    console.log(value);
   }
 
   render() {
     const { email } = this.props;
-    const { atualExpenses, currency, method, tag } = this.state;
+    const { description, atualExpenses, currency, method, tag } = this.state;
 
     return (
       <div>
@@ -39,24 +41,25 @@ class Wallet extends React.Component {
           <h3 data-testid="email-field">{ email }</h3>
           <h4 data-testid="total-field">{ atualExpenses }</h4>
           <h4 data-testid="header-currency-field">{ currency }</h4>
-          <h4 data-testid="header-currency-field">{ currency }</h4>
         </header>
         <form>
-          <label htmlFor="addExpenses">
+          <label htmlFor="atualExpenses">
             Adicione valor da despesa
             <input
-              name="addExpenses"
+              name="atualExpenses"
               type="number"
               data-testid="value-input"
+              value={ atualExpenses }
               onChange={ this.handleEvent }
             />
           </label>
           <label htmlFor="discription">
             Descrição da despesa
             <input
-              name="discription"
+              name="description"
               type="text"
               data-testid="description-input"
+              value={ description }
               onChange={ this.handleEvent }
             />
           </label>
@@ -67,6 +70,7 @@ class Wallet extends React.Component {
               name="payment"
               data-testid="method-input"
               onChange={ this.handleEvent }
+              value={ method }
             >
               <option>Dinheiro</option>
               <option>Cartão de crédito</option>
@@ -79,6 +83,7 @@ class Wallet extends React.Component {
               data-testid="tag-input"
               name="tag"
               onChange={ this.handleEvent }
+              value={ tag }
             >
               <option>Alimentação</option>
               <option>Lazer</option>
