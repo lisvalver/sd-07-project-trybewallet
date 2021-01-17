@@ -23,6 +23,11 @@ export const userValue = (sumValue) => ({
   sumValue,
 });
 
+export const userRemove = (id) => ({
+  type: types.USER_REMOVE,
+  id,
+});
+
 export function fetchCurrency() {
   return async (dispatch) => {
     const currencyApi = await getCurrency();

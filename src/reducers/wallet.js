@@ -10,6 +10,7 @@ const idd = -1;
 let id = idd;
 
 export default function Wallet(state = INITIAL_STATE, action) {
+  const newState = state.expenses.filter((expense) => expense.id !== action.id);
   switch (action.type) {
   case types.USER_CURRENCIES: {
     return {
@@ -28,6 +29,11 @@ export default function Wallet(state = INITIAL_STATE, action) {
   case types.USER_VALUE: {
     return {
       ...state, sum: action.sumValue,
+    };
+  }
+  case types.USER_REMOVE: {
+    return {
+      ...state, expenses: newState,
     };
   }
   default: {

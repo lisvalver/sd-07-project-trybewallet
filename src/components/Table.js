@@ -1,8 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { userRemove } from '../actions/index';
 
 const Table = () => {
   const expenses = useSelector((expense) => expense.wallet);
+
+  const dispatch = useDispatch();
 
   return (
     <div>
@@ -37,6 +40,15 @@ const Table = () => {
                   .toFixed(2)}
               </td>
               <td>Real</td>
+              <td>
+                <button
+                  type="button"
+                  data-testid="delete-btn"
+                  onClick={ () => dispatch(userRemove(userExpense.id)) }
+                >
+                  Apagar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

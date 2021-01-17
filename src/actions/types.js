@@ -3,6 +3,7 @@ const types = {
   USER_EXPENCIES: 'USER_EXPENCIES',
   USER_CURRENCIES: 'USER_CURRENCIES',
   USER_VALUE: 'USER_VALUE',
+  USER_REMOVE: 'USER_REMOVE',
 };
 
 export default types;
