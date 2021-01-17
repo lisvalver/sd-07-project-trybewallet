@@ -46,6 +46,7 @@ const Form = (props) => {
               type="number"
               id="value"
               name="value"
+              defaultValue="0"
               data-testid="value-input"
               onChange={ (event) => handleChange(event) }
             />

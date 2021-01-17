@@ -29,15 +29,15 @@ const Table = () => {
               <td>{userExpense.description}</td>
               <td>{userExpense.method}</td>
               <td>{userExpense.tag}</td>
-              <td>{userExpense.value}</td>
+              <td data-testid="value-input">{userExpense.value}</td>
               <td>{userExpense.exchangeRates[userExpense.currency].name}</td>
-              <td>
-                {(userExpense.exchangeRates[userExpense.currency].ask)
-                * (userExpense.value)}
-              </td>
               <td>
                 {parseFloat(userExpense.exchangeRates[userExpense.currency].ask)
                   .toFixed(2)}
+              </td>
+              <td>
+                {((userExpense.exchangeRates[userExpense.currency].ask)
+                * (userExpense.value)).toFixed(2)}
               </td>
               <td>Real</td>
               <td>

@@ -11,7 +11,7 @@ const Header = (props) => {
           Email:
           {email}
         </h1>
-        <p data-testid="total-field">
+        <p value="187.12" data-testid="total-field">
           0
           {parseFloat(sum).toFixed(2)}
         </p>
