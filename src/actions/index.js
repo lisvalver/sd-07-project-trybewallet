@@ -24,6 +24,11 @@ export const addExpenses = (expenses) => ({
   expenses,
 });
 
+export const deleteExpenses = (id) => ({
+  type: types.DELETE_EXPENSES,
+  id,
+});
+
 export const fetchCurrence = () => async (dispatch) => {
   try {
     dispatch(fetchingApi);

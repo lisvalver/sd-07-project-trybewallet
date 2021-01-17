@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addExpenses, fetchCurrence } from '../actions';
+import PropTypes from 'prop-types';
+import { addExpenses, fetchCurrence, deleteExpenses } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
@@ -11,7 +12,7 @@ class Wallet extends React.Component {
       form: {
         value: 0,
         description: '',
-        currency: 'USD',
+        currency: '',
         method: '',
         tag: '',
         id: 0,
@@ -20,6 +21,7 @@ class Wallet extends React.Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.delExpenseFunc = this.delExpenseFunc.bind(this);
   }
 
   componentDidMount() {
@@ -34,9 +36,12 @@ class Wallet extends React.Component {
     await getCurrence();
     this.setState((previousState) => ({
       ...previousState,
-      form: { ...previousState, exchangeRates: currencies },
+      form: {
+        ...previousState.form,
+        exchangeRates: currencies,
+      },
     }));
-    console.log(currencies);
+    console.log(this.state.form);
     addXablau(this.state.form);
     const { form } = this.state;
     console.log(this.state);
@@ -76,18 +81,26 @@ class Wallet extends React.Component {
     }));
   }
 
+  delExpenseFunc() {
+    const { delExpenseActions } = this.props;
+    const { form } = this.state;
+    const { id } = form;
+    const newId = id - 1;
+    console.log(`Conteúdo ${newId} `);
+    delExpenseActions(newId);
+  }
 
   render() {
-    const { email } = this.props;
+    const { email, expenses } = this.props;
     const { total, form } = this.state;
-    //console.log(this.props);
+    // console.log(this.props);
     const moedas = ['USD', 'CAD', 'EUR', 'GBP', 'ARS', 'BTC',
       'LTC', 'JPY', 'CHF', 'AUD', 'CNY', 'ILS', 'ETH', 'XRP'];
     return (
       <div>
         <header>
-          <p data-testid="email-field">{ email }</p>
-          <p data-testid="total-field">{ total }</p>
+          <p data-testid="email-field">{email}</p>
+          <p data-testid="total-field">{total}</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
         Trybe Wallet
@@ -160,11 +173,56 @@ class Wallet extends React.Component {
           </label>
           <button
             type="button"
-            onClick= { this.handleClick }
+            onClick={ this.handleClick }
           >
             Adicionar despesa
           </button>
         </form>
+        <section>
+          <table>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+            {console.log(`expenses: >>>> ${expenses}`)}
+            {expenses.map((e) => (
+              <tr key={ e }>
+                <td>{e.description}</td>
+                <td>{e.tag}</td>
+                <td>{e.method}</td>
+                <td>{e.value}</td>
+                <td>{e.exchangeRates[e.currency].name}</td>
+                <td>{parseFloat(e.exchangeRates[e.currency].ask).toFixed(2)}</td>
+                <td>
+                  {parseFloat(e.exchangeRates[e.currency].ask * e.value).toFixed(2)}
+                </td>
+                <td>Real</td>
+                <td>
+                  <button
+                    type="button"
+                    data-testid="edit-btn"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="delete-btn"
+                    onClick={ this.delExpenseFunc }
+                  >
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </table>
+        </section>
       </div>
     );
   }
@@ -172,12 +230,23 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expenses: state.wallet.expenses,
   currencies: state.wallet.currencies,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrence: () => dispatch(fetchCurrence()),
   addXablau: (expenses) => dispatch(addExpenses(expenses)),
+  delExpenseActions: (id) => dispatch(deleteExpenses(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
+
+Wallet.propTypes = {
+  getCurrence: PropTypes.func.isRequired,
+  addXablau: PropTypes.func.isRequired,
+  delExpenseActions: PropTypes.func.isRequired,
+  currencies: PropTypes.shape().isRequired,
+  email: PropTypes.string.isRequired,
+  expenses: PropTypes.arrayOf().isRequired,
+};

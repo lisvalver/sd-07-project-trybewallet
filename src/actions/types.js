@@ -5,6 +5,7 @@ const types = {
   RECIVE_SUCCES: 'RECIVE_SUCCES',
   RECIVE_FAIL: 'RECIVE_FAIL',
   ADD_EXPENSES: 'ADD_EXPENSES',
+  DELETE_EXPENSES: 'DELETE_EXPENSES',
 };
 
 export default types;
