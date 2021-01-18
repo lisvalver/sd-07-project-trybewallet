@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login } from '../actions/user.action';
@@ -41,6 +41,12 @@ class Login extends React.Component {
 
   render() {
     const { btn, emailUser, passUser } = this.state;
+    const { user } = this.props;
+
+    if (user.email) {
+      return <Redirect to="/carteira" />;
+    }
+    console.log(window.location.pathname);
     return (
       <div className="container-form">
         <form>
@@ -67,24 +73,25 @@ class Login extends React.Component {
             />
           </div>
           <span id="return-client" />
-          <Link to="/carteira" data-testid="btn-login">
-            <button
-              type="button"
-              className="btn-login"
-              name="btn-login"
-              disabled={ btn }
-              onClick={ this.callAction }
-              data-testid="button-login"
-            >
-              Entrar
-            </button>
-          </Link>
+          <button
+            type="button"
+            className="btn-login"
+            name="btn-login"
+            disabled={ btn }
+            onClick={ this.callAction }
+            data-testid="button-login"
+          >
+            Entrar
+          </button>
         </form>
         <a href="/forgot" className="forgot-pass">Forgot password?</a>
       </div>
     );
   }
 }
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   email(emailUser) {
@@ -94,7 +101,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Login.propTypes = {
-  email: PropTypes.string.isRequired,
+  email: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string,
+  }).isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
