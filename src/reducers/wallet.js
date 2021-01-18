@@ -14,6 +14,7 @@ const INITILA_STATE = {
 
 export default function (state = INITILA_STATE, action) {
   const { type, currencies } = action;
+  console.log(action);
   const { totalExpense } = { ...state };
   switch (type) {
   case ADD_CUREENCIES:
@@ -21,10 +22,10 @@ export default function (state = INITILA_STATE, action) {
   case ADD_EXPENSE:
     return {
       ...state,
-      expenses: [...state.expenses, { id: state.expenses.length, ...action.expense }],
+      expenses: [...state.expenses, { id: state.expenses.length, ...action.expenses }],
       totalExpense:
-    totalExpense + (Number(action.expense.value)
-    * action.expense.exchangeRates[action.expenses.currencies].ask),
+    totalExpense + (Number(action.expenses.value)
+    * action.expenses.exchangeRates[action.expenses.currency].ask),
     };
   case DELETE_EXPENSE:
     return {

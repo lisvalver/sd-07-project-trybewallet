@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import currencyAPI from '../actions/currenceAPI';
+import currenciAPI from '../actions/currenceAPI';
 import { addExpense } from '../actions/wallet.action';
 
 class WalletFunction extends React.Component {
@@ -11,9 +11,9 @@ class WalletFunction extends React.Component {
       expenses: {
         method: 'Dinheiro',
         tag: 'Lazer',
-        desciption: '',
+        description: '',
         currency: 'USD',
-        Value: 0,
+        value: 0,
         exchangeRates: {},
       },
     };
@@ -23,7 +23,7 @@ class WalletFunction extends React.Component {
     this.handleInput = this.handleInput.bind(this);
   }
 
-  // componentDidMount() { this.handleFetch(); }
+  componentDidMount() { this.handleFetch(); }
 
   async handleFetch() {
     const { apiFetch } = this.props;
@@ -35,7 +35,7 @@ class WalletFunction extends React.Component {
   }
 
   async handleChange(event) {
-    event.preventDefalt();
+    event.preventDefault();
     const { addExp } = this.props;
     const { handleFetch } = this;
     await handleFetch();
@@ -52,18 +52,13 @@ class WalletFunction extends React.Component {
       } });
   }
 
-  handleInput(event) {
-    const { target: { name, value } } = event;
+  handleInput(label, newValue) {
     this.setState((state) => ({ ...state,
-      expenses: {
-        ...state.expenses, [name]: value,
-      },
-    }));
+      expenses: { ...state.expenses, [label]: newValue } }));
   }
 
   render() {
     const { currencies } = this.props;
-    console.log(this.state);
     const { expenses } = this.state;
     const { value, method, description, tag, currency } = expenses;
     const filterCurrency = Object.keys(currencies).filter((acc) => acc !== 'USDT');
@@ -77,7 +72,7 @@ class WalletFunction extends React.Component {
               id="valor"
               className="input-function"
               data-testid="value-input"
-              onChange={ this.handleInput }
+              onChange={ (event) => this.handleInput('value', event.target.value) }
               value={ value }
             />
           </label>
@@ -87,7 +82,7 @@ class WalletFunction extends React.Component {
               type="text"
               id="descricao"
               data-testid="description-input"
-              onChange={ this.handleInput }
+              onChange={ (event) => this.handleInput('description', event.target.value) }
               value={ description }
             />
           </label>
@@ -97,7 +92,7 @@ class WalletFunction extends React.Component {
               id="moeda"
               data-testid="currency-input"
               value={ currency }
-              onChange={ this.handleInput }
+              onChange={ (event) => this.handleInput('currency', event.target.value) }
             >
               {filterCurrency.map((curr) => (
                 <option
@@ -113,15 +108,15 @@ class WalletFunction extends React.Component {
           <label htmlFor="pagamento">
             Metodo de pagamento:
             <select
-              id="moeda"
+              id="pagamento"
               data-testid="method-input"
-              onChange={ this.handleInput }
+              onChange={ (event) => this.handleInput('method', event.target.value) }
               value={ method }
             >
               <option value="null">  </option>
-              <option value="money"> Dinheiro </option>
-              <option value="credit-card"> Cartão de crédito </option>
-              <option value="debit-card">Cartão de débito</option>
+              <option value="Dinheiro"> Dinheiro </option>
+              <option value="Cartão de crédito"> Cartão de crédito </option>
+              <option value="Cartão de débito">Cartão de débito</option>
 
             </select>
           </label>
@@ -131,18 +126,18 @@ class WalletFunction extends React.Component {
               id="tag"
               data-testid="tag-input"
               value={ tag }
-              onChange={ this.handleInput }
+              onChange={ (event) => this.handleInput('tag', event.target.value) }
             >
               <option value="null"> </option>
-              <option value="alimentação"> Alimentação </option>
-              <option value="lazer"> Lazer </option>
-              <option value="trabalho"> Trabalho </option>
-              <option value="transporte"> Transporte </option>
-              <option value="saúde"> Saúde </option>
+              <option value="Alimentação"> Alimentação </option>
+              <option value="Lazer"> Lazer </option>
+              <option value="Trabalho"> Trabalho </option>
+              <option value="Transporte"> Transporte </option>
+              <option value="Saúde"> Saúde </option>
             </select>
           </label>
           <button className="btn-wallet" type="submit">
-            Adcionar despesa
+            Adicionar despesa
           </button>
         </form>
       </div>
@@ -151,7 +146,7 @@ class WalletFunction extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  apiFetch: () => dispatch(currencyAPI()),
+  apiFetch: () => dispatch(currenciAPI()),
   addExp: (expenses) => dispatch(addExpense(expenses)),
 });
 

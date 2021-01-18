@@ -11,17 +11,16 @@ class Wallet extends React.Component {
     super(props);
 
     this.state = {
-      amount: 0,
       cambio: 'BRL',
     };
   }
 
   render() {
-    const { amount, cambio } = this.state;
-    const { email } = this.props;
+    const { cambio } = this.state;
+    const { email, totalExpenses } = this.props;
     return (
       <div className="container-wallet">
-        <Header user={ email } amount={ amount } cambio={ cambio } />
+        <Header user={ email } amount={ totalExpenses } cambio={ cambio } />
         <div className="body-wallet">
           <WalletFunction />
           <Table />
@@ -33,9 +32,11 @@ class Wallet extends React.Component {
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
+  totalExpenses: PropTypes.number.isRequired,
 };
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  totalExpenses: state.wallet.totalExpense,
 });
 
 export default connect(mapStateToProps)(Wallet);

@@ -11,8 +11,8 @@ export const editExpense = (expense) => (
   { type: EDIT_EXPENSE, expense }
 );
 
-export const addExpense = (expense) => (
-  { type: ADD_EXPENSE, expense }
+export const addExpense = (expenses) => (
+  { type: ADD_EXPENSE, expenses }
 );
 
 export const deletExpense = (expense) => (

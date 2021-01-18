@@ -46,7 +46,6 @@ class Login extends React.Component {
     if (user.email) {
       return <Redirect to="/carteira" />;
     }
-    console.log(window.location.pathname);
     return (
       <div className="container-form">
         <form>
