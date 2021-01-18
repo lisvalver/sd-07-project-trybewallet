@@ -5,7 +5,6 @@ import Logo from '../images/logo-wallet.jpg';
 class Header extends React.Component {
   render() {
     const { user, amount, cambio } = this.props;
-    const base = 10;
     return (
       <div className="container-header">
         <div className="logo-wallet">
@@ -18,7 +17,8 @@ class Header extends React.Component {
           </div>
           <div className="amount-wallet" data-testid="total-field">
             <p className="label">Despesas:</p>
-            { parseFloat(amount, base).toFixed(2) }
+            {amount}
+            <p className="number">0</p>
             <span data-testid="header-currency-field">
               { cambio }
             </span>

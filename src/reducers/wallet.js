@@ -14,7 +14,6 @@ const INITILA_STATE = {
 
 export default function (state = INITILA_STATE, action) {
   const { type, currencies } = action;
-  console.log(action);
   const { totalExpense } = { ...state };
   switch (type) {
   case ADD_CUREENCIES:

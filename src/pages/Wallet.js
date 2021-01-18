@@ -18,9 +18,15 @@ class Wallet extends React.Component {
   render() {
     const { cambio } = this.state;
     const { email, totalExpenses } = this.props;
+    const base = 10;
+    const result = parseFloat(totalExpenses, base).toFixed(2);
     return (
       <div className="container-wallet">
-        <Header user={ email } amount={ totalExpenses } cambio={ cambio } />
+        <Header
+          user={ email }
+          amount={ totalExpenses === 0 ? 0 : result }
+          cambio={ cambio }
+        />
         <div className="body-wallet">
           <WalletFunction />
           <Table />
