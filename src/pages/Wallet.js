@@ -42,8 +42,8 @@ class Wallet extends React.Component {
       },
     }));
     console.log(this.state.form);
-    addXablau(this.state.form);
     const { form } = this.state;
+    addXablau(form);
     console.log(this.state);
     const valueConverted = form.value * currencies[form.currency].ask;
     const acum = parseFloat(total) + parseFloat(valueConverted);
