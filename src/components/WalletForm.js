@@ -1,68 +1,96 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { expenseToSave, upDateCurrencies } from '../actions';
+import React from "react";
+import { connect } from "react-redux";
+import { expenseToSave, upDateCurrencies } from "../actions";
 
 class WalletForm extends React.Component {
   constructor() {
     super();
+    this.changeID = this.changeID.bind(this);
+    this.resetInput = this.resetInput.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.state = {
+      id: 0,
       value: 0,
-      description: '',
-      currency: 'USD',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
+      description: "",
+      currency: "USD",
+      method: "Dinheiro",
+      tag: "Alimentação",
     };
+  }
+
+  changeID() {
+    const { id } = this.state;
+    this.setState({ id: id + 1 });
   }
 
   handleInputChange({ target }) {
     this.setState({ [target.name]: target.value });
   }
 
-  render() {
-    const {
-      value,
-      description,
-      currency,
-      method,
-      tag,
-    } = this.state;
+  resetInput() {
+    this.setState({
+      value: 0,
+      description: "",
+      currency: "USD",
+      method: "Dinheiro",
+      tag: "Alimentação",
+    });
+  }
 
-    const { saveExpenses, currencies, isFetching, upDateCurrencies } = this.props;
-    console.log(this.props);
-    const expenses = {
+  render() {
+    const { id, value, description, currency, method, tag } = this.state;
+
+    const {
+      saveExpenses,
+      currenciesOptions,
+      isFetching,
+      upDateCurrencies,
+      allInfosCurrencies,
+      expensesState,
+    } = this.props;
+    
+    const expenseObjToSave = {
+      id,
       value,
       description,
       currency,
       method,
       tag,
     };
+
     return (
       <div>
-        { isFetching ? 'loading...'
-          : <form>
+        {isFetching ? (
+          "loading..."
+        ) : (
+          <form>
+            <label htmlFor="value" />
             <input
               name="value"
-              onChange={ (e) => this.handleInputChange(e) }
+              value={this.state.value}
+              onChange={(e) => this.handleInputChange(e)}
               data-testid="value-input"
             />
             <input
               name="description"
-              onChange={ (e) => this.handleInputChange(e) }
+              onChange={(e) => this.handleInputChange(e)}
               data-testid="description-input"
             />
             <select
               name="currency"
-              onChange={ (e) => this.handleInputChange(e) }
+              onChange={(e) => this.handleInputChange(e)}
               data-testid="currency-input"
             >
-              {currencies.map((currentCurrency) => (
-                <option key={ currentCurrency } data-testid={ currentCurrency }>{currentCurrency}</option>
-              ))}
+              {currenciesOptions &&
+                currenciesOptions.map((currentCurrency) => (
+                  <option key={currentCurrency} data-testid={currentCurrency}>
+                    {currentCurrency}
+                  </option>
+                ))}
             </select>
             <select
               name="method"
-              onChange={ (e) => this.handleInputChange(e) }
+              onChange={(e) => this.handleInputChange(e)}
               data-testid="method-input"
             >
               <option>Dinheiro</option>
@@ -71,7 +99,7 @@ class WalletForm extends React.Component {
             </select>
             <select
               name="tag"
-              onChange={ this.handleInputChange }
+              onChange={this.handleInputChange}
               data-testid="tag-input"
             >
               <option>Alimentação</option>
@@ -82,27 +110,32 @@ class WalletForm extends React.Component {
             </select>
             <button
               type="button"
-              onClick={ () => {
-                upDateCurrencies();
-                saveExpenses(expenses);
-              } }
+              onClick={() => {
+                // upDateCurrencies();
+                this.changeID();
+                saveExpenses(expenseObjToSave);
+                this.resetInput();
+              }}
             >
               Adicionar despesa
             </button>
-            </form>}
+          </form>
+        )}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  currencies: state.wallet.currencies,
+  expensesState: state.wallet.expenses,
+  allInfosCurrencies: state.wallet.allInfosCurrencies,
+  currenciesOptions: state.wallet.currenciesOptions,
   isFetching: state.wallet.isFetching,
   total: state,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  saveExpenses: (expense) => dispatch(expenseToSave(expense)),
+  saveExpenses: (expenseObjToSave) => dispatch(expenseToSave(expenseObjToSave)),
   upDateCurrencies: () => dispatch(upDateCurrencies()),
 });
 
