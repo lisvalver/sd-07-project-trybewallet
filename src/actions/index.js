@@ -41,7 +41,7 @@ export const setRatesToStore = (payload) => ({
 });
 
 export const deleteExpense = (payload) => ({
-  type: 'DELETAR_EXPENSES',
+  type: 'DELET_EXPENSES',
   payload,
 });
 
