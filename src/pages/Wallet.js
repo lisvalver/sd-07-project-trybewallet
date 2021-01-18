@@ -81,13 +81,10 @@ class Wallet extends React.Component {
     }));
   }
 
-  delExpenseFunc() {
-    const { delExpenseActions } = this.props;
-    const { form } = this.state;
-    const { id } = form;
-    const newId = id - 1;
-    console.log(`Conteúdo ${newId} `);
-    delExpenseActions(newId);
+  delExpenseFunc({ target: { value } }) {
+    const { delExpenseActions, expenses } = this.props;
+    const newEspenses = expenses.filter((item) => item.id !== Number(value));
+    delExpenseActions(newEspenses);
   }
 
   render() {
@@ -237,7 +234,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getCurrence: () => dispatch(fetchCurrence()),
   addXablau: (expenses) => dispatch(addExpenses(expenses)),
-  delExpenseActions: (id) => dispatch(deleteExpenses(id)),
+  delExpenseActions: (expenses) => dispatch(deleteExpenses(expenses)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

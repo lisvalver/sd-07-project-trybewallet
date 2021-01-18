@@ -24,9 +24,9 @@ export const addExpenses = (expenses) => ({
   expenses,
 });
 
-export const deleteExpenses = (id) => ({
+export const deleteExpenses = (expenses) => ({
   type: types.DELETE_EXPENSES,
-  id,
+  expenses,
 });
 
 export const fetchCurrence = () => async (dispatch) => {
