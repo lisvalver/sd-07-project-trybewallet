@@ -31,7 +31,7 @@ const userWallet = (state = INICIAL_STATE, action) => {
     console.log(action.payload);
     return {
       ...state,
-      expenses: state.expenses.filter(itemAtual =>  itemAtual !== action.payload),
+      expenses: state.expenses.filter((itemAtual) => itemAtual !== action.payload),
     };
   default:
     return state;

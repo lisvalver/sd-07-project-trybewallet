@@ -13,8 +13,8 @@ class Wallet extends React.Component {
       currency: 'BRL',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      valueInput: 0,
       value: 0,
+      valueTotal: 0,
       id: -1,
       exchangeRates: {},
     };
@@ -35,43 +35,44 @@ class Wallet extends React.Component {
   }
 
   saveStateInTheStore() {
-    const { valueInput, ...rest } = this.state;
+    const { valueTotal, ...rest } = this.state;
     const { addingExpenses } = this.props;
     console.log(rest);
     addingExpenses(rest);
   }
 
   addExpenses() {
-    const { curr, currencies, getAPI } = this.props;
-    const { value, valueInput, id } = this.state;
+    const { curr, currencies } = this.props;
+    const { valueTotal, value, id } = this.state;
     const moeda = curr;
-    const newvalue = parseInt(value, 10) + parseInt(valueInput, 10);
+    const moedas = currencies;
+    const newvalue = parseInt(valueTotal, 10) + parseInt(value, 10);
     const newId = parseInt(id, 10);
-    this.setState({ exchangeRates: currencies }, () => { this.saveStateInTheStore(); });
+    this.setState({ exchangeRates: moedas }, () => { this.saveStateInTheStore(); });
     this.setState({ currency: moeda });
-    this.setState({ value: `${newvalue}` });
+    this.setState({ valueTotal: `${newvalue}` });
     this.setState({ id: newId + 1 });
   }
 
   render() {
     const { email } = this.props;
-    const { description, valueInput, value, currency, method, tag } = this.state;
+    const { description, value, valueTotal, currency, method, tag } = this.state;
 
     return (
       <div>
         <header>
           <h3 data-testid="email-field">{ email }</h3>
-          <h4 data-testid="total-field">{ value }</h4>
+          <h4 data-testid="total-field">{ valueTotal }</h4>
           <h4 data-testid="header-currency-field">{ currency }</h4>
         </header>
         <form>
-          <label htmlFor="valueInput">
+          <label htmlFor="value">
             Adicione valor da despesa
             <input
-              name="valueInput"
+              name="value"
               type="number"
               data-testid="value-input"
-              value={ valueInput }
+              value={ value }
               onChange={ this.handleEvent }
             />
           </label>
