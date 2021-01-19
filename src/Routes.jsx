@@ -5,14 +5,14 @@ import Login from './pages/Login';
 import Wallet from './pages/Wallet';
 
 class Routes extends Component {
-    render() {
-        return (
-            <Switch>
-                <Route exact path='/' component={ Login } />
-                <Route path='/carteira' component={Wallet} />
-            </Switch>
-        )
-    }
+  render() {
+    return (
+      <Switch>
+        <Route exact path='/' component={Login} />
+        <Route path='/carteira' component={Wallet} />
+      </Switch>
+    );
+  }
 }
 
 export default Routes;
