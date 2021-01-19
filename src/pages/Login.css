@@ -1,36 +1,36 @@
 body {
+  align-items: center;
   color: white;
-  width: 100vw;
-  height: 100vh;
   background-color: #333;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-around;
+  height: 100vh;
+  width: 100vw;
 }
 
 form {
-  height: 300px;
-  width: 250px;
+  align-items: center;
   background-color: black;
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: center;
+  height: 300px;
+  position: relative;
+  width: 250px;
 }
 
 label {
+  color: white;
   display: flex;
   flex-direction: column;
   margin: 5px;
-  color: white;
 }
 
 input {
-  height: 40px;
-  border-style: hidden;
   border-radius: 5px;
+  border-style: hidden;
+  height: 40px;
   text-align: center;
 }
 
@@ -42,12 +42,12 @@ select {
 }
 
 button {
-  height: 40px;
-  width: 100px;
-  margin: 10px;
-  border: transparent;
   background-color: rgb(184, 0, 71);
+  border: transparent;
   border-radius: 5px;
+  height: 40px;
+  margin: 10px;
+  width: 100px;
 }
 
 .wallet {
@@ -61,8 +61,8 @@ button {
 header {
   background-color: black;
   display: flex;
-  height: 50px;
   justify-content: space-evenly;
+  height: 50px;
   position: relative;
   width: 100vw;
 }
