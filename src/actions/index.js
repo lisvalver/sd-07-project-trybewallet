@@ -17,13 +17,4 @@ export function getExpenseCurrency(expense) {
           dispatch(addExpense(expense));
         }));
   };
-  // return async (dispatch) =>{
-  //   await fetch('https://economia.awesomeapi.com.br/json/all')
-  //   .then(response => {
-  //     currency = response.json();
-  //     expense.exchangeRates = currency;
-  //     console.log(expense, currency)
-  //     dispatch(addExpense(expense));
-  //   });
-  // }
 }

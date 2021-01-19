@@ -127,64 +127,55 @@ class Wallet extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-          <label htmlFor="moeda">
-            Moeda:
-            <select
-              required
-              data-testid="currency-input"
-              name="moeda"
-              value={ moeda }
-              onChange={ this.handleChange }
-            >
-              {api.map((element, index) => {
-                const { code, codein } = element;
-                if (codein !== 'BRLT') {
-                  return (
-                    <option
-                      key={ index }
-                      data-testid={ code }
-                      value={ code }
-                    >
-                      { code }
-                    </option>
-                  );
-                }
-                return '';
-              })}
-            </select>
-          </label>
-          <label htmlFor="metodo">
-            Método:
-            <select
-              required
-              data-testid="method-input"
-              name="metodo"
-              onChange={ this.handleChange }
-            >
-              <option value="Dinheiro">Dinheiro</option>
-              <option value="Cartão de crédito">
-                Cartão de crédito
-              </option>
-              <option value="Cartão de débito">
-                Cartão de débito
-              </option>
-            </select>
-          </label>
-          <label htmlFor="tag">
-            Tag:
-            <select
-              required
-              data-testid="tag-input"
-              name="tag"
-              onChange={ this.handleChange }
-            >
-              <option value="Alimentação">Alimentação</option>
-              <option value="Lazer">Lazer</option>
-              <option value="Trabalho">Trabalho</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Saúde">Saúde</option>
-            </select>
-          </label>
+          <select
+            required
+            data-testid="currency-input"
+            name="moeda"
+            value={ moeda }
+            onChange={ this.handleChange }
+          >
+            {api.map((element, index) => {
+              const { code, codein } = element;
+              if (codein !== 'BRLT') {
+                return (
+                  <option
+                    key={ index }
+                    data-testid={ code }
+                    value={ code }
+                  >
+                    { code }
+                  </option>
+                );
+              }
+              return ('');
+            })}
+          </select>
+          <select
+            required
+            data-testid="method-input"
+            name="metodo"
+            onChange={ this.handleChange }
+          >
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de crédito">
+              Cartão de crédito
+            </option>
+            <option value="Cartão de débito">
+              Cartão de débito
+            </option>
+          </select>
+          <select
+            required
+            data-testid="tag-input"
+            name="tag"
+            onChange={ this.handleChange }
+          >
+            <option value="Alimentação">Alimentação</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saúde">Saúde</option>
+          </select>
           <button
             type="button"
             onClick={ () => {
