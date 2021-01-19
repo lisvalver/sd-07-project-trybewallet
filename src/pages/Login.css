@@ -1,11 +1,11 @@
 body {
   align-items: center;
-  color: white;
   background-color: #333;
+  color: white;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   height: 100vh;
+  justify-content: space-around;
   width: 100vw;
 }
 
@@ -14,8 +14,8 @@ form {
   background-color: black;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   height: 300px;
+  justify-content: space-around;
   position: relative;
   width: 250px;
 }
@@ -35,9 +35,9 @@ input {
 }
 
 select {
-  height: 40px;
-  border-style: hidden;
   border-radius: 5px;
+  border-style: hidden;
+  height: 40px;
   text-align: center;
 }
 
@@ -61,8 +61,8 @@ button {
 header {
   background-color: black;
   display: flex;
-  justify-content: space-evenly;
   height: 50px;
+  justify-content: space-evenly;
   position: relative;
   width: 100vw;
 }
