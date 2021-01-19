@@ -29,7 +29,7 @@ export default function (state = INITILA_STATE, action) {
   case DELETE_EXPENSE:
     return {
       ...state,
-      expense: state.expenses.filter((expense) => expense.id !== action.expense.id),
+      expenses: [...action.expense],
     };
   case EDIT_EXPENSE:
     return {
