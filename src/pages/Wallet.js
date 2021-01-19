@@ -21,6 +21,7 @@ class Wallet extends React.Component {
 
     this.handleEvent = this.handleEvent.bind(this);
     this.addExpenses = this.addExpenses.bind(this);
+    this.saveStateInTheStore = this.saveStateInTheStore.bind(this);
   }
 
   componentDidMount() {
@@ -33,17 +34,23 @@ class Wallet extends React.Component {
     this.setState({ [name]: value });
   }
 
+  saveStateInTheStore() {
+    const { valueInput, ...rest } = this.state;
+    const { addingExpenses } = this.props;
+    console.log(rest);
+    addingExpenses(rest);
+  }
+
   addExpenses() {
-    const { addingExpenses, curr, currencies, getAPI } = this.props;
+    const { curr, currencies, getAPI } = this.props;
     const { value, valueInput, id } = this.state;
     const moeda = curr;
     const newvalue = parseInt(value, 10) + parseInt(valueInput, 10);
     const newId = parseInt(id, 10);
-    this.setState({ exchangeRates: currencies });
-    this.setState({ currency: moeda }, () => { addingExpenses(this.state); });
+    this.setState({ exchangeRates: currencies }, () => { this.saveStateInTheStore(); });
+    this.setState({ currency: moeda });
     this.setState({ value: `${newvalue}` });
     this.setState({ id: newId + 1 });
-    getAPI();
   }
 
   render() {

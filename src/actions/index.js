@@ -57,6 +57,3 @@ export function fetchMoedaAPI() {
       });
   };
 }
-
-/* Object.keys(currencies)
-.filter((coin) => coin !== 'USDT')  */
