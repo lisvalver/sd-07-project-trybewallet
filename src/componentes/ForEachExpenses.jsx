@@ -14,8 +14,7 @@ class ForEachExpenses extends React.Component {
     const { expenses, deletar } = this.props
     console.log(expenses);
     console.log(target.id);
-    let listOfExpenses = expenses;
-    deletar(listOfExpenses.splice(target.id, 1))
+    deletar(expenses[target.id])
   }
 
   render() {
@@ -64,7 +63,7 @@ ForEachExpenses.propTypes = ({
 }).isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
-  deletar: () => dispatch(deleteExpense()),
+  deletar: (objOfExpenseToDelet) => dispatch(deleteExpense(objOfExpenseToDelet)),
 });
 
 const mapStateToProps = (state) => ({
