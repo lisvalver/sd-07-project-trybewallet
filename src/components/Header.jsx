@@ -6,11 +6,8 @@ class Header extends React.Component {
   render() {
     const { email, expense } = this.props;
 
-    const expenseTot = expense.reduce((total, expenses) => {
-      const { value, currency, exchangeRates } = expenses;
-      return total + exchangeRates[currency].ask * value;
-    }, 0);
-    if (expenseTot === undefined) return 0;
+    const expenseTot = expense.reduce((total, { value, currency, exchangeRates }) => total
+      + exchangeRates[currency].ask * value, 0);
 
     return (
       <header className="header-wallet">

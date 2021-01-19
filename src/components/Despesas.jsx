@@ -7,7 +7,6 @@ class Despesas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: 0,
       value: 0,
       description: '',
       currency: 'USD',
@@ -19,9 +18,9 @@ class Despesas extends React.Component {
     this.handlerExpenses = this.handlerExpenses.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { fetchCurrency } = this.props;
-    fetchCurrency();
+    await fetchCurrency();
   }
 
   handlerExpensesChange(event) {
@@ -33,24 +32,27 @@ class Despesas extends React.Component {
   }
 
   async handlerExpenses() {
-    const { addExpenses, currency, fetchCurrency } = this.props;
+    const { addExpenses, currency, fetchCurrency, addIdWallet, id } = this.props;
     await fetchCurrency();
 
-    await this.setState((previous) => ({
+    this.setState((previous) => ({
       exchangeRates: { ...previous.exchangeRates, ...currency },
     }));
-    addExpenses(this.state);
+    await addExpenses({ id, ...this.state });
 
-    this.setState((previous) => ({
-      id: previous.id + 1,
+    await addIdWallet();
+
+    this.setState({
       value: 0,
       description: '',
-    }));
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    });
   }
 
   render() {
     const { currency } = this.props;
-    const { value, description } = this.state;
+    const { value, description, method, tag } = this.state;
     return (
       <section className="section-despesas">
         Valor:
@@ -92,7 +94,7 @@ class Despesas extends React.Component {
           data-testid="method-input"
           onChange={ this.handlerExpensesChange }
         >
-          <option value="Dinheiro">Dinheiro</option>
+          <option selected={ method === 'Dinheiro' } value="Dinheiro">Dinheiro</option>
           <option value="Cartão de crédito">Cartão de crédito</option>
           <option value="Cartão de débito">Cartão de débito</option>
         </select>
@@ -102,7 +104,12 @@ class Despesas extends React.Component {
           data-testid="tag-input"
           onChange={ this.handlerExpensesChange }
         >
-          <option value="Alimentação">Alimentação</option>
+          <option
+            selected={ tag === 'Alimentação' }
+            value="Alimentação"
+          >
+            Alimentação
+          </option>
           <option value="Lazer">Lazer</option>
           <option value="Trabalho">Trabalho</option>
           <option value="Transporte">Transporte</option>
@@ -121,6 +128,7 @@ class Despesas extends React.Component {
 
 const mapStateToProps = (state) => ({
   currency: state.wallet.currencies,
+  editExpense: state.wallet.editExpenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -132,6 +140,8 @@ Despesas.propTypes = {
   currency: PropTypes.shape({}).isRequired,
   fetchCurrency: PropTypes.func.isRequired,
   addExpenses: PropTypes.func.isRequired,
+  addIdWallet: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Despesas);
