@@ -10,7 +10,6 @@ class WalletHeader extends Component {
 
   handleTotalExpensesValue() {
     const { expenses } = this.props;
-    console.log(expenses);
     let totalPriceExpenses = 0;
     expenses.forEach((expense) => {
       totalPriceExpenses += expense.value * expense.exchangeRates[expense.currency].ask;

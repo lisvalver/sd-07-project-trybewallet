@@ -1,4 +1,9 @@
-import { EXPENSES_TO_SAVE, FETCHING, SUCESSFUL_FETCH } from '../actions/index';
+import {
+  EXPENSES_TO_SAVE,
+  EXPENSE_TO_DELETE,
+  FETCHING,
+  SUCESSFUL_FETCH,
+} from '../actions/index';
 
 const INITIAL_STATE = {
   currenciesOptions: [],
@@ -27,6 +32,13 @@ function wallet(state = INITIAL_STATE, action) {
         (currency) => currency !== 'USDT',
       ),
       isFetching: false,
+    };
+  case EXPENSE_TO_DELETE:
+    return {
+      ...state,
+      expenses: state
+        .expenses
+        .filter((expense) => expense !== state.expenses[action.indexExpenseToDelete]),
     };
   default:
     return state;

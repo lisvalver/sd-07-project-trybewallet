@@ -2,11 +2,19 @@ export const SAVE_EMAIL = 'SAVE_EMAIL';
 export const EXPENSES_TO_SAVE = 'EXPENSE_TO_SAVE';
 export const FETCHING = 'IS_FETCHING';
 export const SUCESSFUL_FETCH = 'SUCESSFUL_FETCH';
+export const EXPENSE_TO_DELETE = 'EXPENSE_TO_DELETE';
 
 export function saveEmail(email) {
   return {
     type: SAVE_EMAIL,
     email,
+  };
+}
+
+export function deleteExpenseAction(indexExpenseToDelete) {
+  return {
+    type: EXPENSE_TO_DELETE,
+    indexExpenseToDelete,
   };
 }
 
