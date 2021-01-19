@@ -447,7 +447,6 @@ describe('7 - [BÔNUS] Crie um botão para editar uma despesa da tabela contendo
         exchangeRates: mockData,
       },
     ];
-
     expect(store.getState().wallet.expenses).toStrictEqual(newExpenses);
   });
 });

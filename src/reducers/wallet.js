@@ -14,7 +14,10 @@ function wallet(state = INITIAL_STATE, action) {
   case REMOVE_EXPENSE:
     return { ...state, expenses: action.value };
   case UPDATE_EXPENSE:
-    return { ...state, expenses: [...action.value] };
+    const updatedExpense = [...state.expenses];
+    updatedExpense[action.index] = action.value;
+    console.log(updatedExpense);
+    return { ...state, expenses: updatedExpense };
   default:
     return state;
   }

@@ -1,19 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getExpenseCurrency, removeExpense } from '../actions';
+import { removeExpense } from '../actions';
+import Form from '../components/Form';
+import Edit from '../components/Edit';
 
 class Wallet extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
     this.mountExpense = this.mountExpense.bind(this);
     this.updateTotalExpenses = this.updateTotalExpenses.bind(this);
     this.deleteTableElement = this.deleteTableElement.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.getEditIndex = this.getEditIndex.bind(this);
 
     this.state = {
       api: [],
+      editar: false,
+      formIndex: 0,
       valor: 0,
       descricao: '',
       moeda: 'USD',
@@ -23,43 +28,25 @@ class Wallet extends React.Component {
     };
   }
 
-  componentDidMount() {
-    fetch('https://economia.awesomeapi.com.br/json/all')
-      .then((response) => {
-        response.json().then((obj) => {
-          const array = [];
-          Object.keys(obj).forEach((element) => {
-            array.push(obj[element]);
-          });
-          this.setState({ api: array });
-        });
-      });
+  getEditIndex(e) {
+    const { parentNode } = e.target;
+    const { parentNode: container } = parentNode;
+    const { id } = container;
+    this.setState({
+      formIndex: id,
+      editar: true,
+    });
   }
 
-  mountExpense() {
-    const { expenses } = this.props;
-    const {
-      valor,
-      descricao,
-      moeda,
-      metodo,
-      tag,
-    } = this.state;
-    const expense = {
-      id: expenses.length,
-      value: valor,
-      description: descricao,
-      currency: moeda,
-      method: metodo,
-      tag,
-      exchangeRates: {},
-    };
-    return expense;
-  }
-
-  handleChange(e) {
-    const { value, name } = e.target;
-    this.setState({ [name]: value });
+  deleteTableElement(e) {
+    const { target } = e;
+    const container = target.parentNode;
+    const { parentNode } = container;
+    const { id } = parentNode;
+    const { expenses, remove } = this.props;
+    expenses.splice(id, 1);
+    this.setState({ atualiza: '' });
+    remove(expenses);
   }
 
   updateTotalExpenses(expenses) {
@@ -76,20 +63,33 @@ class Wallet extends React.Component {
     return (parseFloat(totalExpenses.toFixed(2)));
   }
 
-  deleteTableElement(e) {
-    const { target } = e;
-    const container = target.parentNode;
-    const { parentNode } = container;
-    const { id } = parentNode;
-    const { expenses, remove } = this.props;
-    expenses.splice(id, 1);
-    this.setState({ atualiza: '' });
-    remove(expenses);
+  mountExpense() {
+    const {
+      valor,
+      descricao,
+      moeda,
+      metodo,
+      tag,
+    } = this.state;
+    const expense = {
+      id: '',
+      value: valor,
+      description: descricao,
+      currency: moeda,
+      method: metodo,
+      tag,
+      exchangeRates: {},
+    };
+    return expense;
+  }
+
+  handleEdit() {
+    this.setState({ editar: false });
   }
 
   render() {
-    const { email, add, expenses } = this.props;
-    const { api, valor, moeda } = this.state;
+    const { email, expenses } = this.props;
+    const { editar, api, formIndex } = this.state;
     return (
       <div className="wallet">
         <header>
@@ -107,85 +107,13 @@ class Wallet extends React.Component {
             </span>
           </p>
         </header>
-        <form className="wallet-form">
-          <label htmlFor="valor">
-            Valor:
-            <input
-              required
-              data-testid="value-input"
-              name="valor"
-              value={ valor }
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="descricao">
-            Descrição:
-            <input
-              required
-              data-testid="description-input"
-              name="descricao"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <select
-            required
-            data-testid="currency-input"
-            name="moeda"
-            value={ moeda }
-            onChange={ this.handleChange }
-          >
-            {api.map((element, index) => {
-              const { code, codein } = element;
-              if (codein !== 'BRLT') {
-                return (
-                  <option
-                    key={ index }
-                    data-testid={ code }
-                    value={ code }
-                  >
-                    { code }
-                  </option>
-                );
-              }
-              return ('');
-            })}
-          </select>
-          <select
-            required
-            data-testid="method-input"
-            name="metodo"
-            onChange={ this.handleChange }
-          >
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Cartão de crédito">
-              Cartão de crédito
-            </option>
-            <option value="Cartão de débito">
-              Cartão de débito
-            </option>
-          </select>
-          <select
-            required
-            data-testid="tag-input"
-            name="tag"
-            onChange={ this.handleChange }
-          >
-            <option value="Alimentação">Alimentação</option>
-            <option value="Lazer">Lazer</option>
-            <option value="Trabalho">Trabalho</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Saúde">Saúde</option>
-          </select>
-          <button
-            type="button"
-            onClick={ () => {
-              const retorno = this.mountExpense();
-              add(retorno);
-            } }
-          >
-            Adicionar despesa
-          </button>
-        </form>
+        {editar ? <Edit
+          api={ api }
+          editar={ editar }
+          index={ formIndex }
+          handleEdit={ this.handleEdit }
+        />
+          : <Form />}
         <table className="table">
           <thead>
             <tr>
@@ -235,7 +163,13 @@ class Wallet extends React.Component {
                   <td>{ convertedValue.toFixed(2) }</td>
                   <td>Real</td>
                   <td className="btn-table">
-                    <button type="button" data-testid="edit-btn">E</button>
+                    <button
+                      type="button"
+                      data-testid="edit-btn"
+                      onClick={ this.getEditIndex }
+                    >
+                      E
+                    </button>
                     <button
                       type="button"
                       data-testid="delete-btn"
@@ -259,7 +193,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  add: (value) => dispatch(getExpenseCurrency(value)),
   remove: (value) => dispatch(removeExpense(value)),
 });
 
@@ -275,7 +208,6 @@ Wallet.propTypes = {
     exchangeRates: PropTypes.shape({}),
   })),
   email: PropTypes.string,
-  add: PropTypes.func,
   remove: PropTypes.func,
 };
 
@@ -289,6 +221,5 @@ Wallet.defaultProps = {
     exchangeRates: PropTypes.shape({}),
   })),
   email: PropTypes.string,
-  add: PropTypes.func,
   remove: PropTypes.func,
 };
