@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
 import { expenseToSave, upDateCurrencies } from '../actions';
 
@@ -61,15 +62,17 @@ class WalletForm extends React.Component {
           'loading...'
         ) : (
           <form>
-            <label htmlFor="value" />
+            <label htmlFor="value">
+              <input
+                id="value"
+                name="value"
+                value={ value }
+                onChange={ (e) => this.handleInputChange(e) }
+                data-testid="value-input"
+              />
+            </label>
             <input
-              name="value"
-              value={ this.state.value }
-              onChange={ (e) => this.handleInputChange(e) }
-              data-testid="value-input"
-            />
-            <input
-              value={ this.state.description }
+              value={ description }
               name="description"
               onChange={ (e) => this.handleInputChange(e) }
               data-testid="description-input"
@@ -138,3 +141,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);
+
+WalletForm.propTypes = {
+  saveExpenses: PropTypes.func.isRequired,
+  currenciesOptions: PropTypes.arrayOf(string).isRequired,
+  isFetching: PropTypes.bool.isRequired,
+};

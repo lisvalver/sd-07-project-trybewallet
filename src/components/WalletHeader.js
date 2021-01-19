@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class WalletHeader extends Component {
@@ -10,6 +10,7 @@ class WalletHeader extends Component {
 
   handleTotalExpensesValue() {
     const { expenses } = this.props;
+    console.log(expenses);
     let totalPriceExpenses = 0;
     expenses.forEach((expense) => {
       totalPriceExpenses += expense.value * expense.exchangeRates[expense.currency].ask;
@@ -37,3 +38,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(WalletHeader);
+
+WalletHeader.propTypes = {
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  email: PropTypes.string.isRequired,
+};

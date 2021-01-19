@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Table extends Component {
   render() {
-    const { expenses, currencies } = this.props;
+    const { expenses } = this.props;
     let totalPriceExpenses = 0;
     return (
       <div>
@@ -29,7 +30,7 @@ class Table extends Component {
           } = expense;
           totalPriceExpenses = value * exchangeRates[currency].ask;
           return (
-            <tr>
+            <tr key={ description }>
               <td>{description}</td>
               <td>{tag}</td>
               <td>{method}</td>
@@ -48,24 +49,12 @@ class Table extends Component {
   }
 }
 
-// {expenses.map((expense) => {
-//     const {description, tag, method, currency, value, exchangeRates} = expense;
-//     totalPriceExpenses += expense.value * expense.exchangeRates[expense.currency].ask;
-//   return (
-//     <tr>
-//       <td>{description}</td>
-//       <td>{tag}</td>
-//       <td>{method}</td>
-//       <td>{exchangeRates[currency].name}</td>
-//       <td>{currency} {parseInt(value).toFixed(2)}</td>
-//       <td>{totalPriceExpenses.toFixed(2)}</td>
-//       <td>Real</td>
-//     </tr>
-//   );
-// })}
-
 const mapDispatchToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
 export default connect(mapDispatchToProps)(Table);
+
+Table.propTypes = {
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+};

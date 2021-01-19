@@ -30,14 +30,14 @@ export function upDateCurrencies() {
   };
 }
 
-export function expenseToSave(expenseToSave) {
+export function expenseToSave(expense) {
   return async (dispatch) => fetch('https://economia.awesomeapi.com.br/json/all')
     .then((response) => response.json())
     .then((currencies) => {
       dispatch({
         type: EXPENSES_TO_SAVE,
         expenseToSave: {
-          ...expenseToSave,
+          ...expense,
           exchangeRates: currencies,
         },
       });

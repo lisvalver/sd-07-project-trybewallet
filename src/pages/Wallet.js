@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { upDateCurrencies } from '../actions';
 import Table from '../components/Table';
@@ -27,3 +28,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(null, mapDispatchToProps)(Wallet);
+
+Wallet.propTypes = {
+  upDateCurrenciesDispatch: PropTypes.func.isRequired,
+};
