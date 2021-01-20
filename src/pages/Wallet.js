@@ -44,9 +44,14 @@ class Wallet extends React.Component {
     const { parentNode } = container;
     const { id } = parentNode;
     const { expenses, remove } = this.props;
-    expenses.splice(id, 1);
+    const returnArray = [];
+    expenses.forEach((element, index) => {
+      if (index !== parseInt(id, 10)) {
+        returnArray.push(element);
+      }
+    });
     this.setState({ atualiza: '' });
-    remove(expenses);
+    remove(returnArray);
   }
 
   updateTotalExpenses(expenses) {

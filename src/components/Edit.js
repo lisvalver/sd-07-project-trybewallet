@@ -33,6 +33,7 @@ class Edit extends Component {
         });
       });
     const { index, expenses } = this.props;
+    const numIndex = parseInt(index, 10);
     const {
       id: test,
       value,
@@ -41,16 +42,19 @@ class Edit extends Component {
       method,
       tag: ntag,
       exchangeRates: obj,
-    } = expenses[parseInt(index)];
-    this.setState({
-      id: test,
-      valor: value,
-      descricao: description,
-      moeda: currency,
-      metodo: method,
-      tag: ntag,
-      exchangeRates: obj,
-    });
+    } = expenses[numIndex];
+    const updateState = () => {
+      this.setState({
+        id: test,
+        valor: value,
+        descricao: description,
+        moeda: currency,
+        metodo: method,
+        tag: ntag,
+        exchangeRates: obj,
+      });
+    };
+    updateState();
   }
 
   mountExpense() {
@@ -81,7 +85,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { update, handleEdit } = this.props;
+    const { update, handleEdit, index: useindex } = this.props;
     const { api, valor, descricao, tag, moeda, metodo } = this.state;
 
     return (
@@ -162,7 +166,7 @@ class Edit extends Component {
           onClick={ () => {
             const retorno = this.mountExpense();
             console.log(retorno.exchangeRates);
-            update(index, retorno);
+            update(useindex, retorno);
             handleEdit();
           } }
         >
