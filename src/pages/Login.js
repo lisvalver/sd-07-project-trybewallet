@@ -16,7 +16,8 @@ class Login extends React.Component {
     this.handleInput = this.handleInput.bind(this);
   }
 
-  handleInput({ target: { name, value } }) {
+  handleInput({ target }) {
+    const { name, value } = target;
     this.setState(
       {
         [name]: value,
