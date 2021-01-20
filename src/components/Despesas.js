@@ -172,7 +172,7 @@ class Despesas extends React.Component {
                   onChange={ this.handleInput }
                 >
                   <option value="Dinheiro">Dinheiro</option>
-                  <option value="Cartão de crédito">Cartão de cŕedito</option>
+                  <option value="Cartão de crédito">Cartão de crédito</option>
                   <option value="Cartão de débito">Cartão de débito</option>
                 </select>
               </label>
@@ -216,15 +216,15 @@ class Despesas extends React.Component {
         <table>
           <thead>
             <tr>
-              <th>Descrição</th>
-              <th>Tag</th>
-              <th>Método de pagamento</th>
-              <th>Valor</th>
-              <th>Moeda</th>
-              <th>Câmbio utilizado</th>
-              <th>Valor convertido</th>
-              <th>Moeda de conversão</th>
-              <th>Editar/Excluir</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Tag</th>
+              <th scope="col">Método de pagamento</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Moeda</th>
+              <th scope="col">Câmbio utilizado</th>
+              <th scope="col">Valor convertido</th>
+              <th scope="col">Moeda de conversão</th>
+              <th scope="col">Editar/Excluir</th>
             </tr>
           </thead>
           <tbody>
