@@ -4,6 +4,7 @@ export const REQUEST_MOEDA_SUCESS = 'REQUEST_MOEDA_SUCESS';
 export const REQUEST_FAIL = 'REQUEST_FAIL';
 export const CHOOSED_CURRENCY = 'CHOOSED_CURRENCY';
 export const ADD_EXPENSES = 'ADD_EXPENSES';
+export const SET_CONVERTED_VALUES = 'SET_CONVERTED_VALUES';
 export const DELET_EXPENSES = 'DELET_EXPENSES';
 
 export const currentLogin = (user) => ({
@@ -40,10 +41,17 @@ export const setRatesToStore = (payload) => ({
   payload,
 });
 
+export const setConvertedValues = (payload) => ({
+  type: 'SET_CONVERTED_VALUES',
+  payload,
+});
+
 export const deleteExpense = (payload) => ({
   type: 'DELET_EXPENSES',
   payload,
 });
+
+
 
 export function fetchMoedaAPI() {
   return (dispatch) => {

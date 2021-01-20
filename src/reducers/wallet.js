@@ -3,13 +3,15 @@ import { REQUEST_MOEDA,
   REQUEST_FAIL,
   CHOOSED_CURRENCY,
   ADD_EXPENSES,
-  DELET_EXPENSES } from '../actions/index';
+  DELET_EXPENSES,
+  SET_CONVERTED_VALUES } from '../actions/index';
 
 const INICIAL_STATE = {
   currencies: [],
   expenses: [],
   isFetching: false,
   curr: 'BRL',
+  valorConvertido: 0,
 };
 
 const userWallet = (state = INICIAL_STATE, action) => {
@@ -27,8 +29,13 @@ const userWallet = (state = INICIAL_STATE, action) => {
       ...state,
       expenses: [...state.expenses, action.payload],
     };
-  case DELET_EXPENSES:
+  case SET_CONVERTED_VALUES:
     console.log(action.payload);
+    return {
+      ...state,
+      valorConvertido: parseFloat(state.valorConvertido) + parseFloat(action.payload),
+    };
+  case DELET_EXPENSES:
     return {
       ...state,
       expenses: state.expenses.filter((itemAtual) => itemAtual !== action.payload),

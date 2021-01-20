@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchMoedaAPI, addExpensesToStore } from '../actions';
+import { fetchMoedaAPI, addExpensesToStore, setConvertedValues } from '../actions';
 import CoinOption from '../componentes/CoinOption';
 import Table from '../componentes/Table';
 
@@ -14,7 +14,7 @@ class Wallet extends React.Component {
       method: 'Dinheiro',
       tag: 'Alimentação',
       value: 0,
-      valueTotal: 0,
+      convertedValue: 0,
       id: -1,
       exchangeRates: {},
     };
@@ -22,6 +22,8 @@ class Wallet extends React.Component {
     this.handleEvent = this.handleEvent.bind(this);
     this.addExpenses = this.addExpenses.bind(this);
     this.saveStateInTheStore = this.saveStateInTheStore.bind(this);
+
+    this.settandoValorConvertido = this.settandoValorConvertido.bind(this);
   }
 
   componentDidMount() {
@@ -35,34 +37,49 @@ class Wallet extends React.Component {
   }
 
   saveStateInTheStore() {
-    const { valueTotal, ...rest } = this.state;
+    const { convertedValue, ...rest } = this.state;
     const { addingExpenses } = this.props;
-    console.log(rest);
     addingExpenses(rest);
   }
 
   addExpenses() {
-    const { curr, currencies } = this.props;
-    const { valueTotal, value, id } = this.state;
+    const { curr, currencies, getAPI } = this.props;
+    const { id } = this.state;
+
+    getAPI();
     const moeda = curr;
     const moedas = currencies;
-    const newvalue = parseInt(valueTotal, 10) + parseInt(value, 10);
+    // const newvalue = parseInt(valueTotal, 10) + parseInt(value, 10);
     const newId = parseInt(id, 10);
-    this.setState({ exchangeRates: moedas }, () => { this.saveStateInTheStore(); });
     this.setState({ currency: moeda });
-    this.setState({ valueTotal: `${newvalue}` });
+    // this.setState({ valueTotal: `${newvalue}` });
     this.setState({ id: newId + 1 });
+    this.setState({ exchangeRates: moedas }, () => { this.saveStateInTheStore(); setTimeout(() => { this.settandoValorConvertido(); }) });
+
+  }
+
+  settandoValorConvertido() {
+
+    const { newConvertedValues } = this.props;
+    const { exchangeRates, currency, value } = this.state;
+    console.log(exchangeRates)
+      const convertedValue = (parseFloat(exchangeRates[currency].ask) * value).toFixed(2);
+      console.log(convertedValue);
+      newConvertedValues(convertedValue);
   }
 
   render() {
-    const { email } = this.props;
-    const { description, value, valueTotal, currency, method, tag } = this.state;
+    const { email, valorConvertido } = this.props;
+    const { description, value, currency, method, tag } = this.state;
 
     return (
       <div>
         <header>
           <h3 data-testid="email-field">{ email }</h3>
-          <h4 data-testid="total-field">{ valueTotal }</h4>
+          
+
+          <h4 data-testid="total-field">{ valorConvertido ? valorConvertido : 0 }</h4>
+
           <h4 data-testid="header-currency-field">{ currency }</h4>
         </header>
         <form>
@@ -131,6 +148,7 @@ Wallet.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   getAPI: () => dispatch(fetchMoedaAPI()),
+  newConvertedValues: (convertedValue) => dispatch(setConvertedValues(convertedValue)),
   addingExpenses: (payload) => dispatch(addExpensesToStore(payload)),
 });
 
@@ -140,6 +158,8 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   isFetching: state.wallet.isFetching,
   curr: state.wallet.curr,
+  valorConvertido: state.wallet.valorConvertido,
+  exchangeRates: state.wallet.exchangeRates,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
