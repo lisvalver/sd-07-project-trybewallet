@@ -45,7 +45,7 @@ class Login extends React.Component {
     const { email, password, isDisabled } = this.state;
     return (
       <div>
-        LOGIN
+        <h1>WALLET APP</h1>
         <form onSubmit={ this.handleSignUp }>
           <input
             type="text"
@@ -64,7 +64,6 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
           <button
-            className="signUpBtn"
             type="submit"
             disabled={ isDisabled }
           >

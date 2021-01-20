@@ -12,19 +12,23 @@ class Header extends React.Component {
           {' '}
           { email }
         </p>
-        <p data-testid="total-field">
-          Despesa Total: R$
-          {' '}
-          {expenses.reduce((acc, expense) => {
-            const { currency, exchangeRates, value } = expense;
-            const exchangeRate = exchangeRates[currency].ask;
-            const costInBRL = exchangeRate * value;
+        <div>
+          <p data-testid="total-field">
+            Despesa Total: R$
+            {' '}
+            {expenses.reduce((acc, expense) => {
+              const { currency, exchangeRates, value } = expense;
 
-            return acc + parseFloat(costInBRL);
-          }, 0).toFixed(2)}
-        </p>
-        <p data-testid="header-currency-field">BRL</p>
-        <button type="button" data-testid="edit-btn">Editar despesa</button>
+              const exchangeRate = exchangeRates[currency].ask;
+              const costInBRL = exchangeRate * value;
+
+              return acc + parseFloat(costInBRL);
+            }, 0).toFixed(2)}
+          </p>
+          <p data-testid="header-currency-field">
+            BRL
+          </p>
+        </div>
       </header>
     );
   }

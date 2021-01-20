@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { deleteExpense } from '../actions';
+import { deleteExpense, editingExpense as editExpense } from '../actions';
 
 const titles = ['Descrição', 'Tag', 'Método de pagamento', 'Valor', 'Moeda',
   'Câmbio utilizado', 'Valor convertido', 'Moeda de conversão', 'Editar/Excluir'];
@@ -9,16 +9,29 @@ const titles = ['Descrição', 'Tag', 'Método de pagamento', 'Valor', 'Moeda',
 class Table extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEditing = this.handleEditing.bind(this);
   }
 
-  handleClick(idExpense) {
+  componentDidUpdate(prevProps) {
+    const { editingExpense } = this.props;
+    if (editingExpense !== '' && editingExpense !== prevProps.editingExpense) {
+      return true;
+    }
+  }
+
+  handleEditing(idExpense) {
+    const { edtExpense } = this.props;
+    edtExpense(idExpense);
+  }
+
+  handleDelete(idExpense) {
     const { dltExpense } = this.props;
     dltExpense(idExpense);
   }
 
   render() {
-    const { expenses } = this.props;
+    const { expenses, editingExpense } = this.props;
     return (
       <table id="tbl" border="1">
         <thead>
@@ -42,11 +55,19 @@ class Table extends React.Component {
                 <td>{ convertedValue.toFixed(2) }</td>
                 <td>Real</td>
                 <td>
-                  <button type="button" data-testid="edit-btn">Editar</button>
+                  <button
+                    type="button"
+                    data-testid="edit-btn"
+                    onClick={ () => this.handleEditing(expense.id) }
+                    disabled={ editingExpense }
+                  >
+                    Editar
+                  </button>
                   <button
                     type="button"
                     data-testid="delete-btn"
-                    onClick={ () => this.handleClick(expense.id) }
+                    onClick={ () => this.handleDelete(expense.id) }
+                    disabled={ editingExpense }
                   >
                     Excluir
                   </button>
@@ -58,7 +79,8 @@ class Table extends React.Component {
         <tfoot>
           <tr>
             <td>
-              TOTAL
+              Quantidade de despesas:
+              {expenses.length}
             </td>
           </tr>
         </tfoot>
@@ -69,15 +91,19 @@ class Table extends React.Component {
 
 const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
+  editingExpense: state.wallet.expenseOnEditingId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   dltExpense: (expenseId) => dispatch(deleteExpense(expenseId)),
+  edtExpense: (expenseEditingId) => dispatch(editExpense(expenseEditingId)),
 });
 
 Table.propTypes = {
   expenses: propTypes.arrayOf(propTypes.object).isRequired,
   dltExpense: propTypes.func.isRequired,
+  edtExpense: propTypes.func.isRequired,
+  editingExpense: propTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);
