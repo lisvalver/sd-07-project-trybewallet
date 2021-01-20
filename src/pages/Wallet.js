@@ -96,7 +96,7 @@ class Wallet extends React.Component {
           >
             <option>Dinheiro</option>
             <option>Cartão de crédito</option>
-            <option>Cartão de débitoo</option>
+            <option>Cartão de débito</option>
           </select>
           Tag:
           <select
