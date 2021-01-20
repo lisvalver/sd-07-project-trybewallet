@@ -7,11 +7,16 @@ class Header extends React.Component {
     const { email, expenses } = this.props;
     return (
       <header>
-        <p data-testid="email-field">{ email }</p>
+        <p data-testid="email-field">
+          Email:
+          {' '}
+          { email }
+        </p>
         <p data-testid="total-field">
+          Despesa Total: R$
+          {' '}
           {expenses.reduce((acc, expense) => {
             const { currency, exchangeRates, value } = expense;
-
             const exchangeRate = exchangeRates[currency].ask;
             const costInBRL = exchangeRate * value;
 
