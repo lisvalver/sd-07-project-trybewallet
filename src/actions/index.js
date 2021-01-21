@@ -28,6 +28,17 @@ export const userRemove = (id) => ({
   id,
 });
 
+export const userEdit = (index, isEditing) => ({
+  type: types.USER_EDIT,
+  isEditing,
+  index,
+});
+
+export const userIsEditing = (newValues) => ({
+  type: types.USER_IS_EDITING,
+  newValues,
+});
+
 export function fetchCurrency() {
   return async (dispatch) => {
     const currencyApi = await getCurrency();

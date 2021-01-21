@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   currencies: [],
   expenses: [],
   sum: 0,
+  isEditing: false,
+  editIndice: '',
 };
 
 const idd = -1;
@@ -34,6 +36,26 @@ export default function Wallet(state = INITIAL_STATE, action) {
   case types.USER_REMOVE: {
     return {
       ...state, expenses: newState,
+    };
+  }
+  case types.USER_EDIT: {
+    return {
+      ...state,
+      isEditing: action.isEditing,
+      editIndice: action.index,
+    };
+  }
+  case types.USER_IS_EDITING: {
+    const indice = state.editIndice;
+    const prevValues = [...state.expenses];
+    prevValues[indice] = { ...action.newValues,
+      exchangeRates: state.expenses[indice].exchangeRates };
+    console.log(prevValues);
+    return {
+      ...state,
+      expenses: [
+        ...prevValues,
+      ],
     };
   }
   default: {

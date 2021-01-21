@@ -4,6 +4,8 @@ const types = {
   USER_CURRENCIES: 'USER_CURRENCIES',
   USER_VALUE: 'USER_VALUE',
   USER_REMOVE: 'USER_REMOVE',
+  USER_IS_EDITING: 'USER_IS_EDITING',
+  USER_EDIT: 'USER_EDIT',
 };
 
 export default types;

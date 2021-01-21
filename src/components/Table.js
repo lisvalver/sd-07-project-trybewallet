@@ -1,9 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { userRemove } from '../actions/index';
+import { userRemove, userEdit } from '../actions/index';
 
 const Table = () => {
   const expenses = useSelector((expense) => expense.wallet);
+
+  const { isEditing } = expenses;
 
   const dispatch = useDispatch();
 
@@ -24,7 +26,7 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {expenses.expenses.map((userExpense) => (
+          {expenses.expenses.map((userExpense, index) => (
             <tr key={ userExpense.id }>
               <td>{userExpense.description}</td>
               <td>{userExpense.method}</td>
@@ -32,28 +34,31 @@ const Table = () => {
               <td data-testid="value-input">{userExpense.value}</td>
               <td>{userExpense.exchangeRates[userExpense.currency].name}</td>
               <td>
-                {parseFloat(userExpense.exchangeRates[userExpense.currency].ask)
-                  .toFixed(2)}
+                {parseFloat(
+                  userExpense.exchangeRates[userExpense.currency].ask,
+                ).toFixed(2)}
               </td>
               <td>
-                {((userExpense.exchangeRates[userExpense.currency].ask)
-                * (userExpense.value)).toFixed(2)}
+                {(
+                  userExpense.exchangeRates[userExpense.currency].ask
+                    * userExpense.value
+                ).toFixed(2)}
               </td>
               <td>Real</td>
               <td>
+                <button
+                  type="button"
+                  data-testid="edit-btn"
+                  onClick={ () => dispatch(userEdit(index, !isEditing)) }
+                >
+                  Editar despesa
+                </button>
                 <button
                   type="button"
                   data-testid="delete-btn"
                   onClick={ () => dispatch(userRemove(userExpense.id)) }
                 >
                   Apagar
-                </button>
-                <button
-                  type="button"
-                  data-testid="edit-btn"
-                  onClick={ () => dispatch(userRemove(userExpense.id)) }
-                >
-                  Editar despesa
                 </button>
               </td>
             </tr>
