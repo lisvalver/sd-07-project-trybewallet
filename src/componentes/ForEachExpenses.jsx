@@ -8,7 +8,7 @@ class ForEachExpenses extends React.Component {
     super(props);
     this.delLine = this.delLine.bind(this);
   }
-  
+
   delLine({ target }) {
     const { expenses, deletar } = this.props;
     deletar(expenses[target.id]);
