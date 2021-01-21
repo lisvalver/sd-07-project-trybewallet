@@ -411,7 +411,10 @@ describe('7 - [BÔNUS] Crie um botão para editar uma despesa da tabela contendo
     userEvent.selectOptions(tagInput, 'Trabalho');
     userEvent.type(descriptionInput, 'Cem dólares canadenses');
 
+    console.log('antes dao fireEvent');
     fireEvent.click(editButton);
+
+    console.log('Depois dao fireEvent');
 
     await waitFor(() => {
       expect(

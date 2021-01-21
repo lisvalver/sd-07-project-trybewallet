@@ -60,11 +60,12 @@ class Wallet extends React.Component {
   }
 
   editedExpense() {
-    const { edittingExpense, target } = this.props;
+    const { edittingExpense, target, curr, currencies} = this.props;
+    this.setState({ exchangeRates: currencies }, () => {
     const { convertedValue, id, ...rest } = this.state;
-    const paylaod = { target, ...rest };
-    console.log(target);
+    const paylaod = { id: target, ...rest, currency: curr };
     edittingExpense(paylaod, target);
+  });
   }
 
   saveStateInTheStore() {
