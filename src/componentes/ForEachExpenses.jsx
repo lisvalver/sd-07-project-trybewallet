@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteExpense, setConvertedValues } from '../actions';
+import { deleteExpense } from '../actions';
 
 class ForEachExpenses extends React.Component {
   constructor(props) {
@@ -14,16 +14,6 @@ class ForEachExpenses extends React.Component {
     const { expenses, deletar } = this.props
     deletar(expenses[target.id])
   }
-
-  // componentDidMount() {
-  //   const { newConvertedValues, exchangeRates, currency, isFetching } = this.props;
-
-  //   if(isFetching === false) {
-  //     const convertedValue = Math.round(exchangeRates[currency].ask * 100) / 100;
-  //     console.log(convertedValue);
-  //     newConvertedValues(convertedValue);
-  //   }
-  // }
 
   render() {
     const { expense } = this.props;
@@ -68,7 +58,6 @@ ForEachExpenses.propTypes = ({
 }).isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
-  // newConvertedValues: (convertedValue) => dispatch(setConvertedValues(convertedValue)),
   deletar: (objOfExpenseToDelet) => dispatch(deleteExpense(objOfExpenseToDelet)),
 });
 

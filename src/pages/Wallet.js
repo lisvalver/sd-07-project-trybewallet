@@ -22,7 +22,6 @@ class Wallet extends React.Component {
     this.handleEvent = this.handleEvent.bind(this);
     this.addExpenses = this.addExpenses.bind(this);
     this.saveStateInTheStore = this.saveStateInTheStore.bind(this);
-
     this.settandoValorConvertido = this.settandoValorConvertido.bind(this);
   }
 
@@ -31,15 +30,13 @@ class Wallet extends React.Component {
     getAPI();
   }
 
-  handleEvent({ target }) {
-    const { name, value } = target;
-    this.setState({ [name]: value });
-  }
-
-  saveStateInTheStore() {
-    const { convertedValue, ...rest } = this.state;
-    const { addingExpenses } = this.props;
-    addingExpenses(rest);
+  settandoValorConvertido() {
+    const { newConvertedValues } = this.props;
+    const { exchangeRates, currency, value } = this.state;
+    console.log(exchangeRates);
+    const convertedValue = (parseFloat(exchangeRates[currency].ask) * value).toFixed(2);
+    console.log(convertedValue);
+    newConvertedValues(convertedValue);
   }
 
   addExpenses() {
@@ -49,37 +46,37 @@ class Wallet extends React.Component {
     getAPI();
     const moeda = curr;
     const moedas = currencies;
-    // const newvalue = parseInt(valueTotal, 10) + parseInt(value, 10);
     const newId = parseInt(id, 10);
     this.setState({ currency: moeda });
-    // this.setState({ valueTotal: `${newvalue}` });
     this.setState({ id: newId + 1 });
-    this.setState({ exchangeRates: moedas }, () => { this.saveStateInTheStore(); setTimeout(() => { this.settandoValorConvertido(); }) });
-
+    this.setState({ exchangeRates: moedas }, () => {
+      this.saveStateInTheStore();
+      setTimeout(() => {
+        this.settandoValorConvertido();
+      });
+    });
   }
 
-  settandoValorConvertido() {
+  saveStateInTheStore() {
+    const { convertedValue, ...rest } = this.state;
+    const { addingExpenses } = this.props;
+    addingExpenses(rest);
+  }
 
-    const { newConvertedValues } = this.props;
-    const { exchangeRates, currency, value } = this.state;
-    console.log(exchangeRates)
-      const convertedValue = (parseFloat(exchangeRates[currency].ask) * value).toFixed(2);
-      console.log(convertedValue);
-      newConvertedValues(convertedValue);
+  handleEvent({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value });
   }
 
   render() {
-    const { email, valorConvertido } = this.props;
+    const { email, valorConvertido = 0 } = this.props;
     const { description, value, currency, method, tag } = this.state;
 
     return (
       <div>
         <header>
           <h3 data-testid="email-field">{ email }</h3>
-          
-
-          <h4 data-testid="total-field">{ valorConvertido ? valorConvertido : 0 }</h4>
-
+          <h4 data-testid="total-field">{ valorConvertido }</h4>
           <h4 data-testid="header-currency-field">{ currency }</h4>
         </header>
         <form>
@@ -140,10 +137,12 @@ Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   getAPI: PropTypes.func.isRequired,
   curr: PropTypes.number.isRequired,
+  valorConvertido: PropTypes.string.isRequired,
   currencies: PropTypes.objectOf(
     PropTypes.object,
   ).isRequired,
   addingExpenses: PropTypes.func.isRequired,
+  newConvertedValues: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

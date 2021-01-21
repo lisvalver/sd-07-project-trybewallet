@@ -51,8 +51,6 @@ export const deleteExpense = (payload) => ({
   payload,
 });
 
-
-
 export function fetchMoedaAPI() {
   return (dispatch) => {
     dispatch(requestMoeda());
