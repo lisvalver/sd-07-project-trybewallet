@@ -2,6 +2,7 @@ export const ADD_CUREENCIES = 'ADD_CURRENCIES';
 export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const UPDATE_EXPENSE = 'UPDATE_EXPENSE';
 
 export const addCurrencies = (currencies) => (
   { type: ADD_CUREENCIES, currencies }
@@ -17,4 +18,8 @@ export const addExpense = (expenses) => (
 
 export const deletExpense = (expense) => (
   { type: DELETE_EXPENSE, expense }
+);
+
+export const updateExpense = (expenses) => (
+  { type: UPDATE_EXPENSE, expenses }
 );

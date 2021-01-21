@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { deletExpense as deletExpenses } from '../actions/wallet.action';
+import { deletExpense as deletExpenses, editExpense } from '../actions/wallet.action';
 
 class Table extends React.Component {
   constructor() {
@@ -13,6 +13,12 @@ class Table extends React.Component {
     const { deletExpense, expenses } = this.props;
     const newExpenses = expenses.filter((expense) => expense.id !== expenseToRemove.id);
     deletExpense(newExpenses);
+  }
+
+  handleEdit(expenseToEdit) {
+    const { editExpense, expenses } = this.props;
+    const expenseEdit = expenses.filter((expense) => expense.id === expenseToEdit.id);
+    editExpense(expenseEdit);
   }
 
   render() {
@@ -28,7 +34,7 @@ class Table extends React.Component {
           <th>Câmbio utilizado</th>
           <th>Valor convertido</th>
           <th>Moeda de conversão</th>
-          <th>Editar/Excluir</th>
+          <th>Excluir/Editar</th>
         </tr>
         <tbody>
           {
@@ -57,8 +63,18 @@ class Table extends React.Component {
                     data-testid="delete-btn"
                     type="button"
                     onClick={ () => this.handleRemove(expense) }
+                    className="btn-remove"
                   >
                     Remover
+                  </button>
+                  -
+                  <button
+                    data-testid="edit-btn"
+                    type="button"
+                    onClick={ () => this.handleRemove(expense) }
+                    className="btn-edit"
+                  >
+                    Editar
                   </button>
                 </td>
               </tr>
@@ -77,11 +93,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   deletExpense: (expense) => dispatch(deletExpenses(expense)),
+  editExpense: (expense) => dispatch(editExpense(expense)),
 });
 
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   deletExpense: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

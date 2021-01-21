@@ -152,12 +152,14 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  isEdit: state.wallet.isEdit,
 });
 
 WalletFunction.propTypes = {
   currencies: PropTypes.objectOf.isRequired,
   apiFetch: PropTypes.func.isRequired,
   addExp: PropTypes.func.isRequired,
+  isEdit: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletFunction);

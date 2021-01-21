@@ -4,12 +4,14 @@ import {
   ADD_EXPENSE,
   DELETE_EXPENSE,
   EDIT_EXPENSE,
+  UPDATE_EXPENSE,
 } from '../actions/wallet.action';
 
 const INITILA_STATE = {
   currencies: [],
   expenses: [],
   totalExpense: 0,
+  isEdit: false,
 };
 
 export default function (state = INITILA_STATE, action) {
@@ -34,6 +36,13 @@ export default function (state = INITILA_STATE, action) {
   case EDIT_EXPENSE:
     return {
       ...state,
+      updateExpense: [...action.expense],
+      isEdit: true,
+    };
+  case UPDATE_EXPENSE:
+    return {
+      ...state,
+      isEdit: false,
     };
   default:
     return state;
