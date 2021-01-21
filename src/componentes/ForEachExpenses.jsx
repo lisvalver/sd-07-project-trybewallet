@@ -5,14 +5,13 @@ import { deleteExpense } from '../actions';
 
 class ForEachExpenses extends React.Component {
   constructor(props) {
-    super(props)
-    
+    super(props);
     this.delLine = this.delLine.bind(this);
   }
 
-  delLine({ target }) { 
-    const { expenses, deletar } = this.props
-    deletar(expenses[target.id])
+  delLine({ target }) {
+    const { expenses, deletar } = this.props;
+    deletar(expenses[target.id]);
   }
 
   render() {
@@ -38,7 +37,14 @@ class ForEachExpenses extends React.Component {
         <td>{ (value * exchangeRates[currency].ask).toFixed(2) }</td>
         <td>Real</td>
         <td>
-          <button id={ id } data-testid="delete-btn" onClick={ this.delLine }>Deletar</button>
+          <button
+            type="button"
+            id={ id }
+            data-testid="delete-btn"
+            onClick={ this.delLine }
+          >
+            Deletar
+          </button>
         </td>
       </tr>
     );
