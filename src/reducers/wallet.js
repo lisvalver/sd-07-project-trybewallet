@@ -4,7 +4,9 @@ import { REQUEST_MOEDA,
   CHOOSED_CURRENCY,
   ADD_EXPENSES,
   DELET_EXPENSES,
-  SET_CONVERTED_VALUES } from '../actions/index';
+  SET_CONVERTED_VALUES,
+  EDIT_EXPENSES,
+  DISPATCH_EDIT_EXPENSES } from '../actions/index';
 
 const INICIAL_STATE = {
   currencies: [],
@@ -12,6 +14,8 @@ const INICIAL_STATE = {
   isFetching: false,
   curr: 'BRL',
   valorConvertido: 0,
+  editing: false,
+  target: 0,
 };
 
 const userWallet = (state = INICIAL_STATE, action) => {
@@ -30,7 +34,6 @@ const userWallet = (state = INICIAL_STATE, action) => {
       expenses: [...state.expenses, action.payload],
     };
   case SET_CONVERTED_VALUES:
-    console.log(action.payload);
     return {
       ...state,
       valorConvertido: parseFloat(state.valorConvertido) + parseFloat(action.payload),
@@ -39,6 +42,19 @@ const userWallet = (state = INICIAL_STATE, action) => {
     return {
       ...state,
       expenses: state.expenses.filter((itemAtual) => itemAtual !== action.payload),
+    };
+  case EDIT_EXPENSES:
+    return {
+      ...state,
+      editing: true,
+      target: action.id,
+    };
+  case DISPATCH_EDIT_EXPENSES:
+    const id = action.id;
+    return {
+      ...state,
+      editing: false,
+      expenses: state.expenses.map((expense) =>  expense.id === id ? action.payload : expense),
     };
   default:
     return state;

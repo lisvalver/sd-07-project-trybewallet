@@ -1,17 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { deleteExpense } from '../actions';
+import { deleteExpense, editExpenses } from '../actions';
 
 class ForEachExpenses extends React.Component {
   constructor(props) {
     super(props);
     this.delLine = this.delLine.bind(this);
+    this.editLine = this.editLine.bind(this);
   }
 
-  delLine({ target }) {
+  delLine(id) {
     const { expenses, deletar } = this.props;
-    deletar(expenses[target.id]);
+    deletar(expenses[id]);
+  }
+
+  editLine(id) {
+    const { editar } = this.props;
+    editar(id);
   }
 
   render() {
@@ -41,9 +47,17 @@ class ForEachExpenses extends React.Component {
             type="button"
             id={ id }
             data-testid="delete-btn"
-            onClick={ this.delLine }
+            onClick={ () => this.delLine(id) }
           >
             Deletar
+          </button>
+          <button
+            type="button"
+            id={ id }
+            data-testid="edit-btn"
+            onClick={ () => this.editLine(id) }
+          >
+            Editar
           </button>
         </td>
       </tr>
@@ -65,6 +79,7 @@ ForEachExpenses.propTypes = ({
 
 const mapDispatchToProps = (dispatch) => ({
   deletar: (objOfExpenseToDelet) => dispatch(deleteExpense(objOfExpenseToDelet)),
+  editar: (id) => dispatch(editExpenses(id)),
 });
 
 const mapStateToProps = (state) => ({

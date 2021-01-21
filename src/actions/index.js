@@ -6,6 +6,8 @@ export const CHOOSED_CURRENCY = 'CHOOSED_CURRENCY';
 export const ADD_EXPENSES = 'ADD_EXPENSES';
 export const SET_CONVERTED_VALUES = 'SET_CONVERTED_VALUES';
 export const DELET_EXPENSES = 'DELET_EXPENSES';
+export const EDIT_EXPENSES = 'EDIT_EXPENSES';
+export const DISPATCH_EDIT_EXPENSES = 'DISPATCH_EDIT_EXPENSES';
 
 export const currentLogin = (user) => ({
   type: 'LOGIN_OK',
@@ -49,6 +51,17 @@ export const setConvertedValues = (payload) => ({
 export const deleteExpense = (payload) => ({
   type: 'DELET_EXPENSES',
   payload,
+});
+
+export const editExpenses = (id) => ({
+  type: 'EDIT_EXPENSES',
+  id,
+});
+
+export const editExpensesDispatch = (payload, id) => ({
+  type: 'DISPATCH_EDIT_EXPENSES',
+  payload,
+  id,
 });
 
 export function fetchMoedaAPI() {

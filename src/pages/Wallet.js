@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchMoedaAPI, addExpensesToStore, setConvertedValues } from '../actions';
+import { fetchMoedaAPI,
+  addExpensesToStore,
+  setConvertedValues,
+  editExpensesDispatch } from '../actions';
 import CoinOption from '../componentes/CoinOption';
 import Table from '../componentes/Table';
 
@@ -23,6 +26,7 @@ class Wallet extends React.Component {
     this.addExpenses = this.addExpenses.bind(this);
     this.saveStateInTheStore = this.saveStateInTheStore.bind(this);
     this.settandoValorConvertido = this.settandoValorConvertido.bind(this);
+    this.editedExpense = this.editedExpense.bind(this);
   }
 
   componentDidMount() {
@@ -33,9 +37,7 @@ class Wallet extends React.Component {
   settandoValorConvertido() {
     const { newConvertedValues } = this.props;
     const { exchangeRates, currency, value } = this.state;
-    console.log(exchangeRates);
     const convertedValue = (parseFloat(exchangeRates[currency].ask) * value).toFixed(2);
-    console.log(convertedValue);
     newConvertedValues(convertedValue);
   }
 
@@ -57,6 +59,14 @@ class Wallet extends React.Component {
     });
   }
 
+  editedExpense() {
+    const { edittingExpense, target } = this.props;
+    const { convertedValue, id, ...rest } = this.state;
+    const paylaod = { target, ...rest };
+    console.log(target);
+    edittingExpense(paylaod, target);
+  }
+
   saveStateInTheStore() {
     const { convertedValue, ...rest } = this.state;
     const { addingExpenses } = this.props;
@@ -69,14 +79,14 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { email, valorConvertido = 0 } = this.props;
+    const { email, valorConvertido = 0, editing } = this.props;
     const { description, value, currency, method, tag } = this.state;
 
     return (
       <div>
         <header>
           <h3 data-testid="email-field">{ email }</h3>
-          <h4 data-testid="total-field">{ valorConvertido }</h4>
+          <h4 data-testid="total-field">{ (valorConvertido.toFixed(2)) }</h4>
           <h4 data-testid="header-currency-field">{ currency }</h4>
         </header>
         <form>
@@ -125,7 +135,22 @@ class Wallet extends React.Component {
             <option>Transporte</option>
             <option>Saúde</option>
           </select>
-          <button type="button" onClick={ this.addExpenses }>Adicionar despesa</button>
+          {
+            editing ?
+              <button
+                type="button"
+                onClick={ this.editedExpense }
+              >
+                Editar despesa
+              </button>
+            :
+              <button
+                type="button"
+                onClick={ this.addExpenses }
+              >
+                Adicionar despesa
+              </button>
+          }
         </form>
         <Table />
       </div>
@@ -143,12 +168,14 @@ Wallet.propTypes = {
   ).isRequired,
   addingExpenses: PropTypes.func.isRequired,
   newConvertedValues: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   getAPI: () => dispatch(fetchMoedaAPI()),
   newConvertedValues: (convertedValue) => dispatch(setConvertedValues(convertedValue)),
   addingExpenses: (payload) => dispatch(addExpensesToStore(payload)),
+  edittingExpense: (payload, id) => dispatch(editExpensesDispatch(payload, id)),
 });
 
 const mapStateToProps = (state) => ({
@@ -159,6 +186,8 @@ const mapStateToProps = (state) => ({
   curr: state.wallet.curr,
   valorConvertido: state.wallet.valorConvertido,
   exchangeRates: state.wallet.exchangeRates,
+  editing: state.wallet.editing,
+  target: state.wallet.target,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
