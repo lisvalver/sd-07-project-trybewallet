@@ -49,7 +49,8 @@ export default function Wallet(state = INITIAL_STATE, action) {
     const indice = state.editIndice;
     const prevValues = [...state.expenses];
     prevValues[indice] = { ...action.newValues,
-      exchangeRates: state.expenses[indice].exchangeRates };
+      exchangeRates: state.expenses[indice].exchangeRates,
+      id: state.expenses[indice].id };
     console.log(prevValues);
     return {
       ...state,

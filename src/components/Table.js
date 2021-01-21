@@ -31,7 +31,7 @@ const Table = () => {
               <td>{userExpense.description}</td>
               <td>{userExpense.method}</td>
               <td>{userExpense.tag}</td>
-              <td data-testid="value-input">{userExpense.value}</td>
+              <td>{userExpense.value}</td>
               <td>{userExpense.exchangeRates[userExpense.currency].name}</td>
               <td>
                 {parseFloat(
@@ -51,7 +51,7 @@ const Table = () => {
                   data-testid="edit-btn"
                   onClick={ () => dispatch(userEdit(index, !isEditing)) }
                 >
-                  Editar despesa
+                  Editar
                 </button>
                 <button
                   type="button"
