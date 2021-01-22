@@ -15,7 +15,6 @@ class WalletFunction extends React.Component {
         currency: 'USD',
         value: 0,
         exchangeRates: {},
-        exPed: {},
       },
     };
 
