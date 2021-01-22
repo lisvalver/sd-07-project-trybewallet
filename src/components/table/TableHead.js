@@ -5,15 +5,15 @@ class TableHead extends React.Component {
     return (
       <thead>
         <tr>
-          <th key="Descrição">Descrição</th>
-          <th key="Tag">Tag</th>
-          <th key="Método de pagamento">Método de pagamento</th>
-          <th key="Valor">Valor</th>
-          <th key="Moeda">Moeda</th>
-          <th key="Câmbio utilizado">Câmbio utilizado</th>
-          <th key="Valor convertido">Valor convertido</th>
-          <th key="Moeda de conversão">Moeda de conversão</th>
-          <th key="Editar/Excluir">Editar/Excluir</th>
+          <th>Descrição</th>
+          <th>Tag</th>
+          <th>Método de pagamento</th>
+          <th>Valor</th>
+          <th>Moeda</th>
+          <th>Câmbio utilizado</th>
+          <th>Valor convertido</th>
+          <th>Moeda de conversão</th>
+          <th>Editar/Excluir</th>
         </tr>
       </thead>
     );
