@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { deleteExpense } from '../actions';
 
 class Table extends Component {
   render() {
-    const { expenses } = this.props;
+    const { expenses, deleteExpenseFromStore, handleEditClick } = this.props;
     return (
       <table className="table-container">
         <thead>
@@ -31,12 +32,24 @@ class Table extends Component {
                 <td>{expense.method}</td>
                 <td>{expense.value}</td>
                 <td>{exchanteRate.name}</td>
-                <td>{roundValue(exchanteRate.ask)}</td>
+                <td>{roundValue(exchanteRate.ask).toFixed(2)}</td>
                 <td>{roundValue(expense.value * exchanteRate.ask)}</td>
                 <td>Real</td>
                 <td>
-                  <button type="button">Edit</button>
-                  <button type="button">Delete</button>
+                  <button
+                    type="button"
+                    data-testid="edit-btn"
+                    onClick={ () => handleEditClick(expense) }
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="delete-btn"
+                    onClick={ () => deleteExpenseFromStore(expense) }
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             );
@@ -52,6 +65,14 @@ const mapStateToProps = (state) => ({
   expenses: state.wallet.expenses,
 });
 
-export default connect(mapStateToProps)(Table);
+const mapDispatchToProps = (dispatch) => ({
+  deleteExpenseFromStore: (expense) => dispatch(deleteExpense(expense)),
+});
 
-Table.propTypes = { expenses: PropTypes.arrayOf(PropTypes.object).isRequired };
+export default connect(mapStateToProps, mapDispatchToProps)(Table);
+
+Table.propTypes = {
+  deleteExpenseFromStore: PropTypes.func.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleEditClick: PropTypes.func.isRequired,
+};
