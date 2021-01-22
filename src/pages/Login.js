@@ -1,4 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -15,7 +19,7 @@ class Login extends React.Component {
   inputValidate() {
     const { loginEmail, loginPassword } = this.state;
     const minValue = 6;
-    const regexEmail = /^\S+@\S+$/;
+    const regexEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 
     const boolEmail = regexEmail.test(String(loginEmail).toLowerCase());
     const boolPassword = loginPassword.length >= minValue;
@@ -32,6 +36,7 @@ class Login extends React.Component {
 
   render() {
     const { buttonDisabled, loginEmail, loginPassword } = this.state;
+    const { doLogin } = this.props;
     return (
       <div>
         Login
@@ -60,18 +65,28 @@ class Login extends React.Component {
               onChange={ ({ target }) => this.inputHandle(target) }
             />
           </label>
-
-          <button
-            type="button"
-            id="enterButton"
-            disabled={ buttonDisabled }
-          >
-            Entrar
-          </button>
+          <Link to="/carteira">
+            <button
+              type="button"
+              id="enterButton"
+              disabled={ buttonDisabled }
+              onClick={ () => doLogin(loginEmail) }
+            >
+              Entrar
+            </button>
+          </Link>
         </form>
       </div>
     );
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  doLogin: (email) => dispatch(login(email)),
+});
+
+Login.propTypes = {
+  doLogin: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
