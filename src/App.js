@@ -9,7 +9,7 @@ function App() {
       Hello, TrybeWallet!
       <Switch>
         <Route exact path="/"><Login /></Route>
-        <Route path="/wallet"><Wallet /></Route>
+        <Route path="/carteira"><Wallet /></Route>
       </Switch>
     </div>
   );
