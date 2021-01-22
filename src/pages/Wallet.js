@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../Components/Header';
 import WalletFunction from '../Components/WalletFunction';
+import WalletEdit from '../Components/WalletEdit';
 import Table from '../Components/WalletTable';
 import '../App.css';
 
@@ -17,7 +18,7 @@ class Wallet extends React.Component {
 
   render() {
     const { cambio } = this.state;
-    const { email, totalExpenses } = this.props;
+    const { email, totalExpenses, isEdit } = this.props;
     const base = 10;
     const result = parseFloat(totalExpenses, base).toFixed(2);
     return (
@@ -28,7 +29,7 @@ class Wallet extends React.Component {
           cambio={ cambio }
         />
         <div className="body-wallet">
-          <WalletFunction />
+          {isEdit === true ? <WalletEdit /> : <WalletFunction />}
           <Table />
         </div>
       </div>
@@ -39,10 +40,12 @@ class Wallet extends React.Component {
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   totalExpenses: PropTypes.number.isRequired,
+  isEdit: PropTypes.bool.isRequired,
 };
 const mapStateToProps = (state) => ({
   email: state.user.email,
   totalExpenses: state.wallet.totalExpense,
+  isEdit: state.wallet.isEdit,
 });
 
 export default connect(mapStateToProps)(Wallet);

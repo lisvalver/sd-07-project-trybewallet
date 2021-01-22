@@ -12,11 +12,13 @@ const INITILA_STATE = {
   expenses: [],
   totalExpense: 0,
   isEdit: false,
+  updateEx: {},
 };
 
 export default function (state = INITILA_STATE, action) {
-  const { type, currencies } = action;
+  const { type, currencies, editEx, upEx } = action;
   const { totalExpense } = { ...state };
+  console.log(action);
   switch (type) {
   case ADD_CUREENCIES:
     return { ...state, currencies };
@@ -36,12 +38,20 @@ export default function (state = INITILA_STATE, action) {
   case EDIT_EXPENSE:
     return {
       ...state,
-      updateExpense: [...action.expense],
+      updateEx: editEx,
       isEdit: true,
     };
   case UPDATE_EXPENSE:
+    console.log(action);
     return {
       ...state,
+      expenses: [...state.expenses].map((expense) => {
+        console.log(editEx);
+        if (expense.id === upEx.id) {
+          return upEx;
+        }
+        return expense;
+      }),
       isEdit: false,
     };
   default:

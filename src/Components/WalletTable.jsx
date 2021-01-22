@@ -16,9 +16,9 @@ class Table extends React.Component {
   }
 
   handleEdit(expenseToEdit) {
-    const { editExpense, expenses } = this.props;
-    const expenseEdit = expenses.filter((expense) => expense.id === expenseToEdit.id);
-    editExpense(expenseEdit);
+    const { editExpenses } = this.props;
+    // const expenseEdit = expenses.filter((expense) => expense.id === expenseToEdit.id);
+    editExpenses(expenseToEdit);
   }
 
   render() {
@@ -71,7 +71,7 @@ class Table extends React.Component {
                   <button
                     data-testid="edit-btn"
                     type="button"
-                    onClick={ () => this.handleRemove(expense) }
+                    onClick={ () => this.handleEdit(expense) }
                     className="btn-edit"
                   >
                     Editar
@@ -93,13 +93,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   deletExpense: (expense) => dispatch(deletExpenses(expense)),
-  editExpense: (expense) => dispatch(editExpense(expense)),
+  editExpenses: (expense) => dispatch(editExpense(expense)),
 });
 
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   deletExpense: PropTypes.func.isRequired,
-  editExpense: PropTypes.func.isRequired,
+  editExpenses: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

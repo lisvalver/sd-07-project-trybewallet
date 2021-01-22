@@ -2,26 +2,30 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import currenciAPI from '../actions/currenceAPI';
-import { addExpense, updateExpense, editExUpdate } from '../actions/wallet.action';
+import { updateExpense } from '../actions/wallet.action';
+import '../App.css';
 
-class WalletFunction extends React.Component {
+class WalletEdit extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      expenses: {
-        method: 'Dinheiro',
-        tag: 'Lazer',
-        description: '',
-        currency: 'USD',
-        value: 0,
-        exchangeRates: {},
-        exPed: {},
-      },
-    };
+    const { updateEx } = this.props;
+    if (Object.keys(updateEx).length > 0) {
+      this.state = {
+        editState: {
+          value: updateEx.value,
+          currency: updateEx.currency,
+          method: updateEx.method,
+          tag: updateEx.tag,
+          description: updateEx.description,
+          id: updateEx.id,
+          exchangeRates: updateEx.exchangeRates,
+        },
+      };
+    }
 
-    this.handleFetch = this.handleFetch.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleInput = this.handleInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFetch = this.handleFetch.bind(this);
   }
 
   componentDidMount() { this.handleFetch(); }
@@ -35,37 +39,38 @@ class WalletFunction extends React.Component {
     });
   }
 
-  async handleChange(event) {
-    event.preventDefault();
-    const { addExp } = this.props;
-    const { handleFetch } = this;
-    await handleFetch();
-    const { expenses } = this.state;
-    addExp(expenses);
-    this.setState({
-      expenses: {
-        method: 'Dinheiro',
-        tag: 'Alimentação',
-        description: '',
-        currency: 'USD',
-        value: 0,
-        exchangeRates: { ...expenses.exchangeRates },
-      } });
+  handleChange(name, newValue) {
+    this.setState((state) => ({ ...state,
+      editState: { ...state.editState, [name]: newValue } }));
   }
 
-  handleInput(label, newValue) {
-    this.setState((state) => ({ ...state,
-      expenses: { ...state.expenses, [label]: newValue } }));
+  async handleSubmit(event) {
+    event.preventDefault();
+    const { updateExf } = this.props;
+    const { editState } = this.state;
+    const { expenses } = this.state;
+    const { handleFetch } = this;
+    await handleFetch();
+    updateExf(editState);
+    this.setState({
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      description: '',
+      currency: 'USD',
+      value: 0,
+      id: '',
+      exchangeRates: { ...expenses.exchangeRates },
+    });
   }
 
   render() {
+    const { editState } = this.state;
+    const { value, description, currency, method, tag } = editState;
     const { currencies } = this.props;
-    const { expenses } = this.state;
-    const { value, method, description, tag, currency } = expenses;
     const filterCurrency = Object.keys(currencies).filter((acc) => acc !== 'USDT');
     return (
       <div className="container-function">
-        <form onSubmit={ this.handleChange }>
+        <form onSubmit={ this.handleSubmit }>
           <label htmlFor="valor">
             Valor:
             <input
@@ -73,7 +78,7 @@ class WalletFunction extends React.Component {
               id="valor"
               className="input-function"
               data-testid="value-input"
-              onChange={ (event) => this.handleInput('value', event.target.value) }
+              onChange={ (event) => this.handleChange('value', event.target.value) }
               value={ value }
             />
           </label>
@@ -83,7 +88,7 @@ class WalletFunction extends React.Component {
               type="text"
               id="descricao"
               data-testid="description-input"
-              onChange={ (event) => this.handleInput('description', event.target.value) }
+              onChange={ (event) => this.handleChange('description', event.target.value) }
               value={ description }
             />
           </label>
@@ -93,7 +98,7 @@ class WalletFunction extends React.Component {
               id="moeda"
               data-testid="currency-input"
               value={ currency }
-              onChange={ (event) => this.handleInput('currency', event.target.value) }
+              onChange={ (event) => this.handleChange('currency', event.target.value) }
             >
               {filterCurrency.map((curr) => (
                 <option
@@ -111,7 +116,7 @@ class WalletFunction extends React.Component {
             <select
               id="pagamento"
               data-testid="method-input"
-              onChange={ (event) => this.handleInput('method', event.target.value) }
+              onChange={ (event) => this.handleChange('method', event.target.value) }
               value={ method }
             >
               <option value="null">  </option>
@@ -127,7 +132,7 @@ class WalletFunction extends React.Component {
               id="tag"
               data-testid="tag-input"
               value={ tag }
-              onChange={ (event) => this.handleInput('tag', event.target.value) }
+              onChange={ (event) => this.handleChange('tag', event.target.value) }
             >
               <option value="null"> </option>
               <option value="Alimentação"> Alimentação </option>
@@ -138,7 +143,7 @@ class WalletFunction extends React.Component {
             </select>
           </label>
           <button className="btn-wallet" type="submit">
-            Adicionar despesa
+            editar despesa
           </button>
         </form>
       </div>
@@ -146,25 +151,21 @@ class WalletFunction extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  apiFetch: () => dispatch(currenciAPI()),
-  addExp: (expenses) => dispatch(addExpense(expenses)),
-  editUpdate: (expense) => dispatch(updateExpense(expense)),
-  editExUpdate: (updateEx) => dispatch(editExUpdate(updateEx)),
-});
-
 const mapStateToProps = (state) => ({
-  currencies: state.wallet.currencies,
-  isEdit: state.wallet.isEdit,
   updateEx: state.wallet.updateEx,
+  currencies: state.wallet.currencies,
 });
 
-WalletFunction.propTypes = {
+const mapDispatchToProps = (dispatch) => ({
+  updateExf: (expense) => dispatch(updateExpense(expense)),
+  apiFetch: () => dispatch(currenciAPI()),
+});
+
+WalletEdit.propTypes = {
+  updateEx: PropTypes.objectOf.isRequired,
   currencies: PropTypes.objectOf.isRequired,
+  updateExf: PropTypes.func.isRequired,
   apiFetch: PropTypes.func.isRequired,
-  addExp: PropTypes.func.isRequired,
-  // pdateEx: PropTypes.objectOf.isRequired,
-  // editUpdate: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletFunction);
+export default connect(mapStateToProps, mapDispatchToProps)(WalletEdit);
