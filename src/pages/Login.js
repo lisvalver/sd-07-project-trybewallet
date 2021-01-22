@@ -1,8 +1,8 @@
 import React from 'react';
 
 class Login extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       buttonDisabled: true,
       loginEmail: '',
@@ -23,7 +23,7 @@ class Login extends React.Component {
     return !(boolEmail && boolPassword);
   }
 
-  inputHandle({name, value}) {
+  inputHandle({ name, value }) {
     this.setState({ [name]: value }, () => {
       const buttonDisabled = this.inputValidate();
       this.setState({ buttonDisabled });
@@ -39,32 +39,32 @@ class Login extends React.Component {
         <form>
           <label htmlFor="loginEmail">
             <input
-            type="email"
-            id="loginEmail"
-            name="loginEmail"
-            placeholder="Email"
-            data-testid="email-input"
-            value={loginEmail}
-            onChange={({target}) => this.inputHandle(target)}
+              type="email"
+              id="loginEmail"
+              name="loginEmail"
+              placeholder="Email"
+              data-testid="email-input"
+              value={ loginEmail }
+              onChange={ ({ target }) => this.inputHandle(target) }
             />
           </label>
-          
+
           <label htmlFor="loginPassword">
             <input
-            type="password"
-            id="loginPassword"
-            name="loginPassword"
-            placeholder="Password"
-            data-testid="password-input"
-            value={loginPassword}
-            onChange={({target}) => this.inputHandle(target)}
+              type="password"
+              id="loginPassword"
+              name="loginPassword"
+              placeholder="Password"
+              data-testid="password-input"
+              value={ loginPassword }
+              onChange={ ({ target }) => this.inputHandle(target) }
             />
           </label>
 
           <button
-          type="button"
-          id="enterButton"
-          disabled={buttonDisabled}
+            type="button"
+            id="enterButton"
+            disabled={ buttonDisabled }
           >
             Entrar
           </button>
