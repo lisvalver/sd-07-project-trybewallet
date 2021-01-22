@@ -85,8 +85,8 @@ const mapDispatchToProps = (dispatch) => ({
   doLogin: (email) => dispatch(login(email)),
 });
 
+export default connect(null, mapDispatchToProps)(Login);
+
 Login.propTypes = {
   doLogin: PropTypes.func.isRequired,
 };
-
-export default connect(null, mapDispatchToProps)(Login);
