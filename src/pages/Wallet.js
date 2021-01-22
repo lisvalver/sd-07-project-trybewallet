@@ -23,10 +23,10 @@ class Wallet extends React.Component {
     };
 
     this.handleEvent = this.handleEvent.bind(this);
-    this.addExpenses = this.addExpenses.bind(this);
+    this.addExpen = this.addExpen.bind(this);
     this.saveStateInTheStore = this.saveStateInTheStore.bind(this);
     this.settandoValorConvertido = this.settandoValorConvertido.bind(this);
-    this.editedExpense = this.editedExpense.bind(this);
+    this.editedExpen = this.editedExpen.bind(this);
   }
 
   componentDidMount() {
@@ -41,7 +41,7 @@ class Wallet extends React.Component {
     newConvertedValues(convertedValue);
   }
 
-  addExpenses() {
+  addExpen() {
     const { curr, currencies, getAPI } = this.props;
     const { id } = this.state;
 
@@ -59,13 +59,13 @@ class Wallet extends React.Component {
     });
   }
 
-  editedExpense() {
-    const { edittingExpense, target, curr, currencies} = this.props;
+  editedExpen() {
+    const { edittingExpense, target, curr, currencies } = this.props;
     this.setState({ exchangeRates: currencies }, () => {
-    const { convertedValue, id, ...rest } = this.state;
-    const paylaod = { id: target, ...rest, currency: curr };
-    edittingExpense(paylaod, target);
-  });
+      const { convertedValue, id, ...rest } = this.state;
+      const paylaod = { id: target, ...rest, currency: curr };
+      edittingExpense(paylaod, target);
+    });
   }
 
   saveStateInTheStore() {
@@ -137,20 +137,9 @@ class Wallet extends React.Component {
             <option>Saúde</option>
           </select>
           {
-            editing ?
-              <button
-                type="button"
-                onClick={ this.editedExpense }
-              >
-                Editar despesa
-              </button>
-            :
-              <button
-                type="button"
-                onClick={ this.addExpenses }
-              >
-                Adicionar despesa
-              </button>
+            editing
+              ? <button type="button" onClick={ this.editedExpen }>Editar despesa</button>
+              : <button type="button" onClick={ this.addExpen }>Adicionar despesa</button>
           }
         </form>
         <Table />
@@ -170,6 +159,8 @@ Wallet.propTypes = {
   addingExpenses: PropTypes.func.isRequired,
   newConvertedValues: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
+  target: PropTypes.number.isRequired,
+  edittingExpense: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

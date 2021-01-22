@@ -50,11 +50,15 @@ const userWallet = (state = INICIAL_STATE, action) => {
       target: action.id,
     };
   case DISPATCH_EDIT_EXPENSES:
-    const id = action.id;
     return {
       ...state,
       editing: false,
-      expenses: state.expenses.map((expense) =>  expense.id === id ? action.payload : expense),
+      expenses: state.expenses.map((expense) => {
+        if (expense.id === action.id) {
+          return action.payload;
+        }
+        return expense;
+      }),
     };
   default:
     return state;
