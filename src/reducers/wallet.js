@@ -9,6 +9,7 @@ const INITIAL_STATE = {
 };
 
 function wallet(state = INITIAL_STATE, action) {
+  const qualquerNome = [...state.expenses];
   switch (action.type) {
   case types.REQUEST_SUCCES:
     return {
@@ -36,6 +37,13 @@ function wallet(state = INITIAL_STATE, action) {
     return ({
       ...state,
       expenses: action.expenses,
+    });
+
+  case types.ADD_ACTION_FORM:
+    qualquerNome[action.expenses.id] = action.expenses;
+    return ({
+      ...state,
+      expenses: qualquerNome,
     });
   default:
     return state;

@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { addExpenses, fetchCurrence, deleteExpenses } from '../actions';
+import { addExpenses, fetchCurrence, deleteExpenses, addActionForm } from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
     super();
     this.state = {
       total: 0,
+      editExpense: false,
+      expenseEdit: {},
       form: {
         value: 0,
         description: '',
@@ -22,6 +24,8 @@ class Wallet extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.delExpenseFunc = this.delExpenseFunc.bind(this);
+    this.editForm = this.editForm.bind(this);
+    this.saveNewForm = this.saveNewForm.bind(this);
   }
 
   componentDidMount() {
@@ -29,9 +33,49 @@ class Wallet extends React.Component {
     getCurrence();
   }
 
+  editForm({ target: { id } }) {
+    this.setState((previousState) => ({
+      ...previousState,
+      editExpense: true,
+    }));
+    console.log(id);
+    const { expenses } = this.props;
+    console.log(expenses[id]);
+    this.setState((previousState) => {
+      const { value,
+        description,
+        currency,
+        method,
+        tag,
+        id: id2,
+      } = expenses[id];
+
+      return ({
+        ...previousState,
+        form: {
+          value,
+          description,
+          currency,
+          method,
+          tag,
+          id: id2,
+        },
+      });
+    });
+    const { editExpense } = this.state;
+    console.log(editExpense);
+  }
+
+  saveNewForm() {
+    this.setState((previousState) => ({
+      ...previousState,
+      editExpense: false,
+    }));
+  }
+
   async handleClick() {
-    const { getCurrence, addXablau, currencies } = this.props;
-    const { total } = this.state;
+    const { getCurrence, addXablau, currencies, editFormAction } = this.props;
+    const { total, editExpense } = this.state;
     console.log(currencies);
     await getCurrence();
     this.setState((previousState) => ({
@@ -42,7 +86,11 @@ class Wallet extends React.Component {
       },
     }));
     const { form } = this.state;
-    addXablau(form);
+    if (!editExpense) {
+      addXablau(form);
+    } else {
+      editFormAction(form);
+    }
     const valueConverted = form.value * currencies[form.currency].ask;
     const acum = parseFloat(total) + parseFloat(valueConverted);
     await this.setState((previouState) => ({
@@ -172,6 +220,12 @@ class Wallet extends React.Component {
           >
             Adicionar despesa
           </button>
+          <button
+            type="button"
+            onClick={ this.handleClick }
+          >
+            Editar despesa
+          </button>
         </form>
         <section>
           <table>
@@ -186,9 +240,8 @@ class Wallet extends React.Component {
               <th>Moeda de conversão</th>
               <th>Editar/Excluir</th>
             </tr>
-            {console.log(`expenses: >>>> ${expenses}`)}
-            {expenses.map((e) => (
-              <tr key={ e }>
+            {expenses.map((e, index) => (
+              <tr key={ index }>
                 <td>{e.description}</td>
                 <td>{e.tag}</td>
                 <td>{e.method}</td>
@@ -202,13 +255,16 @@ class Wallet extends React.Component {
                 <td>
                   <button
                     type="button"
+                    id={ index }
                     data-testid="edit-btn"
+                    onClick={ this.editForm }
                   >
                     Editar
                   </button>
                   <button
                     type="button"
                     data-testid="delete-btn"
+                    id={ index }
                     onClick={ this.delExpenseFunc }
                   >
                     Excluir
@@ -233,6 +289,7 @@ const mapDispatchToProps = (dispatch) => ({
   getCurrence: () => dispatch(fetchCurrence()),
   addXablau: (expenses) => dispatch(addExpenses(expenses)),
   delExpenseActions: (expenses) => dispatch(deleteExpenses(expenses)),
+  editFormAction: (expenses) => dispatch(addActionForm(expenses)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
@@ -240,6 +297,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
 Wallet.propTypes = {
   getCurrence: PropTypes.func.isRequired,
   addXablau: PropTypes.func.isRequired,
+  editFormAction: PropTypes.func.isRequired,
   delExpenseActions: PropTypes.func.isRequired,
   currencies: PropTypes.shape().isRequired,
   email: PropTypes.string.isRequired,

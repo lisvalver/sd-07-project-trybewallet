@@ -29,6 +29,11 @@ export const deleteExpenses = (expenses) => ({
   expenses,
 });
 
+export const addActionForm = (expenses) => ({
+  type: types.ADD_ACTION_FORM,
+  expenses,
+});
+
 export const fetchCurrence = () => async (dispatch) => {
   try {
     dispatch(fetchingApi);
