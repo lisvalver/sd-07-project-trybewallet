@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveEmail } from '../actions';
@@ -11,11 +11,18 @@ class Login extends React.Component {
     this.handlerSubmit = this.handlerSubmit.bind(this);
 
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       disabled: true,
-      backgroundButton: "button-login button-disabled",
+      backgroundButton: 'button-login button-disabled',
     };
+  }
+
+  handlerSubmit() {
+    const { dispatchEmail, history } = this.props;
+    const { email } = this.state;
+    dispatchEmail(email);
+    history.push('/carteira');
   }
 
   validateInputs() {
@@ -24,26 +31,18 @@ class Login extends React.Component {
     if (email.match(/\S+@\S+\.\S+/) && password.length >= six) {
       this.setState({
         disabled: false,
-        backgroundButton: "button-login button-enabled",
+        backgroundButton: 'button-login button-enabled',
       });
     } else {
       this.setState({
         disabled: true,
-        backgroundButton: "button-login button-disabled",
+        backgroundButton: 'button-login button-disabled',
       });
     }
   }
 
   handlerInputChange({ target: { name, value } }) {
     this.setState({ [name]: value }, this.validateInputs);
-  }
-
-  handlerSubmit() {
-    const { dispatchEmail, history } = this.props;
-    const { email } = this.state;
-    dispatchEmail(email);
-    history.push('/carteira');
-
   }
 
   render() {
@@ -58,7 +57,7 @@ class Login extends React.Component {
             data-testid="email-input"
             className="input-login"
             placeholder="insira aqui o seu e-mail"
-            onChange={(e) => this.handlerInputChange(e)}
+            onChange={ (e) => this.handlerInputChange(e) }
           />
           <input
             type="password"
@@ -66,13 +65,13 @@ class Login extends React.Component {
             data-testid="password-input"
             className="input-login"
             placeholder="insira aqui a sua senha"
-            onChange={(e) => this.handlerInputChange(e)}
+            onChange={ (e) => this.handlerInputChange(e) }
           />
           <button
             type="button"
-            className={backgroundButton}
-            disabled={disabled}
-            onClick={this.handlerSubmit}
+            className={ backgroundButton }
+            disabled={ disabled }
+            onClick={ this.handlerSubmit }
           >
             Entrar
           </button>
@@ -86,9 +85,9 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchEmail: (e) => dispatch(saveEmail(e)),
 });
 
-export default connect(null, mapDispatchToProps) (Login);
+export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
-  dispatchEmail: PropTypes.func.isRequired,  
+  dispatchEmail: PropTypes.func.isRequired,
   history: PropTypes.func.isRequired,
 };
