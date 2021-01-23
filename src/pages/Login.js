@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import userLogin from '../actions';
 import './Login.css';
+import trybeLogo from '../images/trybe_small.png';
 
 class Login extends React.Component {
   constructor() {
@@ -84,6 +85,11 @@ class Login extends React.Component {
     return (
       <div className="login-page">
         <form className="login-field">
+          <img
+            src={ trybeLogo }
+            alt="trybe-logo"
+            className="trybe-logo"
+          />
           <h1 className="login-title">Login</h1>
           <input
             data-testid="email-input"

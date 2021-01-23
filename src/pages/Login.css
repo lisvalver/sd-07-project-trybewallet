@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald&family=Roboto&display=swap') ;
 
+body {
+  color: white;
+}
+
 button , input:focus {
   outline: 0 auto -webkit-focus-ring-color;
   outline-offset: 0;
@@ -18,24 +22,28 @@ button , input:focus {
 
 .login-field {
   align-items: center;
-  border: 5px solid green;
+  border: 5px solid #0fa36b;
   display: flex;
   flex-direction: column;
-  height: 70vh;
+  height: 80vh;
   justify-content: center;
   min-width: 300px;
   width: 50vw;
 }
 
+.trybe-logo {
+  margin-bottom: 50px;
+  width: 300px;
+}
+
 .login-title {
-  color: white;
   font-family: Oswald, sans-serif;
   font-size: 5vh;
 }
 
 .login-input {
   background-color: #252525;
-  border: 1px solid green;
+  border: 1px solid #0fa36b;
   box-sizing: border-box;
   color: white;
   height: 50px;
@@ -45,17 +53,19 @@ button , input:focus {
 }
 
 .login-button {
-  background-color: green;
+  background-color: #0fa36b;
   border: none;
   color: white;
   cursor: pointer;
+  font-weight: 700;
   height: 50px;
   min-width: 100px;
   width: 70%;
 }
 
 .login-button:disabled {
-  background-color: #1f301f;
+  background-color: #06442c;
+  color: #949494;
   cursor: auto;
   transition: 300ms;
 }
