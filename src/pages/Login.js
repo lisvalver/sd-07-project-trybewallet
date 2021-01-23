@@ -25,6 +25,10 @@ class Login extends React.Component {
     history.push('/carteira');
   }
 
+  handlerInputChange({ target: { name, value } }) {
+    this.setState({ [name]: value }, this.validateInputs);
+  }
+
   validateInputs() {
     const { email, password } = this.state;
     const six = 6;
@@ -39,10 +43,6 @@ class Login extends React.Component {
         backgroundButton: 'button-login button-disabled',
       });
     }
-  }
-
-  handlerInputChange({ target: { name, value } }) {
-    this.setState({ [name]: value }, this.validateInputs);
   }
 
   render() {
