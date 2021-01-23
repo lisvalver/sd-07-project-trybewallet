@@ -39,3 +39,26 @@
     transform: rotate(360deg);
   }
 }
+
+#formLogin{
+  /* display: flex; */
+  text-align: center; 
+  justify-content: right;
+  flex-direction: column;
+  height: 300px;
+  margin-top: 5px;
+}
+
+#buttonEnter {
+  color: black;
+  text-align: center;
+  background-color: rgb(10, 216, 10);
+  border-radius: 15px;
+}
+
+#header, #currency, #despesa {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 5px;
+}
