@@ -69,8 +69,7 @@
     "react/no-redundant-should-component-update": ["error"],
     "react/no-this-in-sfc": ["error"],
     "react/no-typos": ["error"],
-    "react/no-unsafe": ["error"],
-    "react/no-unused-state": ["error"],
+    "react/no-unsafe": ["error"],    
     "react/no-will-update-set-state": ["error"],
     "react/prefer-es6-class": ["error", "always"],
     "react/self-closing-comp": ["error"],
@@ -118,4 +117,4 @@
       }
     ]
   }
-}
+} 
