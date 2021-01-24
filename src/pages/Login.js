@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { addUser } from '../actions';
 // import addUser from '../actions';
 
@@ -12,22 +13,23 @@ class Login extends React.Component {
       email: '',
       password: '',
       validated: false,
+      emailRegex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+      maximiumLength: 6,
     };
   }
 
-  verifyFields(event) {
-    event.preventDefault();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const maximiumLength = 6;
-    const { email, password } = this.state;
-    if (emailRegex.test(email) && password.length >= maximiumLength) {
-      this.setState({ validated: true });
-      this.emailStore();
-      // saveData(email, password);
-    } else {
-      this.setState({ validated: false });
-    }
-  }
+  // verifyFields(event) {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   const maximiumLength = 6;
+  //   const { email, password } = this.state;
+  //   if (emailRegex.test(email) && password.length >= maximiumLength) {
+  //     this.setState({ validated: true });
+  //     this.emailStore();
+  //     // saveData(email, password);
+  //   } else {
+  //     this.setState({ validated: false });
+  //   }
+  // }
 
   updateEmail(value) {
     this.setState({
@@ -44,17 +46,16 @@ class Login extends React.Component {
   emailStore() {
     const { email } = this.state;
     const { handleLogin } = this.props;
-    this.setState({ validated: true })
-
+    this.setState({ validated: true });
     handleLogin(email);
   }
 
   render() {
-    const { validated } = this.state;
+    const { validated, emailRegex, maximiumLength, email, password } = this.state;
     if (validated) return <Redirect to="/carteira" />;
     return (
       <div>
-        <form onSubmit={ (event) => this.verifyFields(event) }>
+        <form>
           <input
             type="text"
             data-testid="email-input"
@@ -65,7 +66,14 @@ class Login extends React.Component {
             data-testid="password-input"
             onChange={ (event) => this.updatePassword(event.target.value) }
           />
-          <button type="submit">Entrar</button>
+          <button
+            disabled={ emailRegex.test(email)
+              && password.length >= maximiumLength ? '' : 'disabled' }
+            onClick={ () => this.emailStore() }
+            type="submit"
+          >
+            Entrar
+          </button>
         </form>
       </div>
     );
@@ -77,6 +85,10 @@ class Login extends React.Component {
 //     saveData: (email, password) => dispatch(addUser(email, password)),
 //   };
 // }
+
+Login.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+};
 
 // export default connect(null, dispatcher)(Login);
 const mapDispatchToProps = (dispatch) => ({
