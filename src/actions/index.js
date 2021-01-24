@@ -1,9 +1,12 @@
 // Coloque aqui suas actions
-import CLICK_UPDATE_EMAIL_VALUE from './actionTypes';
+import { CLICK_UPDATE_EMAIL_VALUE, EXPENSES_UPDATE_VALUE } from './actionTypes';
 
-const loginButton = (email) => ({
+export const loginButton = (email) => ({
   type: CLICK_UPDATE_EMAIL_VALUE,
   payload: email,
 });
 
-export default loginButton;
+export const walletCurrency = (currency) => ({
+  type: EXPENSES_UPDATE_VALUE,
+  currencies: currency,
+});

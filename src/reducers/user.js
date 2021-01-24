@@ -1,5 +1,5 @@
 // Esse reducer será responsável por tratar as informações da pessoa usuária
-import CLICK_UPDATE_EMAIL_VALUE from '../actions/actionTypes';
+import { CLICK_UPDATE_EMAIL_VALUE } from '../actions/actionTypes';
 
 const initialState = {
   email: '',

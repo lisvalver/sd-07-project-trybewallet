@@ -8,8 +8,8 @@ const initialState = {
 
 const wallet = (state = initialState, action) => {
   switch (action.type) {
-  case 'EMAIL_UPDATE_VALUE':
-    return { ...state, newValue: action.newValue };
+  case 'EXPENSES_UPDATE_VALUE':
+    return { ...state, currencies: action.wallet.currencies };
   default:
     return state;
   }

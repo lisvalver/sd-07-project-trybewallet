@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import logo from '../img/logo.webp';
+import Form from '../components/Form';
 
 class Wallet extends React.Component {
   constructor() {
@@ -24,11 +25,12 @@ class Wallet extends React.Component {
             <p data-testid="email-field">{email}</p>
             <p>
               Despesa Total:
-              <p data-testid="header-currency-field">{currency}</p>
-              <p data-testid="total-field">{total}</p>
+              <span data-testid="header-currency-field">{currency}</span>
+              <span data-testid="total-field">{total}</span>
             </p>
           </div>
         </header>
+        <Form />
       </div>
     );
   }
