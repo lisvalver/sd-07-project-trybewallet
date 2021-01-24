@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import addUser from '../actions';
+import { addUser } from '../actions';
+// import addUser from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -21,7 +22,8 @@ class Login extends React.Component {
     const { email, password } = this.state;
     if (emailRegex.test(email) && password.length >= maximiumLength) {
       this.setState({ validated: true });
-      saveData(email, password);
+      this.emailStore();
+      // saveData(email, password);
     } else {
       this.setState({ validated: false });
     }
@@ -37,6 +39,14 @@ class Login extends React.Component {
     this.setState({
       password: value,
     });
+  }
+
+  emailStore() {
+    const { email } = this.state;
+    const { handleLogin } = this.props;
+    this.setState({ validated: true })
+
+    handleLogin(email);
   }
 
   render() {
@@ -62,12 +72,15 @@ class Login extends React.Component {
   }
 }
 
-function dispatcher(dispatch) {
-  return {
-    saveData: (email, password) => dispatch(addUser(email, password)),
-  };
-}
+// function dispatcher(dispatch) {
+//   return {
+//     saveData: (email, password) => dispatch(addUser(email, password)),
+//   };
+// }
 
-export default connect(null, dispatcher)(Login);
+// export default connect(null, dispatcher)(Login);
+const mapDispatchToProps = (dispatch) => ({
+  handleLogin: (email) => dispatch(addUser(email)),
+});
 
-// export default Login;
+export default connect(null, mapDispatchToProps)(Login);
