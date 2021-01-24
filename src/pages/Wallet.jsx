@@ -9,7 +9,6 @@ class Wallet extends React.Component {
     super();
     this.state = {
       currency: 'BRL',
-      total: 0,
     };
   }
 
@@ -24,7 +23,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { currency, total } = this.state;
+    const { currency } = this.state;
     const { email } = this.props;
     return (
       <div className="header-wallet">
@@ -53,6 +52,11 @@ const mapStateToProps = (state) => ({
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
+  expensesState: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.object,
+  ]).isRequired,
 };
 
 export default connect(mapStateToProps)(Wallet);

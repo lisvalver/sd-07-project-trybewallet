@@ -1,5 +1,9 @@
 // Coloque aqui suas actions
-import { CLICK_UPDATE_EMAIL_VALUE, CURRENCY_UPDATE_VALUE, EXPENSES_UPDATE_VALUE } from './actionTypes';
+import {
+  CLICK_UPDATE_EMAIL_VALUE,
+  CURRENCY_UPDATE_VALUE,
+  EXPENSES_UPDATE_VALUE,
+} from './actionTypes';
 import fetchCurrency from '../services/API';
 
 export const loginButton = (email) => ({
@@ -11,7 +15,6 @@ export const walletCurrency = (currency, rates) => ({
   type: CURRENCY_UPDATE_VALUE,
   currencies: currency,
   rates,
-
 });
 
 export const buttonExpenses = (expense) => ({
