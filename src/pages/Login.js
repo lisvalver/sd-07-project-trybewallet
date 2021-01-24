@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import saveEmail from '../actions';
+import { saveEmail, savePassword } from '../actions';
 
 const passwordLength = 6;
 
@@ -46,6 +46,11 @@ class Login extends Component {
   handleAddEmail(email) {
     const { dispatchEmail } = this.props;
     dispatchEmail(email);
+  }
+
+  handleAddPassword(password) {
+    const { dispatchPassword } = this.props;
+    dispatchPassword(password);
   }
 
   render() {
@@ -97,6 +102,7 @@ Login.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   dispatchEmail: (email) => dispatch(saveEmail(email)),
+  dispatchPassword: (password) => dispatch(savePassword(password)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

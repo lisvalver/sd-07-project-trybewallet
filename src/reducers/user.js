@@ -1,8 +1,9 @@
 // Esse reducer será responsável por tratar as informações da pessoa usuária
-import { SAVE_EMAIL } from '../actions';
+import { SAVE_EMAIL, SAVE_PASSWORD } from '../actions';
 
 const LOGIN_INITIAL_STATE = {
   email: '',
+  password: '',
 };
 
 const userReducer = (state = LOGIN_INITIAL_STATE, action) => {
@@ -11,6 +12,8 @@ const userReducer = (state = LOGIN_INITIAL_STATE, action) => {
     return ({
       email: action.email,
     });
+  case SAVE_PASSWORD:
+    return { ...state, password: action.password };
   default:
     return state;
   }
