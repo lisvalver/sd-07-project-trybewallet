@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import FormLogin from '../Components/FormLogin';
-import addAssignment from '../actions';
+import { addEmail } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ const mapStatetoProps = (store) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  add: (e) => dispatch(addAssignment(e)),
+  add: (e) => dispatch(addEmail(e)),
 });
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Login);
