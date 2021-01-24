@@ -1,5 +1,7 @@
 body {
   background-color: rgb(15, 163, 107);
+  height: 600px;
+  width: 1000px;
 }
 
 h3 , h1 {
@@ -59,4 +61,33 @@ h3 , h1 {
   flex-direction: row;
   justify-content: space-between;
   width: 300px;
+}
+
+form {
+  align-items: center;
+  background-color: rgb(4, 107, 82);
+  display: flex;
+  flex-direction: row;
+  font-weight: 600;
+  height: 40px;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.add-expense {
+  background-color: rgb(64, 25, 127);  
+  color: rgb(15, 163, 107);
+  font-weight: 600;
+}
+
+.input-expense {
+  margin-left: 5px;
+}
+
+.description {
+  width: 250px;
+}
+
+.value {
+  width: 70px;
 }
