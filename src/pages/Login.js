@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { saveEmail, savePassword } from '../actions';
+import { saveEmail } from '../actions';
 
 const passwordLength = 6;
 
@@ -19,7 +19,7 @@ class Login extends Component {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleAddEmail = this.handleAddEmail.bind(this);
+    // this.handleAddEmail = this.handleAddEmail.bind(this);
     this.inputValidation = this.inputValidation.bind(this);
 
     this.state = {
@@ -44,14 +44,15 @@ class Login extends Component {
   }
 
   handleAddEmail(email) {
-    const { dispatchEmail } = this.props;
-    dispatchEmail(email);
+    const { dispatchSaveEmail } = this.props;
+    dispatchSaveEmail(email);
   }
 
-  handleAddPassword(password) {
+  /* handleAddPassword(password) {
     const { dispatchPassword } = this.props;
     dispatchPassword(password);
   }
+ */
 
   render() {
     const { email, password } = this.state;
@@ -92,7 +93,8 @@ class Login extends Component {
             </button>
           </Link>
         </form>
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -101,8 +103,8 @@ Login.propTypes = {
 }.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchEmail: (email) => dispatch(saveEmail(email)),
-  dispatchPassword: (password) => dispatch(savePassword(password)),
+  dispatchSaveEmail: (email) => dispatch(saveEmail(email)),
+  // dispatchPassword: (password) => dispatch(savePassword(password)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

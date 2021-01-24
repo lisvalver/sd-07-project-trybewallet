@@ -2,21 +2,14 @@
 import { REQUEST_CURRENCY } from '../actions';
 
 const INITIAL_STATE = {
-  password: '',
-  value: '',
-  currency: 'USD',
-  description: '',
-  method: 'Dinheiro',
-  tag: 'Alimentação',
-  exchangeRates: {},
+  currencies: [],
 };
 
 const walletReducer = (state = INITIAL_STATE, action) => {
-  console.log('chegou', action);
   switch (action.type) {
   case REQUEST_CURRENCY:
     return ({
-      currency: action.requestCurrency,
+      dispatchCurrencyFetch: action.requestCurrency,
     });
   default:
     return state;

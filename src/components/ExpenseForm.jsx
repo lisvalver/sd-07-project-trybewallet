@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { requestCurrency } from '../actions';
-// import apiCurrency from '../services/apiCurrency';
+// import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
+// import { requestCurrency } from '../actions';
+// import walletReducer from '../reducers';
+import apiCurrency from '../services/apiCurrency';
 
 class ExpenseForm extends Component {
   constructor(props) {
@@ -11,44 +12,40 @@ class ExpenseForm extends Component {
     this.handleInput = this.handleInput.bind(this);
     // this.currencyInput = this.currencyInput.bind(this);
 
-    /* this.state = {
+    this.state = {
       value: '',
-      currency: 'USD',
+      currency: [],
       description: '',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      exchangeRates: {},
-      currencyArray: [],
-    }; */
+      // exchangeRates: {},
+    };
   }
 
   async componentDidMount() {
-    const { dispatchCurrencyFetch } = this.props;
-
-    dispatchCurrencyFetch();
-    /* const currencyInput = await apiCurrency();
-    const currencyArray = (Object.keys(currency));
+    const currencyApi = await apiCurrency();
+    const currencyArray = (Object.keys(currencyApi));
     currencyArray.splice(1, 1);
-    this.currencyInput(currencyArray); */
+    this.currencyInput(currencyArray);
   }
 
   handleInput({ target: { name, value } }) {
     this.setState({ [name]: value });
   }
 
-  /*   currencyInput(value) {
+  currencyInput(value) {
     this.setState({
-      currencyArray: value,
+      currency: value,
     });
   }
 
- */
   /*  handleClick() {
     addExpense(this.state);
   } */
 
   render() {
-    const { value, description, method, tag, currency } = this.props;
+    const { value, currency, description, method, tag } = this.state;
+    // const { currencyInput } = this.state;
 
     return (
       <div className="expense-form">
@@ -123,26 +120,25 @@ class ExpenseForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+/* const mapStateToProps = (state) => ({
   value: state.walletReducer,
   description: state.walletReducer,
   method: state.walletReducer,
   tag: state.walletReducer,
-  currency: state.walletReducer,
+  fetchCurrency: state.walletReducer.currency,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchCurrencyFetch: () => dispatch(requestCurrency()),
-});
+  dispatchCurrencyFetch: actions.fetchCurrency,
+}); */
 
-ExpenseForm.propTypes = {
+/* ExpenseForm.propTypes = {
   value: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
   method: PropTypes.string.isRequired,
   tag: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
   dispatchCurrencyFetch: PropTypes.func.isRequired,
 
-};
+}; */
 
-export default connect(mapStateToProps, mapDispatchToProps())(ExpenseForm);
+export default ExpenseForm;
