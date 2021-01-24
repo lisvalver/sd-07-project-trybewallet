@@ -13,6 +13,16 @@ class Wallet extends React.Component {
     };
   }
 
+  totalValue() {
+    const { expensesState } = this.props;
+    const total = expensesState.reduce(
+      (acc, cur) => acc
+        + parseFloat(cur.value) * parseFloat(cur.exchangeRates[cur.currency].ask),
+      0,
+    );
+    return total;
+  }
+
   render() {
     const { currency, total } = this.state;
     const { email } = this.props;
@@ -26,7 +36,7 @@ class Wallet extends React.Component {
             <p>
               Despesa Total:
               <span data-testid="header-currency-field">{currency}</span>
-              <span data-testid="total-field">{total}</span>
+              <span data-testid="total-field">{this.totalValue()}</span>
             </p>
           </div>
         </header>
@@ -38,6 +48,7 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expensesState: state.wallet.expenses,
 });
 
 Wallet.propTypes = {
