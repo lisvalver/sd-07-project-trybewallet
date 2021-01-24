@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import logo from '../img/logo.webp';
 import Form from '../components/Form';
 import WalletTable from '../components/WalletTable';
+import EditForm from '../components/EditForm';
 
 class Wallet extends React.Component {
   constructor() {
@@ -25,7 +26,7 @@ class Wallet extends React.Component {
 
   render() {
     const { currency } = this.state;
-    const { email } = this.props;
+    const { email, typeForm } = this.props;
     return (
       <div className="header-wallet">
         TrybeWallet
@@ -40,7 +41,7 @@ class Wallet extends React.Component {
             </p>
           </div>
         </header>
-        <Form />
+        {typeForm ? <EditForm /> : <Form /> }
         <WalletTable />
       </div>
     );
@@ -50,10 +51,12 @@ class Wallet extends React.Component {
 const mapStateToProps = (state) => ({
   email: state.user.email,
   expensesState: state.wallet.expenses,
+  typeForm: state.wallet.toggleForm,
 });
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
+  typeForm: PropTypes.bool.isRequired,
   expensesState: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -61,4 +64,4 @@ Wallet.propTypes = {
   ]).isRequired,
 };
 
-export default connect(mapStateToProps)(Wallet);
+export default connect(mapStateToProps, null)(Wallet);

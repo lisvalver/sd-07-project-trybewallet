@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { excludesRow } from '../actions';
+import { excludesRow, toggleForm } from '../actions';
 
 class WalletTable extends React.Component {
   filterName(currentExpense) {
@@ -24,9 +24,13 @@ class WalletTable extends React.Component {
   }
 
   deleteRow(id) {
-    console.log(id);
     const { deleteRowDispatch } = this.props;
     deleteRowDispatch(id);
+  }
+
+  toggleForm() {
+    const { toggleFormDispatch } = this.props;
+    toggleFormDispatch(true);
   }
 
   render() {
@@ -56,7 +60,13 @@ class WalletTable extends React.Component {
               <td>{this.convertedValue(expense)}</td>
               <td>Real</td>
               <td>
-                <button type="button">Editar</button>
+                <button
+                  type="button"
+                  data-testid="edit-btn"
+                  onClick={ () => this.toggleForm() }
+                >
+                  Editar
+                </button>
                 <button
                   type="button"
                   data-testid="delete-btn"
@@ -77,9 +87,10 @@ const mapStateToProps = (state) => ({
   expensesState: state.wallet.expenses,
 });
 
-const mapDispatchToProps = ((dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   deleteRowDispatch: (excludedRow) => dispatch(excludesRow(excludedRow)),
-}));
+  toggleFormDispatch: (status) => dispatch(toggleForm(status)),
+});
 
 WalletTable.propTypes = {
   expensesState: PropTypes.oneOfType([
@@ -88,6 +99,7 @@ WalletTable.propTypes = {
     PropTypes.object,
   ]).isRequired,
   deleteRowDispatch: PropTypes.func.isRequired,
+  toggleFormDispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletTable);

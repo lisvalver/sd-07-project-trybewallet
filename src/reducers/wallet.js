@@ -4,6 +4,7 @@ const initialState = {
   expenses: [],
   nextId: 0,
   rates: {},
+  toggleForm: false,
 };
 
 const wallet = (state = initialState, action) => {
@@ -22,6 +23,10 @@ const wallet = (state = initialState, action) => {
     return {
       ...state,
       expenses: state.expenses.filter((expense) => expense.id !== action.id),
+    };
+  case 'TOGGLE_FORMS':
+    return {
+      ...state, toggleForm: action.toggleForm,
     };
   default:
     return state;
