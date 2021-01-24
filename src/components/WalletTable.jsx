@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { excludesRow } from '../actions';
 
 class WalletTable extends React.Component {
   filterName(currentExpense) {
@@ -12,14 +13,20 @@ class WalletTable extends React.Component {
   filterExchange(currentExpense) {
     const { expensesState } = this.props;
     const currentCurrency = expensesState[0].exchangeRates[currentExpense.currency];
-    return parseFloat(currentCurrency.ask);
+    return parseFloat(currentCurrency.ask).toFixed(2);
   }
 
   convertedValue(currentExpense) {
     const { expensesState } = this.props;
     const currentCurrency = expensesState[0].exchangeRates[currentExpense.currency];
     const newValue = currentCurrency.ask * currentExpense.value;
-    return parseFloat(newValue);
+    return parseFloat(newValue).toFixed(2);
+  }
+
+  deleteRow(id) {
+    console.log(id);
+    const { deleteRowDispatch } = this.props;
+    deleteRowDispatch(id);
   }
 
   render() {
@@ -45,12 +52,18 @@ class WalletTable extends React.Component {
               <td>{expense.method}</td>
               <td>{`${parseFloat(expense.value)}`}</td>
               <td>{this.filterName(expense)}</td>
-              <td>{`${this.filterExchange(expense).toFixed(2)}`}</td>
-              <td>{this.convertedValue(expense).toFixed(2)}</td>
+              <td>{`${this.filterExchange(expense)}`}</td>
+              <td>{this.convertedValue(expense)}</td>
               <td>Real</td>
               <td>
                 <button type="button">Editar</button>
-                <button type="button">Excluir</button>
+                <button
+                  type="button"
+                  data-testid="delete-btn"
+                  onClick={ () => this.deleteRow(expense.id) }
+                >
+                  Excluir
+                </button>
               </td>
             </tr>
           ))}
@@ -64,12 +77,17 @@ const mapStateToProps = (state) => ({
   expensesState: state.wallet.expenses,
 });
 
+const mapDispatchToProps = ((dispatch) => ({
+  deleteRowDispatch: (excludedRow) => dispatch(excludesRow(excludedRow)),
+}));
+
 WalletTable.propTypes = {
   expensesState: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.object,
   ]).isRequired,
+  deleteRowDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(WalletTable);
+export default connect(mapStateToProps, mapDispatchToProps)(WalletTable);

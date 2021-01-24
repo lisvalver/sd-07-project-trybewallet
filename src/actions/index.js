@@ -3,6 +3,7 @@ import {
   CLICK_UPDATE_EMAIL_VALUE,
   CURRENCY_UPDATE_VALUE,
   EXPENSES_UPDATE_VALUE,
+  EXPENSES_DELETE_VALUE,
 } from './actionTypes';
 import fetchCurrency from '../services/API';
 
@@ -20,6 +21,11 @@ export const walletCurrency = (currency, rates) => ({
 export const buttonExpenses = (expense) => ({
   type: EXPENSES_UPDATE_VALUE,
   expense,
+});
+
+export const excludesRow = (id) => ({
+  type: EXPENSES_DELETE_VALUE,
+  id,
 });
 
 export const getCurrencies = () => async (dispatch) => {
