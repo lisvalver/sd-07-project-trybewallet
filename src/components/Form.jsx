@@ -96,7 +96,7 @@ class Form extends React.Component {
             value={ method }
             onChange={ this.handleChange }
           >
-            <option selected>Selecione o método de pagamento</option>
+            <option selected>Selecione o pagamento</option>
             {methodOptions.map((m) => (
               <option key={ m } data-testid={ m }>
                 {m}
