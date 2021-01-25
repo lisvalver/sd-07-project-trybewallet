@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Form({ 
-  currencies, setState, onSubmit, description, value, currency, method, tag
+export default function Form({
+  currencies, setState, onSubmit, description, value, currency, method, tag,
 }) {
   return (
     <form>
-      <label>
+      <label htmlFor="description-input">
         Despesa:
         <input
           type="text"
+          id="description-input"
           className="input-expense description"
           data-testid="description-input"
           placeholder="descrição..."
@@ -18,10 +19,11 @@ export default function Form({
           onChange={ setState }
         />
       </label>
-      <label>
+      <label htmlFor="value-input">
         Valor:
         <input
           type="number"
+          id="value-input"
           className="input-expense value"
           data-testid="value-input"
           placeholder="0"
@@ -82,7 +84,7 @@ export default function Form({
   );
 }
 
-Form.propTypes = {  
+Form.propTypes = {
   currencies: PropTypes.func.isRequired,
   setState: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

@@ -32,6 +32,12 @@ class Wallet extends React.Component {
     requestCoins();
   }
 
+  handleSubmit() {
+    const { expense } = this.state;
+    addExpense(expense);
+    this.resetState();
+  }
+
   filterCurrenciesInitials() {
     const { currencies } = this.props;
     const keysCurrencies = Object.keys(currencies).filter(
@@ -68,12 +74,6 @@ class Wallet extends React.Component {
         exchangeRates: {},
       },
     }));
-  }
-
-  async handleSubmit() {    
-    const { expense } = this.state;
-    await addExpense(expense);
-    this.resetState();
   }
 
   render() {
@@ -118,9 +118,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
-  currencies: PropTypes.object.isRequired,
+  currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   total: PropTypes.number.isRequired,
-  requestCoins: PropTypes.func.isRequired,
-  addExpense: PropTypes.func.isRequired,
+  requestCoins: PropTypes.func.isRequired,  
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

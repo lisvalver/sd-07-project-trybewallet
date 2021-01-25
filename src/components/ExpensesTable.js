@@ -65,6 +65,6 @@ class ExpensesTable extends React.Component {
 
 export default ExpensesTable;
 
-ExpensesTable.propTypes = {  
+ExpensesTable.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
