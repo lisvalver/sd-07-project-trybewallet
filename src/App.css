@@ -1,7 +1,5 @@
 body {
-  background-color: rgb(15, 163, 107);
-  height: 600px;
-  width: 1000px;
+  background-color: rgb(15, 163, 107);  
 }
 
 h3 , h1 {
@@ -78,6 +76,7 @@ form {
   background-color: rgb(64, 25, 127);  
   color: rgb(15, 163, 107);
   font-weight: 600;
+  height: 30px;
 }
 
 .input-expense {
@@ -85,9 +84,32 @@ form {
 }
 
 .description {
-  width: 250px;
+  width: 200px;
 }
 
 .value {
   width: 70px;
+}
+
+.header-table {
+  align-items: center;
+  background-color: rgb(4, 107, 82);
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  font-weight: 600;
+  height: 40px;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.content {
+  align-items: center;  
+  display: flex;
+  flex-direction: row;
+  font-weight: 600;
+  height: 40px;
+  justify-content: space-around;
+  padding: 0 30px;
 }
