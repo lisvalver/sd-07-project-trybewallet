@@ -92,5 +92,5 @@ export default connect(null, mapDispatchToProps)(ExpensesTable);
 ExpensesTable.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   deleteExpenses: PropTypes.func.isRequired,
-  editExpenses: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
 };

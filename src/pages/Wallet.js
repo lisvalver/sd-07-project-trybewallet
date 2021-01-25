@@ -91,11 +91,11 @@ class Wallet extends React.Component {
 
   editExpense({ target: { id } }) {
     const { expenses } = this.props;
-    const number = parseInt(id, 10);    
-    const filteredExpense = expenses.filter((item) => item.id === number);    
+    const number = parseInt(id, 10);
+    const filteredExpense = expenses.filter((item) => item.id === number);
     const {
-      description, value, currency, method, tag, exchangeRates
-    } = filteredExpense[0];    
+      description, value, currency, method, tag, exchangeRates,
+    } = filteredExpense[0];
     this.setState((prevState) => ({
       ...prevState,
       expense: {

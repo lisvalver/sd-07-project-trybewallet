@@ -41,11 +41,11 @@ function deleteExpense(state = {}, action = {}) {
   };
 }
 
-function editExpense(state = {}, action = {}) {  
+function editExpense(state = {}, action = {}) {
   const oldExpense = state.expenses.filter((item) => item.id === action.expense.id);
   const changeExpense = [...state.expenses];
   const index = changeExpense.indexOf(oldExpense[0]);
-  changeExpense[index] = action.expense;   
+  changeExpense[index] = action.expense;
   return {
     ...state,
     expenses: changeExpense,

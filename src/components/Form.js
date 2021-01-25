@@ -88,12 +88,20 @@ export default function Form({
       </div>
       <div>
         {newExpense === true ? (
-            <button type="button" className="add-expense" onClick={ onSubmit }>
-          Adicionar despesa
+          <button
+            type="button"
+            className="add-expense"
+            onClick={ onSubmit }
+          >
+            Adicionar despesa
           </button>
         ) : (
-            <button type="button" className="add-expense" onClick={ editSubmit }>
-          Editar despesa
+          <button
+            type="button"
+            className="add-expense"
+            onClick={ editSubmit }
+          >
+            Editar despesa
           </button>
         )}
       </div>
