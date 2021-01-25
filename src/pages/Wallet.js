@@ -23,15 +23,29 @@ class Wallet extends Component {
       },
       arrayCurrencyFiltered: [],
       totalExpenses: 0,
+      editExpenses: {},
+      edit: false,
     };
 
     this.fetchCurrencyType = this.fetchCurrencyType.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.editingExpenses = this.editingExpenses.bind(this);
   }
 
   componentDidMount() {
     this.fetchCurrencyType();
+  }
+
+  editingExpenses(id) {
+    const { expenses } = this.props;
+    const { expense, edit, editExpenses } = this.state;
+    this.setState({
+      expense: expenses
+        .filter((expense) => expense.id === id),
+      edit: true,
+      // expense: editExpenses,
+    });
   }
 
   handleChange({ target }) {
@@ -92,19 +106,19 @@ class Wallet extends Component {
     return (
       <div>
         <Header
-          user={ user }
-          totalExpenses={ totalExpenses }
+          user={user}
+          totalExpenses={totalExpenses}
         />
         <ExpensesForm
-          state={ this.state }
-          arrayCurrencyFiltered={ arrayCurrencyFiltered }
-          handleChange={ this.handleChange }
-          handleSubmit={ this.handleSubmit }
+          state={this.state}
+          arrayCurrencyFiltered={arrayCurrencyFiltered}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
         />
         <Table
-          expenses={ expenses }
-          deleteExpenseProps={ deleteExpenseProps }
-          editExpenseProps={ editExpenseProps }
+          expenses={expenses}
+          deleteExpenseProps={deleteExpenseProps}
+          editExpenseProps={this.editingExpenses}
         />
       </div>
     );
