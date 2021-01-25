@@ -2,7 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function Form({
-  currencies, setState, onSubmit, description, value, currency, method, tag,
+  currencies,
+  setState,
+  onSubmit,
+  description,
+  value,
+  currency,
+  method,
+  tag,
+  newExpense,
+  editSubmit
 }) {
   return (
     <form>
@@ -77,9 +86,18 @@ export default function Form({
           <option value="Saúde">Saúde</option>
         </select>
       </div>
-      <button type="button" className="add-expense" onClick={ onSubmit }>
-        Adicionar despesa
-      </button>
+      <div>
+        {newExpense === true ? (
+          <button type="button" className="add-expense" onClick={ onSubmit }>
+          Adicionar despesa
+        </button>
+        ) : (
+          <button type="button" className="add-expense" onClick={ editSubmit }>
+          Editar despesa
+        </button>
+        )}
+      </div>      
+          
     </form>
   );
 }
@@ -88,6 +106,7 @@ Form.propTypes = {
   currencies: PropTypes.func.isRequired,
   setState: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  editSubmit: PropTypes.func.isRequired,
   description: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,

@@ -1,11 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { deleteExpense } from '../actions';
 
 class ExpensesTable extends React.Component {
   constructor() {
     super();
 
-    this.getExpenses = this.getExpenses.bind(this);
+    this.getExpenses = this.getExpenses.bind(this);    
   }
 
   getExpenses(expense) {
@@ -22,6 +24,7 @@ class ExpensesTable extends React.Component {
       (item) => item.code === currency,
     );
     const { name, ask } = nameCurrency;
+    const { deleteExpense, editExpense } = this.props;
     return (
       <div key={ id } className="content">
         <div role="cell">{description}</div>
@@ -32,6 +35,21 @@ class ExpensesTable extends React.Component {
         <div role="cell">{parseFloat(ask).toFixed(2)}</div>
         <div role="cell">{(value * ask).toFixed(2)}</div>
         <div role="cell">Real</div>
+        <div>
+          <button
+            type="button"
+            data-testid="delete-btn"
+            onClick={ () => deleteExpense(expense)}
+          >
+            Delete
+          </button>
+          <button
+          id={ id }
+          type="button"
+          data-testid="edit-btn"
+          onClick={ editExpense }
+          >Edit</button>
+        </div>
       </div>
     );
   }
@@ -63,7 +81,11 @@ class ExpensesTable extends React.Component {
   }
 }
 
-export default ExpensesTable;
+const mapDispatchToProps = (dispatch) => ({
+  deleteExpense: (expense) => dispatch(deleteExpense(expense)),
+});
+
+export default connect(null, mapDispatchToProps)(ExpensesTable);
 
 ExpensesTable.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
