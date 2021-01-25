@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   error: '',
   expenses: [],
   total: 0,
-}
+};
 
 function addExpense(state = {}, action = {}) {
   const expenses = state.expenses.concat([
@@ -19,15 +19,15 @@ function addExpense(state = {}, action = {}) {
   return {
     ...state,
     expenses,
-    total: expenses.reduce((acc, expense) => {      
-      const currency = expense.exchangeRates[expense.currency];      
-      acc += parseFloat((parseFloat(expense.value) * currency.ask).toFixed(2));      
+    total: expenses.reduce((acc, expense) => {
+      const currency = expense.exchangeRates[expense.currency];
+      acc += parseFloat((parseFloat(expense.value) * currency.ask).toFixed(2));
       return acc;
     }, 0),
   };
 }
 
-function wallet(state=INITIAL_STATE, action) {
+function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
   case REQUEST_CURRENCY:
     return {
@@ -38,9 +38,9 @@ function wallet(state=INITIAL_STATE, action) {
       ...state, error: action.error,
     };
   case ADD_EXPENSE:
-    return addExpense(state, action);    
+    return addExpense(state, action);
   default:
-    return state; 
+    return state;
   }
 }
 

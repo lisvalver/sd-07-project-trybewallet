@@ -5,6 +5,7 @@ import { saveCurrencyExchange, addExpense } from '../actions';
 import Header from '../components/Header';
 import Form from '../components/Form';
 import ExpensesTable from '../components/ExpensesTable';
+
 class Wallet extends React.Component {
   constructor() {
     super();
@@ -12,7 +13,7 @@ class Wallet extends React.Component {
     this.filterCurrenciesInitials = this.filterCurrenciesInitials.bind(this);
     this.eventHandler = this.eventHandler.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.resetState = this.resetState.bind(this);        
+    this.resetState = this.resetState.bind(this);
 
     this.state = {
       expense: {
@@ -34,12 +35,12 @@ class Wallet extends React.Component {
   filterCurrenciesInitials() {
     const { currencies } = this.props;
     const keysCurrencies = Object.keys(currencies).filter(
-      (currency) => currency !== "USDT"
+      (currency) => currency !== 'USDT',
     );
 
     return keysCurrencies.map((coin) => (
-      <option key={coin} data-testid={coin}>
-        {coin}
+      <option key={ coin } data-testid={ coin }>
+        { coin }
       </option>
     ));
   }
@@ -69,30 +70,30 @@ class Wallet extends React.Component {
     }));
   }
 
-  async handleSubmit() {
-    const { addExpense } = this.props;
+  async handleSubmit() {    
     const { expense } = this.state;
     await addExpense(expense);
     this.resetState();
-  }  
+  }
 
   render() {
     const { email, total, expenses } = this.props;
-    const { description, value, currency, method, tag } = this.state.expense;
+    const { expense } = this.state;
+    const { description, value, currency, method, tag } = expense;
     return (
       <div>
-        <Header email={email} total={total} />
+        <Header email={ email } total={ total } />
         <Form
-          currencies={this.filterCurrenciesInitials}
-          setState={this.eventHandler}
-          onSubmit={this.handleSubmit}
-          description={description}
-          value={value}
-          currency={currency}
-          method={method}
-          tag={tag}
+          currencies={ this.filterCurrenciesInitials }
+          setState={ this.eventHandler }
+          onSubmit={ this.handleSubmit }
+          description={ description }
+          value={ value }
+          currency={ currency }
+          method={ method }
+          tag={ tag }
         />
-        <ExpensesTable expenses={expenses} />
+        <ExpensesTable expenses={ expenses } />
       </div>
     );
   }
@@ -119,4 +120,7 @@ Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   currencies: PropTypes.object.isRequired,
   total: PropTypes.number.isRequired,
+  requestCoins: PropTypes.func.isRequired,
+  addExpense: PropTypes.func.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

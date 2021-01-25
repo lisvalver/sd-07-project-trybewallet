@@ -18,4 +18,5 @@ export default function Header({ email, total }) {
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
+  total: PropTypes.number.isRequired,
 };

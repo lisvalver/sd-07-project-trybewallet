@@ -1,6 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function Form({ currencies, setState, onSubmit, description, value, currency, method, tag }) {
+export default function Form({ 
+  currencies, setState, onSubmit, description, value, currency, method, tag
+}) {
   return (
     <form>
       <label>
@@ -10,7 +13,7 @@ export default function Form({ currencies, setState, onSubmit, description, valu
           className="input-expense description"
           data-testid="description-input"
           placeholder="descrição..."
-          value ={ description }
+          value={ description }
           name="description"
           onChange={ setState }
         />
@@ -22,7 +25,7 @@ export default function Form({ currencies, setState, onSubmit, description, valu
           className="input-expense value"
           data-testid="value-input"
           placeholder="0"
-          value ={ value }
+          value={ value }
           name="value"
           onChange={ setState }
         />
@@ -32,7 +35,7 @@ export default function Form({ currencies, setState, onSubmit, description, valu
         <select
           data-testid="currency-input"
           className="input-expense"
-          value ={ currency }
+          value={ currency }
           name="currency"
           onChange={ setState }
         >
@@ -45,7 +48,7 @@ export default function Form({ currencies, setState, onSubmit, description, valu
         <select
           data-testid="method-input"
           className="input-expense"
-          value ={ method }
+          value={ method }
           name="method"
           onChange={ setState }
         >
@@ -60,7 +63,7 @@ export default function Form({ currencies, setState, onSubmit, description, valu
         <select
           data-testid="tag-input"
           className="input-expense"
-          value ={ tag }
+          value={ tag }
           name="tag"
           onChange={ setState }
         >
@@ -78,3 +81,14 @@ export default function Form({ currencies, setState, onSubmit, description, valu
     </form>
   );
 }
+
+Form.propTypes = {  
+  currencies: PropTypes.func.isRequired,
+  setState: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  description: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  currency: PropTypes.string.isRequired,
+  method: PropTypes.string.isRequired,
+  tag: PropTypes.string.isRequired,
+};
