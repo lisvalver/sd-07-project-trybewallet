@@ -52,7 +52,7 @@ class ExpensesTable extends React.Component {
         </div>
         <div className='content-table'>
           {expenses.length === 0 ? (
-            <p>Você ainda não adicionou as suas despesas :(</p>
+            <p className="message">Você ainda não adicionou as suas despesas :(</p>
           ) : (
             expenses.map((expense) => this.getExpenses(expense))
           )}
