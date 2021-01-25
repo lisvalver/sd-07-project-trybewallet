@@ -7,7 +7,7 @@ class ExpensesTable extends React.Component {
   constructor() {
     super();
 
-    this.getExpenses = this.getExpenses.bind(this);    
+    this.getExpenses = this.getExpenses.bind(this);
   }
 
   getExpenses(expense) {
@@ -24,7 +24,7 @@ class ExpensesTable extends React.Component {
       (item) => item.code === currency,
     );
     const { name, ask } = nameCurrency;
-    const { deleteExpense, editExpense } = this.props;
+    const { deleteExpenses, editExpense } = this.props;
     return (
       <div key={ id } className="content">
         <div role="cell">{description}</div>
@@ -39,16 +39,18 @@ class ExpensesTable extends React.Component {
           <button
             type="button"
             data-testid="delete-btn"
-            onClick={ () => deleteExpense(expense)}
+            onClick={ () => deleteExpenses(expense) }
           >
             Delete
           </button>
           <button
-          id={ id }
-          type="button"
-          data-testid="edit-btn"
-          onClick={ editExpense }
-          >Edit</button>
+            id={ id }
+            type="button"
+            data-testid="edit-btn"
+            onClick={ editExpense }
+          >
+            Edit
+          </button>
         </div>
       </div>
     );
@@ -82,11 +84,13 @@ class ExpensesTable extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteExpense: (expense) => dispatch(deleteExpense(expense)),
+  deleteExpenses: (expense) => dispatch(deleteExpense(expense)),
 });
 
 export default connect(null, mapDispatchToProps)(ExpensesTable);
 
 ExpensesTable.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
+  deleteExpenses: PropTypes.func.isRequired,
+  editExpenses: PropTypes.func.isRequired,
 };

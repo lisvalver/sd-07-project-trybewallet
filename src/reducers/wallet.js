@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   currencies: [],
   error: '',
   expenses: [],
-  total: 0,  
+  total: 0,
 };
 
 function addExpense(state = {}, action = {}) {
@@ -41,15 +41,11 @@ function deleteExpense(state = {}, action = {}) {
   };
 }
 
-function editExpense(state = {}, action = {}) {
-  console.log('OI', action.expense);  
+function editExpense(state = {}, action = {}) {  
   const oldExpense = state.expenses.filter((item) => item.id === action.expense.id);
-  console.log(oldExpense)
   const changeExpense = [...state.expenses];
-  const index = changeExpense.indexOf(oldExpense[0])
-  console.log(index)  ;
-  changeExpense[index] = action.expense;
-  console.log(changeExpense);  
+  const index = changeExpense.indexOf(oldExpense[0]);
+  changeExpense[index] = action.expense;   
   return {
     ...state,
     expenses: changeExpense,
@@ -74,7 +70,7 @@ function wallet(state = INITIAL_STATE, action) {
   case ADD_EXPENSE:
     return addExpense(state, action);
   case DELETE_EXPENSE:
-    return deleteExpense(state,action);
+    return deleteExpense(state, action);
   case EDIT_EXPENSE:
     return editExpense(state, action);
   default:

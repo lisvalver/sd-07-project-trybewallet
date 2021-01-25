@@ -18,7 +18,7 @@ class Wallet extends React.Component {
     this.editSubmit = this.editSubmit.bind(this);
 
     this.state = {
-      expense: {        
+      expense: {
         description: '',
         value: 0,
         currency: '',
@@ -63,12 +63,12 @@ class Wallet extends React.Component {
     ));
   }
 
-  eventHandler({ target: { name, value } }) {    
+  eventHandler({ target: { name, value } }) {
     this.setState((prevState) => ({
       ...prevState,
       expense: {
         ...prevState.expense,
-        [name]: value,        
+        [name]: value,
       },
     }));
   }
@@ -89,24 +89,23 @@ class Wallet extends React.Component {
     }));
   }
 
-  editExpense( { target: { id } }) {
+  editExpense({ target: { id } }) {
     const { expenses } = this.props;
-    const number = parseInt(id);
-    console.log(expenses, number);
-    const filteredExpense = expenses.filter((item) => item.id === number);
-    console.log(filteredExpense)
-    const { description, value, currency, method, tag, exchangeRates } = filteredExpense[0];
-    console.log(description)
+    const number = parseInt(id, 10);    
+    const filteredExpense = expenses.filter((item) => item.id === number);    
+    const {
+      description, value, currency, method, tag, exchangeRates
+    } = filteredExpense[0];    
     this.setState((prevState) => ({
       ...prevState,
       expense: {
         ...prevState.expense,
-        description: description,
-        value: value,
-        currency: currency,
-        method: method,
-        tag: tag,
-        exchangeRates: exchangeRates,
+        description,
+        value,
+        currency,
+        method,
+        tag,
+        exchangeRates,
         id: number,
       },
       newExpense: false,
@@ -124,7 +123,7 @@ class Wallet extends React.Component {
           currencies={ this.filterCurrenciesInitials }
           setState={ this.eventHandler }
           onSubmit={ this.handleSubmit }
-          editSubmit={ this.editSubmit}
+          editSubmit={ this.editSubmit }
           description={ description }
           value={ value }
           currency={ currency }
@@ -132,7 +131,7 @@ class Wallet extends React.Component {
           tag={ tag }
           newExpense={ newExpense }
         />
-        <ExpensesTable expenses={ expenses } editExpense={this.editExpense} />
+        <ExpensesTable expenses={ expenses } editExpense={ this.editExpense } />
       </div>
     );
   }

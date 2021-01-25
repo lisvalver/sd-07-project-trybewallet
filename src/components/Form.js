@@ -11,7 +11,7 @@ export default function Form({
   method,
   tag,
   newExpense,
-  editSubmit
+  editSubmit,
 }) {
   return (
     <form>
@@ -88,16 +88,15 @@ export default function Form({
       </div>
       <div>
         {newExpense === true ? (
-          <button type="button" className="add-expense" onClick={ onSubmit }>
+            <button type="button" className="add-expense" onClick={ onSubmit }>
           Adicionar despesa
-        </button>
+          </button>
         ) : (
-          <button type="button" className="add-expense" onClick={ editSubmit }>
+            <button type="button" className="add-expense" onClick={ editSubmit }>
           Editar despesa
-        </button>
+          </button>
         )}
-      </div>      
-          
+      </div>
     </form>
   );
 }
@@ -112,4 +111,5 @@ Form.propTypes = {
   currency: PropTypes.string.isRequired,
   method: PropTypes.string.isRequired,
   tag: PropTypes.string.isRequired,
+  newExpense: PropTypes.bool.isRequired,
 };
