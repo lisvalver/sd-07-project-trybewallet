@@ -11,11 +11,10 @@ class Login extends React.Component {
       checkedDatas: true,
       password: '',
     };
+    this.activateButton = this.activateButton.bind(this);
     this.sendData = this.sendData.bind(this);
     this.handlerInputs = this.handlerInputs.bind(this);
-    this.activateButton = this.activateButton.bind(this);
   }
-  // FONTE: https://github.com/tryber/sd-06-payloadproject-trybewallet/blob/brunolemoscoutinho_trybe-wallet/src/pages/Login.js
 
   sendData(e) {
     e.preventDefault();
