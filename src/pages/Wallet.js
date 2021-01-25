@@ -120,6 +120,6 @@ Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   total: PropTypes.number.isRequired,
-  requestCoins: PropTypes.func.isRequired,  
+  requestCoins: PropTypes.func.isRequired,
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
