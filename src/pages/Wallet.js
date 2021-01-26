@@ -170,7 +170,7 @@ Wallet.propTypes = {
     pctChange: PropTypes.string.isRequired,
     timestamp: PropTypes.string.isRequired,
     varBid: PropTypes.string.isRequired,
-  })),
+  }).isRequired).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
