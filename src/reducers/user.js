@@ -1,14 +1,8 @@
 // Esse reducer será responsável por tratar as informações da pessoa usuária
 import { LOGIN } from '../actions';
 
-export const INITIAL_STATE = {
-  user: {
-    email: '',
-  },
-  wallet: {
-    currencies: [],
-    expenses: [],
-  },
+const INITIAL_STATE = {
+  email: '',
 };
 
 const user = (state = INITIAL_STATE, action) => {
