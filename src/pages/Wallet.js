@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Header from '../Components/Header';
 import ExpensesForm from '../Components/FormExpenses';
 import fetchCurrency from '../APIs';
-import { fetchCurrencyAction, deleteExpense, editExpense } from '../actions';
+import { fetchCurrencyAction, deleteExpense, editExpenses, thisEditing, addEdicao } from '../actions';
 import Table from '../Components/Table';
 
 class Wallet extends Component {
@@ -23,29 +23,18 @@ class Wallet extends Component {
       },
       arrayCurrencyFiltered: [],
       totalExpenses: 0,
-      editExpenses: {},
-      edit: false,
     };
 
     this.fetchCurrencyType = this.fetchCurrencyType.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.editingExpenses = this.editingExpenses.bind(this);
+    // this.editingExpenseProps = this.editingExpenseProps.bind(this);
+    this.buttonEditarTab = this.buttonEditarTab.bind(this);
+    this.handleChangeExpense = this.handleChangeExpense.bind(this);
   }
 
   componentDidMount() {
     this.fetchCurrencyType();
-  }
-
-  editingExpenses(id) {
-    const { expenses } = this.props;
-    const { expense, edit, editExpenses } = this.state;
-    this.setState({
-      expense: expenses
-        .filter((expense) => expense.id === id),
-      edit: true,
-      // expense: editExpenses,
-    });
   }
 
   handleChange({ target }) {
@@ -87,17 +76,57 @@ class Wallet extends Component {
         method: 'Dinheiro',
         tag: 'Alimentação',
       },
-    }));
+    }), console.log('eraseState'));
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const { expense } = this.state;
-    const { addExpenseProps } = this.props;
+    const { addExpenseProps, editing } = this.props;
+    editing(false);
     addExpenseProps(expense)
       .then(() => this.calcExpenses())
       .then(() => this.eraseState());
   }
+
+  handleChangeExpense(event) {
+    event.preventDefault();
+    const { editing, addChangeEditDispatch } = this.props;
+    editing(false);
+    const { expenses: expensesToSendEdit } = this.state;
+    addChangeEditDispatch(expensesToSendEdit);
+    this.setState({
+      expenses: {
+        id: '',
+        value: 0,
+        description: '',
+        currency: 'USD',
+        method: 'Dinheiro',
+        tag: 'Alimentação',
+        exchangeRates: {},
+      },
+    });
+  }
+
+  buttonEditarTab(expenses) {
+    const { editing } = this.props;
+    editing(true);
+    this.setState({
+      expenses,
+    });
+  }
+
+  // buttonEditarTab(id) {
+  //   const {wallet, editExpenseProps, editing} = this.props;
+  //   const { expense } = this.state;
+  //   editExpenseProps(id);
+  //   console.log('expense = ', expense);
+  //   console.log('editExpenses = ', editExpenses);
+  //   editing(true);
+  //   this.setState({
+  //     expense: editExpenses,
+  //   });
+  // }
 
   render() {
     const { user, expenses, deleteExpenseProps, editExpenseProps } = this.props;
@@ -114,11 +143,14 @@ class Wallet extends Component {
           arrayCurrencyFiltered={arrayCurrencyFiltered}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
+          handleChangeExpense={this.handleChangeExpense}
         />
         <Table
           expenses={expenses}
           deleteExpenseProps={deleteExpenseProps}
-          editExpenseProps={this.editingExpenses}
+          // editExpenseProps={editExpenseProps}
+          buttonEditarTab={this.buttonEditarTab}
+          handleChangeExpense={this.handleChangeExpense}
         />
       </div>
     );
@@ -128,12 +160,17 @@ class Wallet extends Component {
 const mapStateToProps = (state) => ({
   user: state.user.email,
   expenses: state.wallet.expenses,
+  // editExpense: state.wallet.editExpense,
+  isEditing: state.wallet.isEditing,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addExpenseProps: (expense) => dispatch(fetchCurrencyAction(expense)),
   deleteExpenseProps: (id) => dispatch(deleteExpense(id)),
-  editExpenseProps: (id) => dispatch(editExpense(id)),
+  editExpenseProps: (id) => dispatch(editExpenses(id)),
+  editing: (change) => dispatch(thisEditing(change)),
+  addChangeEditDispatch:
+  (expensesToSendEdit) => dispatch(addEdicao(expensesToSendEdit)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

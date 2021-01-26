@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 class Table extends React.Component {
   render() {
-    const { expenses, deleteExpenseProps, editExpenseProps } = this.props;
+    const { expenses, deleteExpenseProps, editExpenseProps, editExpense, buttonEditarTab, isEditing, handleSubmit, handleChangeExpense } = this.props;
+    console.log(editExpense)
     return (
       <div>
         <table id="myTable">
@@ -20,7 +21,7 @@ class Table extends React.Component {
               <th>Editar/Excluir</th>
             </tr>
           </thead>
-          { expenses.map((expense) => {
+          {expenses.map((expense) => {
             const {
               description,
               tag,
@@ -32,7 +33,7 @@ class Table extends React.Component {
             } = expense;
             const { name, ask } = exchangeRates[currency];
             return (
-              <tbody key={ id }>
+              <tbody key={id}>
                 <tr>
                   <td>{description}</td>
                   <td>{tag}</td>
@@ -45,14 +46,15 @@ class Table extends React.Component {
                   <td>
                     <button
                       type="button"
-                      onClick={ () => deleteExpenseProps(id) }
+                      onClick={() => deleteExpenseProps(id)}
                       data-testid="delete-btn"
                     >
                       Excluir
                     </button>
                     <button
                       type="button"
-                      onClick={ () => editExpenseProps(id) }
+                      // onClick={ () => editExpenseProps(id) }
+                      onClick={(id) => buttonEditarTab(id)}
                       data-testid="edit-btn"
                     >
                       Editar despesa

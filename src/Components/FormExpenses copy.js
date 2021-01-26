@@ -3,46 +3,46 @@ import PropTypes from 'prop-types';
 
 class ExpensesForm extends React.Component {
   render() {
-    const { arrayCurrencyFiltered, handleChange, handleSubmit, state, handleChangeExpense, isEditing } = this.props;
+    const { arrayCurrencyFiltered, handleChange, handleSubmit, state } = this.props;
     const { value, description, currency, method, tag } = state.expense;
     return (
       <div>
         <label htmlFor="value">
           Valor:
           <input
-            value={value}
+            value={ value }
             id="value"
             type="number"
             name="value"
             data-testid="value-input"
-            onChange={(e) => handleChange(e)}
+            onChange={ (e) => handleChange(e) }
           />
         </label>
         <label htmlFor="description">
           Descrição:
           <input
-            value={description}
+            value={ description }
             id="description"
             type="text"
             name="description"
             data-testid="description-input"
-            onChange={(e) => handleChange(e)}
+            onChange={ (e) => handleChange(e) }
           />
         </label>
         <label htmlFor="currency">
           Moeda:
           <select
-            value={currency}
+            value={ currency }
             name="currency"
             id="currency"
             data-testid="currency-input"
-            onChange={(e) => handleChange(e)}
+            onChange={ (e) => handleChange(e) }
           >
             {arrayCurrencyFiltered.map((coin) => (
               <option
-                key={coin}
-                value={coin}
-                data-testid={coin}
+                key={ coin }
+                value={ coin }
+                data-testid={ coin }
               >
                 {coin}
               </option>
@@ -52,11 +52,11 @@ class ExpensesForm extends React.Component {
         <label htmlFor="method">
           Método de Pagamento:
           <select
-            value={method}
+            value={ method }
             id="method"
             name="method"
             data-testid="method-input"
-            onChange={(e) => handleChange(e)}
+            onChange={ (e) => handleChange(e) }
           >
 
             <option value="Dinheiro">Dinheiro</option>
@@ -67,11 +67,11 @@ class ExpensesForm extends React.Component {
         <label htmlFor="tag">
           Categoria:
           <select
-            value={tag}
+            value={ tag }
             id="tag"
             name="tag"
             data-testid="tag-input"
-            onChange={(e) => handleChange(e)}
+            onChange={ (e) => handleChange(e) }
           >
             <option value="Alimentação">Alimentação</option>
             <option value="Lazer">Lazer</option>
@@ -80,22 +80,12 @@ class ExpensesForm extends React.Component {
             <option value="Saúde">Saúde</option>
           </select>
         </label>
-        { (!isEditing)
-          ? (
-            <button
-              type="button"
-              onClick={(e) => handleSubmit(e)}
-            >
-              Adicionar despesa
-            </button>)
-          : (
-            <button
-              type="button"
-              onClick={(e) => handleChangeExpense(e)}
-            >
-              Editar Despesa
-            </button>
-          )}
+        <button
+          type="button"
+          onClick={ (e) => handleSubmit(e) }
+        >
+          Adicionar despesa
+        </button>
       </div>
     );
   }

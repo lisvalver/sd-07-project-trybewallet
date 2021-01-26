@@ -4,7 +4,7 @@ export const LOGIN = 'LOGIN';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const UPDATE_CURRENCIES = 'UPDATE_CURRENCIES';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
-export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+export const EDIT_EXPENSES = 'EDIT_EXPENSES';
 
 export const addEmail = (event) => ({
   type: 'EMAIL',
@@ -26,9 +26,24 @@ export const deleteExpense = (id) => ({
   id,
 });
 
-export const editExpense = (id) => ({
-  type: EDIT_EXPENSE,
+export const editExpenses = (expenses, id) => ({
+  type: EDIT_EXPENSES,
   id,
+  expenses,
+});
+
+export const THIS_EDITING = 'THIS_EDITING';
+
+export const thisEditing = (change) => ({
+  type: THIS_EDITING,
+  change,
+});
+
+export const ADD_EDICAO = 'ADD_EDICAO';
+
+export const addEdicao = (expense) => ({
+  type: ADD_EDICAO,
+  expense,
 });
 
 export function fetchCurrencyAction(expense) {
