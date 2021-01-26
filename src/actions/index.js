@@ -2,8 +2,8 @@ import apiCurrency from '../services/apiCurrency';
 
 export const SAVE_EMAIL = 'SAVE_EMAIL';
 export const SAVE_PASSWORD = 'SAVE_PASSWORD';
-export const SAVE_EXPENSES = 'SAVE_EXPENSES';
-export const REQUEST_CURRENCY = 'REQUEST_CURRENCY';
+export const ADD_EXPENSES = 'ADD_EXPENSES';
+export const REQUEST_API = 'REQUEST_API';
 
 export const saveEmail = (email) => ({
   type: SAVE_EMAIL,
@@ -15,16 +15,17 @@ export const savePassword = (password) => ({
   password,
 });
 
-export const saveExpenses = () => ({
-  type: SAVE_EXPENSES,
+export const addExpenses = (expenses) => ({
+  type: ADD_EXPENSES,
+  expenses,
 });
 
 export const requestCurrency = (currency) => ({
-  type: REQUEST_CURRENCY,
+  type: REQUEST_API,
   currency,
 });
 
-export function fetchCurrency() {
+export function requestApi() {
   return async (dispatch) => {
     dispatch(requestCurrency());
 

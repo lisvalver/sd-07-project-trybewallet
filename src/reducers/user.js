@@ -9,9 +9,7 @@ const LOGIN_INITIAL_STATE = {
 const userReducer = (state = LOGIN_INITIAL_STATE, action) => {
   switch (action.type) {
   case SAVE_EMAIL:
-    return ({
-      email: action.email,
-    });
+    return { ...state, email: action.email };
   case SAVE_PASSWORD:
     return { ...state, password: action.password };
   default:

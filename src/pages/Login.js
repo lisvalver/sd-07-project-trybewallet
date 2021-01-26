@@ -43,8 +43,9 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  handleAddEmail(email) {
+  handleClick() {
     const { dispatchSaveEmail } = this.props;
+    const { email } = this.state;
     dispatchSaveEmail(email);
   }
 
@@ -87,7 +88,7 @@ class Login extends Component {
             <button
               disabled={ this.inputValidation() }
               type="button"
-              onClick={ () => this.handleAddEmail(email) }
+              onClick={ () => this.handleClick(email) }
             >
               Entrar
             </button>

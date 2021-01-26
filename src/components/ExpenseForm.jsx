@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-// import { requestCurrency } from '../actions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addExpenses } from '../actions';
 // import walletReducer from '../reducers';
 import apiCurrency from '../services/apiCurrency';
 
@@ -9,7 +9,7 @@ class ExpenseForm extends Component {
   constructor(props) {
     super(props);
 
-    this.handleInput = this.handleInput.bind(this);
+    // this.handleInput = this.handleInput.bind(this);
     // this.currencyInput = this.currencyInput.bind(this);
 
     this.state = {
@@ -18,7 +18,6 @@ class ExpenseForm extends Component {
       description: '',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      // exchangeRates: {},
     };
   }
 
@@ -27,10 +26,6 @@ class ExpenseForm extends Component {
     const currencyArray = (Object.keys(currencyApi));
     currencyArray.splice(1, 1);
     this.currencyInput(currencyArray);
-  }
-
-  handleInput({ target: { name, value } }) {
-    this.setState({ [name]: value });
   }
 
   currencyInput(value) {
@@ -45,7 +40,7 @@ class ExpenseForm extends Component {
 
   render() {
     const { value, currency, description, method, tag } = this.state;
-    // const { currencyInput } = this.state;
+    const { add } = this.props;
 
     return (
       <div className="expense-form">
@@ -53,31 +48,28 @@ class ExpenseForm extends Component {
           <label htmlFor="value-input">
             Valor
             <input
-              name="value"
               value={ value }
               data-testid="value-input"
-              onChange={ this.handleInput }
+              onChange={ (e) => this.setState({ value: e.target.value }) }
             />
           </label>
           <label htmlFor="description-input">
             Descrição de despesas
             <input
-              nome="description"
               value={ description }
               data-testid="description-input"
-              onChange={ this.handleInput }
+              onChange={ (e) => this.setState({ description: e.target.value }) }
             />
           </label>
           <label htmlFor="currency-input">
             Moeda
             <select
               data-testid="currency-input"
-              onChange={ this.handleInput }
+              onChange={ (e) => this.setState({ currentCurrency: e.target.value }) }
             >
               {currency.map((cur) => (
                 <option
                   data-testid={ cur }
-                  name="currency"
                   value={ cur }
                   key={ cur }
                 >
@@ -90,9 +82,8 @@ class ExpenseForm extends Component {
             Forma de pagamento
             <select
               value={ method }
-              name="method"
               data-testid="method-input"
-              onChange={ this.handleInput }
+              onChange={ (e) => this.setState({ method: e.target.value }) }
             >
               <option value="dinheiro">Dinheiro</option>
               <option value="cartao-credito">Cartão de Crédito</option>
@@ -103,42 +94,47 @@ class ExpenseForm extends Component {
             Categoria
             <select
               value={ tag }
-              name="tag"
               data-testid="tag-input"
-              onChange={ this.handleInput }
+              onChange={ (e) => this.setState({ tag: e.target.value }) }
             >
+              <option value="alimentacao">Alimentação</option>
               <option value="lazer">Lazer</option>
               <option value="trabalho">Trabalho</option>
               <option value="transporte">Transporte</option>
               <option value="saude">Saúde</option>
             </select>
           </label>
-          <button type="button">Adicionar despesas</button>
+          <button
+            type="button"
+            onClick={ () => add(this.state) }
+          >
+            Adicionar despesas
+          </button>
         </form>
       </div>
     );
   }
 }
 
-/* const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
   value: state.walletReducer,
   description: state.walletReducer,
   method: state.walletReducer,
   tag: state.walletReducer,
-  fetchCurrency: state.walletReducer.currency,
+  currency: state.currency,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchCurrencyFetch: actions.fetchCurrency,
-}); */
+  add: (e) => dispatch(addExpenses(e)),
+});
 
-/* ExpenseForm.propTypes = {
-  value: PropTypes.number.isRequired,
+ExpenseForm.propTypes = {
+  /* value: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
   method: PropTypes.string.isRequired,
-  tag: PropTypes.string.isRequired,
-  dispatchCurrencyFetch: PropTypes.func.isRequired,
+  tag: PropTypes.string.isRequired, */
+  add: PropTypes.func.isRequired,
 
-}; */
+};
 
-export default ExpenseForm;
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
