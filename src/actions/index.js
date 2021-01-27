@@ -4,6 +4,7 @@ import {
   CURRENCY_UPDATE_VALUE,
   EXPENSES_UPDATE_VALUE,
   EXPENSES_DELETE_VALUE,
+  EXPENSES_ADD_VALUE,
   TOGGLE_FORMS,
 } from './actionTypes';
 import fetchCurrency from '../services/API';
@@ -20,8 +21,14 @@ export const walletCurrency = (currency, rates) => ({
 });
 
 export const buttonExpenses = (expense) => ({
-  type: EXPENSES_UPDATE_VALUE,
+  type: EXPENSES_ADD_VALUE,
   expense,
+});
+
+export const editExpenses = (idExpense, editExpense) => ({
+  type: EXPENSES_UPDATE_VALUE,
+  idExpense,
+  editExpense,
 });
 
 export const excludesRow = (id) => ({
@@ -29,9 +36,10 @@ export const excludesRow = (id) => ({
   id,
 });
 
-export const toggleForm = (status) => ({
+export const toggleForm = (editingExpense, id) => ({
   type: TOGGLE_FORMS,
-  toggle: status,
+  edit: editingExpense,
+  currentId: id,
 });
 
 export const getCurrencies = () => async (dispatch) => {

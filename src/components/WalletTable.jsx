@@ -28,9 +28,9 @@ class WalletTable extends React.Component {
     deleteRowDispatch(id);
   }
 
-  toggleForm() {
+  toggleForm(currentId) {
     const { toggleFormDispatch } = this.props;
-    toggleFormDispatch(true);
+    toggleFormDispatch(true, currentId);
   }
 
   render() {
@@ -63,7 +63,7 @@ class WalletTable extends React.Component {
                 <button
                   type="button"
                   data-testid="edit-btn"
-                  onClick={ () => this.toggleForm() }
+                  onClick={ () => this.toggleForm(expense.id) }
                 >
                   Editar
                 </button>
@@ -89,7 +89,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   deleteRowDispatch: (excludedRow) => dispatch(excludesRow(excludedRow)),
-  toggleFormDispatch: (status) => dispatch(toggleForm(status)),
+  toggleFormDispatch: (status, currentId) => dispatch(toggleForm(status, currentId)),
 });
 
 WalletTable.propTypes = {

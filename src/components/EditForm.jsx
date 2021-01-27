@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCurrencies, buttonExpenses } from '../actions';
+import { editExpenses, buttonExpenses, toggleForm } from '../actions';
 
 class EditForm extends React.Component {
   constructor() {
@@ -22,11 +22,6 @@ class EditForm extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    const { getCurrenciesDispatch } = this.props;
-    await getCurrenciesDispatch();
-  }
-
   handleChange(e) {
     const { name, value } = e.target;
     this.setState((previuosState) => ({
@@ -35,10 +30,9 @@ class EditForm extends React.Component {
   }
 
   async buttonClick() {
-    const { buttonExpensesDispatch, getCurrenciesDispatch } = this.props;
+    const { editExpensesDispatch, editId, toggleFormDispatch } = this.props;
     const { expense } = this.state;
-    await getCurrenciesDispatch();
-    buttonExpensesDispatch(expense);
+    editExpensesDispatch(editId, expense);
     this.setState({ expense: {
       value: '',
       description: '',
@@ -46,6 +40,7 @@ class EditForm extends React.Component {
       method: '',
       tag: '',
     } });
+    toggleFormDispatch(false);
   }
 
   render() {
@@ -53,7 +48,7 @@ class EditForm extends React.Component {
     const { methodOptions, tagOptions, expense } = this.state;
     const { value, description, currency, method, tag } = expense;
     return (
-      <form>
+      <form className="edit-form">
         <label htmlFor="value-input">
           Valor editado:
           <input
@@ -119,7 +114,7 @@ class EditForm extends React.Component {
           </select>
         </label>
         <button type="button" onClick={ this.buttonClick }>
-          Adicionar despesa
+          Editar despesa
         </button>
       </form>
     );
@@ -127,18 +122,21 @@ class EditForm extends React.Component {
 }
 
 EditForm.propTypes = {
-  getCurrenciesDispatch: PropTypes.func.isRequired,
-  buttonExpensesDispatch: PropTypes.func.isRequired,
+  editExpensesDispatch: PropTypes.func.isRequired,
   currenciesState: PropTypes.func.isRequired,
+  toggleFormDispatch: PropTypes.func.isRequired,
+  editId: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   currenciesState: state.wallet.currencies,
+  editId: state.wallet.editingExpense,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getCurrenciesDispatch: () => dispatch(getCurrencies()),
   buttonExpensesDispatch: (ex) => dispatch(buttonExpenses(ex)),
+  editExpensesDispatch: (expense, editId) => dispatch(editExpenses(expense, editId)),
+  toggleFormDispatch: (status, currentId) => dispatch(toggleForm(status, currentId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditForm);

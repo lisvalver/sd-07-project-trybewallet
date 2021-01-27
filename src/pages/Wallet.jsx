@@ -27,6 +27,7 @@ class Wallet extends React.Component {
   render() {
     const { currency } = this.state;
     const { email, typeForm } = this.props;
+    console.log(typeForm);
     return (
       <div className="header-wallet">
         TrybeWallet
@@ -48,12 +49,6 @@ class Wallet extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  email: state.user.email,
-  expensesState: state.wallet.expenses,
-  typeForm: state.wallet.toggleForm,
-});
-
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   typeForm: PropTypes.bool.isRequired,
@@ -63,5 +58,11 @@ Wallet.propTypes = {
     PropTypes.object,
   ]).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  email: state.user.email,
+  expensesState: state.wallet.expenses,
+  typeForm: state.wallet.toggleForm,
+});
 
 export default connect(mapStateToProps, null)(Wallet);
