@@ -41,7 +41,6 @@ const wallet = (state = initialState, action) => {
       expenses: [...currentExpenses],
     };
   }
-
   default:
     return state;
   }
