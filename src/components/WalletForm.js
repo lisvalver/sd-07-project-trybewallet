@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
-import { expenseToSave, upDateCurrencies } from '../actions';
+import {
+  expenseToSave,
+  saveEditedExpenseAction,
+  upDateCurrencies,
+} from '../actions';
 
 class WalletForm extends React.Component {
   constructor() {
@@ -9,6 +13,12 @@ class WalletForm extends React.Component {
     this.changeID = this.changeID.bind(this);
     this.resetInput = this.resetInput.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.editingSetState = this.editingSetState.bind(this);
+    this.ShowSaveNewOrEditedExpenseBtn = this.ShowSaveNewOrEditedExpenseBtn.bind(
+      this,
+    );
+    this.saveEditedExpense = this.saveEditedExpense.bind(this);
+
     this.state = {
       id: 0,
       value: 0,
@@ -38,15 +48,39 @@ class WalletForm extends React.Component {
     });
   }
 
-  render() {
-    const { id, value, description, currency, method, tag } = this.state;
-
+  editingSetState() {
     const {
-      saveExpenses,
-      currenciesOptions,
-      isFetching,
+      expenseToEdit: { id, value, description, currency, method, tag, exchangeRates },
     } = this.props;
+    this.setState({
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates,
+    });
+  }
 
+  saveEditedExpense() {
+    const { saveEditedExpenseDispatch } = this.props;
+    const { id, value, description, currency, method, tag, exchangeRates } = this.state;
+    const objEditedToSave = {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates,
+    };
+    saveEditedExpenseDispatch(objEditedToSave);
+  }
+
+  ShowSaveNewOrEditedExpenseBtn() {
+    const { isEditing, saveExpenses } = this.props;
+    const { id, value, description, currency, method, tag } = this.state;
     const expenseObjToSave = {
       id,
       value,
@@ -55,6 +89,38 @@ class WalletForm extends React.Component {
       method,
       tag,
     };
+    if (!isEditing) {
+      return (
+        <button
+          type="button"
+          onClick={ () => {
+            // upDateCurrencies();
+            this.changeID();
+            saveExpenses(expenseObjToSave);
+            this.resetInput();
+          } }
+        >
+          Adicionar despesa
+        </button>
+      );
+    }
+    return (
+      <button
+        type="button"
+        data-testid="edit-btn"
+        onClick={ this.saveEditedExpense }
+      >
+        Editar despesa
+      </button>
+    );
+  }
+
+  render() {
+    const { value, description } = this.state;
+
+    const { currenciesOptions, isFetching, isEditing } = this.props;
+
+    if (isEditing && value === 0) this.editingSetState();
 
     return (
       <div>
@@ -109,17 +175,7 @@ class WalletForm extends React.Component {
               <option>Transporte</option>
               <option>Saúde</option>
             </select>
-            <button
-              type="button"
-              onClick={ () => {
-                // upDateCurrencies();
-                this.changeID();
-                saveExpenses(expenseObjToSave);
-                this.resetInput();
-              } }
-            >
-              Adicionar despesa
-            </button>
+            {this.ShowSaveNewOrEditedExpenseBtn()}
           </form>
         )}
       </div>
@@ -129,6 +185,8 @@ class WalletForm extends React.Component {
 
 const mapStateToProps = (state) => ({
   expensesState: state.wallet.expenses,
+  expenseToEdit: state.wallet.expenseToEdit,
+  isEditing: state.wallet.isEditing,
   allInfosCurrencies: state.wallet.allInfosCurrencies,
   currenciesOptions: state.wallet.currenciesOptions,
   isFetching: state.wallet.isFetching,
@@ -138,6 +196,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   saveExpenses: (expenseObjToSave) => dispatch(expenseToSave(expenseObjToSave)),
   upDateCurrencies: () => dispatch(upDateCurrencies()),
+  saveEditedExpenseDispatch: (objEditedToSave) => {
+    dispatch(saveEditedExpenseAction(objEditedToSave));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);
@@ -146,4 +207,15 @@ WalletForm.propTypes = {
   saveExpenses: PropTypes.func.isRequired,
   currenciesOptions: PropTypes.arrayOf(string).isRequired,
   isFetching: PropTypes.bool.isRequired,
+  isEditing: PropTypes.bool.isRequired,
+  saveEditedExpenseDispatch: PropTypes.func.isRequired,
+  expenseToEdit: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    method: PropTypes.string.isRequired,
+    tag: PropTypes.string.isRequired,
+    currency: PropTypes.arrayOf(PropTypes.string).isRequired,
+    exchangeRates: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
 };

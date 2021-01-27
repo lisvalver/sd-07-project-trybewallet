@@ -3,6 +3,8 @@ export const EXPENSES_TO_SAVE = 'EXPENSE_TO_SAVE';
 export const FETCHING = 'IS_FETCHING';
 export const SUCESSFUL_FETCH = 'SUCESSFUL_FETCH';
 export const EXPENSE_TO_DELETE = 'EXPENSE_TO_DELETE';
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+export const SAVE_EDITED_EXPENSE = 'SAVE_EDITED_EXPENSE';
 
 export function saveEmail(email) {
   return {
@@ -15,6 +17,20 @@ export function deleteExpenseAction(indexExpenseToDelete) {
   return {
     type: EXPENSE_TO_DELETE,
     indexExpenseToDelete,
+  };
+}
+
+export function editExpenseAction(editObjExpense) {
+  return {
+    type: EDIT_EXPENSE,
+    editObjExpense,
+  };
+}
+
+export function saveEditedExpenseAction(objEditedToSave) {
+  return {
+    type: SAVE_EDITED_EXPENSE,
+    objEditedToSave,
   };
 }
 
