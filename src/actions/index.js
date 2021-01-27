@@ -7,3 +7,19 @@ export const addUser = (data) => (
     data,
   }
 );
+
+export const addExpense = (data) => (
+  {
+    type: 'EXPENSE',
+    data,
+  }
+);
+
+export function getCurrencies(expense) {
+  return async (dispatch) => {
+    const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+    const data = await response.json();
+    expense.exchangeRates = data;
+    dispatch(addExpense(expense));
+  };
+}
