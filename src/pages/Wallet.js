@@ -1,9 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import getCurrencies from '../services/api';
 
 class Wallet extends React.Component {
+  constructor() {
+    super();
+
+    this.state = ({
+      currencies: [],
+    });
+  }
+
+  componentDidMount() {
+    getCurrencies()
+      .then((response) => {
+        delete response.USDT;
+        const currencies = Object.keys(response);
+        this.setState({
+          currencies,
+        });
+      });
+  }
+
   render() {
     const { email } = this.props;
+    const { currencies } = this.state;
     return (
       <div>
         <header>
@@ -21,11 +42,15 @@ class Wallet extends React.Component {
         <form>
           <input data-testid="value-input" />
           <input data-testid="description-input" />
-          {/* <select data-testid="currency-input" >
-        <option>
-
-        </option>
-      </select> */}
+          <select data-testid="currency-input">
+            {currencies.map((currency, i) => (
+              <option
+                key={ i }
+                data-testid={ currency }
+              >
+                {currency}
+              </option>))}
+          </select>
         </form>
       </div>
 
