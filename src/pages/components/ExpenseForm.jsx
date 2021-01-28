@@ -18,12 +18,21 @@ class ExpenseForm extends React.Component {
     this.handleChanges = this.handleChanges.bind(this);
     this.submitDatas = this.submitDatas.bind(this);
     this.handleCurrencyInit = this.handleCurrencyInit.bind(this);
+    // this.editRow = this.editRow.bind(this);
+    // this.lineEdit = this.lineEdit.bind(this);
   }
 
   componentDidMount() {
     const { requestCoin } = this.props;
     requestCoin();
   }
+
+  /*  lineEdit() {
+    const { lineEdit: row, addEditButton } = this.props;
+    const { id, value, currency, method, tag, description } = row;
+    if (addEditButton) this.setState({ id, value });
+
+  } */
 
   handleCurrencyInit() {
     const { currencies } = this.props;
@@ -38,6 +47,12 @@ class ExpenseForm extends React.Component {
 
     if (!currency) this.handleCurrencyInit();
   }
+
+  /*  editRow() {
+    const { idEdit, expenses } = this.props;
+    console.log(expenses[idEdit]);
+    console.log(idEdit);
+  } */
 
   async submitDatas() {
     const { id, value, currency, method, tag, description } = this.state;
@@ -69,8 +84,9 @@ class ExpenseForm extends React.Component {
   }
 
   render() {
-    const { currencies } = this.props;
+    const { currencies, addEditButton } = this.props;
     const { value, currency, method, tag, description } = this.state;
+
     return (
       <section>
         <form>
@@ -172,11 +188,11 @@ class ExpenseForm extends React.Component {
             <div className="buttons">
               <input
                 type="button"
-                value="Adicionar despesa"
+                value={ addEditButton ? 'Editar Despesas' : 'Adicionar Despesas' }
                 name="enviar"
                 id="enviar"
                 className="button is-success"
-                onClick={ this.submitDatas }
+                onClick={ addEditButton ? this.editRow : this.submitDatas }
               />
             </div>
           </div>
@@ -197,6 +213,9 @@ const mapStateToProps = (state) => ({
   currenciesObj: state.wallet.currenciesObj,
   expenses: state.wallet.expenses,
   totalExpenses: state.wallet.totalExpenses,
+  addEditButton: state.wallet.addEditButton,
+  lineEdit: state.wallet.lineEdit,
+  valueButtonAddEdit: state.wallet.valueButtonAddEdit,
 });
 
 ExpenseForm.propTypes = {
@@ -207,6 +226,7 @@ ExpenseForm.propTypes = {
   submitTotalExpenses: PropTypes.func.isRequired,
   currenciesObj: PropTypes.arrayOf(PropTypes.string).isRequired,
   totalExpenses: PropTypes.number.isRequired,
+  addEditButton: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);

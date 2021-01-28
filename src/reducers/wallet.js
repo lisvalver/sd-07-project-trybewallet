@@ -1,4 +1,3 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 import {
   REQUEST_CURRENCY,
   CURRENCY_SUCESS,
@@ -9,11 +8,15 @@ import {
   CHANGE_EXPENSES,
   DELETE_EXPENSES_ROW,
   TOTAL_EXPENSES,
+  EDIT_ROW_OBJ,
+  NEW_EXPENSES,
 } from '../actions';
 
 const initialState = {
   currencies: [],
   expenses: [],
+  editExpenses: {},
+  editing: false,
   currenciesObj: {},
   totalExpenses: 0,
   loading: false,
@@ -44,10 +47,7 @@ export default function (state = initialState, action) {
   case CURRENCY_SUCESS:
     return {
       ...state,
-      currencies: [
-        ...state.currencies,
-        ...action.payload,
-      ],
+      currencies: [...state.currencies, ...action.payload],
       loading: false,
     };
   case CURRENCY_FAIL:
@@ -70,6 +70,24 @@ export default function (state = initialState, action) {
     return {
       ...state,
       loading: false,
+    };
+  case EDIT_ROW_OBJ:
+    return {
+      ...state,
+      editExpenses: action.payload,
+      editing: true,
+    };
+  case NEW_EXPENSES:
+    return {
+      ...state,
+      expenses: [
+        ...state.expenses.map((item) => {
+          if (item.id === action.payload.id) {
+            return action.payload;
+          }
+          return item;
+        }),
+      ],
     };
   default:
     return state;

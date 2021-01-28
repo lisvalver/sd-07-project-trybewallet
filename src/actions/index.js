@@ -1,4 +1,3 @@
-// Coloque aqui suas actions
 import getCurrentCurrency from '../services/currencyAPI';
 
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';
@@ -12,6 +11,8 @@ export const CURRENCY_FAIL = 'CURRENCY_FAIL';
 export const REQUEST_CURRENCY_OBJ = 'REQUEST_CURRENCY_OBJ';
 export const CURRENCY_OBJ_SUCESS = 'CURRENCY_OBJ_SUCESS';
 export const CURRENCY_OBJ_FAIL = 'CURRENCY_OBJ_FAIL';
+export const EDIT_ROW_OBJ = 'EDIT_ROW_OBJ';
+export const NEW_EXPENSES = 'NEW_EXPENSES';
 
 export const changeEmail = (email) => ({
   type: CHANGE_EMAIL,
@@ -55,31 +56,37 @@ export const currencyObjToStoreFail = (error) => ({
   type: CURRENCY_OBJ_FAIL,
   error,
 });
+export const editExpensesRow = (payload) => ({
+  type: EDIT_ROW_OBJ,
+  payload,
+});
+export const newExpenses = (payload) => ({
+  type: NEW_EXPENSES,
+  payload,
+});
 
 export function requestCurrency() {
   return (dispatch) => {
     dispatch(requestApiCurrency());
-    return getCurrentCurrency()
-      .then(
-        (data) => {
-          const results = Object.keys(data);
-          const currencies = results.filter((item) => item !== 'USDT');
-          dispatch(currencyToStoreSucess(currencies));
-        },
-        (error) => dispatch(currencyToStoreFail(error)),
-      );
+    return getCurrentCurrency().then(
+      (data) => {
+        const results = Object.keys(data);
+        const currencies = results.filter((item) => item !== 'USDT');
+        dispatch(currencyToStoreSucess(currencies));
+      },
+      (error) => dispatch(currencyToStoreFail(error)),
+    );
   };
 }
 
 export function requestCurrencyObject() {
   return (dispatch) => {
     dispatch(requestApiCurrencyObj());
-    return getCurrentCurrency()
-      .then(
-        (data) => {
-          dispatch(currencyObjToStoreSucess(data));
-        },
-        (error) => dispatch(currencyObjToStoreFail(error)),
-      );
+    return getCurrentCurrency().then(
+      (data) => {
+        dispatch(currencyObjToStoreSucess(data));
+      },
+      (error) => dispatch(currencyObjToStoreFail(error)),
+    );
   };
 }
