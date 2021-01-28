@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteExpensesRow, valueButtonAddEdit, lineForEditing } from '../../actions';
+import { deleteExpensesRow, editExpensesRow } from '../../actions';
 
 class ExpenseTable extends Component {
   constructor(props) {
@@ -121,8 +121,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   removeExpensesRow: (rowId) => dispatch(deleteExpensesRow(rowId)),
-  valueEditButton: (value) => dispatch(valueButtonAddEdit(value)),
-  lineForEdit: (row) => dispatch(lineForEditing(row)),
+  editRow: (editRow) => dispatch(editExpensesRow(editRow)),
 });
 
 ExpenseTable.propTypes = {

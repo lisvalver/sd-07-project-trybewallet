@@ -1,25 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { requestCurrency, requestCurrencyObject,
-  changeExpenses, changeTotalExpenses } from '../../actions';
+import {
+  requestCurrency,
+  requestCurrencyObject,
+  changeExpenses,
+  changeTotalExpenses,
+  newExpenses } from '../../actions';
 
+const initialState = {
+  id: 0,
+  value: 0,
+  currency: '',
+  method: 'Dinheiro',
+  tag: 'Alimentação',
+  description: '',
+};
 class ExpenseForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: 0,
-      value: 0,
-      currency: '',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
-      description: '',
-    };
+    this.state = initialState;
     this.handleChanges = this.handleChanges.bind(this);
     this.submitDatas = this.submitDatas.bind(this);
     this.handleCurrencyInit = this.handleCurrencyInit.bind(this);
-    // this.editRow = this.editRow.bind(this);
-    // this.lineEdit = this.lineEdit.bind(this);
+    this.editRowSetState = this.editRowSetState.bind(this);
   }
 
   componentDidMount() {
@@ -27,12 +31,12 @@ class ExpenseForm extends React.Component {
     requestCoin();
   }
 
-  /*  lineEdit() {
-    const { lineEdit: row, addEditButton } = this.props;
-    const { id, value, currency, method, tag, description } = row;
-    if (addEditButton) this.setState({ id, value });
-
-  } */
+  editRowSetState() {
+    const { editExpenses } = this.props;
+    const { value, currency, method, tag, description } = editExpenses;
+    this.setState({ value, currency, method, tag, description });
+    console.log('Objeto de edição ', editExpenses);
+  }
 
   handleCurrencyInit() {
     const { currencies } = this.props;
@@ -48,25 +52,24 @@ class ExpenseForm extends React.Component {
     if (!currency) this.handleCurrencyInit();
   }
 
-  /*  editRow() {
-    const { idEdit, expenses } = this.props;
-    console.log(expenses[idEdit]);
-    console.log(idEdit);
-  } */
-
   async submitDatas() {
     const { id, value, currency, method, tag, description } = this.state;
-    const { submitExpenses,
-      totalExpenses = 0, submitTotalExpenses, requestCurrencyObj } = this.props;
+    const {
+      submitExpenses,
+      totalExpenses = 0,
+      submitTotalExpenses,
+      requestCurrencyObj,
+      creatNewExpenses,
+      editing,
+    } = this.props;
     await requestCurrencyObj();
 
     const { currenciesObj } = this.props;
 
     const { ask } = currenciesObj[currency];
 
-    const total = Math.round((parseFloat(totalExpenses)
-    + (parseFloat(value) * ask)) * 100)
-      / 100;
+    const total = Math
+      .round((parseFloat(totalExpenses) + parseFloat(value) * ask) * 100) / 100;
 
     const expense = {
       id,
@@ -78,15 +81,16 @@ class ExpenseForm extends React.Component {
       exchangeRates: currenciesObj,
     };
     console.log(total);
-    submitExpenses(expense);
+    if (editing) creatNewExpenses(expense);
+    else submitExpenses(expense);
     submitTotalExpenses(total);
-    this.setState({ id: id + 1 });
+    this.setState({ id: id + 1, value: 0 });
   }
 
   render() {
-    const { currencies, addEditButton } = this.props;
+    const { currencies, editing } = this.props;
     const { value, currency, method, tag, description } = this.state;
-
+    if (editing && value === 0) this.editRowSetState();
     return (
       <section>
         <form>
@@ -117,15 +121,11 @@ class ExpenseForm extends React.Component {
                   value={ currency }
                   onChange={ this.handleChanges }
                 >
-                  { currencies.map((coin, index) => (
-                    <option
-                      name="currency"
-                      key={ index }
-                      data-testid={ coin }
-                    >
-                      { coin }
+                  {currencies.map((coin, index) => (
+                    <option name="currency" key={ index } data-testid={ coin }>
+                      {coin}
                     </option>
-                  )) }
+                  ))}
                 </select>
               </div>
             </label>
@@ -188,16 +188,17 @@ class ExpenseForm extends React.Component {
             <div className="buttons">
               <input
                 type="button"
-                value={ addEditButton ? 'Editar Despesas' : 'Adicionar Despesas' }
+                value="Adicionar despesa"
                 name="enviar"
                 id="enviar"
                 className="button is-success"
-                onClick={ addEditButton ? this.editRow : this.submitDatas }
+                onClick={ this.submitDatas }
               />
             </div>
           </div>
         </form>
-      </section>);
+      </section>
+    );
   }
 }
 
@@ -206,6 +207,7 @@ const mapDispatchToProps = (dispatch) => ({
   requestCurrencyObj: () => dispatch(requestCurrencyObject()),
   submitExpenses: (expenses) => dispatch(changeExpenses(expenses)),
   submitTotalExpenses: (total) => dispatch(changeTotalExpenses(total)),
+  creatNewExpenses: (expenses) => dispatch(newExpenses(expenses)),
 });
 
 const mapStateToProps = (state) => ({
@@ -213,9 +215,8 @@ const mapStateToProps = (state) => ({
   currenciesObj: state.wallet.currenciesObj,
   expenses: state.wallet.expenses,
   totalExpenses: state.wallet.totalExpenses,
-  addEditButton: state.wallet.addEditButton,
-  lineEdit: state.wallet.lineEdit,
-  valueButtonAddEdit: state.wallet.valueButtonAddEdit,
+  editExpenses: state.wallet.editExpenses,
+  editing: state.wallet.editing,
 });
 
 ExpenseForm.propTypes = {
@@ -226,7 +227,9 @@ ExpenseForm.propTypes = {
   submitTotalExpenses: PropTypes.func.isRequired,
   currenciesObj: PropTypes.arrayOf(PropTypes.string).isRequired,
   totalExpenses: PropTypes.number.isRequired,
-  addEditButton: PropTypes.string.isRequired,
+  creatNewExpenses: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired,
+  editExpenses: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
