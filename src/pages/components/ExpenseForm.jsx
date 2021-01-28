@@ -6,7 +6,8 @@ import {
   requestCurrencyObject,
   changeExpenses,
   changeTotalExpenses,
-  newExpenses } from '../../actions';
+  newExpenses,
+  editExpensesRow } from '../../actions';
 
 const initialState = {
   id: 0,
@@ -15,6 +16,7 @@ const initialState = {
   method: 'Dinheiro',
   tag: 'Alimentação',
   description: '',
+  valueButtonAddEdit: 'Adicionar despesas',
 };
 class ExpenseForm extends React.Component {
   constructor(props) {
@@ -33,9 +35,9 @@ class ExpenseForm extends React.Component {
 
   editRowSetState() {
     const { editExpenses } = this.props;
-    const { value, currency, method, tag, description } = editExpenses;
-    this.setState({ value, currency, method, tag, description });
-    console.log('Objeto de edição ', editExpenses);
+    const { id, value, currency, method, tag, description } = editExpenses;
+    this.setState({ id, value, currency, method, tag, description });
+    this.setState({ valueButtonAddEdit: 'Editar despesa' });
   }
 
   handleCurrencyInit() {
@@ -59,8 +61,9 @@ class ExpenseForm extends React.Component {
       totalExpenses = 0,
       submitTotalExpenses,
       requestCurrencyObj,
-      creatNewExpenses,
+      submitNewExpenses,
       editing,
+      editRow,
     } = this.props;
     await requestCurrencyObj();
 
@@ -80,17 +83,26 @@ class ExpenseForm extends React.Component {
       description,
       exchangeRates: currenciesObj,
     };
-    console.log(total);
-    if (editing) creatNewExpenses(expense);
-    else submitExpenses(expense);
+
+    if (editing) {
+      submitNewExpenses(expense);
+      editRow({});
+    } else {
+      submitExpenses(expense);
+      this.setState({ id: id + 1 });
+    }
+    console.log(expense);
     submitTotalExpenses(total);
-    this.setState({ id: id + 1, value: 0 });
+    this.setState({ value: 0 });
   }
 
   render() {
     const { currencies, editing } = this.props;
-    const { value, currency, method, tag, description } = this.state;
-    if (editing && value === 0) this.editRowSetState();
+    const { value, currency, method, tag, description, valueButtonAddEdit } = this.state;
+    if (editing && value === 0) {
+      this.editRowSetState();
+    }
+
     return (
       <section>
         <form>
@@ -188,7 +200,7 @@ class ExpenseForm extends React.Component {
             <div className="buttons">
               <input
                 type="button"
-                value="Adicionar despesa"
+                value={ valueButtonAddEdit }
                 name="enviar"
                 id="enviar"
                 className="button is-success"
@@ -207,7 +219,8 @@ const mapDispatchToProps = (dispatch) => ({
   requestCurrencyObj: () => dispatch(requestCurrencyObject()),
   submitExpenses: (expenses) => dispatch(changeExpenses(expenses)),
   submitTotalExpenses: (total) => dispatch(changeTotalExpenses(total)),
-  creatNewExpenses: (expenses) => dispatch(newExpenses(expenses)),
+  submitNewExpenses: (expenses) => dispatch(newExpenses(expenses)),
+  editRow: (expenses) => dispatch(editExpensesRow(expenses)),
 });
 
 const mapStateToProps = (state) => ({
@@ -227,9 +240,10 @@ ExpenseForm.propTypes = {
   submitTotalExpenses: PropTypes.func.isRequired,
   currenciesObj: PropTypes.arrayOf(PropTypes.string).isRequired,
   totalExpenses: PropTypes.number.isRequired,
-  creatNewExpenses: PropTypes.func.isRequired,
+  submitNewExpenses: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
   editExpenses: PropTypes.bool.isRequired,
+  editRow: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);

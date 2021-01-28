@@ -24,11 +24,6 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-  case CHANGE_EXPENSES:
-    return {
-      ...state,
-      expenses: [...state.expenses, action.payload],
-    };
   case DELETE_EXPENSES_ROW:
     return {
       ...state,
@@ -75,13 +70,19 @@ export default function (state = initialState, action) {
     return {
       ...state,
       editExpenses: action.payload,
-      editing: true,
+      editing: Object.keys(action.payload).length !== 0,
+    };
+  case CHANGE_EXPENSES:
+    return {
+      ...state,
+      expenses: [...state.expenses, action.payload],
     };
   case NEW_EXPENSES:
     return {
       ...state,
       expenses: [
         ...state.expenses.map((item) => {
+          console.log(item.id, ' e ', action.payload.id);
           if (item.id === action.payload.id) {
             return action.payload;
           }

@@ -17,6 +17,8 @@ class ExpenseTable extends Component {
     const { ask } = exchangeRates[currency];
     const converted = Math.round(parseFloat(value) * parseFloat(ask) * 100) / 100;
     const real = 'Real';
+    const exchangeValue = parseFloat(ask).toFixed(2);
+    // Math.round(parseFloat(ask) * 100) / 100;
     return {
       id,
       description,
@@ -25,6 +27,7 @@ class ExpenseTable extends Component {
       value,
       currency,
       exchange,
+      exchangeValue,
       converted,
       real,
       exchangeRates,
@@ -60,7 +63,6 @@ class ExpenseTable extends Component {
   editRow(row) {
     const { editRow } = this.props;
     editRow(row);
-    console.log(row);
   }
 
   render() {
@@ -88,8 +90,8 @@ class ExpenseTable extends Component {
               <td>{row.tag}</td>
               <td>{row.method}</td>
               <td>{row.value}</td>
-              <td>{row.currency}</td>
               <td>{row.exchange}</td>
+              <td>{row.exchangeValue}</td>
               <td>{row.converted}</td>
               <td>{row.real}</td>
               <td>
