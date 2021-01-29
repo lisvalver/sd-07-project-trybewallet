@@ -78,7 +78,7 @@ class Wallet extends Component {
         method: 'Dinheiro',
         tag: 'Alimentação',
       },
-    }), console.log('eraseState'));
+    }));
   }
 
   handleSubmit() {
