@@ -18,32 +18,32 @@ const INITIAL_STATE = {
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ADD_EXPENSE:
-      return {
+  case ADD_EXPENSE:
+    return {
+      ...state,
+      expenses: [
+        ...state.expenses, {
+          ...action.payload,
+          id: state.expenses.length,
+          exchangeRates: state.currencies,
+        },
+      ],
+    };
+  case UPDATE_CURRENCIES:
+    return { ...state, currencies: action.exchangeRates };
+  case DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.filter((expense) => expense.id !== action.id),
+    };
+  case THIS_EDITING:
+    return (
+      {
         ...state,
-        expenses: [
-          ...state.expenses, {
-            ...action.payload,
-            id: state.expenses.length,
-            exchangeRates: state.currencies,
-          },
-        ],
-      };
-    case UPDATE_CURRENCIES:
-      return { ...state, currencies: action.exchangeRates };
-    case DELETE_EXPENSE:
-      return {
-        ...state,
-        expenses: state.expenses.filter((expense) => expense.id !== action.id),
-      };
-    case THIS_EDITING:
-      return (
-        {
-          ...state,
-          isEditing: action.change,
-        }
-      );
-      case ADD_EDICAO:
+        isEditing: action.change,
+      }
+    );
+  case ADD_EDICAO:
     return (
       {
         ...state,
@@ -55,15 +55,15 @@ const wallet = (state = INITIAL_STATE, action) => {
         }),
       }
     );
-    case EDIT_EXPENSES:
-      return (
-        {
-          ...state,
-          expenses: [...state.expenses, ...action.expenses.id],
-        }
-      );
-    default:
-      return state;
+  case EDIT_EXPENSES:
+    return (
+      {
+        ...state,
+        expenses: action.expenses,
+      }
+    );
+  default:
+    return state;
   }
 };
 

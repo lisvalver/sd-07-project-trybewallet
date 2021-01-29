@@ -6,7 +6,12 @@ import PropTypes from 'prop-types';
 import Header from '../Components/Header';
 import ExpensesForm from '../Components/FormExpenses';
 import fetchCurrency from '../APIs';
-import { fetchCurrencyAction, deleteExpense, editExpenses, thisEditing, addEdicao } from '../actions';
+import {
+  fetchCurrencyAction,
+  deleteExpense,
+  editExpenses,
+  thisEditing,
+} from '../actions';
 import Table from '../Components/Table';
 
 class Wallet extends Component {
@@ -28,9 +33,7 @@ class Wallet extends Component {
     this.fetchCurrencyType = this.fetchCurrencyType.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.editingExpenseProps = this.editingExpenseProps.bind(this);
     this.buttonEditarTab = this.buttonEditarTab.bind(this);
-    this.handleChangeExpense = this.handleChangeExpense.bind(this);
   }
 
   componentDidMount() {
@@ -52,7 +55,6 @@ class Wallet extends Component {
     this.setState({
       arrayCurrencyFiltered,
     });
-    // console.log(arrayCurrencyFiltered);
   }
 
   calcExpenses() {
@@ -79,78 +81,64 @@ class Wallet extends Component {
     }), console.log('eraseState'));
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit() {
     const { expense } = this.state;
-    const { addExpenseProps, editing } = this.props;
+    const {
+      addExpenseProps,
+      isEditing,
+      expenses,
+      editing,
+      editExpenseProps,
+    } = this.props;
+    if (!isEditing) {
+      addExpenseProps(expense)
+        .then(() => this.calcExpenses())
+        .then(() => this.eraseState());
+    } else {
+      const expenseID = expense.id;
+      const mapExpenses = expenses.map((element) => {
+        if (element.id === expenseID) {
+          return expense;
+        }
+        return element;
+      });
+      editExpenseProps(mapExpenses);
+    }
     editing(false);
-    addExpenseProps(expense)
-      .then(() => this.calcExpenses())
-      .then(() => this.eraseState());
+    this.eraseState();
   }
 
-  handleChangeExpense(event) {
-    event.preventDefault();
-    const { editing, addChangeEditDispatch } = this.props;
-    editing(false);
-    const { expenses: expensesToSendEdit } = this.state;
-    addChangeEditDispatch(expensesToSendEdit);
-    this.setState({
-      expenses: {
-        id: '',
-        value: 0,
-        description: '',
-        currency: 'USD',
-        method: 'Dinheiro',
-        tag: 'Alimentação',
-        exchangeRates: {},
-      },
-    });
-  }
-
-  buttonEditarTab(expenses) {
+  buttonEditarTab(expense) {
     const { editing } = this.props;
     editing(true);
     this.setState({
-      expenses,
+      expense,
     });
+    // console.log(expense);
   }
 
-  // buttonEditarTab(id) {
-  //   const {wallet, editExpenseProps, editing} = this.props;
-  //   const { expense } = this.state;
-  //   editExpenseProps(id);
-  //   console.log('expense = ', expense);
-  //   console.log('editExpenses = ', editExpenses);
-  //   editing(true);
-  //   this.setState({
-  //     expense: editExpenses,
-  //   });
-  // }
-
   render() {
-    const { user, expenses, deleteExpenseProps, editExpenseProps } = this.props;
+    const { user, expenses, deleteExpenseProps } = this.props;
     // console.log(this.props);
     const { arrayCurrencyFiltered, totalExpenses } = this.state;
     return (
       <div>
         <Header
-          user={user}
-          totalExpenses={totalExpenses}
+          user={ user }
+          totalExpenses={ totalExpenses }
         />
         <ExpensesForm
-          state={this.state}
-          arrayCurrencyFiltered={arrayCurrencyFiltered}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          handleChangeExpense={this.handleChangeExpense}
+          state={ this.state }
+          arrayCurrencyFiltered={ arrayCurrencyFiltered }
+          handleChange={ this.handleChange }
+          handleSubmit={ this.handleSubmit }
+          handleChangeExpense={ this.handleChangeExpense }
         />
         <Table
-          expenses={expenses}
-          deleteExpenseProps={deleteExpenseProps}
-          // editExpenseProps={editExpenseProps}
-          buttonEditarTab={this.buttonEditarTab}
-          handleChangeExpense={this.handleChangeExpense}
+          expenses={ expenses }
+          deleteExpenseProps={ deleteExpenseProps }
+          buttonEditarTab={ this.buttonEditarTab }
+          handleChangeExpense={ this.handleChangeExpense }
         />
       </div>
     );
@@ -160,17 +148,14 @@ class Wallet extends Component {
 const mapStateToProps = (state) => ({
   user: state.user.email,
   expenses: state.wallet.expenses,
-  // editExpense: state.wallet.editExpense,
   isEditing: state.wallet.isEditing,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addExpenseProps: (expense) => dispatch(fetchCurrencyAction(expense)),
   deleteExpenseProps: (id) => dispatch(deleteExpense(id)),
-  editExpenseProps: (id) => dispatch(editExpenses(id)),
+  editExpenseProps: (expenses) => dispatch(editExpenses(expenses)),
   editing: (change) => dispatch(thisEditing(change)),
-  addChangeEditDispatch:
-  (expensesToSendEdit) => dispatch(addEdicao(expensesToSendEdit)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
@@ -181,4 +166,6 @@ Wallet.propTypes = {
   addExpenseProps: PropTypes.func.isRequired,
   deleteExpenseProps: PropTypes.func.isRequired,
   editExpenseProps: PropTypes.func.isRequired,
+  isEditing: PropTypes.bool.isRequired,
+  editing: PropTypes.func.isRequired,
 };
