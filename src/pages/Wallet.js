@@ -11,10 +11,10 @@ class Wallet extends React.Component {
       totalField: 0,
       currencyField: 'BRL',
       currencies: [],
-      value: '',
-      method: 'Dinheiro',
-      tag: 'Alimentação',
-      description: '',
+      expenseValue: '',
+      expenseMethod: 'Dinheiro',
+      expenseTag: 'Alimentação',
+      expenseDescription: '',
       id: 0,
     };
   }
@@ -51,19 +51,19 @@ class Wallet extends React.Component {
   }
 
   handleInput({ target }) {
-    this.setState({ value: target.value });
+    this.setState({ expenseValue: target.value });
   }
 
   handleMethod({ target }) {
-    this.setState({ method: target.value });
+    this.setState({ expenseMethod: target.value });
   }
 
   handleTag({ target }) {
-    this.setState({ tag: target.value });
+    this.setState({ expenseTag: target.value });
   }
 
   handleDescription({ target }) {
-    this.setState({ description: target.value });
+    this.setState({ expenseDescription: target.value });
   }
 
   handleCurrency({ target }) {
@@ -71,15 +71,16 @@ class Wallet extends React.Component {
   }
 
   addData() {
-    const { value, method, tag, description, id, currencyField } = this.state;
+    const { expenseValue,
+      expenseMethod, expenseTag, expenseDescription, id, currencyField } = this.state;
     const { handleExpense } = this.props;
     const expense = {
       id,
-      value,
-      description,
+      value: expenseValue,
+      description: expenseDescription,
       currency: currencyField,
-      method,
-      tag,
+      method: expenseMethod,
+      tag: expenseTag,
       exchangeRates: {},
     };
     this.setState({ id: id + 1 });
@@ -88,7 +89,10 @@ class Wallet extends React.Component {
 
   render() {
     const { email, expenses } = this.props;
-    const { currencyField, currencies, value, method, tag, description } = this.state;
+    const { currencyField,
+      currencies,
+      expenseValue,
+      expenseMethod, expenseTag, expenseDescription } = this.state;
     return (
       <div>
         <header>
@@ -100,13 +104,13 @@ class Wallet extends React.Component {
           <input
             type="number"
             data-testid="value-input"
-            value={ value }
+            value={ expenseValue }
             onChange={ (target) => this.handleInput(target) }
           />
           <input
             type="text"
             data-testid="description-input"
-            value={ description }
+            value={ expenseDescription }
             onChange={ (target) => this.handleDescription(target) }
           />
           <select
@@ -126,7 +130,7 @@ class Wallet extends React.Component {
           </select>
 
           <select
-            value={ method }
+            value={ expenseMethod }
             data-testid="method-input"
             onChange={ (target) => this.handleMethod(target) }
           >
@@ -136,7 +140,7 @@ class Wallet extends React.Component {
           </select>
 
           <select
-            value={ tag }
+            value={ expenseTag }
             data-testid="tag-input"
             onChange={ (target) => this.handleTag(target) }
           >
@@ -154,6 +158,60 @@ class Wallet extends React.Component {
             Adicionar despesa
           </button>
         </form>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {expenses.map(
+              ({
+                id,
+                description,
+                currency,
+                value,
+                method,
+                tag,
+                exchangeRates,
+              }) => (
+                <tr key={ id }>
+                  <td>{description}</td>
+                  <td>{tag}</td>
+                  <td>{method}</td>
+                  <td>{value}</td>
+                  <td>{exchangeRates[currency].name}</td>
+                  <td>
+                    {(
+                      Number(value) * Number(exchangeRates[currency].ask)
+                    ).toFixed(2)}
+                  </td>
+                  <td>{Number(exchangeRates[currency].ask).toFixed(2)}</td>
+                  <td>Real</td>
+                  <td>
+                    <button type="button"> Review </button>
+                    <button
+                      type="button"
+                      data-testid="delete-btn"
+                    >
+                      X
+                    </button>
+                  </td>
+                </tr>
+              ),
+            )}
+          </tbody>
+        </table>
       </div>);
   }
 }
