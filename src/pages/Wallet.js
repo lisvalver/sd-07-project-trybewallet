@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrencies } from '../actions/index';
+import { getCurrencies, removeExpense } from '../actions/index';
 
 class Wallet extends React.Component {
   constructor() {
     super();
 
     this.state = {
+      actualExchange: 'BRL',
       totalField: 0,
-      currencyField: 'BRL',
+      currencyField: 'USD',
       currencies: [],
       expenseValue: '',
       expenseMethod: 'Dinheiro',
@@ -68,6 +69,7 @@ class Wallet extends React.Component {
 
   handleCurrency({ target }) {
     this.setState({ currencyField: target.value });
+    console.log(target.value);
   }
 
   addData() {
@@ -88,17 +90,17 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { email, expenses } = this.props;
+    const { email, expenses, deleteExpense } = this.props;
     const { currencyField,
       currencies,
       expenseValue,
-      expenseMethod, expenseTag, expenseDescription } = this.state;
+      expenseMethod, expenseTag, expenseDescription, actualExchange } = this.state;
     return (
       <div>
         <header>
           <p data-testid="email-field">{email}</p>
           <p data-testid="total-field">{this.updateExpenses(expenses)}</p>
-          <p data-testid="header-currency-field">{currencyField}</p>
+          <p data-testid="header-currency-field">{actualExchange}</p>
         </header>
         <form>
           <input
@@ -114,7 +116,7 @@ class Wallet extends React.Component {
             onChange={ (target) => this.handleDescription(target) }
           />
           <select
-            value="BRL"
+            value={ currencyField }
             onChange={ (target) => this.handleCurrency(target) }
             data-testid="currency-input"
           >
@@ -173,7 +175,7 @@ class Wallet extends React.Component {
               <th>Editar/Excluir</th>
             </tr>
           </thead>
-
+          {console.log(expenses)}
           <tbody>
             {expenses.map(
               ({
@@ -199,10 +201,11 @@ class Wallet extends React.Component {
                   <td>{Number(exchangeRates[currency].ask).toFixed(2)}</td>
                   <td>Real</td>
                   <td>
-                    <button type="button"> Review </button>
+                    <button data-testid="edit-btn" type="button"> Editar </button>
                     <button
                       type="button"
                       data-testid="delete-btn"
+                      onClick={ () => deleteExpense(id) }
                     >
                       X
                     </button>
@@ -223,12 +226,14 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleExpense: (expense) => dispatch(getCurrencies(expense)),
+  deleteExpense: (expense) => dispatch(removeExpense(expense)),
 });
 
 Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   expenses: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   handleExpense: PropTypes.func.isRequired,
+  deleteExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
