@@ -1,122 +1,99 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import userLogin from '../actions';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { sendEmail } from '../actions';
+import TrybeWalletImage from '../images/trybe_small.png';
 import './Login.css';
-import trybeLogo from '../images/trybe_small.png';
 
 class Login extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      email: '',
-      password: '',
-      validEmail: false,
-      validPassword: false,
-      buttonStatus: true,
-    };
+    this.validateEmail = this.validateEmail.bind(this);
+    this.allowEmail = this.allowEmail.bind(this);
+    this.validatePassword = this.validatePassword.bind(this);
+    this.allowPassword = this.allowPassword.bind(this);
 
-    this.handleEmail = this.handleEmail.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);
-    this.validEmail = this.validEmail.bind(this);
-    this.validPassword = this.validPassword.bind(this);
-    this.login = this.login.bind(this);
+    this.state = {
+      emailValid: false,
+      passValid: false,
+      email: '',
+    };
   }
 
-  enableButton() {
-    const { validEmail, validPassword } = this.state;
-    if (validEmail && validPassword) {
-      return this.setState({
-        buttonStatus: false,
-      });
-    }
-    return this.setState({
-      buttonStatus: true,
+  validateEmail(email) {
+    const emailRegex = /^\w+[\W_]?\w*@[a-z]+\.[a-z]{2,3}(?:.br)?$/;
+
+    return emailRegex.test(email);
+  }
+
+  allowEmail({ target: { value } }) {
+    const emailValid = this.validateEmail(value);
+
+    this.setState({
+      emailValid,
+      email: value,
     });
   }
 
-  validEmail() {
-    const { email } = this.state;
-    const valid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.+-]+\.com$/.test(email);
-    if (valid) {
-      return this.setState({
-        validEmail: true,
-      }, this.enableButton);
-    }
-    return this.setState({
-      validEmail: false,
-    }, this.enableButton);
+  validatePassword(password) {
+    const passRegex = /^\w{6,}$/;
+
+    return passRegex.test(password);
   }
 
-  validPassword() {
-    const { password } = this.state;
-    const minLenght = 6;
-    if (password.length >= minLenght) {
-      return this.setState({
-        validPassword: true,
-      }, this.enableButton);
-    }
-    return this.setState({
-      validPassword: false,
-    }, this.enableButton);
-  }
+  allowPassword({ target: { value } }) {
+    const passValid = this.validatePassword(value);
 
-  handleEmail({ target: { value } }) {
     this.setState({
-      email: value,
-    }, this.validEmail);
-  }
-
-  handlePassword({ target: { value } }) {
-    this.setState({
-      password: value,
-    }, this.validPassword);
-  }
-
-  login(email) {
-    const { history, addUser } = this.props;
-    addUser(email);
-    history.push('/carteira');
+      passValid,
+    });
   }
 
   render() {
-    const { buttonStatus, email } = this.state;
+    const { emailValid, passValid, email } = this.state;
+    const { sendEmailFromProps } = this.props;
+
     return (
-      <div className="login-page">
-        <form className="login-field">
-          <img
-            src={ trybeLogo }
-            alt="trybe-logo"
-            className="trybe-logo"
-          />
-          <h1 className="login-title">Login</h1>
-          <input
-            data-testid="email-input"
-            type="email"
-            onChange={ this.handleEmail }
-            placeholder="Insira seu email..."
-            className="login-input"
-            required
-          />
-          <input
-            data-testid="password-input"
-            type="password"
-            onChange={ this.handlePassword }
-            placeholder="Insira sua senha..."
-            className="login-input"
-            minLength="6"
-            required
-          />
-          <button
-            id="login-button"
-            type="button"
-            disabled={ buttonStatus }
-            onClick={ () => this.login(email) }
-            className="login-button"
-          >
-            Entrar
-          </button>
+      <div>
+        <form className="login-page">
+          <section className="login-field">
+            <img
+              src={ TrybeWalletImage }
+              alt="Trybe Wallet"
+              className="trybe-logo"
+            />
+            <h1 className="login-title">Login</h1>
+            <input
+              id="email-input"
+              type="email"
+              data-testid="email-input"
+              onChange={ this.allowEmail }
+              required
+              placeholder="Insira seu e-mail aqui..."
+              className="login-input"
+            />
+            <input
+              id="password-input"
+              type="password"
+              data-testid="password-input"
+              onChange={ this.allowPassword }
+              required
+              placeholder="Insira sua senha aqui..."
+              className="login-input"
+            />
+            <Link to="/carteira">
+              <button
+                type="button"
+                onClick={ () => sendEmailFromProps(email) }
+                disabled={ !(emailValid && passValid) }
+                className="login-button"
+              >
+                Entrar
+              </button>
+            </Link>
+          </section>
         </form>
       </div>
     );
@@ -124,14 +101,11 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addUser: (email) => dispatch(userLogin(email)),
+  sendEmailFromProps: (email) => dispatch(sendEmail(email)),
 });
 
 Login.propTypes = {
-  addUser: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  sendEmailFromProps: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

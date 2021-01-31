@@ -1,0 +1,136 @@
+button , input:focus , select:active , select:defined {
+  outline: 0 auto -webkit-focus-ring-color;
+  outline-offset: 0;
+}
+
+.header {
+  background-color: #252525;
+  color: white;
+  display: flex;
+  justify-content: center;
+  min-height: 120px;
+  width: 100%;
+}
+
+.header-content {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.trybe-logo-small {
+  height: 90px;
+}
+
+.user-email span {
+  margin-left: 5px;
+}
+
+.user-data {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  width: 80%;
+}
+
+.expenses-info {
+  margin-left: 100px;
+}
+
+.expenses-info span {
+  margin-right: 5px;
+}
+
+.expenses-form {
+  align-items: center;
+  background-color: #0fa36b;
+  box-sizing: border-box;
+  color: white;
+  display: flex;
+  height: 70px;
+  justify-content: space-around;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.expenses-options {
+  height: 25px;
+}
+
+.expenses-input {
+  border: none;
+  height: 25px;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.value-input {
+  width: 70px;
+}
+
+.description-input {
+  width: 400px;
+}
+
+.select-dropdown {
+  background: url('http://www.webcis.com.br/images/imagens-noticias/select/ico-seta-appearance.gif') no-repeat right white;
+  width: 150px;
+}
+
+.expenses-button {
+  background-color: #103f2e5b;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  height: 40px;
+  width: 200px;
+}
+
+.expenses-button:hover {
+  background-color: #103f2eab;
+  transition: 300ms;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.table-rows {
+  display: flex;
+  height: 50px;
+  justify-content: stretch;
+}
+
+.table-header {
+  background-color: #252525;
+  color: white;
+}
+
+.column {
+  align-items: center;
+  border-right: 1px solid white;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+  justify-content: center;
+}
+
+.description {
+  width: 28%;
+}
+
+.payment {
+  width: 12%;
+}
+
+.others {
+  width: 9%;
+}
