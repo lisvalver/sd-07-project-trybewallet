@@ -86,8 +86,8 @@ class ExpenseForm extends Component {
               onChange={ (e) => this.setState({ method: e.target.value }) }
             >
               <option value="dinheiro">Dinheiro</option>
-              <option value="cartao-credito">Cartão de Crédito</option>
-              <option value="cartao-debito">Cartão de Débito</option>
+              <option value="cartao-crédito">Cartão de crédito</option>
+              <option value="cartao-débito">Cartão de débito</option>
             </select>
           </label>
           <label htmlFor="method-input">
