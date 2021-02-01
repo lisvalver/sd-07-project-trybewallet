@@ -22,6 +22,13 @@ export const removeExpense = (data) => (
   }
 );
 
+export const editExpense = (data) => (
+  {
+    type: 'EDIT_EXPENSE',
+    data,
+  }
+);
+
 export function getCurrencies(expense) {
   return async (dispatch) => {
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');

@@ -2,6 +2,8 @@
 const InitialState = { currencies: [], expenses: [] };
 
 const wallet = (state = InitialState, action) => {
+  console.log(action, state);
+
   switch (action.type) {
   case 'EXPENSE':
     return {
@@ -12,6 +14,15 @@ const wallet = (state = InitialState, action) => {
     return {
       ...state,
       expenses: state.expenses.filter((expense) => expense.id !== action.data),
+    };
+  case 'EDIT_EXPENSE':
+    return {
+      ...state,
+      expenses: state.expenses
+        .map((expense) => {
+          if (action.data.id === expense.id) return action.data;
+          return expense;
+        }),
     };
   default: return state;
   }
