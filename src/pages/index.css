@@ -1,35 +1,35 @@
 body {
-  margin: 50%;
   align-items: center;
+  margin: 50%;
 }
 
 .div-login {
-  border-color: lightblue 1px solid;
-  display: flex; 
-  flex-direction: column;
+  align-content: center;
   align-self: center;
+  border-color: lightblue 1px solid;
+  display: flex;
+  flex-direction: column;
   height: 60%;
   width: 60%;
-  align-content: center;
 }
 
 .input-login {
   border-color: lightblue;
-  margin: 5px;
   display: flex;
+  margin: 5px;
   width: 20%;
 }
 
 .input-button {
   border-color: lightblue;
-  margin: 5px;
   display: flex;
-  width: 21%;
+  margin: 5px;
   text-align: center;
+  width: 21%;
 }
 
 .fieldset {
-  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
