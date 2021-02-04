@@ -7,8 +7,8 @@ class ExpensesTable extends Component {
     const { expenses } = this.props;
     return (
       <div>
-        <table>
-          <tr>
+        <table border="1">
+          <thead>
             <th>Descrição</th>
             <th>Tag</th>
             <th>Método de pagamento</th>
@@ -18,8 +18,8 @@ class ExpensesTable extends Component {
             <th>Valor convertido</th>
             <th>Moeda de conversão</th>
             <th>Editar/Excluir</th>
-          </tr>
-          <tr>
+          </thead>
+          <tbody>
             {expenses.map((item) => (
               <tr key={ item.id }>
                 <td>{item.description}</td>
@@ -49,7 +49,7 @@ class ExpensesTable extends Component {
                 >
                   Excluir
                 </button>
-              </tr>
+              </tbody>
             ))}
           </tr>
         </table>
