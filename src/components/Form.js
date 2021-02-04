@@ -7,14 +7,12 @@ class Form extends React.Component {
   constructor() {
     super();
     this.state = {
-    //   description: '',
-    //   currency: '',
-    //   method: '',
-    //   tag: '',
-    //   value: 0,
-    //   convertedValue: 0,
+      value: '0',
+      currency: 'USD',
+      method: '',
+      tag: '',
+      description: '',
       id: 0,
-    //   exchangeRates: {},
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -31,17 +29,29 @@ class Form extends React.Component {
     this.setState({ [name]: value });
   }
 
-  handleClick() {
+  handleClick(event) {
+    event.preventDefault();
+    const { fetchAPI } = this.props;
     const { id } = this.state;
+    fetchAPI();
     const { addExpense, currencies } = this.props;
     const exchangeRates = {
       ...currencies,
     };
-    addExpense([this.state, exchangeRates]);
+    console.log(exchangeRates);
+    addExpense({ exchangeRates, ...this.state });
     this.setState({ id: id + 1 });
+    this.setState({
+      value: '0',
+      currency: 'USD',
+      method: '',
+      tag: '',
+      description: '',
+    });
   }
 
   render() {
+    const { value, currency, method, tag, description } = this.state;
     const { currencies } = this.props;
     return (
       <div>
@@ -53,6 +63,8 @@ class Form extends React.Component {
               <label htmlFor="value">
                 Valor da despesa:
                 <input
+                  value={ value }
+                  required
                   id="value"
                   type="number"
                   name="value"
@@ -65,6 +77,8 @@ class Form extends React.Component {
                 Descrição da despesa:
                 <input
                   id="description"
+                  required
+                  value={ description }
                   type="text"
                   name="description"
                   data-testid="description-input"
@@ -75,6 +89,8 @@ class Form extends React.Component {
               <label htmlFor="currency">
                 Moeda:
                 <select
+                  name="currency"
+                  value={ currency }
                   id="currency"
                   data-testid="currency-input"
                   onChange={ this.handleChange }
@@ -95,6 +111,8 @@ class Form extends React.Component {
                 <select
                   id="method"
                   name="method"
+                  required
+                  value={ method }
                   data-testid="method-input"
                   onChange={ this.handleChange }
                 >
@@ -109,6 +127,8 @@ class Form extends React.Component {
                 Tag:
                 <select
                   id="tag"
+                  required
+                  value={ tag }
                   name="tag"
                   data-testid="tag-input"
                   onChange={ this.handleChange }
@@ -122,7 +142,12 @@ class Form extends React.Component {
                 </select>
               </label>
 
-              <button onClick={ this.handleClick } type="button">Adicionar despesa</button>
+              <button
+                onClick={ this.handleClick }
+                type="submit"
+              >
+                Adicionar despesa
+              </button>
             </form>
           )
         }
