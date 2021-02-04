@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCurrencyV3 } from '../services/currencyAPI';
+import { getCurrencyV3 } from '../services/currencyAPI.js';
 import { expensesWithExchangeRates } from '../actions';
 
 class Wallet extends React.Component {
