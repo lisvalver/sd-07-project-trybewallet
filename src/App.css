@@ -68,7 +68,7 @@ h1 { /* .login-container talvez necessario pra seprar os tilulos */
 
 .top-bar-info {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   width: 100%;
 }
 
