@@ -1,16 +1,14 @@
-
-
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 
 import { emailUser } from '../actions';
- 
-//Retirei o Constructor do colega Alvaro por não lembrar a sua utilização.
+
+// Retirei o Constructor do colega Alvaro por não lembrar a sua utilização.
 class Login extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       email: '',
       password: '',
@@ -32,8 +30,8 @@ class Login extends React.Component {
 
   validPassword() {
     const { password } = this.state;
-    const MIN_LENGTH = 6;
-    if (password.length >= MIN_LENGTH) return true;
+    const minChar = 6;
+    if (password.length >= minChar) return true;
     return false;
   }
 
@@ -50,9 +48,14 @@ class Login extends React.Component {
     });
   }
 
+  handleClick() {
+    const { login } = this.props;
+    const { email } = this.state;
+    login(email);
+  }
+
   render() {
     const { email, password, disabled } = this.state;
-    const { history, upEmail } = this.props;
     return (
       <form>
         <label htmlFor="email">
@@ -79,29 +82,30 @@ class Login extends React.Component {
             name="password"
             placeholder="Senha"
             value={ password }
-            onChange={ this.handleInput } />
+            onChange={ this.handleInput }
+          />
         </label>
-        <button
-          disabled={ disabled }
-          onClick={ () => {
-            upEmail(email);
-            history.push('/carteira');
-          } }
-          className="btn btn-success"
-          type="button">
-          Entrar
-        </button>
+        <Link to="/carteira">
+          {email}
+          <button
+            disabled={ disabled }
+            onClick={ this.handleClick }
+            type="button"
+          >
+            Entrar
+          </button>
+        </Link>
       </form>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  login: (e) => dispatch(emailUser(e)),
-});
-
 Login.propTypes = {
   login: propTypes.func.isRequired,
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (e) => dispatch(emailUser(e)),
+});
 
 export default connect(null, mapDispatchToProps)(Login);

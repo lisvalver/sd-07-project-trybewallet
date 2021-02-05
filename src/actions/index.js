@@ -32,5 +32,3 @@ export const fetchData = () => async (dispatch) => {
 export const newExpense = (value) => ({
   type: NEW_EXPENSE, value,
 });
-
-
