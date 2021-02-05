@@ -9,18 +9,20 @@ class Header extends React.Component {
     this.sumOfExpenses = this.sumOfExpenses.bind(this);
   }
 
-  // sumOfExpenses() {
-  //   const { totalExpenses } = this.props;
-  //   const rec = totalExpenses.reduce((result, number) => result + number, 0);
-  //   return rec;
-  // }
+  sumOfExpenses() {
+    const { totalExpenses } = this.props;
+    const rec = totalExpenses.reduce((result, number) => result + number, 0);
+    return rec;
+  }
 
   render() {
-    const { email } = this.props;
+    const { email, totalExpenses } = this.props;
     return (
       <div>
         <p data-testid="email-field">{email}</p>
-        <h5 data-testid="total-field">0</h5>
+        <h5 data-testid="total-field">
+          {totalExpenses.length > 0 ? this.sumOfExpenses() : 0}
+        </h5>
         <h5 data-testid="header-currency-field">BRL</h5>
       </div>
     );
@@ -29,11 +31,12 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  // totalExpenses: state.wallet.expenses,
+  totalExpenses: state.wallet.expenses,
 });
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
+  totalExpenses: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default connect(mapStateToProps)(Header);
