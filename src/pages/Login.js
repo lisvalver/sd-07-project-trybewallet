@@ -12,29 +12,32 @@ class Login extends React.Component {
       password: '',
       disabled: true,
       redirect: false,
-      disabled: true,
     };
     this.handleClick = this.handleClick.bind(this);
-    this.handleChange = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.checkInputs = this.checkInputs.bind(this);
   }
 
   handleClick() {
     const { saveEmail } = this.props;
-    const { email } = this.email;
+    const { email } = this.state;
     this.setState({ redirect: true });
     saveEmail(email);
   }
 
   checkInputs() {
-    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
     const { email, password } = this.state;
-
+    const six = 6;
+    const validEmail = email.match(email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/));
+    if (validEmail && password.length >= six) {
+      return true;
+    }
+    return false;
   }
 
   handleChange({ target: { name, value}}) {
     this.setState({ [name]: value}, () => {
-      const validInputs = checkInputs();
+      const validInputs = this.checkInputs();
       this.setState({disabled: !validInputs});
     });
   }
