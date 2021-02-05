@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
+import { addUserEmail } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -46,7 +48,7 @@ class Login extends React.Component {
 
   render() {
     const { email, password, disabled } = this.state;
-    const { history } = this.props;
+    const { history, upEmail } = this.props;
     return (
       <Form>
         <Form.Group controlId="formBasicEmail">
@@ -78,6 +80,7 @@ class Login extends React.Component {
         <Button
           disabled={ disabled }
           onClick={ () => {
+            upEmail(email);
             history.push('/carteira');
           } }
           variant="success"
@@ -94,6 +97,11 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  upEmail: PropTypes.func.isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  upEmail: (value) => dispatch(addUserEmail(value)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
