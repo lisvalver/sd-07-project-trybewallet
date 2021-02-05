@@ -14,7 +14,7 @@ class Header extends React.Component {
       const { value, currency, exchangeRates } = curr;
       return acc + exchangeRates[currency].ask * value;
     }, 0);
-    return +(parseFloat(total).toFixed(2));
+    return parseFloat(total).toFixed(2);
   }
 
   render() {

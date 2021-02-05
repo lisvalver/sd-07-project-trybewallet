@@ -3,6 +3,7 @@ import { REQUEST_MOEDA,
   REQUEST_MOEDA_SUCCESS,
   REQUEST_FAIL,
   ADD_EXPENSES,
+  DELET_EXPENSE,
 } from '../actions/index';
 
 const INICIAL_STATE = {
@@ -22,6 +23,11 @@ const wallet = (state = INICIAL_STATE, action) => {
     return {
       ...state,
       expenses: [...state.expenses, action.expenses],
+    };
+  case DELET_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.filter((expense) => expense.id !== action.expenseID),
     };
   default:
     return state;

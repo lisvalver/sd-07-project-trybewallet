@@ -38,7 +38,6 @@ class Form extends React.Component {
     const exchangeRates = {
       ...currencies,
     };
-    console.log(exchangeRates);
     addExpense({ exchangeRates, ...this.state });
     this.setState({ id: id + 1 });
     this.setState({
@@ -160,9 +159,6 @@ class Form extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   fetchAPI: () => dispatch(fetchMoeda()),
   addExpense: (expenses) => dispatch(addExpenses(expenses)),
-  // requestExchangeRate: () => dispatch(requestExchangeRates()),
-  // failedRequest: (error) => dispatch(failedRequests(error)),
-//   fetchExchangeRate: (expenses, isAddExpens) => dispatch(fetchAPI(expenses, isAddExpens)),
 });
 
 const mapStateToProps = (state) => ({
