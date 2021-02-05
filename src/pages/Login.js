@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
 import { addUserEmail } from '../actions';
 
 class Login extends React.Component {
@@ -50,25 +49,26 @@ class Login extends React.Component {
     const { email, password, disabled } = this.state;
     const { history, upEmail } = this.props;
     return (
-      <Form>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            data-testid="email-input"
-            type="email"
+      <form>
+        <label htmlFor="email">
+          Email
+          <input
+            className="form-control"
             name="email"
+            type="email"
+            data-testid="email-input"
             placeholder="Digite seu email"
             value={ email }
             onChange={ this.handleInput }
           />
-          <Form.Text className="text-muted">
-            Nós nunca iremos compartilhar seu e-mail com ninguém.
-          </Form.Text>
-        </Form.Group>
-
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Senha</Form.Label>
-          <Form.Control
+        </label>
+        <p>
+          Nós nunca iremos compartilhar seu e-mail com ninguém.
+        </p>
+        <label htmlFor="password">
+          Senha
+          <input
+            className="form-control"
             data-testid="password-input"
             type="password"
             name="password"
@@ -76,19 +76,19 @@ class Login extends React.Component {
             value={ password }
             onChange={ this.handleInput }
           />
-        </Form.Group>
-        <Button
+        </label>
+        <button
           disabled={ disabled }
           onClick={ () => {
             upEmail(email);
             history.push('/carteira');
           } }
-          variant="success"
+          className="btn btn-success"
           type="button"
         >
           Entrar
-        </Button>
-      </Form>
+        </button>
+      </form>
     );
   }
 }
