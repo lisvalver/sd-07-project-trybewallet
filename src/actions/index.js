@@ -1,8 +1,8 @@
 // Coloque aqui suas actions
 
-export const LOGIN = 'FAZ_LOGIN';
+export const EMAIL = 'EMAIL';
 
-export const login = (email) => ({
-  type: LOGIN,
-  email
+export const sendEmail = (email) => ({
+  type: EMAIL,
+  email,
 });
