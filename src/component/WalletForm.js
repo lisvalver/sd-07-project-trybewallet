@@ -31,7 +31,7 @@ class WalletForm extends React.Component {
   }
 
   render() {
-    const { addExpenseAction, currenciesAlias, fetchThunkAction, receiveAllDataAction } = this.props;
+    const { addExpenseAction, currenciesAlias, fetchThunkAction } = this.props;
     return (
       <div>
         <form>
