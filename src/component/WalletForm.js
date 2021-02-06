@@ -8,7 +8,7 @@ class WalletForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      value: '',
+      value: 0,
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
