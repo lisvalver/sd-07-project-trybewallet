@@ -5,6 +5,8 @@ export const REQUEST_MOEDA_SUCCESS = 'REQUEST_MOEDA_SUCESS';
 export const REQUEST_FAIL = 'REQUEST_FAIL';
 export const ADD_EXPENSES = 'ADD_EXPENSES';
 export const DELET_EXPENSE = 'DELET_EXPENSE';
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+export const ADD_EDIT_EXPENSE = 'ADD_EDIT_EXPENSE';
 
 export const enterWallet = (email) => ({
   type: ENTERWALLET,
@@ -33,6 +35,17 @@ export const addExpenses = (expenses) => ({
 export const deleteExpenses = (expenseID) => ({
   type: DELET_EXPENSE,
   expenseID,
+});
+
+export const editExpenses = (expense) => ({
+  type: EDIT_EXPENSE,
+  expense,
+});
+
+export const addEditExpenses = (payload, id) => ({
+  type: ADD_EDIT_EXPENSE,
+  payload,
+  id,
 });
 
 export function fetchMoeda() {

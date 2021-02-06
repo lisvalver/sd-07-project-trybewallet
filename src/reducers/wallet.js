@@ -4,11 +4,15 @@ import { REQUEST_MOEDA,
   REQUEST_FAIL,
   ADD_EXPENSES,
   DELET_EXPENSE,
+  EDIT_EXPENSE,
+  ADD_EDIT_EXPENSE,
 } from '../actions/index';
 
 const INICIAL_STATE = {
   currencies: [],
   expenses: [],
+  editON: false,
+  idEdit: 0,
 };
 
 const wallet = (state = INICIAL_STATE, action) => {
@@ -28,6 +32,23 @@ const wallet = (state = INICIAL_STATE, action) => {
     return {
       ...state,
       expenses: state.expenses.filter((expense) => expense.id !== action.expenseID),
+    };
+  case EDIT_EXPENSE:
+    return {
+      ...state,
+      editON: true,
+      idEdit: action.expense.id,
+    };
+  case ADD_EDIT_EXPENSE:
+    return {
+      ...state,
+      editON: false,
+      expenses: state.expenses.map((expense) => {
+        if (expense.id === action.id) {
+          return action.payload;
+        }
+        return expense;
+      }),
     };
   default:
     return state;
