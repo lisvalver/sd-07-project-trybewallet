@@ -4,6 +4,7 @@ export const API_REQUEST = 'API_REQUEST';
 export const API_RECEIVE = 'API_RECEIVE';
 export const API_RECEIVE_FAIL = 'API_RECEIVE_FAIL';
 export const RECEIVE_ALL_DATA = 'RECEIVE_ALL_DATA';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 export const getEmail = (email) => ({
   type: GET_EMAIL,
@@ -32,6 +33,11 @@ export const apiReceiveFail = (error) => ({
 export const receiveAllData = (exchangeRates) => ({
   type: RECEIVE_ALL_DATA,
   exchangeRates,
+});
+
+export const deleteExpense = (id) => ({
+  type: DELETE_EXPENSE,
+  id,
 });
 
 export function fetchThunk() {

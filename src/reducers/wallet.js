@@ -3,6 +3,7 @@ import { ADD_EXPENSE,
   API_REQUEST,
   API_RECEIVE_FAIL,
   RECEIVE_ALL_DATA,
+  DELETE_EXPENSE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -32,6 +33,10 @@ function wallet(state = INITIAL_STATE, action) {
     return { ...state, currencies: action.error, loading: false };
   case RECEIVE_ALL_DATA:
     return { ...state, exchangeRates: action.exchangeRates };
+  case DELETE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.filter((expense) => expense.id !== action.id) };
   default:
     return state;
   }
