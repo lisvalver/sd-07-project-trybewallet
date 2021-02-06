@@ -32,6 +32,7 @@ class WalletForm extends React.Component {
 
   render() {
     const { addExpenseAction, currenciesAlias, fetchThunkAction } = this.props;
+    const { value, description, currency, method, tag } = this.state;
     return (
       <div>
         <form>
@@ -42,6 +43,8 @@ class WalletForm extends React.Component {
               name="value"
               id="value-input"
               data-testid="value-input"
+              type="number"
+              value={ value }
             />
           </label>
 
@@ -52,6 +55,7 @@ class WalletForm extends React.Component {
               id="description-input"
               data-testid="description-input"
               onChange={ this.handleEvent }
+              value={ description }
             />
           </label>
 
@@ -59,19 +63,30 @@ class WalletForm extends React.Component {
             name="currency"
             data-testid="currency-input"
             onChange={ this.handleEvent }
+            value={ currency }
           >
-            {currenciesAlias.map((currency) => (
-              <option key={ currency } data-testid={ currency }>{currency}</option>
+            {currenciesAlias.map((currencyEx) => (
+              <option key={ currencyEx } data-testid={ currencyEx }>{currencyEx}</option>
             ))}
           </select>
 
-          <select name="method" data-testid="method-input" onChange={ this.handleEvent }>
+          <select
+            name="method"
+            data-testid="method-input"
+            onChange={ this.handleEvent }
+            value={ method }
+          >
             <option>Dinheiro</option>
             <option>Cartão de crédito</option>
             <option>Cartão de débito</option>
           </select>
 
-          <select name="tag" data-testid="tag-input" onChange={ this.handleEvent }>
+          <select
+            name="tag"
+            data-testid="tag-input"
+            onChange={ this.handleEvent }
+            value={ tag }
+          >
             <option>Alimentação</option>
             <option>Lazer</option>
             <option>Trabalho</option>
