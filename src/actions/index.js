@@ -41,8 +41,8 @@ export function fetchThunk() {
       const fetchApi = await fetch('https://economia.awesomeapi.com.br/json/all');
       const result = await fetchApi.json();
       delete result.USDT;
-      dispatch(receiveAllData(result));
       dispatch(apiReceive(result));
+      dispatch(receiveAllData(result));
     } catch (error) {
       dispatch(apiReceiveFail(error));
     }

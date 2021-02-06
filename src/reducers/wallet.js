@@ -13,10 +13,13 @@ const INITIAL_STATE = {
   exchangeRates: {},
 };
 
+// solução para criar novas chaves no expense e colocar = ao estado que eu queria foi tirado de um grupo
+// de estudo feito sobre o requisito;
 function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
   case ADD_EXPENSE:
     action.expense.id = state.id;
+    action.expense.exchangeRates = state.exchangeRates;
     return {
       ...state,
       expenses: [...state.expenses, action.expense],
@@ -28,7 +31,7 @@ function wallet(state = INITIAL_STATE, action) {
   case API_RECEIVE_FAIL:
     return { ...state, currencies: action.error, loading: false };
   case RECEIVE_ALL_DATA:
-    return { ...state, expenses: [...state.expenses, action.exchangeRates] };
+    return { ...state, exchangeRates: action.exchangeRates };
   default:
     return state;
   }

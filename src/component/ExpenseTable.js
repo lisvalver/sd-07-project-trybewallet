@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 class ExpenseTable extends React.Component {
   render() {
+    const { expenses } = this.props;
     return (
       <div>
         <table>
@@ -17,6 +18,21 @@ class ExpenseTable extends React.Component {
             <th>Moeda de conversão</th>
             <th>Editar/Excluir</th>
           </tr>
+          {expenses && expenses.map((expense) => (
+            <tr key={ expense.id }>
+              <td>{expense.description}</td>
+              <td>{expense.tag}</td>
+              <td>{expense.method}</td>
+              <td>{expense.value}</td>
+              <td>{expense.exchangeRates[expense.currency].name}</td>
+              <td>{Number(expense.exchangeRates[expense.currency].ask).toFixed(2)}</td>
+              <td>
+                {Number(expense.value * expense.exchangeRates[expense.currency].ask)
+                  .toFixed(2)}
+              </td>
+              <td>Real</td>
+            </tr>
+          ))}
         </table>
       </div>
     );
@@ -24,7 +40,7 @@ class ExpenseTable extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  expense: state.wallet.expenses,
+  expenses: state.wallet.expenses,
 });
 
 export default connect(mapStateToProps)(ExpenseTable);
