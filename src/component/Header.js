@@ -21,7 +21,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { email, totalExpenses } = this.props;
+    const { email, totalExpenses = 0 } = this.props;
     return (
       <div>
         <p data-testid="email-field">{email}</p>
