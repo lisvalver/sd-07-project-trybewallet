@@ -1,0 +1,7 @@
+export const SAVE_EMAIL = 'SAVE_EMAIL';
+export const ADD_MONEY = 'ADD_MONEY';
+export const SET_CURRENCY = 'SET_CURRENCY';
+export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
+export const POPULATE_CURRENCIES = 'POPULATE_CURRENCIES';
+export const FETCH_CURRENCIES = 'FETCH_CURRENCIES';
