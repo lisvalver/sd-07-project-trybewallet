@@ -1,5 +1,5 @@
 // Coloque aqui suas actions
-import * as currencyAPI from '../services/currencyAPI';
+import * as currencyAPI from '../services/currencyAPI.js';
 
 export const LOGIN = 'LOGIN';
 
