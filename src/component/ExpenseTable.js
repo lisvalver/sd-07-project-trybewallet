@@ -5,7 +5,7 @@ import { deleteExpense } from '../actions';
 
 class ExpenseTable extends React.Component {
   render() {
-    const { expenses, deleteExpenseAction } = this.props;
+    const { expenses = 0, deleteExpenseAction } = this.props;
     return (
       <div>
         <table>
