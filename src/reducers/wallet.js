@@ -3,12 +3,13 @@ import {
   SAVE_RATES,
   FETCHING_DATA,
   FETCH_FAIL,
+  UPDATE_EXPENSES,
 } from '../actions';
 
 const initialState = {
   currencies: [],
   expenses: [],
-  rates: {},
+  exchangeRates: {},
   fetching: false,
   error: '',
   totalExpenses: 0,
@@ -20,7 +21,7 @@ const wallet = (state = initialState, action) => {
     return {
       ...state,
       fetching: false,
-      rates: action.rates,
+      exchangeRates: action.exchangeRates,
       currencies: action.currencies,
     };
 
@@ -28,8 +29,10 @@ const wallet = (state = initialState, action) => {
     return { ...state, fetching: true };
 
   case FETCH_FAIL:
-
     return { ...state, fetching: false, error: action.error };
+
+  case UPDATE_EXPENSES:
+    return { ...state, expenses: action.expenses, totalExpenses: action.totalExpenses };
 
   default: return state;
   }

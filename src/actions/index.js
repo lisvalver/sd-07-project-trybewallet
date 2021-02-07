@@ -3,15 +3,16 @@ export const LOGIN = 'LOGIN';
 export const FETCHING_DATA = 'FETCHING_DATA';
 export const FETCH_FAIL = 'FETCH_FAIL';
 export const SAVE_RATES = 'SAVE_RATES';
+export const UPDATE_EXPENSES = 'UPDATE_EXPENSES';
 
 export const saveEmail = (email) => ({
   type: LOGIN,
   email,
 });
 
-export const saveRates = (rates, currencies) => ({
+export const saveRates = (exchangeRates, currencies) => ({
   type: SAVE_RATES,
-  rates,
+  exchangeRates,
   currencies,
 });
 
@@ -33,3 +34,17 @@ export function fetchCurrencies() {
     }
   };
 }
+
+export const saveNewExpense = (expenses) => {
+  const zero = 0;
+  const totalExpenses = expenses.reduce((acc, currentExp) => {
+    const { exchangeRates } = currentExp;
+    const { currency } = currentExp;
+    return acc + (Number(currentExp.value) * exchangeRates[currency].ask);
+  }, zero);
+  return ({
+    type: UPDATE_EXPENSES,
+    expenses,
+    totalExpenses,
+  });
+};

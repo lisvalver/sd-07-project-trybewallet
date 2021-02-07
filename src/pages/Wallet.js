@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchCurrencies } from '../actions';
+import { fetchCurrencies, saveNewExpense } from '../actions';
 import Header from '../components/Header';
 
-function Wallet({ email, wallet: { currencies, rates, totalExpenses }, fetchData}) {
+function Wallet({
+  email,
+  wallet: { currencies, exchangeRates, expenses, totalExpenses },
+  fetchCurrencies,
+  saveNewExpense,
+}) {
   useEffect(() => {
-    fetchData();
+    fetchCurrencies();
   }, []);
 
   const [form, setForm] = useState({
@@ -13,17 +18,34 @@ function Wallet({ email, wallet: { currencies, rates, totalExpenses }, fetchData
     description: '',
     currency: 'USD',
     method: 'Dinheiro',
+    tag: 'Alimentação',
+    id: 0,
   });
 
   const handleChange = ({ target: { name, value } }) => {
     setForm({ ...form, [name]: value });
   };
 
-  if (!currencies) {
-    return (
-      <div>carregando</div>
-    );
-  }
+  const addExpense = async () => {
+    await fetchCurrencies();
+    const newExpenses = expenses.concat([{ ...form, exchangeRates }]);
+    const nextState = {
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      id: form.id + 1,
+    };
+    saveNewExpense(newExpenses);
+    setForm(nextState);
+  };
+
+  // if (currencies.length === 0) {
+  //   return (
+  //     <div>carregando</div>
+  //   );
+  // }
 
   return (
     <div>
@@ -70,6 +92,21 @@ function Wallet({ email, wallet: { currencies, rates, totalExpenses }, fetchData
           <option value="Cartão de crédito">Cartão de crédito</option>
           <option value="Cartão de débito">Cartão de débito</option>
         </select>
+        <select
+          data-testid="tag-input"
+          name="tag"
+          value={ form.tag }
+          onChange={ handleChange }
+        >
+          <option value="Alimentação">Alimentação</option>
+          <option value="Lazer">Lazer</option>
+          <option value="Trabalho">Trabalho</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Saúde">Saúde</option>
+        </select>
+        <button type="button" onClick={ addExpense }>
+          Adicionar Despesa
+        </button>
       </div>
     </div>
   );
@@ -80,8 +117,9 @@ const mapStateToProps = (state) => ({
   email: state.user.email,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchData: () => dispatch(fetchCurrencies()),
-});
+const mapDispatchToProps = {
+  saveNewExpense,
+  fetchCurrencies,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
