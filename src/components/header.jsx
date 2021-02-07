@@ -34,6 +34,7 @@ const mapStateToProps = (state) => ({
 
 Header.propTypes = {
   getEmail: PropTypes.string.isRequired,
+  expenses: PropTypes.objectOf.isRequired,
 };
 
 export default connect(mapStateToProps)(Header);

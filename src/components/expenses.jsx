@@ -165,12 +165,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Expenses.propTypes = {
-  value: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  method: PropTypes.string.isRequired,
-  tag: PropTypes.string.isRequired,
   getCurrencies: PropTypes.func.isRequired,
+  addExpenses: PropTypes.func.isRequired,
+  currencies: PropTypes.objectOf.isRequired,
 };
 
 // export default Expenses;
