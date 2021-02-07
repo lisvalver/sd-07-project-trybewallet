@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchCurrencies, saveNewExpense } from '../actions';
 import Header from '../components/Header';
+import ExpensesTable from '../components/ExpensesTable';
 
 function Wallet({
   email,
@@ -108,6 +109,7 @@ function Wallet({
           Adicionar Despesa
         </button>
       </div>
+      <ExpensesTable expenses={ expenses } />
     </div>
   );
 }
