@@ -1,16 +1,17 @@
 // Coloque aqui suas actions
 export const LOGIN = 'LOGIN';
-export const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
 export const FETCHING_DATA = 'FETCHING_DATA';
 export const FETCH_FAIL = 'FETCH_FAIL';
+export const SAVE_RATES = 'SAVE_RATES';
 
 export const saveEmail = (email) => ({
   type: LOGIN,
   email,
 });
 
-export const saveCurrencies = (currencies) => ({
-  type: SAVE_CURRENCIES,
+export const saveRates = (rates, currencies) => ({
+  type: SAVE_RATES,
+  rates,
   currencies,
 });
 
@@ -25,9 +26,10 @@ export function fetchCurrencies() {
       const response = await fetch('https://economia.awesomeapi.com.br/json/all');
       const jsonRes = await response.json();
       delete jsonRes.USDT;
-      dispatch(saveCurrencies(jsonRes));
-    } catch (err) {
-      dispatch(fetchFail(err.message));
+      const currencies = Object.keys(jsonRes);
+      dispatch(saveRates(jsonRes, currencies));
+    } catch (error) {
+      dispatch(fetchFail(error));
     }
   };
 }

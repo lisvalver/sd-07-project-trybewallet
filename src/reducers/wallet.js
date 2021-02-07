@@ -1,26 +1,27 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 import {
-  SAVE_CURRENCIES,
+  SAVE_RATES,
   FETCHING_DATA,
   FETCH_FAIL,
 } from '../actions';
 
 const initialState = {
-  wallet: {
-    currencies: [],
-    expenses: [],
-  },
+  currencies: [],
+  expenses: [],
+  rates: {},
   fetching: false,
   error: '',
+  totalExpenses: 0,
 };
 
 const wallet = (state = initialState, action) => {
   switch (action.type) {
-  case SAVE_CURRENCIES:
+  case SAVE_RATES:
     return {
       ...state,
       fetching: false,
-      currencies: { ...action.currencies },
+      rates: action.rates,
+      currencies: action.currencies,
     };
 
   case FETCHING_DATA:
