@@ -2,6 +2,8 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 export default function Header({ email, totalExpenses }) {
+  let correctCost = totalExpenses;
+  if (!correctCost) correctCost = 0;
   return (
     <header>
       <div>
@@ -14,7 +16,7 @@ export default function Header({ email, totalExpenses }) {
           Suas despesas totais são:
           {' '}
           <span data-testid="total-field">
-            { totalExpenses }
+            { correctCost }
           </span>
           <span data-testid="header-currency-field">
             BRL
