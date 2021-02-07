@@ -5,11 +5,12 @@ import getCurrencies from '../services/api';
 
 const Wallet = () => {
   const [currencies, setCurrencies] = useState([]);
+  const { expenses } = useSelector((state) => state.wallet);
   const [newExpense, setNewExpense] = useState({
-    id: 0,
+    id: '',
     value: '',
     description: '',
-    currency: '',
+    currency: 'USD',
     method: '',
     tag: '',
     exchangeRates: {},
@@ -26,8 +27,25 @@ const Wallet = () => {
       });
   }, []);
 
+  useEffect(() => {
+    // console.log(newExpense);
+    const test = expenses.length ? expenses[expenses.length - 1].id + 1 : 0;
+    console.log(test);
+  }, [newExpense]);
+
+  const addExpensesThunk = async (expenseToAdd) => {
+    const data = await getCurrencies();
+    const newId = expenses.length ? expenses[expenses.length - 1].id + 1 : 0;
+    const expenseToSend = {
+      ...expenseToAdd,
+      id: newId,
+      exchangeRates: data,
+    };
+    dispatch((addExpenses(expenseToSend)));
+  };
+
   function handleSendExpenses() {
-    dispatch(addExpenses(newExpense));
+    addExpensesThunk(newExpense);
   }
 
   function handleChange({ target }) {
@@ -56,19 +74,23 @@ const Wallet = () => {
           type="number"
           data-testid="value-input"
           name="value"
+          value={ newExpense.value }
         />
         <input
           data-testid="description-input"
           name="description"
+          value={ newExpense.description }
         />
         <select
           data-testid="currency-input"
           name="currency"
+          value={ newExpense.currency }
         >
           {currencies.map((currency, i) => (
             <option
               key={ i }
               data-testid={ currency }
+              value={ currency }
             >
               {currency}
             </option>))}
