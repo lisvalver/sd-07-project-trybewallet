@@ -41,6 +41,12 @@ class ExpenseTable extends React.Component {
                 >
                   Excluir
                 </button>
+                <button
+                  data-testid="edit-btn"
+                  type="button"
+                >
+                  Editar despesa
+                </button>
               </td>
             </tr>
           ))}
