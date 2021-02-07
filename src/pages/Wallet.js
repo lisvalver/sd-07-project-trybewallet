@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchCurrencies, saveNewExpense } from '../actions';
+import propTypes from 'prop-types';
+import { fetchCurrencies, saveNewExpenses, setEditing } from '../actions';
 import Header from '../components/Header';
 import ExpensesTable from '../components/ExpensesTable';
 
 function Wallet({
   email,
-  wallet: { currencies, exchangeRates, expenses, totalExpenses },
-  fetchCurrencies,
-  saveNewExpense,
+  wallet: { editing, currencies, exchangeRates, expenses, totalExpenses },
+  fetchData,
+  saveExpenses,
+  setEdit,
 }) {
   useEffect(() => {
-    fetchCurrencies();
+    fetchData();
   }, []);
 
   const [form, setForm] = useState({
@@ -21,6 +23,7 @@ function Wallet({
     method: 'Dinheiro',
     tag: 'Alimentação',
     id: 0,
+    exchangeRates: {},
   });
 
   const handleChange = ({ target: { name, value } }) => {
@@ -28,8 +31,6 @@ function Wallet({
   };
 
   const addExpense = async () => {
-    await fetchCurrencies();
-    const newExpenses = expenses.concat([{ ...form, exchangeRates }]);
     const nextState = {
       value: 0,
       description: '',
@@ -37,16 +38,29 @@ function Wallet({
       method: 'Dinheiro',
       tag: 'Alimentação',
       id: form.id + 1,
+      exchangeRates: {},
     };
-    saveNewExpense(newExpenses);
-    setForm(nextState);
+    if (!editing) {
+      await fetchData();
+      const newExpenses = expenses.concat([{ ...form, exchangeRates }]);
+      saveExpenses(newExpenses);
+      setForm(nextState);
+    } else {
+      const nextId = expenses[expenses.length - 1].id + 1;
+      const filteredExpenses = expenses.filter((expense) => expense.id !== form.id);
+      const newExpenses = filteredExpenses;
+      newExpenses.splice(form.id, 0, form);
+      setEdit(false);
+      saveExpenses(newExpenses);
+      setForm({ ...nextState, id: nextId });
+    }
   };
 
-  // if (currencies.length === 0) {
-  //   return (
-  //     <div>carregando</div>
-  //   );
-  // }
+  const handleEditClick = (id) => {
+    const expenseToEdit = expenses.find((expense) => expense.id === id);
+    setForm(expenseToEdit);
+    setEdit(true);
+  };
 
   return (
     <div>
@@ -106,10 +120,10 @@ function Wallet({
           <option value="Saúde">Saúde</option>
         </select>
         <button type="button" onClick={ addExpense }>
-          Adicionar Despesa
+          {editing ? 'Editar despesa' : 'Adicionar Despesa'}
         </button>
       </div>
-      <ExpensesTable expenses={ expenses } />
+      <ExpensesTable expenses={ expenses } handleEditClick={ handleEditClick } />
     </div>
   );
 }
@@ -119,9 +133,24 @@ const mapStateToProps = (state) => ({
   email: state.user.email,
 });
 
-const mapDispatchToProps = {
-  saveNewExpense,
-  fetchCurrencies,
+const mapDispatchToProps = (dispatch) => ({
+  saveExpenses: (expenses) => dispatch(saveNewExpenses(expenses)),
+  fetchData: () => dispatch(fetchCurrencies()),
+  setEdit: (editing) => dispatch(setEditing(editing)),
+});
+
+Wallet.propTypes = {
+  email: propTypes.string.isRequired,
+  fetchData: propTypes.func.isRequired,
+  saveExpenses: propTypes.func.isRequired,
+  setEdit: propTypes.func.isRequired,
+  wallet: propTypes.shape({
+    editing: propTypes.bool,
+    currencies: propTypes.arrayOf(propTypes.string),
+    exchangeRates: propTypes.objectOf(propTypes.object),
+    expenses: propTypes.arrayOf(propTypes.object),
+    totalExpenses: propTypes.number,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

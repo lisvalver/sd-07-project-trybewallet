@@ -1,6 +1,7 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
-export default function Header({ email, totalExpenses}) {
+export default function Header({ email, totalExpenses }) {
   return (
     <header>
       <div>
@@ -23,3 +24,8 @@ export default function Header({ email, totalExpenses}) {
     </header>
   );
 }
+
+Header.propTypes = {
+  email: propTypes.string.isRequired,
+  totalExpenses: propTypes.number.isRequired,
+};

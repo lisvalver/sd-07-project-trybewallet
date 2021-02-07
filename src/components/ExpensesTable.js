@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 
-function ExpensesTable({ expenses }) {
-  const handleEditClick = () => {
+import { saveNewExpenses } from '../actions';
 
-  };
-
-  const handleDeleteClick = () => {
-
+function ExpensesTable({ expenses, handleEditClick, saveExpenses }) {
+  const handleDeleteClick = (id) => {
+    const newExpenses = expenses.filter((expense) => expense.id !== id);
+    saveExpenses(newExpenses);
   };
 
   return (
@@ -35,7 +35,7 @@ function ExpensesTable({ expenses }) {
               <td>{e.value}</td>
               <td>{ e.exchangeRates[e.currency].name }</td>
               <td>{Number(e.exchangeRates[e.currency].ask).toFixed(2)}</td>
-              <td>{Number(e.exchangeRates[e.currency].ask * e.value) }</td>
+              <td>{Number(e.exchangeRates[e.currency].ask * e.value).toFixed(2) }</td>
               <td>Real</td>
               <td>
                 <button
@@ -43,7 +43,7 @@ function ExpensesTable({ expenses }) {
                   data-testid="edit-btn"
                   onClick={ () => { handleEditClick(e.id); } }
                 >
-                  Editar despesa
+                  Editar
                 </button>
                 <button
                   type="button"
@@ -61,8 +61,14 @@ function ExpensesTable({ expenses }) {
   );
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch) => ({
+  saveExpenses: (expenses) => dispatch(saveNewExpenses(expenses)),
+});
 
+ExpensesTable.propTypes = {
+  expenses: propTypes.arrayOf(propTypes.object).isRequired,
+  handleEditClick: propTypes.func.isRequired,
+  saveExpenses: propTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(ExpensesTable);

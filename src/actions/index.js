@@ -4,6 +4,7 @@ export const FETCHING_DATA = 'FETCHING_DATA';
 export const FETCH_FAIL = 'FETCH_FAIL';
 export const SAVE_RATES = 'SAVE_RATES';
 export const UPDATE_EXPENSES = 'UPDATE_EXPENSES';
+export const EDITING = 'EDITING';
 
 export const saveEmail = (email) => ({
   type: LOGIN,
@@ -35,16 +36,22 @@ export function fetchCurrencies() {
   };
 }
 
-export const saveNewExpense = (expenses) => {
+export const saveNewExpenses = (expenses) => {
   const zero = 0;
-  const totalExpenses = expenses.reduce((acc, currentExp) => {
+  const unfixedExpenses = expenses.reduce((acc, currentExp) => {
     const { exchangeRates } = currentExp;
     const { currency } = currentExp;
     return acc + (Number(currentExp.value) * exchangeRates[currency].ask);
   }, zero);
+  const totalExpenses = unfixedExpenses.toFixed(2);
   return ({
     type: UPDATE_EXPENSES,
     expenses,
     totalExpenses,
   });
 };
+
+export const setEditing = (editing) => ({
+  type: EDITING,
+  editing,
+});

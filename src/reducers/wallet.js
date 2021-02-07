@@ -4,6 +4,7 @@ import {
   FETCHING_DATA,
   FETCH_FAIL,
   UPDATE_EXPENSES,
+  EDITING,
 } from '../actions';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   fetching: false,
   error: '',
   totalExpenses: 0,
+  editing: false,
 };
 
 const wallet = (state = initialState, action) => {
@@ -33,6 +35,9 @@ const wallet = (state = initialState, action) => {
 
   case UPDATE_EXPENSES:
     return { ...state, expenses: action.expenses, totalExpenses: action.totalExpenses };
+
+  case EDITING:
+    return { ...state, editing: action.editing };
 
   default: return state;
   }
