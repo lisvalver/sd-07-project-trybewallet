@@ -13,7 +13,6 @@ class EditFrom extends React.Component {
     };
 
     this.handleEvent = this.handleEvent.bind(this);
-
   }
 
   handleEvent({ target }) {
