@@ -1,5 +1,5 @@
 // Coloque aqui suas actions
-import { getCurrencyV3, getCurrencyV4 } from '../services/currencyAPI';
+import { getCurrency, getCurrencyV4 } from '../services/currencyAPI';
 
 export const LOGIN = 'LOGIN';
 
@@ -32,7 +32,7 @@ const receiveCurrencyFailure = (error) => ({
 export function fetchCurrency() {
   return (dispatch) => {
     dispatch(requestCurrency());
-    return getCurrencyV3()
+    return getCurrency()
       .then(
         (exchangeRates) => dispatch(receiveCurrencySuccess(exchangeRates)),
         (error) => dispatch(receiveCurrencyFailure(error)),
@@ -46,7 +46,7 @@ export const completeExpenses = (fullData) => ({
 });
 
 export function expensesWithExchangeRates(expensesData) {
-  console.log(expensesData);
+  // console.log(expensesData);
   return async (dispatch) => {
     dispatch(requestCurrency());
     try {

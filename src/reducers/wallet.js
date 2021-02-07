@@ -8,6 +8,7 @@ import {
 
 const INICIAL_STATE = {
   isFetching: false,
+  expenses: [],
 };
 
 const walletReducer = (state = INICIAL_STATE, action) => {
@@ -26,7 +27,7 @@ const walletReducer = (state = INICIAL_STATE, action) => {
   case COMPLETE_EXPENSES:
     return {
       ...state,
-      expenses: [action.fullData],
+      expenses: [...state.expenses, action.fullData],
       isFetching: false,
     };
   case RECEIVE_CURRENCY_FAILURE:

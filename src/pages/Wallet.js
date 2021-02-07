@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getCurrencyV3 } from '../services/currencyAPI.js';
+import { getCurrency } from '../services/currencyAPI';
 import { expensesWithExchangeRates } from '../actions';
 
 class Wallet extends React.Component {
@@ -10,20 +10,37 @@ class Wallet extends React.Component {
     this.state = {
       currencyData: [],
       expenses: {
-        value: '',
+        id: 0,
+        value: '0',
         description: '',
-        currency: '',
-        method: '',
-        tag: '',
+        currency: 'USD',
+        method: 'Dinheiro',
+        tag: 'Alimentação',
       },
+      totalField: '0.00',
     };
 
     this.inputOnChange = this.inputOnChange.bind(this);
   }
 
   componentDidMount() {
-    getCurrencyV3()
+    getCurrency()
       .then((data) => this.setState({ currencyData: Object.entries(data) }));
+  }
+
+  totalFieldCalculation() {
+    const { state: { wallet: { expenses } } } = this.props;
+    const { totalField } = this.state;
+    let total;
+    if (expenses.length > 0) {
+      expenses.forEach((expense) => {
+        const { currency, value, exchangeRates: { [currency]: { ask } } } = expense;
+        total = Math.round((ask * value) * 100) / 100;
+        // const total = Math.round(((ask * value) + Number.EPSILON) * 100) / 100; i dont know...
+        total += Number(totalField);
+        this.setState({ totalField: total });
+      });
+    }
   }
 
   inputOnChange({ target: { name, value } }) {
@@ -32,7 +49,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { currencyData, expenses } = this.state;
+    const { currencyData, totalField, expenses } = this.state;
     const { state: { user: { email } }, combineExpenses } = this.props;
     return (
       <div>
@@ -47,7 +64,9 @@ class Wallet extends React.Component {
             <p
               data-testid="total-field"
             >
-              Despesa Total: R$ 0,00
+              Despesa Total: R$
+              {' '}
+              { totalField }
               {' '}
               <span
                 data-testid="header-currency-field"
@@ -66,12 +85,13 @@ class Wallet extends React.Component {
               name="value"
               data-testid="value-input"
               onChange={ this.inputOnChange }
+              placeholder="0"
             />
           </label>
           <label htmlFor="description">
             Descrição:
             <input
-              type="textarea"
+              type="text"
               id="description"
               name="description"
               data-testid="description-input"
@@ -110,9 +130,9 @@ class Wallet extends React.Component {
               data-testid="method-input"
               onChange={ this.inputOnChange }
             >
-              <option value="money">Dinheiro</option>
-              <option value="credit-card">Cartão de crédito</option>
-              <option value="debit-card">Cartão de débito</option>
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Cartão de crédito">Cartão de crédito</option>
+              <option value="Cartão de débito">Cartão de débito</option>
             </select>
           </label>
           <label htmlFor="tag">
@@ -123,19 +143,22 @@ class Wallet extends React.Component {
               data-testid="tag-input"
               onChange={ this.inputOnChange }
             >
-              <option value="food">Alimentação</option>
-              <option value="leisure">Lazer</option>
-              <option value="work">Trabalho</option>
-              <option value="Transport">Transporte</option>
-              <option value="health">Saúde</option>
+              <option value="Alimentação">Alimentação</option>
+              <option value="Lazer">Lazer</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Saúde">Saúde</option>
             </select>
           </label>
           <button
             type="button"
-            onClick={ () => combineExpenses(expenses) }
-            style={ { background: 'rgb(235, 212, 12, 0.5)' } }
+            onClick={ async () => {
+              await combineExpenses(expenses);
+              this.setState({ expenses: { id: +1 } });
+              this.totalFieldCalculation();
+            } }
           >
-            Entrar
+            Adicionar despesa
           </button>
         </form>
       </div>
@@ -156,6 +179,9 @@ Wallet.propTypes = {
   state: PropTypes.shape({
     user: PropTypes.shape({
       email: PropTypes.string.isRequired,
+    }).isRequired,
+    wallet: PropTypes.shape({
+      expenses: PropTypes.instanceOf(Array).isRequired,
     }).isRequired,
   }).isRequired,
 };
