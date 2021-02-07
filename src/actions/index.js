@@ -1,2 +1,2 @@
-export { saveEmail } from './user.js';
-export { addMoney, changeCurrency, addExpense, removeExpense, fetchCurrencies } from './wallet.js';
+export { saveEmail } from './user';
+export { addMoney, setCur, addExpense, removeExpense, fetchCurrencies } from './wallet';
