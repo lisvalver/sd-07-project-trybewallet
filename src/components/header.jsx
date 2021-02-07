@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 class Header extends React.Component {
   render() {
     const { getEmail, expenses } = this.props;
-    const totalValue = expenses.length === 0 ? 0 : expenses.reduce((acc, despesa) => {
+    const totalValue = expenses.length === 0 ? '' : expenses.reduce((acc, despesa) => {
       const cot = despesa.exchangeRates[despesa.currency].ask;
       return acc + (parseFloat(despesa.value) * parseFloat(cot));
     }, 0).toFixed(2); // Auxiliado pelo EmbaixaTryber Rafael Machado Guimarães
