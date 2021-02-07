@@ -17,6 +17,7 @@ class Wallet extends React.Component {
       tag: "Alimentação",
       exchangeRates: [],
       api: {},
+      parcial: 0,
     };
 
     this.addExpense = this.addExpense.bind(this);
@@ -40,19 +41,12 @@ class Wallet extends React.Component {
   }
 
   addExpense() {
-    const {
-      id,
-      value,
-      description,
-      currency,
-      method,
-      tag,
-      api,
-    } = this.state;
+    const { id, value, description, currency, method, tag, api } = this.state;
+    const storeState = this.props.storeState;
 
-    const parcial = parseFloat(value) * parseFloat(api[currency].ask)
-    console.log(parcial);
-    console.log('api', api);
+    const parcial = parseFloat(value) * parseFloat(api[currency].ask);
+    // console.log(parcial);
+    // console.log("api", api);
 
     const expense = {
       id: id,
@@ -63,21 +57,21 @@ class Wallet extends React.Component {
       tag: tag,
       exchangeRates: api,
     };
-    console.log('expense', expense);
+    console.log("expense", expense);
     this.props.addExpenses(expense, parcial);
-    console.log('store', this.props.storeState);
+    console.log("store", storeState);
 
     this.setState({
-      id: id+1,
+      id: id + 1,
       exchangeRates: api,
-    })
-
+      parcial: parcial,
+    });
   }
 
   render() {
-    const { userEmail, APIoptions, totalExpenses } = this.props;
+    const { userEmail, APIoptions, totalExpenses, storeState } = this.props;
     const { value, description, currency, method, tag } = this.state;
-    const roundedExpenses = parseFloat((totalExpenses)).toFixed(2);
+    const roundedExpenses = parseFloat(totalExpenses).toFixed(2);
     return (
       <div>
         <header>
@@ -98,7 +92,7 @@ class Wallet extends React.Component {
             />
           </label>
           <label htmlFor="descriptionInput">
-            Descrição
+            Despesa
             <input
               data-testid="description-input"
               type="text"
@@ -111,7 +105,7 @@ class Wallet extends React.Component {
             />
           </label>
           <label htmlFor="currency">
-            Moeda
+            Moeda$
             <select
               id="currency"
               name="currency"
@@ -181,6 +175,26 @@ class Wallet extends React.Component {
               <th>Moeda de conversão</th>
             </tr>
           </thead>
+          <tbody>
+            {storeState.map((expenseLine) => (
+              <tr key={expenseLine.id}>
+                <td>{expenseLine.description}</td>
+                <td>{expenseLine.tag}</td>
+                <td>{expenseLine.method}</td>
+                <td>{expenseLine.value}</td>
+                <td>{expenseLine.exchangeRates[expenseLine.currency].name}</td>
+                <td>
+                  {parseFloat(expenseLine.exchangeRates[expenseLine.currency].ask).toFixed(
+                    2
+                  )}
+                </td>
+                <td>{parseFloat(expenseLine.value*expenseLine.exchangeRates[expenseLine.currency].ask).toFixed(
+                    2)}</td>
+                <td>Real</td>
+              </tr>
+            ))}
+            <tr>Editar/Excluir</tr>
+          </tbody>
         </table>
       </div>
     );
