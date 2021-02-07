@@ -2,7 +2,9 @@
 
 export const EMAIL = "EMAIL";
 export const GET_CURRENCIES = "GET_CURRENCIES";
-export const ADD_EXPENSES = "GET_ALL_OBJECTS";
+export const ADD_EXPENSES = "ADD_EXPENSES";
+export const DELETE_EXPENSES = "DELETE_EXPENSES";
+export const EDIT_EXPENSES = "EDIT_EXPENSES";
 
 
 export const sendEmail = (email) => ({
@@ -12,8 +14,18 @@ export const sendEmail = (email) => ({
 
 export const addExpenses = (newExpense, parcial) => ({
   type: ADD_EXPENSES,
-  value: newExpense,
+  newExpense,
   parcial
+})
+
+export const deleteExpenses = (id) => ({
+  type: DELETE_EXPENSES,
+  id,
+})
+
+export const editExpenses = (id) => ({
+  type: EDIT_EXPENSES,
+  id,
 })
 
 export const getCurrencies = (currenciesAPI) => ({

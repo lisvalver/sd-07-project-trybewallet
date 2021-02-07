@@ -1,8 +1,12 @@
-import React from "react";
-import { connect } from "react-redux";
-import { fetchCurrencies } from "../actions";
-import { addExpenses } from "../actions";
-import PropTypes from "prop-types";
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import {
+  fetchCurrencies,
+  addExpenses,
+  deleteExpenses,
+  editExpenses,
+} from '../actions';
 
 class Wallet extends React.Component {
   constructor() {
@@ -11,72 +15,97 @@ class Wallet extends React.Component {
     this.state = {
       id: 0,
       value: 0,
-      description: "",
-      currency: "USD",
-      method: "Dinheiro",
-      tag: "Alimentação",
+      description: 'inicial',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
       exchangeRates: [],
       api: {},
       parcial: 0,
     };
 
     this.addExpense = this.addExpense.bind(this);
-    this.api = this.api.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    // this.api = this.api.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchAPI();
     // idiotice né ... refatorar
-    this.api();
+    // this.api();
   }
 
-  async api() {
+  async addExpense() {
+    // const storeState = this.props.storeState;
+
+    const { storeState, addExpenses } = this.props;
     const expenseResponse = await fetch(
-      "https://economia.awesomeapi.com.br/json/all"
+      'https://economia.awesomeapi.com.br/json/all'
     );
     const expenseJSON = await expenseResponse.json();
-    this.setState({
-      api: expenseJSON,
-    });
+    delete expenseJSON.USDT;
+    this.setState(
+      {
+        api: expenseJSON,
+      },
+      () => {
+        // console.log('id newstate', newState);
+        const {
+          id,
+          value,
+          description,
+          currency,
+          method,
+          tag,
+          api,
+        } = this.state;
+        const parcial = parseFloat(value) * parseFloat(api[currency].ask);
+        // console.log(parcial);
+        // console.log("api", api);
+
+        const expense = {
+          id,
+          value,
+          description,
+          currency,
+          method,
+          tag,
+          exchangeRates: api,
+        };
+        // console.log("expense", expense);
+        addExpenses(expense, parcial);
+        // console.log('store', storeState);
+
+        this.setState({
+          id: id + 1,
+          exchangeRates: api,
+          parcial,
+        });
+      }
+    );
   }
 
-  addExpense() {
-    const { id, value, description, currency, method, tag, api } = this.state;
-    const storeState = this.props.storeState;
+  handleDelete(id) {
+    console.log('delete', id);
+    this.props.deleteExpenses(id);
+  }
 
-    const parcial = parseFloat(value) * parseFloat(api[currency].ask);
-    // console.log(parcial);
-    // console.log("api", api);
-
-    const expense = {
-      id: id,
-      value: value,
-      description: description,
-      currency: currency,
-      method: method,
-      tag: tag,
-      exchangeRates: api,
-    };
-    console.log("expense", expense);
-    this.props.addExpenses(expense, parcial);
-    console.log("store", storeState);
-
-    this.setState({
-      id: id + 1,
-      exchangeRates: api,
-      parcial: parcial,
-    });
+  handleEdit(id) {
+    console.log('edit', id);
   }
 
   render() {
     const { userEmail, APIoptions, totalExpenses, storeState } = this.props;
     const { value, description, currency, method, tag } = this.state;
-    const roundedExpenses = parseFloat(totalExpenses).toFixed(2);
+    // const roundedExpenses = parseFloat(totalExpenses).toFixed(2);
+    const roundedExpenses = totalExpenses;
+
     return (
       <div>
         <header>
           <p data-testid="email-field">{userEmail}</p>
-          <p data-testid="total-field">{roundedExpenses}</p>
+          <p data-testid="total-field">{roundedExpenses || 0}</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
         <form>
@@ -113,14 +142,12 @@ class Wallet extends React.Component {
               value={currency}
               onChange={(event) =>
                 this.setState({ currency: event.target.value })
-              }
-            >
+              }>
               {APIoptions.map((options) => (
                 <option
                   value={options}
                   key={options}
-                  data-testid={`${options}`}
-                >
+                  data-testid={`${options}`}>
                   {options}
                 </option>
               ))}
@@ -135,8 +162,7 @@ class Wallet extends React.Component {
               value={method}
               onChange={(event) =>
                 this.setState({ method: event.target.value })
-              }
-            >
+              }>
               <option>Dinheiro</option>
               <option>Cartão de crédito</option>
               <option>Cartão de débito</option>
@@ -149,8 +175,7 @@ class Wallet extends React.Component {
               name="category"
               data-testid="tag-input"
               value={tag}
-              onChange={(event) => this.setState({ tag: event.target.value })}
-            >
+              onChange={(event) => this.setState({ tag: event.target.value })}>
               <option>Alimentação</option>
               <option>Lazer</option>
               <option>Trabalho</option>
@@ -165,6 +190,7 @@ class Wallet extends React.Component {
         <table>
           <thead>
             <tr>
+              <th>Id</th>
               <th>Descrição</th>
               <th>Tag</th>
               <th>Método de pagamento</th>
@@ -173,27 +199,50 @@ class Wallet extends React.Component {
               <th>Câmbio utilizado</th>
               <th>Valor convertido</th>
               <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
             </tr>
           </thead>
           <tbody>
             {storeState.map((expenseLine) => (
               <tr key={expenseLine.id}>
+                <td>{expenseLine.id}</td>
                 <td>{expenseLine.description}</td>
                 <td>{expenseLine.tag}</td>
                 <td>{expenseLine.method}</td>
                 <td>{expenseLine.value}</td>
                 <td>{expenseLine.exchangeRates[expenseLine.currency].name}</td>
                 <td>
-                  {parseFloat(expenseLine.exchangeRates[expenseLine.currency].ask).toFixed(
-                    2
-                  )}
+                  {parseFloat(
+                    expenseLine.exchangeRates[expenseLine.currency].ask
+                  ).toFixed(2)}
                 </td>
-                <td>{parseFloat(expenseLine.value*expenseLine.exchangeRates[expenseLine.currency].ask).toFixed(
-                    2)}</td>
+                <td>
+                  {parseFloat(
+                    expenseLine.value *
+                      expenseLine.exchangeRates[expenseLine.currency].ask
+                  ).toFixed(2)}
+                </td>
                 <td>Real</td>
+                <td>
+                  <button
+                    type="button"
+                    data-testid="delete-btn"
+                    onClick={() => {
+                      this.handleDelete(expenseLine.id);
+                    }}>
+                    Excluir
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="edit-btn"
+                    onClick={() => {
+                      this.handleEdit();
+                    }}>
+                    Editar
+                  </button>
+                </td>
               </tr>
             ))}
-            <tr>Editar/Excluir</tr>
           </tbody>
         </table>
       </div>
@@ -211,6 +260,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchAPI: () => dispatch(fetchCurrencies()),
   addExpenses: (expense, parcial) => dispatch(addExpenses(expense, parcial)),
+  deleteExpenses: (id) => dispatch(deleteExpenses(id)),
+  editExpenses: () => dispatch(editExpenses()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
