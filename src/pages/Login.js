@@ -19,10 +19,10 @@ class Login extends React.Component {
   }
 
   handleClick() {
-    const { saveEmail } = this.props;
+    const { login } = this.props;
     const { email } = this.state;
     this.setState({ redirect: true });
-    saveEmail(email);
+    login(email);
   }
 
   checkInputs() {
@@ -35,12 +35,13 @@ class Login extends React.Component {
     return false;
   }
 
-  handleChange({ target: { name, value}}) {
-    this.setState({ [name]: value}, () => {
+  handleChange({ target: { name, value } }) {
+    this.setState({ [name]: value }, () => {
       const validInputs = this.checkInputs();
-      this.setState({disabled: !validInputs});
+      this.setState({ disabled: !validInputs });
     });
   }
+
   render() {
     const { email, password, disabled, redirect } = this.state;
     if (redirect) return <Redirect to="/carteira" />;
@@ -74,6 +75,8 @@ class Login extends React.Component {
   }
 }
 
-const mapDispatchToProps = { saveEmail }
+const mapDispatchToProps = (dispatch) => ({
+  login: (email) => dispatch(saveEmail(email)),
+});
 
 export default connect(null, mapDispatchToProps)(Login);
