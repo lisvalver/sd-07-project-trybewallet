@@ -39,12 +39,19 @@ const userWallet = (state = INITIAL_STATE, action) => {
         ...state,
         // expenses: "oi"
         expenses: state.expenses.filter((expense) => expense.id !== action.id),
-        total: somaTotal(state.expenses.filter((expense) => expense.id !== action.id)),
+        total: somaTotal(
+          state.expenses.filter((expense) => expense.id !== action.id)
+        ),
       };
     case EDIT_EXPENSES:
       return {
         ...state,
-        expenses: action,
+        expenses: state.expenses.map((expense) => {
+          if (expense.id === action.editedExpense.id) {
+            return action.editedExpense;
+          }
+          return expense;
+        }),
       };
     default:
       return state;

@@ -6,7 +6,6 @@ export const ADD_EXPENSES = "ADD_EXPENSES";
 export const DELETE_EXPENSES = "DELETE_EXPENSES";
 export const EDIT_EXPENSES = "EDIT_EXPENSES";
 
-
 export const sendEmail = (email) => ({
   type: EMAIL,
   email,
@@ -23,9 +22,9 @@ export const deleteExpenses = (id) => ({
   id,
 })
 
-export const editExpenses = (id) => ({
+export const editExpenses = (editedExpense) => ({
   type: EDIT_EXPENSES,
-  id,
+  editedExpense,
 })
 
 export const getCurrencies = (currenciesAPI) => ({

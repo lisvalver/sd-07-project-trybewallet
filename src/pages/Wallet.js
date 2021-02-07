@@ -14,7 +14,7 @@ class Wallet extends React.Component {
 
     this.state = {
       id: 0,
-      value: 0,
+      value: 10,
       description: 'inicial',
       currency: 'USD',
       method: 'Dinheiro',
@@ -27,6 +27,8 @@ class Wallet extends React.Component {
     this.addExpense = this.addExpense.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.editExpense = this.editExpense.bind(this);
+
     // this.api = this.api.bind(this);
   }
 
@@ -86,13 +88,51 @@ class Wallet extends React.Component {
     );
   }
 
+  editExpense() {
+
+    const {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates,
+    } = this.state;
+    const editedExpense = {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates: exchangeRates,
+    };
+    this.props.editExpenses(editedExpense)
+    console.log('editExpense');
+  }
+
   handleDelete(id) {
     console.log('delete', id);
     this.props.deleteExpenses(id);
   }
 
   handleEdit(id) {
-    console.log('edit', id);
+    console.log('edit');
+    const { storeState } = this.props;
+    this.setState(
+      {
+        id: id,
+        value: storeState[id].value,
+        description: storeState[id].description,
+        currency: storeState[id].currency,
+        method: storeState[id].method,
+        tag: storeState[id].tag,
+        exchangeRates: storeState[id].exchangeRates
+      })
+    console.log('edit', storeState);
+
+
   }
 
   render() {
@@ -105,7 +145,7 @@ class Wallet extends React.Component {
       <div>
         <header>
           <p data-testid="email-field">{userEmail}</p>
-          <p data-testid="total-field">{roundedExpenses || 0}</p>
+          <p data-testid="total-field">{totalExpenses || 0}</p>
           <p data-testid="header-currency-field">BRL</p>
         </header>
         <form>
@@ -186,6 +226,9 @@ class Wallet extends React.Component {
           <button type="button" onClick={this.addExpense}>
             Adicionar despesa
           </button>
+          <button type="button" onClick={this.editExpense}
+          >Editar despesa
+          </button>
         </form>
         <table>
           <thead>
@@ -210,17 +253,19 @@ class Wallet extends React.Component {
                 <td>{expenseLine.tag}</td>
                 <td>{expenseLine.method}</td>
                 <td>{expenseLine.value}</td>
-                <td>{expenseLine.exchangeRates[expenseLine.currency].name}</td>
+                <td>{expenseLine.exchangeRates[expenseLine.currency] ? expenseLine.exchangeRates[expenseLine.currency].name : null}</td>
                 <td>
-                  {parseFloat(
+                  {expenseLine.exchangeRates[expenseLine.currency] ?
+                  parseFloat(
                     expenseLine.exchangeRates[expenseLine.currency].ask
-                  ).toFixed(2)}
+                  ).toFixed(2) : null }
                 </td>
                 <td>
-                  {parseFloat(
+                  { expenseLine.exchangeRates[expenseLine.currency] ?
+                  parseFloat(
                     expenseLine.value *
                       expenseLine.exchangeRates[expenseLine.currency].ask
-                  ).toFixed(2)}
+                  ).toFixed(2) : null }
                 </td>
                 <td>Real</td>
                 <td>
@@ -236,7 +281,7 @@ class Wallet extends React.Component {
                     type="button"
                     data-testid="edit-btn"
                     onClick={() => {
-                      this.handleEdit();
+                      this.handleEdit(expenseLine.id);
                     }}>
                     Editar
                   </button>
@@ -261,7 +306,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAPI: () => dispatch(fetchCurrencies()),
   addExpenses: (expense, parcial) => dispatch(addExpenses(expense, parcial)),
   deleteExpenses: (id) => dispatch(deleteExpenses(id)),
-  editExpenses: () => dispatch(editExpenses()),
+  editExpenses: (editedExpense) => dispatch(editExpenses(editedExpense)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
