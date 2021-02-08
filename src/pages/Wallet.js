@@ -27,7 +27,7 @@ const Wallet = () => {
         dispatch(addCurrencies(response));
         setCurrenciesTitles(Object.keys(response));
       });
-  }, []);
+  }, [dispatch]);
 
   function calculateTotal() {
     const allValues = expenses.length
@@ -165,7 +165,7 @@ const Wallet = () => {
             const fullName = eachExpense.exchangeRates[eachExpense.currency].name;
             const exchangeRateUsed = parseFloat(
               eachExpense.exchangeRates[eachExpense.currency].ask,
-            ).toFixed(2);
+            );
             const convertedValue = parseFloat(
               eachExpense.value * exchangeRateUsed,
             ).toFixed(2);
@@ -176,7 +176,7 @@ const Wallet = () => {
                 <td>{eachExpense.method}</td>
                 <td>{eachExpense.value}</td>
                 <td>{fullName}</td>
-                <td>{exchangeRateUsed}</td>
+                <td>{exchangeRateUsed.toFixed(2)}</td>
                 <td>{convertedValue}</td>
                 <td>Real</td>
                 <td>
