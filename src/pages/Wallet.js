@@ -4,8 +4,11 @@ import { addExpenses } from '../actions';
 import getCurrencies from '../services/api';
 
 const Wallet = () => {
+  const [currenciesTitles, setCurrenciesTitles] = useState([]);
   const [currencies, setCurrencies] = useState([]);
   const [total, setTotal] = useState(0);
+  const [convertedValue, setConvertedValue] = useState(0);
+  const [exchangeRateUsed, setExchangeRateUsed] = useState(0);
   const { expenses } = useSelector((state) => state.wallet);
   const [newExpense, setNewExpense] = useState({
     id: '',
@@ -24,12 +27,12 @@ const Wallet = () => {
     getCurrencies()
       .then((response) => {
         delete response.USDT;
-        setCurrencies(Object.keys(response));
+        setCurrencies(response);
+        setCurrenciesTitles(Object.keys(response));
       });
   }, []);
 
-  useEffect(() => {
-    console.log(expenses);
+  function calculateTotal() {
     const allValues = expenses.length
       ? expenses.map((obj) => parseFloat(obj.value * obj.exchangeRates[obj.currency].ask))
       : 0;
@@ -37,17 +40,22 @@ const Wallet = () => {
       ? allValues.reduce((acc, currValue) => acc + currValue, 0)
       : 0;
     setTotal(newTotal);
+  }
+
+  useEffect(() => {
+    calculateTotal();
   });
 
-  // function calculateTotal() {
-  //   const allValues = expenses.length
-  //     ? expenses.map((obj) => parseInt(obj.value, 10))
-  //     : [];
-  //   const newTotal = allValues.length
-  //     ? allValues.reduce((acc, currValue) => acc + currValue, 0)
-  //     : [];
-  //   setTotal(newTotal);
-  // }
+  function calculateConverted() {
+    if (newExpense.value !== '') {
+      setConvertedValue(parseFloat(newExpense.value * currencies[newExpense.currency].ask).toFixed(2));
+      setExchangeRateUsed(parseFloat(currencies[newExpense.currency].ask).toFixed(2));
+    }
+  }
+
+  useEffect(() => {
+    calculateConverted();
+  });
 
   const addExpensesThunk = async (expenseToAdd) => {
     const data = await getCurrencies();
@@ -102,7 +110,7 @@ const Wallet = () => {
           name="currency"
           value={ newExpense.currency }
         >
-          {currencies.map((currency, i) => (
+          {currenciesTitles.map((currency, i) => (
             <option
               key={ i }
               data-testid={ currency }
@@ -136,6 +144,41 @@ const Wallet = () => {
           Adicionar despesa
         </button>
       </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Tag</th>
+            <th>Método de pagamento</th>
+            <th>Valor</th>
+            <th>Moeda</th>
+            <th>Câmbio utilizado</th>
+            <th>Valor convertido</th>
+            <th>Moeda de conversão</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{newExpense.description}</td>
+            <td>{newExpense.tag}</td>
+            <td>{newExpense.method}</td>
+            <td>{newExpense.value}</td>
+            <td>{newExpense.currency}</td>
+            <td>{exchangeRateUsed}</td>
+            <td>{convertedValue}</td>
+            <td>Real</td>
+            <td>
+              <button data-testid="delete-btn" type="button">
+                Deletar
+              </button>
+              <button data-testid="edit-btn" type="button">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   );
