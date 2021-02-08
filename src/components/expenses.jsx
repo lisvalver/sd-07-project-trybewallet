@@ -60,7 +60,7 @@ class Expenses extends React.Component {
 
   render() {
     const { value, description, currency, method, tag } = this.state;
-    const { currencies, editMode, expenses, expenseIdToEdit } = this.props;
+    const { currencies, editMode } = this.props; // , expenses, expenseIdToEdit
     // expenses[expenseIdToEdit]);
 
     return (
