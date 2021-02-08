@@ -6,7 +6,7 @@ import getCurrencies from '../services/api';
 const Wallet = () => {
   const [currenciesTitles, setCurrenciesTitles] = useState([]);
   const [total, setTotal] = useState(0);
-  const { expenses, currencies } = useSelector((state) => state.wallet);
+  const { expenses } = useSelector((state) => state.wallet);
   const [newExpense, setNewExpense] = useState({
     id: '',
     value: '',
@@ -173,7 +173,7 @@ const Wallet = () => {
                   <button
                     data-testid="delete-btn"
                     type="button"
-                    onClick={ () => deleteExpense(key) }
+                    onClick={ () => deleteExpense(eachExpense.id) }
                   >
                     Deletar
                   </button>
