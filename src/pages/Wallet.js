@@ -6,6 +6,7 @@ import getCurrencies from '../services/api';
 const Wallet = () => {
   const [currenciesTitles, setCurrenciesTitles] = useState([]);
   const [total, setTotal] = useState(0);
+  const [indexToEdit, setIndexToEdit] = useState(0);
   const { expenses } = useSelector((state) => state.wallet);
   const [newExpense, setNewExpense] = useState({
     id: '',
@@ -16,6 +17,7 @@ const Wallet = () => {
     tag: '',
     exchangeRates: {},
   });
+  const [editing, setEditing] = useState(false);
 
   const email = useSelector((state) => state.user.email);
   const dispatch = useDispatch();
@@ -80,6 +82,18 @@ const Wallet = () => {
     dispatch(newExpenseArray(newExpenseArrayToSend));
   }
 
+  function editExpense(id) {
+    setEditing(true);
+    const expenseToEdit = expenses.find((each) => each.id === id);
+    setIndexToEdit(expenses.indexOf(expenseToEdit));
+    setNewExpense(expenseToEdit);
+  }
+
+  function sendEditedExpense() {
+    expenses[indexToEdit] = newExpense;
+    dispatch(newExpenseArray(expenses));
+  }
+
   return (
     <div>
       <header>
@@ -138,12 +152,22 @@ const Wallet = () => {
           <option value="Transporte">Transporte</option>
           <option value="Saúde">Saúde</option>
         </select>
-        <button
-          onClick={ handleSendExpenses }
-          type="button"
-        >
-          Adicionar despesa
-        </button>
+        {editing
+          ? (
+            <button
+              onClick={ sendEditedExpense }
+              type="button"
+            >
+              Editar despesa
+            </button>)
+          : (
+            <button
+              onClick={ handleSendExpenses }
+              type="button"
+            >
+              Adicionar despesa
+            </button>
+          )}
       </form>
 
       <table>
@@ -187,7 +211,11 @@ const Wallet = () => {
                   >
                     Deletar
                   </button>
-                  <button data-testid="edit-btn" type="button">
+                  <button
+                    data-testid="edit-btn"
+                    type="button"
+                    onClick={ () => editExpense(eachExpense.id) }
+                  >
                     Editar
                   </button>
                 </td>
