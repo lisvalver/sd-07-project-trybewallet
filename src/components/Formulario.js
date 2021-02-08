@@ -13,6 +13,7 @@ class Formulario extends Component {
       newExpenseValue: 0,
       expenseDescription: '',
       selectedCurrency: '',
+      selectedPaymentMethod: '',
     };
   }
 
@@ -36,7 +37,12 @@ class Formulario extends Component {
       isFetching,
       // error,
     } = wallet;
-    const { newExpenseValue, expenseDescription, selectedCurrency } = this.state;
+    const {
+      newExpenseValue,
+      expenseDescription,
+      selectedCurrency,
+      selectedPaymentMethod,
+    } = this.state;
     return (
       <div>
         {isFetching ? <p>Carregando...</p>
@@ -85,6 +91,21 @@ class Formulario extends Component {
                     >
                       {currency}
                     </option>))}
+                </select>
+              </label>
+              <br />
+              <label htmlFor="paymentMethod">
+                Moeda:
+                <select
+                  id="paymentMethod"
+                  name="paymentMethod"
+                  data-testid="method-input"
+                  value={ selectedPaymentMethod }
+                  onChange={ this.sendNewExpenseInfos }
+                >
+                  <option key="money">Dinheiro</option>
+                  <option key="creditCard">Cartão de crédito</option>
+                  <option key="debitCard">Cartão de débito</option>
                 </select>
               </label>
             </form>
