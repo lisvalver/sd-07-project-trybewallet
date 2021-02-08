@@ -16,10 +16,10 @@ class Login extends React.Component {
     this.validateEmail = this.validateEmail.bind(this);
   }
 
-  handleInputChange({ name: inputName, value }) {
-    this.setState({ [inputName]: value }, () => {
-      const { name, email } = this.state;
-      if (name !== '' && email !== '') {
+  handleInputChange({ name, value }) {
+    this.setState({ [name]: value }, () => {
+      const { email } = this.state;
+      if (email !== '') {
         this.setState({ isDisable: false });
       } else {
         this.setState({ isDisable: true });
@@ -53,7 +53,7 @@ class Login extends React.Component {
               name="email"
               type="email"
               data-testid="email-input"
-              autoComplete="off"
+              // autoComplete="off"
               autoCorrect="off"
               value={ email }
               placeholder="trybe@gmail.com"
@@ -94,7 +94,7 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  saveEmail: (e) => dispatch(login(e)),
+  saveEmail: (value) => dispatch(login(value)),
 });
 
 Login.propTypes = {
