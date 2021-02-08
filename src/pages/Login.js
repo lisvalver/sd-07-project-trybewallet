@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { saveLogin } from '../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -6,6 +9,7 @@ class Login extends Component {
 
     this.sendAccessData = this.sendAccessData.bind(this);
     this.checkLoginData = this.checkLoginData.bind(this);
+    this.submitLogin = this.submitLogin.bind(this);
 
     this.state = {
       email: '',
@@ -25,11 +29,17 @@ class Login extends Component {
     const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     const validateEmail = regexEmail.test(email);
     const passwordMinimumLengthRequired = 6;
-    const validatePassword = password.length > passwordMinimumLengthRequired;
+    const validatePassword = password.length >= passwordMinimumLengthRequired;
     if (validateEmail && validatePassword) {
       return false;
     }
     return true;
+  }
+
+  submitLogin() {
+    const { email } = this.state;
+    const { saveLoginDispatch } = this.props;
+    saveLoginDispatch(email);
   }
 
   render() {
@@ -63,10 +73,13 @@ class Login extends Component {
             />
           </label>
           <button
-            type="submit"
+            type="button"
             name="Entrar"
             data-testid="login-submit-btn"
-            disabled={ this.checkLoginData }
+            disabled={ this.checkLoginData() }
+            onClick={ () => {
+              this.submitLogin();
+            } }
           >
             Entrar
           </button>
@@ -76,4 +89,12 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  saveLoginDispatch: (email) => dispatch(saveLogin(email)),
+});
+
+Login.propTypes = {
+  saveLoginDispatch: PropTypes.func.isRequired,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
