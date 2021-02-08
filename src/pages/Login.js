@@ -3,10 +3,17 @@ import * as actionCreators from '../actions/index';
 import { connect } from 'react-redux';
 
 class Login extends React.Component {
-  state = {
-    email: '',
-    password: '',
-    valid: false,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: '',
+      password: '',
+      valid: false,
+    }
+
+    this.login = this.login.bind(this);
+    this.isValid = this.isValid.bind(this);
   }
 
   login = () => {

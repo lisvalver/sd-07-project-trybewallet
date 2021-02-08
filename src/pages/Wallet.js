@@ -4,12 +4,16 @@ import * as actionCreators from '../actions/index';
 import Table from '../components/Table';
 
 class Wallet extends React.Component {
-  state = {
-    value: '',
-    description: '',
-    currency: 'BRL',
-    method: 'Dinheiro',
-    tag: 'Alimentação',
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: '',
+      description: '',
+      currency: 'BRL',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    }
   }
 
   componentDidMount() {

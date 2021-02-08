@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 
-export default saveEmail = (email) => ({
+export const saveEmail = (email) => ({
   type: actionTypes.SAVE_EMAIL,
   email,
 });
