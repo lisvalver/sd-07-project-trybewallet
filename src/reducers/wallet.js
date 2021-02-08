@@ -5,12 +5,12 @@ const INITIAL_STATE = {
 };
 
 function wallet(state = INITIAL_STATE, action) {
-  //const newExpense = [...state.expenses];
+  const newExpense = [...state.expenses];
   switch (action.type) {
   case 'ADD_EXPENSE':
     return {
-      expenses: [...state.expenses, action.value],
-      // total: state.total + action.total,
+      expenses: [...newExpense, action.value],
+      total: state.total + action.total,
     };
   default:
     return state;

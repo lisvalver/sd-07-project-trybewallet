@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addExpense } from '../actions';
+import { expenseTotal } from '../actions';
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -70,11 +70,10 @@ class Wallet extends React.Component {
     addExpense(objExpense);
   }
 
-  createTable(gastos) {
+  createTable(despesa) {
     // const { delExpense } = this.props;
-    const arrayObj = Object.entries(gastos.exchangeRates);
-    console.log(arrayObj);
-    /* const arrFilter = arrayObj.filter(
+    const arrayObj = Object.entries(despesa.exchangeRates);
+    const arrFilter = arrayObj.filter(
       (element) => element[0] === despesa.currency,
     );
     const objReturn = arrFilter[0][1];
@@ -88,35 +87,34 @@ class Wallet extends React.Component {
         <td>{despesa.method}</td>
         <td>{despesa.value}</td>
         <td>{objReturn.name}</td>
-        <td>{this.arredonda(mult)}</td>
+        {/* <td>{this.arredonda(mult)}</td> */}
         <td>{total}</td>
         <td>Real</td>
-         <td>
-            <button
-              data-testid="delete-btn"
-              type="button"
-              name={ despesa.id }
-              onClick={ ({ target }) => delExpense(target.name) }
-            >
-              Deletar
-            </button>
-            <button
-              data-testid="edit-btn"
-              type="button"
-              name={ despesa.id }
-              onClick={ (event) => this.editClick(event) }
-            >
-              Editar
-            </button>
-          </td>
-      </tr> */
-    //);
+        <td>
+          <button
+            data-testid="delete-btn"
+            type="button"
+            name={ despesa.id }
+            // onClick={ ({ target }) => delExpense(target.name) }
+          >
+            Deletar
+          </button>
+          <button
+            data-testid="edit-btn"
+            type="button"
+            name={ despesa.id }
+            // onClick={ (event) => this.editClick(event) }
+          >
+            Editar
+          </button>
+        </td>
+      </tr>
+    );
   }
 
   render() {
     const { email, total = 0, expense } = this.props;
     const { pagamento, valor, descricao, categoria, edit } = this.state;
-    console.log(expense);
     return (
       <div>
         <header>
@@ -200,25 +198,31 @@ class Wallet extends React.Component {
           {
             edit
               ? <button type="button">Editar Despesa</button>
-              : <button type="button" onClick={ this.mountExpense }>Adicionar Despesa</button>
+              : <button
+                type="button"
+                onClick={ this.mountExpense }>
+                Adicionar Despesa
+              </button>
           }
         </form>
-        <thead>
-          <tr>
-            <th>Descrição</th>
-            <th>Tag</th>
-            <th>Método de pagamento</th>
-            <th>Valor</th>
-            <th>Moeda</th>
-            <th>Câmbio utilizado</th>
-            <th>Valor convertido</th>
-            <th>Moeda de conversão</th>
-            <th>Editar/Excluir</th>
-          </tr>
-        </thead>
-        {/* <tbody>
-          { expense.map((gastos) => this.createTable(gastos)) }
-        </tbody> */}
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th>Tag</th>
+              <th>Método de pagamento</th>
+              <th>Valor</th>
+              <th>Moeda</th>
+              <th>Câmbio utilizado</th>
+              <th>Valor convertido</th>
+              <th>Moeda de conversão</th>
+              <th>Editar/Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+            { expense.map((despesa) => this.createTable(despesa)) }
+          </tbody>
+        </table>
       </div>
     );
   }
@@ -231,7 +235,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addExpense: (totalExpense) => dispatch(addExpense(totalExpense)),
+  addExpense: (totalExpense) => dispatch(expenseTotal(totalExpense)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
