@@ -82,7 +82,7 @@ class Wallet extends React.Component {
   }
 
   createTable(despesa) {
-    const { delExpense } = this.props;
+    // const { delExpense } = this.props;
     const arrayObj = Object.entries(despesa.exchangeRates);
     const arrFilter = arrayObj.filter(
       (element) => element[0] === despesa.currency,
@@ -140,7 +140,7 @@ class Wallet extends React.Component {
 
   editBotao() {
     const { pagamento, valor, descricao, categoria, moeda, editor } = this.state;
-    const { editExpense } = this.props;
+    // const { editExpense } = this.props;
     const newObj = {
       value: valor,
       description: descricao,
@@ -295,8 +295,6 @@ Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   total: PropTypes.string.isRequired,
   expense: PropTypes.objectOf.isRequired,
-  delExpense: PropTypes.func.isRequired,
-  editExpense: PropTypes.func.isRequired,
   addExpense: PropTypes.func.isRequired,
 };
 
