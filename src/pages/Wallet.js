@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { expenseTotal, editExpense, delExpense } from '../actions';
 
 class Wallet extends React.Component {
@@ -82,7 +83,7 @@ class Wallet extends React.Component {
   }
 
   createTable(despesa) {
-    // const { delExpense } = this.props;
+    const { delExpense } = this.props;
     const arrayObj = Object.entries(despesa.exchangeRates);
     const arrFilter = arrayObj.filter(
       (element) => element[0] === despesa.currency,
@@ -140,7 +141,7 @@ class Wallet extends React.Component {
 
   editBotao() {
     const { pagamento, valor, descricao, categoria, moeda, editor } = this.state;
-    // const { editExpense } = this.props;
+    const { editExpense } = this.props;
     const newObj = {
       value: valor,
       description: descricao,
@@ -292,6 +293,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Wallet.propTypes = {
+  addExpense: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
+  delExpense: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   total: PropTypes.string.isRequired,
   expense: PropTypes.objectOf.isRequired,
