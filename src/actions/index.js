@@ -3,4 +3,10 @@ const addEmail = (emailValue) => ({
   value: emailValue,
 });
 
-export default addEmail;
+const addExpense = (expenseValue) => ({
+  type: 'ADD_EXPENSE',
+  value: expenseValue,
+
+});
+
+export { addEmail, addExpense };
