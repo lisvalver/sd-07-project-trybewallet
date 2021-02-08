@@ -16,6 +16,8 @@ class WalletForm extends React.Component {
     };
 
     this.handleEvent = this.handleEvent.bind(this);
+    this.clearInput = this.clearInput.bind(this);
+    // this.editItems = this.editItems.bind(this);
   }
 
   componentDidMount() {
@@ -27,6 +29,16 @@ class WalletForm extends React.Component {
     const { name, value } = target;
     this.setState({
       [name]: value,
+    });
+  }
+
+  clearInput() {
+    this.setState({
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     });
   }
 
@@ -98,6 +110,8 @@ class WalletForm extends React.Component {
             onClick={ () => {
               fetchThunkAction();
               addExpenseAction(this.state);
+              // console.log(this.props.editItemProps);
+              this.clearInput();
             } }
             type="button"
           >
@@ -116,8 +130,8 @@ WalletForm.propTypes = {
   currenciesAlias: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-const mapStateToProps = ({ wallet: currencies }) => ({
-  currenciesAlias: currencies.currencies,
+const mapStateToProps = ({ wallet: { currencies } }) => ({
+  currenciesAlias: currencies,
 });
 
 const mapDispatchToProps = (dispatch) => ({

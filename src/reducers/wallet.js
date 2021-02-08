@@ -4,6 +4,8 @@ import { ADD_EXPENSE,
   API_RECEIVE_FAIL,
   RECEIVE_ALL_DATA,
   DELETE_EXPENSE,
+  EDIT_EXPENSE,
+  EDIT_DATA,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -12,6 +14,8 @@ const INITIAL_STATE = {
   loading: false,
   id: 0,
   exchangeRates: {},
+  editMode: false,
+  editItem: {},
 };
 
 // solução para criar novas chaves no expense e colocar = ao estado que eu queria foi tirado de um grupo
@@ -37,6 +41,18 @@ function wallet(state = INITIAL_STATE, action) {
     return {
       ...state,
       expenses: state.expenses.filter((expense) => expense.id !== action.id) };
+  case EDIT_EXPENSE:
+    return { ...state, editMode: true, editItem: action.editItem };
+  case EDIT_DATA:
+    return {
+      ...state,
+      expenses: state.expenses.map((expense) => {
+        if (expense.id === action.editDataUpdate.id) {
+          return action.editDataUpdate;
+        }
+        return expense;
+      }),
+    };
   default:
     return state;
   }

@@ -1,16 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Header from '../component/Header';
 import WalletForm from '../component/WalletForm';
+import EditForm from '../component/EditForm';
 
 class Wallet extends React.Component {
   render() {
+    const { editModeprops } = this.props;
     return (
       <div>
         <Header />
-        <WalletForm />
+        {editModeprops ? <EditForm /> : <WalletForm />}
       </div>
     );
   }
 }
 
-export default Wallet;
+const mapStateToProps = (state) => ({
+  editModeprops: state.wallet.editMode,
+});
+
+export default connect(mapStateToProps)(Wallet);

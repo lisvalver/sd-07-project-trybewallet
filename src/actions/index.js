@@ -5,6 +5,8 @@ export const API_RECEIVE = 'API_RECEIVE';
 export const API_RECEIVE_FAIL = 'API_RECEIVE_FAIL';
 export const RECEIVE_ALL_DATA = 'RECEIVE_ALL_DATA';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+export const EDIT_DATA = 'EDIT_DATA';
 
 export const getEmail = (email) => ({
   type: GET_EMAIL,
@@ -38,6 +40,16 @@ export const receiveAllData = (exchangeRates) => ({
 export const deleteExpense = (id) => ({
   type: DELETE_EXPENSE,
   id,
+});
+
+export const editExpense = (editItem) => ({
+  type: EDIT_EXPENSE,
+  editItem,
+});
+
+export const editData = (editDataUpdate) => ({
+  type: EDIT_DATA,
+  editDataUpdate,
 });
 
 export function fetchThunk() {

@@ -1,18 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { fetchThunk, editData } from '../actions';
+import ExpenseTable from './ExpenseTable';
 
-class EditFrom extends React.Component {
-  constructor(props) {
-    super(props);
-
+class EditForm extends React.Component {
+  constructor() {
+    super();
     this.state = {
       value: '',
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      id: '',
     };
 
     this.handleEvent = this.handleEvent.bind(this);
+    this.clearInput = this.clearInput.bind(this);
+    this.updateState = this.updateState.bind(this);
+  }
+
+  componentDidMount() {
+    const { fetchThunkAction } = this.props;
+    console.log(fetchThunkAction());
+    this.updateState();
   }
 
   handleEvent({ target }) {
@@ -22,7 +34,40 @@ class EditFrom extends React.Component {
     });
   }
 
+  clearInput() {
+    this.setState({
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    });
+  }
+
+  updateState() {
+    const { editItemProps } = this.props;
+    const {
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      id,
+      exchangeRates,
+    } = editItemProps;
+    this.setState({
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      id,
+      exchangeRates,
+    });
+  }
+
   render() {
+    const { currenciesAlias, editDataAction } = this.props;
     const { value, description, currency, method, tag } = this.state;
     return (
       <div>
@@ -86,14 +131,36 @@ class EditFrom extends React.Component {
           </select>
 
           <button
+            onClick={ () => {
+              editDataAction(this.state);
+            } }
             type="button"
           >
             Editar despesa
           </button>
         </form>
+        <ExpenseTable />
       </div>
     );
   }
 }
 
-export default EditFrom;
+EditForm.propTypes = {
+  fetchThunkAction: PropTypes.func.isRequired,
+  currenciesAlias: PropTypes.arrayOf(PropTypes.string).isRequired,
+  editDataAction: PropTypes.func.isRequired,
+  editItemProps: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+const mapStateToProps = ({ wallet: { currencies, editItem } }) => ({
+  currenciesAlias: currencies,
+  editItemProps: editItem,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchThunkAction: () => (dispatch(fetchThunk())),
+  editDataAction: (data) => (dispatch(editData(data))),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditForm);
