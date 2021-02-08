@@ -188,80 +188,72 @@ class Wallet extends React.Component {
           </h3>
         </header>
         <form>
-          <p>
-            <label htmlFor="valorDaDespesa">
-              Valor da Despesa:
-              <input
-                value={ valor }
-                name="valor"
-                id="valorDaDespesa"
-                data-testid="value-input"
-                type="number"
-                onChange={ (event) => this.handleChange(event) }
-              />
-            </label>
-          </p>
-          <p>
-            <label htmlFor="descricaoDaDespesa">
-              Descrição da despesa:
-              <input
-                value={ descricao }
-                name="descricao"
-                id="descricaoDaDespesa"
-                data-testid="description-input"
-                type="text"
-                onChange={ (event) => this.handleChange(event) }
-              />
-            </label>
-          </p>
-          <p>
-            <label htmlFor="tipoDeMoeda">
-              Moeda:
-              {this.moedas()}
-            </label>
-          </p>
-          <p>
-            <label htmlFor="metodoPagamento">
-              Método de Pagamento:
-              <select
-                value={ pagamento }
-                name="pagamento"
-                id="metodoPagamento"
-                data-testid="method-input"
-                onChange={ (event) => this.handleChange(event) }
-              >
-                <option value="Dinheiro">Dinheiro</option>
-                <option value="Cartão de débito">Cartão de débito</option>
-                <option value="Cartão de crédito">Cartão de crédito</option>
-              </select>
-            </label>
-          </p>
-          <p>
-            <label htmlFor="categoria">
-              Tag:
-              <select
-                value={ categoria }
-                name="categoria"
-                id="categoria"
-                data-testid="tag-input"
-                onChange={ (event) => this.handleChange(event) }
-              >
-                <option value="alimentacao">Alimentação</option>
-                <option value="lazer">Lazer</option>
-                <option value="trabalho">Trabalho</option>
-                <option value="transporte">Transporte</option>
-                <option value="saude">Saúde</option>
-              </select>
-            </label>
-          </p>
+          <span htmlFor="valorDaDespesa">
+            Valor da Despesa:
+          </span>
+          <input
+            value={ valor }
+            name="valor"
+            id="valorDaDespesa"
+            data-testid="value-input"
+            type="number"
+            onChange={ (event) => this.handleChange(event) }
+          />
+          <span htmlFor="descricaoDaDespesa">
+            Descrição da despesa:
+          </span>
+          <input
+            value={ descricao }
+            name="descricao"
+            id="descricaoDaDespesa"
+            data-testid="description-input"
+            type="text"
+            onChange={ (event) => this.handleChange(event) }
+          />
+          <span htmlFor="tipoDeMoeda">
+            Moeda:
+            {this.moedas()}
+          </span>
+          <span htmlFor="metodoPagamento">
+            Método de Pagamento:
+          </span>
+          <select
+            value={ pagamento }
+            name="pagamento"
+            id="metodoPagamento"
+            data-testid="method-input"
+            onChange={ (event) => this.handleChange(event) }
+          >
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de débito">Cartão de débito</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
+          </select>
+          <span htmlFor="categoria">
+            Tag:
+          </span>
+          <select
+            value={ categoria }
+            name="categoria"
+            id="categoria"
+            data-testid="tag-input"
+            onChange={ (event) => this.handleChange(event) }
+          >
+            <option value="Alimentacao">Alimentação</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saude">Saúde</option>
+          </select>
           {
             edit
               ? editButton
-              : <button
-                type="button"
-                onClick={ this.mountExpense }>
-                Adicionar despesa
-              </button>
+              : (
+                <button
+                  type="button"
+                  onClick={ this.mountExpense }
+                >
+                  Adicionar despesa
+                </button>)
           }
         </form>
         <table>
