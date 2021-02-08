@@ -10,10 +10,10 @@ class Formulario extends Component {
     this.sendNewExpenseInfos = this.sendNewExpenseInfos.bind(this);
 
     this.state = {
-      newExpenseValue: 0,
+      expenseValue: 0,
       expenseDescription: '',
-      selectedCurrency: '',
-      selectedPaymentMethod: '',
+      currency: '',
+      paymentMethod: '',
     };
   }
 
@@ -38,27 +38,28 @@ class Formulario extends Component {
       // error,
     } = wallet;
     const {
-      newExpenseValue,
+      expenseValue,
       expenseDescription,
-      selectedCurrency,
-      selectedPaymentMethod,
+      currency,
+      paymentMethod,
+      expenseTag,
     } = this.state;
     return (
       <div>
         {isFetching ? <p>Carregando...</p>
           : (
-            <form id="addExpensesForm">
+            <form id="addNewExpenseForm">
               <h2>Adicionar Nova Despesa</h2>
-              <label htmlFor="newExpenseValue">
+              <label htmlFor="expenseValue">
                 Valor da Despesa:
                 <input
                   type="number"
-                  id="newExpenseValue"
-                  name="newExpenseValue"
+                  id="expenseValue"
+                  name="expenseValue"
                   step="0.01"
                   min="0"
-                  value={ newExpenseValue }
                   data-testid="value-input"
+                  value={ expenseValue }
                   onChange={ this.sendNewExpenseInfos }
                 />
               </label>
@@ -69,8 +70,8 @@ class Formulario extends Component {
                   type="text"
                   id="expenseDescription"
                   name="expenseDescription"
-                  value={ expenseDescription }
                   data-testid="description-input"
+                  value={ expenseDescription }
                   onChange={ this.sendNewExpenseInfos }
                 />
               </label>
@@ -81,15 +82,15 @@ class Formulario extends Component {
                   id="currency"
                   name="currency"
                   data-testid="currency-input"
-                  value={ selectedCurrency }
+                  value={ currency }
                   onChange={ this.sendNewExpenseInfos }
                 >
-                  {currencies.map((currency) => (
+                  {currencies.map((currencyOption) => (
                     <option
-                      key={ currency }
-                      data-testid={ `${currency}` }
+                      key={ currencyOption }
+                      data-testid={ `${currencyOption}` }
                     >
-                      {currency}
+                      {currencyOption}
                     </option>))}
                 </select>
               </label>
@@ -100,12 +101,31 @@ class Formulario extends Component {
                   id="paymentMethod"
                   name="paymentMethod"
                   data-testid="method-input"
-                  value={ selectedPaymentMethod }
+                  value={ paymentMethod }
                   onChange={ this.sendNewExpenseInfos }
                 >
                   <option key="money">Dinheiro</option>
                   <option key="creditCard">Cartão de crédito</option>
                   <option key="debitCard">Cartão de débito</option>
+                </select>
+              </label>
+              <br />
+              <label htmlFor="expenseTag">
+                Moeda:
+                <select
+                  id="expenseTag"
+                  name="expenseTag"
+                  data-testid="tag-input"
+                  value={ expenseTag }
+                  onChange={ () => {
+                    this.sendNewExpenseInfos();
+                  } }
+                >
+                  <option key="food">Alimentação</option>
+                  <option key="recreation">Lazer</option>
+                  <option key="work">Trabalho</option>
+                  <option key="transport">Transporte</option>
+                  <option key="health">Saúde</option>
                 </select>
               </label>
             </form>
