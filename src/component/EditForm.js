@@ -55,6 +55,7 @@ class EditForm extends React.Component {
       id,
       exchangeRates,
     } = editItemProps;
+
     this.setState({
       value,
       description,
