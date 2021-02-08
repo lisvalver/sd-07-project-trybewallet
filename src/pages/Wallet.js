@@ -9,7 +9,7 @@ const Wallet = () => {
   const { expenses } = useSelector((state) => state.wallet);
   const [newExpense, setNewExpense] = useState({
     id: '',
-    value: '',
+    value: 0,
     description: '',
     currency: 'USD',
     method: '',
@@ -54,9 +54,19 @@ const Wallet = () => {
     dispatch((addExpenses(expenseToSend)));
   };
 
-  function handleSendExpenses() {
+  const handleSendExpenses = async (event) => {
+    event.preventDefault();
     addExpensesThunk(newExpense);
-  }
+    setNewExpense({
+      id: '',
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: '',
+      tag: '',
+      exchangeRates: {},
+    });
+  };
 
   function handleChange({ target }) {
     setNewExpense({
@@ -84,7 +94,7 @@ const Wallet = () => {
         </p>
       </header>
 
-      <form onChange={ handleChange }>
+      <form onChange={ handleChange } id="expenses-form">
         <input
           type="number"
           data-testid="value-input"
