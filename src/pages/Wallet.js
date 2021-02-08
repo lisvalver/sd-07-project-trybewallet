@@ -14,7 +14,7 @@ class Wallet extends React.Component {
 
     this.state = {
       id: 0,
-      value: 10,
+      value: 0,
       description: 'inicial',
       currency: 'USD',
       method: 'Dinheiro',
@@ -69,6 +69,7 @@ class Wallet extends React.Component {
         this.setState({
           id: id + 1,
           exchangeRates: api,
+          value: 0,
         });
       },
     );
