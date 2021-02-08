@@ -5,6 +5,7 @@ import getCurrencies from '../services/api';
 
 const Wallet = () => {
   const [currencies, setCurrencies] = useState([]);
+  const [total, setTotal] = useState(0);
   const { expenses } = useSelector((state) => state.wallet);
   const [newExpense, setNewExpense] = useState({
     id: '',
@@ -28,10 +29,25 @@ const Wallet = () => {
   }, []);
 
   useEffect(() => {
-    // console.log(newExpense);
-    const test = expenses.length ? expenses[expenses.length - 1].id + 1 : 0;
-    console.log(test);
-  }, [newExpense]);
+    console.log(expenses);
+    const allValues = expenses.length
+      ? expenses.map((obj) => parseFloat(obj.value * obj.exchangeRates[obj.currency].ask))
+      : 0;
+    const newTotal = allValues.length
+      ? allValues.reduce((acc, currValue) => acc + currValue, 0)
+      : 0;
+    setTotal(newTotal);
+  });
+
+  // function calculateTotal() {
+  //   const allValues = expenses.length
+  //     ? expenses.map((obj) => parseInt(obj.value, 10))
+  //     : [];
+  //   const newTotal = allValues.length
+  //     ? allValues.reduce((acc, currValue) => acc + currValue, 0)
+  //     : [];
+  //   setTotal(newTotal);
+  // }
 
   const addExpensesThunk = async (expenseToAdd) => {
     const data = await getCurrencies();
@@ -62,7 +78,7 @@ const Wallet = () => {
           {email}
         </p>
         <p data-testid="total-field">
-          0
+          {total}
         </p>
         <p data-testid="header-currency-field">
           BRL
