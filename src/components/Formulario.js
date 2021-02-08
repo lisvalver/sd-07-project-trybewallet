@@ -10,6 +10,7 @@ class Formulario extends Component {
 
     this.state = {
       newExpenseValue: 0,
+      expenseDescription: '',
     };
   }
 
@@ -23,7 +24,7 @@ class Formulario extends Component {
   render() {
     // const { wallet } = this.props;
     // const { currencies, expenses } = wallet;
-    const { newExpenseValue } = this.state;
+    const { newExpenseValue, expenseDescription } = this.state;
     return (
       <div>
         <form id="addExpensesForm">
@@ -38,6 +39,18 @@ class Formulario extends Component {
               min="0"
               value={ newExpenseValue }
               data-testid="value-input"
+              onChange={ this.sendNewExpenseInfos }
+            />
+          </label>
+          <br />
+          <label htmlFor="expenseDescription">
+            Valor da Despesa:
+            <input
+              type="text"
+              id="expenseDescription"
+              name="expenseDescription"
+              value={ expenseDescription }
+              data-testid="description-input"
               onChange={ this.sendNewExpenseInfos }
             />
           </label>
