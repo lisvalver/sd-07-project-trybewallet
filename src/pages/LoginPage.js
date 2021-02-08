@@ -77,6 +77,7 @@ const mapDistpatchToProps = (dispatch) => ({
 
 LoginPage.propTypes = {
   email: PropTypes.string.isRequired,
+  history: PropTypes.func.isRequired,
   addEmail: PropTypes.func.isRequired,
 };
 
