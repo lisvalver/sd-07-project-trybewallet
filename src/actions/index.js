@@ -9,6 +9,16 @@ const addExpense = (expenseValue, total) => ({
   total,
 });
 
+const editExpense = (obj) => ({
+  type: 'EDIT_EXPENSE',
+  value: obj,
+});
+
+const delExpense = (id) => ({
+  type: 'DEL_EXPENSE',
+  id,
+});
+
 function expenseTotal(expense) {
   return async (dispatch) => {
     const expenseResponse = await fetch('https://economia.awesomeapi.com.br/json/all');
@@ -24,4 +34,4 @@ function expenseTotal(expense) {
   };
 }
 
-export { addEmail, addExpense, expenseTotal };
+export { addEmail, addExpense, expenseTotal, editExpense, delExpense };

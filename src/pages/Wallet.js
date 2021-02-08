@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { expenseTotal } from '../actions';
+import { expenseTotal, editExpense, delExpense } from '../actions';
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -13,12 +13,16 @@ class Wallet extends React.Component {
       descricao: '',
       categoria: 'Alimentação',
       edit: false,
+      editor: {},
     };
     this.moedas = this.moedas.bind(this);
     this.api = this.api.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.createTable = this.createTable.bind(this);
     this.mountExpense = this.mountExpense.bind(this);
+    this.editBotao = this.editBotao.bind(this);
+    this.editClick = this.editClick.bind(this);
+    this.arredonda = this.arredonda.bind(this);
   }
 
   componentDidMount() {
@@ -70,8 +74,15 @@ class Wallet extends React.Component {
     addExpense(objExpense);
   }
 
+  arredonda(strin) {
+    const arraymaster = Math.round(strin * 100).toString();
+    const [a, b, c] = arraymaster;
+    const numberstr = `${a}.${b}${c}`;
+    return (numberstr);
+  }
+
   createTable(despesa) {
-    // const { delExpense } = this.props;
+    const { delExpense } = this.props;
     const arrayObj = Object.entries(despesa.exchangeRates);
     const arrFilter = arrayObj.filter(
       (element) => element[0] === despesa.currency,
@@ -87,7 +98,7 @@ class Wallet extends React.Component {
         <td>{despesa.method}</td>
         <td>{despesa.value}</td>
         <td>{objReturn.name}</td>
-        {/* <td>{this.arredonda(mult)}</td> */}
+        <td>{this.arredonda(mult)}</td>
         <td>{total}</td>
         <td>Real</td>
         <td>
@@ -95,7 +106,7 @@ class Wallet extends React.Component {
             data-testid="delete-btn"
             type="button"
             name={ despesa.id }
-            // onClick={ ({ target }) => delExpense(target.name) }
+            onClick={ ({ target }) => delExpense(target.name) }
           >
             Deletar
           </button>
@@ -103,7 +114,7 @@ class Wallet extends React.Component {
             data-testid="edit-btn"
             type="button"
             name={ despesa.id }
-            // onClick={ (event) => this.editClick(event) }
+            onClick={ (event) => this.editClick(event) }
           >
             Editar
           </button>
@@ -112,9 +123,57 @@ class Wallet extends React.Component {
     );
   }
 
+  editClick({ target }) {
+    const { expense } = this.props;
+    const filtro = expense.filter((elemento) => elemento.id === Number(target.name));
+    const editor = filtro[0];
+    this.setState({
+      editor,
+      valor: editor.value,
+      descricao: editor.description,
+      pagamento: editor.method,
+      categoria: editor.tag,
+      moeda: editor.currency,
+      edit: true,
+    });
+  }
+
+  editBotao() {
+    const { pagamento, valor, descricao, categoria, moeda, editor } = this.state;
+    const { editExpense } = this.props;
+    const newObj = {
+      value: valor,
+      description: descricao,
+      method: pagamento,
+      tag: categoria,
+      currency: moeda,
+      id: editor.id,
+      exchangeRates: editor.exchangeRates,
+    };
+
+    editExpense(newObj);
+    this.setState({
+      valor: '',
+      descricao: '',
+      pagamento: 'Dinheiro',
+      categoria: 'Alimentação',
+      moeda: 'USD',
+      edit: false,
+      editor: {},
+    });
+  }
+
   render() {
     const { email, total = 0, expense } = this.props;
     const { pagamento, valor, descricao, categoria, edit } = this.state;
+    const editButton = (
+      <button
+        type="button"
+        onClick={ (event) => this.editBotao(event) }
+      >
+        Editar despesa
+      </button>
+    );
     return (
       <div>
         <header>
@@ -131,7 +190,7 @@ class Wallet extends React.Component {
         <form>
           <p>
             <label htmlFor="valorDaDespesa">
-              Valor da Despesa
+              Valor da Despesa:
               <input
                 value={ valor }
                 name="valor"
@@ -144,7 +203,7 @@ class Wallet extends React.Component {
           </p>
           <p>
             <label htmlFor="descricaoDaDespesa">
-              Descrição da Despesa
+              Descrição da despesa:
               <input
                 value={ descricao }
                 name="descricao"
@@ -157,13 +216,13 @@ class Wallet extends React.Component {
           </p>
           <p>
             <label htmlFor="tipoDeMoeda">
-              Moeda
+              Moeda:
               {this.moedas()}
             </label>
           </p>
           <p>
             <label htmlFor="metodoPagamento">
-              Método de Pagamento
+              Método de Pagamento:
               <select
                 value={ pagamento }
                 name="pagamento"
@@ -179,7 +238,7 @@ class Wallet extends React.Component {
           </p>
           <p>
             <label htmlFor="categoria">
-              Categoria
+              Tag:
               <select
                 value={ categoria }
                 name="categoria"
@@ -197,11 +256,11 @@ class Wallet extends React.Component {
           </p>
           {
             edit
-              ? <button type="button">Editar Despesa</button>
+              ? editButton
               : <button
                 type="button"
                 onClick={ this.mountExpense }>
-                Adicionar Despesa
+                Adicionar despesa
               </button>
           }
         </form>
@@ -230,12 +289,14 @@ class Wallet extends React.Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  // total: state.wallet.total,
+  total: state.wallet.total,
   expense: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addExpense: (totalExpense) => dispatch(expenseTotal(totalExpense)),
+  editExpense: (expense) => dispatch(editExpense(expense)),
+  delExpense: (id) => dispatch(delExpense(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
