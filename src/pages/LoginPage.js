@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEmail } from '../actions';
 
@@ -29,7 +30,7 @@ class LoginPage extends React.Component {
   } */
 
   render() {
-    const { email, addEmail, history } = this.props;
+    const { email, addEmail: adicionaEmail, history: historico } = this.props;
     const { password } = this.state;
     const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.+-]+\.com$/;
     const passwordMinLength = 6;
@@ -43,7 +44,7 @@ class LoginPage extends React.Component {
           name="email"
           id="email"
           data-testid="email-input"
-          onChange={ ({ target }) => addEmail(target.value) }
+          onChange={ ({ target }) => adicionaEmail(target.value) }
         />
         <input
           type="password"
@@ -57,7 +58,7 @@ class LoginPage extends React.Component {
         <button
           type="button"
           disabled={ !regexEmail.test(email) || password.length < passwordMinLength }
-          onClick={ () => history.push('/carteira') }
+          onClick={ () => historico.push('/carteira') }
         >
           ENTRAR
         </button>
@@ -73,5 +74,10 @@ const mapStateToProps = (state) => ({
 const mapDistpatchToProps = (dispatch) => ({
   addEmail: (emailValue) => dispatch(addEmail(emailValue)),
 });
+
+LoginPage.propTypes = {
+  email: PropTypes.string.isRequired,
+  addEmail: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDistpatchToProps)(LoginPage);
