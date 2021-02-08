@@ -18,7 +18,6 @@ const Form = () => {
     exchangeRates: {},
   };
 
-  const [renderTable, setRenderTable] = useState(false);
   const [expense, setExpense] = useState(innitialState);
 
   const dispatch = useDispatch();
@@ -38,7 +37,6 @@ const Form = () => {
   const addButton = () => {
     dispatch(addExpenseAction(expense));
     dispatch(totalExpenseAction());
-    setRenderTable(true);
     setCountID(countID + 1);
     setExpense({
       ...innitialState,
@@ -163,7 +161,7 @@ const Form = () => {
           Adicionar Despesas
         </button>
       </form>
-      {renderTable ? <Table /> : 'Adicione Despesas'}
+      <Table />
     </div>
   );
 };
