@@ -155,7 +155,7 @@ class Wallet extends React.Component {
             type="button"
             onClick={ async () => {
               await combineExpenses(expenses);
-              this.setState({ expenses: { id: +1 } });
+              this.setState({ expenses: { id: +1, value: 0 } });
               this.totalFieldCalculation();
             } }
           >
