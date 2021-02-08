@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addExpenses } from '../actions';
+import { addCurrencies, addExpenses, newExpenseArray } from '../actions';
 import getCurrencies from '../services/api';
 
 const Wallet = () => {
   const [currenciesTitles, setCurrenciesTitles] = useState([]);
-  const [currencies, setCurrencies] = useState([]);
   const [total, setTotal] = useState(0);
-  const [convertedValue, setConvertedValue] = useState(0);
-  const [exchangeRateUsed, setExchangeRateUsed] = useState(0);
-  const { expenses } = useSelector((state) => state.wallet);
+  const { expenses, currencies } = useSelector((state) => state.wallet);
   const [newExpense, setNewExpense] = useState({
     id: '',
     value: '',
@@ -27,7 +24,7 @@ const Wallet = () => {
     getCurrencies()
       .then((response) => {
         delete response.USDT;
-        setCurrencies(response);
+        dispatch(addCurrencies(response));
         setCurrenciesTitles(Object.keys(response));
       });
   }, []);
@@ -37,24 +34,13 @@ const Wallet = () => {
       ? expenses.map((obj) => parseFloat(obj.value * obj.exchangeRates[obj.currency].ask))
       : 0;
     const newTotal = allValues.length
-      ? allValues.reduce((acc, currValue) => acc + currValue, 0)
+      ? allValues.reduce((acc, currValue) => acc + currValue, 0).toFixed(2)
       : 0;
     setTotal(newTotal);
   }
 
   useEffect(() => {
     calculateTotal();
-  });
-
-  function calculateConverted() {
-    if (newExpense.value !== '') {
-      setConvertedValue(parseFloat(newExpense.value * currencies[newExpense.currency].ask).toFixed(2));
-      setExchangeRateUsed(parseFloat(currencies[newExpense.currency].ask).toFixed(2));
-    }
-  }
-
-  useEffect(() => {
-    calculateConverted();
   });
 
   const addExpensesThunk = async (expenseToAdd) => {
@@ -77,6 +63,11 @@ const Wallet = () => {
       ...newExpense,
       [target.name]: target.value,
     });
+  }
+
+  function deleteExpense(id) {
+    const newExpenseArrayToSend = expenses.filter((eachExpense) => eachExpense.id !== id);
+    dispatch(newExpenseArray(newExpenseArrayToSend));
   }
 
   return (
@@ -156,27 +147,44 @@ const Wallet = () => {
             <th>Câmbio utilizado</th>
             <th>Valor convertido</th>
             <th>Moeda de conversão</th>
+            <th>Editar/Excluir</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{newExpense.description}</td>
-            <td>{newExpense.tag}</td>
-            <td>{newExpense.method}</td>
-            <td>{newExpense.value}</td>
-            <td>{newExpense.currency}</td>
-            <td>{exchangeRateUsed}</td>
-            <td>{convertedValue}</td>
-            <td>Real</td>
-            <td>
-              <button data-testid="delete-btn" type="button">
-                Deletar
-              </button>
-              <button data-testid="edit-btn" type="button">
-                Editar
-              </button>
-            </td>
-          </tr>
+          {expenses.map((eachExpense, key) => {
+            const fullName = eachExpense.exchangeRates[eachExpense.currency].name;
+            const exchangeRateUsed = parseFloat(
+              eachExpense.exchangeRates[eachExpense.currency].ask,
+            ).toFixed(2);
+            const convertedValue = parseFloat(
+              eachExpense.value * exchangeRateUsed,
+            ).toFixed(2);
+            return (
+              <tr key={ key }>
+                <td>{eachExpense.description}</td>
+                <td>{eachExpense.tag}</td>
+                <td>{eachExpense.method}</td>
+                <td>{eachExpense.value}</td>
+                <td>{fullName}</td>
+                <td>{exchangeRateUsed}</td>
+                <td>{convertedValue}</td>
+                <td>Real</td>
+                <td>
+                  <button
+                    data-testid="delete-btn"
+                    type="button"
+                    onClick={ () => deleteExpense(key) }
+                  >
+                    Deletar
+                  </button>
+                  <button data-testid="edit-btn" type="button">
+                    Editar
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+
         </tbody>
       </table>
     </div>
