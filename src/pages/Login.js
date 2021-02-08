@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { saveLogin } from '../actions';
@@ -14,6 +15,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      redirect: false,
     };
   }
 
@@ -40,10 +42,13 @@ class Login extends Component {
     const { email } = this.state;
     const { saveLoginDispatch } = this.props;
     saveLoginDispatch(email);
+    this.setState({
+      redirect: true,
+    });
   }
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, redirect } = this.state;
     return (
       <div>
         <h1>TRYBE WALLET</h1>
@@ -83,6 +88,7 @@ class Login extends Component {
           >
             Entrar
           </button>
+          {redirect && <Redirect to="/carteira" />}
         </form>
       </div>
     );
