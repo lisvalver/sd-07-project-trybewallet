@@ -49,7 +49,6 @@ class Expenses extends React.Component {
     addExpenses(this.state);
 
     this.setState({
-      id: '',
       value: 0,
       description: '',
       currency: '',
