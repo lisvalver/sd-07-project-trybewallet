@@ -175,8 +175,8 @@ Expenses.propTypes = {
   addExpenses: PropTypes.func.isRequired,
   currencies: PropTypes.objectOf.isRequired,
   editMode: PropTypes.bool.isRequired,
-  expenses: PropTypes.objectOf.isRequired,
-  expenseIdToEdit: PropTypes.string.isRequired,
+  // expenses: PropTypes.objectOf.isRequired,
+  // expenseIdToEdit: PropTypes.string.isRequired,
 };
 
 // export default Expenses;
