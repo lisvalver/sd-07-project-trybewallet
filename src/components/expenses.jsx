@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { addExpensesToStore } from '../actions';
 import FetchAPI from '../services';
-import { getCurrenciesToSelectOptions, addExpensesToStore } from '../actions';
 
 class Expenses extends React.Component {
   constructor() {
@@ -19,12 +19,6 @@ class Expenses extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-  }
-
-  async componentDidMount() {
-    const { getCurrencies } = this.props;
-    const response = await FetchAPI();
-    getCurrencies(Object.keys(response).filter((item) => item !== 'USDT'));
   }
 
   handleChange({ target: { name, value } }) {
@@ -53,11 +47,22 @@ class Expenses extends React.Component {
     }
 
     addExpenses(this.state);
+
+    this.setState({
+      id: '',
+      value: 0,
+      description: '',
+      currency: '',
+      method: '',
+      tag: '',
+    });
   }
 
   render() {
     const { value, description, currency, method, tag } = this.state;
-    const { currencies } = this.props;
+    const { currencies, editMode, expenses, expenseIdToEdit } = this.props;
+    // expenses[expenseIdToEdit]);
+
     return (
       <div className="bg-dark">
         <form>
@@ -145,9 +150,9 @@ class Expenses extends React.Component {
           <button
             type="button"
             onClick={ this.handleClick }
-            className="btn btn-primary"
+            className={ editMode ? 'btn btn-danger' : 'btn btn-primary' }
           >
-            Adicionar Despesa
+            { editMode ? 'Editar despesa' : 'Adicionar despesa' }
           </button>
         </form>
       </div>
@@ -157,17 +162,21 @@ class Expenses extends React.Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  editMode: state.wallet.editMode,
+  expenseIdToEdit: state.wallet.expenseIdToEdit,
+  expenses: state.wallet.expenses,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getCurrencies: (currencie) => dispatch(getCurrenciesToSelectOptions(currencie)),
   addExpenses: (expense) => dispatch(addExpensesToStore(expense)),
 });
 
 Expenses.propTypes = {
-  getCurrencies: PropTypes.func.isRequired,
   addExpenses: PropTypes.func.isRequired,
   currencies: PropTypes.objectOf.isRequired,
+  editMode: PropTypes.bool.isRequired,
+  expenses: PropTypes.objectOf.isRequired,
+  expenseIdToEdit: PropTypes.string.isRequired,
 };
 
 // export default Expenses;

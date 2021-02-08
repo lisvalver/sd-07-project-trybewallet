@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { delExpensesToStore } from '../actions';
+import { delExpensesToStore, editExpensesToStore } from '../actions';
 
 class Table extends React.Component {
   constructor() {
@@ -16,7 +16,7 @@ class Table extends React.Component {
   }
 
   render() {
-    const { expenses } = this.props;
+    const { expenses, editExpenses } = this.props;
     return (
       <table className="table table-striped">
         <thead>
@@ -59,6 +59,7 @@ class Table extends React.Component {
                 <td>
                   <button
                     type="button"
+                    onClick={ () => editExpenses(id) }
                     className="btn btn-warning btn-sm"
                     data-testid="edit-btn"
                   >
@@ -88,11 +89,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   delExpenses: (id) => dispatch(delExpensesToStore(id)),
+  editExpenses: (id) => dispatch(editExpensesToStore(null, id)),
 });
 
 Table.propTypes = {
   expenses: PropTypes.objectOf.isRequired,
   delExpenses: PropTypes.func.isRequired,
+  editExpenses: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table);

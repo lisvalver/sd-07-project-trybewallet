@@ -1,8 +1,10 @@
-import { GET_CURRENCIES, ADD_EXPENSES, DEL_EXPENSES } from '../actions';
+import { GET_CURRENCIES, ADD_EXPENSES, DEL_EXPENSES, EDIT_EXPENSES } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
+  editMode: false,
+  expenseIdToEdit: '',
 };
 
 export default function wallet(state = INITIAL_STATE, action) {
@@ -21,6 +23,12 @@ export default function wallet(state = INITIAL_STATE, action) {
     return {
       ...state,
       expenses: state.expenses.filter((item) => item.id !== action.id), // Source: https://github.com/tryber/sd-07-project-trybewallet/pull/129/files
+    };
+  case EDIT_EXPENSES:
+    return {
+      ...state,
+      editMode: !state.editMode,
+      expenseIdToEdit: action.idExpense,
     };
   default:
     return state;
