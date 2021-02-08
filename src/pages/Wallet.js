@@ -23,6 +23,6 @@ const mapStateToProps = (state) => ({
 
 Wallet.propTypes = {
   editModeprops: PropTypes.bool.isRequired,
-}
+};
 
 export default connect(mapStateToProps)(Wallet);
