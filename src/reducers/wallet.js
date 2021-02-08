@@ -1,4 +1,4 @@
-import { GET_CURRENCIES, ADD_EXPENSES } from '../actions';
+import { GET_CURRENCIES, ADD_EXPENSES, DEL_EXPENSES } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -16,6 +16,11 @@ export default function wallet(state = INITIAL_STATE, action) {
     return {
       ...state,
       expenses: [...state.expenses, action.addExpenses],
+    };
+  case DEL_EXPENSES:
+    return {
+      ...state,
+      expenses: state.expenses.filter((item) => item.id !== action.id), // Source: https://github.com/tryber/sd-07-project-trybewallet/pull/129/files
     };
   default:
     return state;
