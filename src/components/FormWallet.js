@@ -79,7 +79,7 @@ class FormWallet extends Component {
     const { payment, tagCost, cost } = this.state;
     const { value, description, currency, method, tag } = cost;
     const filterCurrencies = currencies.filter((coin) => coin !== 'USDT');
-    // console.log(filterCurrencies);
+
     return (
       <form>
         <fieldset>
@@ -176,6 +176,8 @@ class FormWallet extends Component {
             }
           } }
         >
+          {' '}
+          Adicionar despesa
           { isEditingGlobal ? 'Editar despesa' : 'Adicionar despesa' }
         </button>
       </form>
