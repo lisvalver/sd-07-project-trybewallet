@@ -291,4 +291,13 @@ const mapDispatchToProps = (dispatch) => ({
   delExpense: (id) => dispatch(delExpense(id)),
 });
 
+Wallet.propTypes = {
+  email: PropTypes.string.isRequired,
+  total: PropTypes.string.isRequired,
+  expense: PropTypes.objectOf.isRequired,
+  delExpense: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
+  addExpense: PropTypes.func.isRequired,
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
