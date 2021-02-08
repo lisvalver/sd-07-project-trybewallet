@@ -83,7 +83,7 @@ class Wallet extends React.Component {
   }
 
   createTable(despesa) {
-    const { delExpense } = this.props;
+    const { delExpense: deletar } = this.props;
     const arrayObj = Object.entries(despesa.exchangeRates);
     const arrFilter = arrayObj.filter(
       (element) => element[0] === despesa.currency,
@@ -107,7 +107,7 @@ class Wallet extends React.Component {
             data-testid="delete-btn"
             type="button"
             name={ despesa.id }
-            onClick={ ({ target }) => delExpense(target.name) }
+            onClick={ ({ target }) => deletar(target.name) }
           >
             Deletar
           </button>
@@ -141,7 +141,7 @@ class Wallet extends React.Component {
 
   editBotao() {
     const { pagamento, valor, descricao, categoria, moeda, editor } = this.state;
-    const { editExpense } = this.props;
+    const { editExpense: editar } = this.props;
     const newObj = {
       value: valor,
       description: descricao,
@@ -152,7 +152,7 @@ class Wallet extends React.Component {
       exchangeRates: editor.exchangeRates,
     };
 
-    editExpense(newObj);
+    editar(newObj);
     this.setState({
       valor: '',
       descricao: '',
@@ -299,7 +299,6 @@ Wallet.propTypes = {
   email: PropTypes.string.isRequired,
   total: PropTypes.string.isRequired,
   expense: PropTypes.objectOf.isRequired,
-  addExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
