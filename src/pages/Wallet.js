@@ -86,7 +86,7 @@ class Wallet extends React.Component {
               name="value"
               data-testid="value-input"
               onChange={ this.inputOnChange }
-              placeholder="0"
+              value={expenses.value}
             />
           </label>
           <label htmlFor="description">
