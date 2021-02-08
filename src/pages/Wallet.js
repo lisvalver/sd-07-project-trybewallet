@@ -25,4 +25,6 @@ Wallet.propTypes = {
   editModeprops: PropTypes.bool.isRequired,
 };
 
+// teste
+
 export default connect(mapStateToProps)(Wallet);
