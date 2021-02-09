@@ -7,6 +7,7 @@ class Table extends React.Component {
   constructor() {
     super();
 
+    this.addExpense = this.addExpense.bind(this);
     this.removeExpense = this.removeExpense.bind(this);
   }
 
@@ -15,8 +16,13 @@ class Table extends React.Component {
     delExpenses(id);
   }
 
+  addExpense(id) {
+    const { editExpenses } = this.props;
+    editExpenses(id);
+  }
+
   render() {
-    const { expenses, editExpenses } = this.props;
+    const { expenses } = this.props;
     return (
       <table className="table table-striped">
         <thead>
@@ -59,11 +65,11 @@ class Table extends React.Component {
                 <td>
                   <button
                     type="button"
-                    onClick={ () => editExpenses(id) }
+                    onClick={ () => this.addExpense(id) }
                     className="btn btn-warning btn-sm"
                     data-testid="edit-btn"
                   >
-                    Editar despesa
+                    Editar
                   </button>
                   <button
                     type="button"

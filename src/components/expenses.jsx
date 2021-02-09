@@ -206,7 +206,7 @@ Expenses.propTypes = {
   currencies: PropTypes.objectOf.isRequired,
   editMode: PropTypes.bool.isRequired,
   expenses: PropTypes.objectOf.isRequired,
-  expenseIdToEdit: PropTypes.number.isRequired,
+  expenseIdToEdit: PropTypes.string.isRequired,
   editAndAddExpenses: PropTypes.func.isRequired,
 };
 
