@@ -24,6 +24,7 @@ class Header extends Component {
 }
 
 // lendo o state do redux
+
 const mapStateToProps = (state) => {
   const { user } = state;
   return {
