@@ -41,7 +41,12 @@ export default function wallet(state = INITIAL_STATE, action) {
       editMode: !state.editMode,
       expenses: state.expenses.map((item) => {
         if (item.id === action.id) {
-          return action.expense;
+          console.log(action.expense);
+          const novoobjeto = {
+            ...action.expense,
+            exchangeRates: item.exchangeRates,
+          };
+          return novoobjeto; // Obrigado Gabriel Rufino <3
         }
         return item;
       }),
