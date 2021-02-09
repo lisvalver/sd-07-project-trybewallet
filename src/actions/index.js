@@ -1,73 +1,42 @@
-const UPDATE_EMAIL = 'UPDATE_EMAIL';
-const REQUEST_COINS = 'REQUEST_COINS';
-const SAVE_CURRENCIES = 'SAVE_CURRENCIES';
-const SAVE_EXPENSES = 'SAVE_EXPENSES';
-const REQUEST_COINS_FAIL = 'REQUEST_COINS_FAIL';
-const DELETE_EXPENSE = 'DELETE_EXPENSE';
-const EDIT_EXPENSE = 'EDIT_EXPENSE';
-const EDIT_FORM = 'EDIT_FORM';
+export const EMAIL = 'EMAIL';
+export const GET_CURRENCIES = 'GET_CURRENCIES';
+export const ADD_EXPENSES = 'ADD_EXPENSES';
+export const DELETE_EXPENSES = 'DELETE_EXPENSES';
+export const EDIT_EXPENSES = 'EDIT_EXPENSES';
 
-export const getEmail = (sendEmail) => ({
-  type: UPDATE_EMAIL,
-  sendEmail,
+export const sendEmail = (email) => ({
+  type: EMAIL,
+  email,
 });
 
-function requestCoins() {
-  return { type: REQUEST_COINS };
-}
+export const addExpenses = (newExpense, parcial) => ({
+  type: ADD_EXPENSES,
+  newExpense,
+  parcial,
+});
 
-function getAllCoins(payload) {
-  return { type: SAVE_CURRENCIES, payload };
-}
-
-function getExpenses(form, currencies) {
-  return { type: SAVE_EXPENSES, form, currencies };
-}
-
-function requestFail(error) {
-  return { type: REQUEST_COINS_FAIL, error };
-}
-
-export const deleteExpense = (id) => ({
-  type: DELETE_EXPENSE,
+export const deleteExpenses = (id) => ({
+  type: DELETE_EXPENSES,
   id,
 });
 
-export const editExpense = (form) => ({
-  type: EDIT_EXPENSE,
-  form,
+export const editExpenses = (editedExpense) => ({
+  type: EDIT_EXPENSES,
+  editedExpense,
 });
 
-export const editForm = () => ({
-  type: EDIT_FORM,
+export const getCurrencies = (currenciesAPI) => ({
+  type: GET_CURRENCIES,
+  currenciesAPI,
 });
 
-export function sendCurrencies() {
-  return (dispatch) => {
-    dispatch(requestCoins());
-    return fetch('https://economia.awesomeapi.com.br/json/all').then((response) => response.json()
-      .then((data) => dispatch(getAllCoins(Object.keys(data))),
-        (error) => dispatch(requestFail(error))));
+export function fetchCurrencies() {
+  return async (dispatch) => {
+    const currenciesResponse = await fetch(
+      'https://economia.awesomeapi.com.br/json/all',
+    );
+    const objCurrencies = await currenciesResponse.json();
+    delete objCurrencies.USDT;
+    dispatch(getCurrencies(Object.keys(objCurrencies)));
   };
 }
-
-export function sendFormAndExhangesRates(form) {
-  return (dispatch) => {
-    dispatch(requestCoins());
-    return fetch('https://economia.awesomeapi.com.br/json/all').then((response) => response.json().then(
-      (currencies) => dispatch(getExpenses(form, currencies)),
-      (error) => dispatch(requestFail(error)),
-    ));
-  };
-}
-
-export const typesActions = {
-  UPDATE_EMAIL,
-  REQUEST_COINS,
-  SAVE_CURRENCIES,
-  SAVE_EXPENSES,
-  REQUEST_COINS_FAIL,
-  DELETE_EXPENSE,
-  EDIT_EXPENSE,
-  EDIT_FORM,
-};

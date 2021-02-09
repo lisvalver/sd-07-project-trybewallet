@@ -1,88 +1,101 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getEmail } from '../actions';
-import FormLogin from '../components/FormLogin';
+import { connect } from 'react-redux';
+import { sendEmail } from '../actions';
+// eslint-disable-next-line import/no-unresolved
+import logo from '../images/social-blockchain.jpg';
 
-class Login extends React.Component {
-  constructor() {
-    super();
-
-    this.updateState = this.updateState.bind(this);
-    this.loginAvaliator = this.loginAvaliator.bind(this);
-    this.updateEmailGlobal = this.updateEmailGlobal.bind(this);
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.inputValidation = this.inputValidation.bind(this);
 
     this.state = {
       email: '',
       password: '',
-      buttonDisable: true,
-      redirect: false,
     };
   }
 
-  updateState({ target }) {
+  handleChange({ target }) {
     const { name, value } = target;
-    this.setState(
-      {
-        [name]: value,
-      },
-      () => this.loginAvaliator(),
-    );
+    this.setState({ [name]: value });
   }
 
-  updateEmailGlobal() {
-    const { updateEmail } = this.props;
+  handleClick() {
+    const { updateEmail, history } = this.props;
     const { email } = this.state;
-    this.setState(
-      {
-        redirect: true,
-      },
-      () => updateEmail(email),
-    );
+    updateEmail(email);
+    history.push('/carteira');
   }
 
-  loginAvaliator() {
+  inputValidation() {
     const { email, password } = this.state;
-    const minLength = 6;
-    if (email.includes('@') && email.includes('.com') && password.length >= minLength) {
-      this.setState({
-        buttonDisable: false,
-      });
-    } else {
-      this.setState({
-        buttonDisable: true,
-      });
-    }
+    const emailRe = /\S+@\S+\.\S+/;
+    const passwordMinLength = 6;
+    return emailRe.test(email) && password.length >= passwordMinLength;
   }
 
   render() {
-    const { buttonDisable, email, password, redirect } = this.state;
-    if (redirect) return <Redirect to="/carteira" />;
     return (
-      <div>
-        <FormLogin
-          email={ email }
-          password={ password }
-          update={ this.updateState }
-        />
-        <button
-          type="button"
-          disabled={ buttonDisable }
-          onClick={ this.updateEmailGlobal }
-        >
-          Entrar
-        </button>
+      <div className="background-image">
+        <div className="input-group">
+          <div className="title-container">
+            <div>
+              <img className="logo-image" src={ logo } alt="logo" />
+            </div>
+          </div>
+          <div className="login-container">
+            <div className="form-group">
+              Login to your account:
+            </div>
+            <div className="form-group">
+              <input
+                type="email"
+                name="email"
+                className="form-control"
+                placeholder="E-mail"
+                data-testid="email-input"
+                onChange={ this.handleChange }
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                placeholder="Password"
+                data-testid="password-input"
+                onChange={ this.handleChange }
+              />
+            </div>
+            <div className="form-group">
+              <button
+                type="button"
+                className="btn btn-success btn-md btn-block"
+                data-testid="login-submit-btn"
+                disabled={ !this.inputValidation() }
+                onClick={ this.handleClick }
+              >
+                Entrar
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
 const mapDispatchToProps = (dispatch) => ({
-  updateEmail: (value) => dispatch(getEmail(value)),
+  updateEmail: (email) => dispatch(sendEmail(email)),
 });
-
-export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   updateEmail: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
+
+export default connect(null, mapDispatchToProps)(Login);
