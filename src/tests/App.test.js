@@ -87,6 +87,7 @@ describe('1 - [PÁGINA DE LOGIN] Crie uma página inicial de login com os seguin
 
   test('A rota deve ser mudada para \'/carteira\' após o clique no botão.', () => {
     const { history } = renderWithRouterAndStore(<App />);
+    console.log(history.location.pathname)
     const email = screen.getByTestId('email-input');
     const senha = screen.getByTestId('password-input');
     const button = screen.getByText(/Entrar/i);

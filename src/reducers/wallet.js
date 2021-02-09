@@ -10,23 +10,19 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
   case actionTypes.ADD_EXPENSE:
-    const { expense } = action;
-    const currency = expense.exchangeRates[expense.currency];
-    expense.id = state.id;
-    const newTotal = +expense.value * currency.ask + state.money;
+    action.expense.id = state.id;
     return {
       ...state,
-      expenses: state.expenses.concat(expense),
-      money: newTotal,
+      expenses: state.expenses.concat(action.expense),
+      money:
+        action.expense.value
+        * action.expense.exchangeRates[action.expense.currency].ask + state.money,
       id: state.id + 1,
     };
   case actionTypes.REMOVE_EXPENSE:
-    const elementPos = state.expenses.map((elem) => elem.id).indexOf(action.id);
-    const expenses = [...state.expenses];
-    expenses.splice(elementPos, 1);
     return {
       ...state,
-      expenses,
+      expenses: [...state.expenses].filter((elem) => elem.id !== action.id),
     };
   case actionTypes.POPULATE_CURRENCIES:
     return {
