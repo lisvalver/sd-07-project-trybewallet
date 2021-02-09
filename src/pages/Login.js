@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { sendEmail } from '../actions';
-// eslint-disable-next-line import/no-unresolved
-import logo from '../images/social-blockchain.jpg';
 
 class Login extends Component {
   constructor(props) {
