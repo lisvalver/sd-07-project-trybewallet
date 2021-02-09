@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { addEmail } from '../actions';
 
 class LoginPage extends React.Component {
@@ -77,7 +77,7 @@ const mapDistpatchToProps = (dispatch) => ({
 
 LoginPage.propTypes = {
   email: PropTypes.string.isRequired,
-  history: PropTypes.func.isRequired,
+  history: PropTypes.instanceOf(Object).isRequired,
   addEmail: PropTypes.func.isRequired,
 };
 

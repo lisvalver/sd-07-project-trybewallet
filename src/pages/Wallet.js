@@ -73,6 +73,10 @@ class Wallet extends React.Component {
       id: expense.length,
     };
     addExpense(objExpense);
+    this.setState({
+      valor: 0,
+      descricao: '',
+    });
   }
 
   arredonda(strin) {
@@ -298,7 +302,7 @@ Wallet.propTypes = {
   delExpense: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
-  expense: PropTypes.func.isRequired,
+  expense: PropTypes.arrayOf(Object).isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
