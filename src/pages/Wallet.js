@@ -297,8 +297,8 @@ Wallet.propTypes = {
   editExpense: PropTypes.func.isRequired,
   delExpense: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
-  total: PropTypes.string.isRequired,
-  expense: PropTypes.objectOf.isRequired,
+  total: PropTypes.number.isRequired,
+  expense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
