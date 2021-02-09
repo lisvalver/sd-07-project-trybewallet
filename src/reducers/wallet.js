@@ -12,6 +12,7 @@ const TYPE = {
   CURRENCIES: 'CURRENCIES',
   EXPENSES: 'EXPENSES',
   AMOUNT: 'AMOUNT',
+  DELETE: 'DELETE',
 };
 
 function walletReducer(state = INITIAL_WALLET, action) {
@@ -35,6 +36,14 @@ function walletReducer(state = INITIAL_WALLET, action) {
     amount = state.expenseValueConverted + action.value;
     return ({ ...state,
       expenseValueConverted: amount,
+    });
+  }
+  case TYPE.DELETE: {
+    const actionFomarted = Number(action.id);
+    const updateExpenses = state.expenses.filter(({ id }) => id !== actionFomarted);
+    // console.log(updateExpenses);
+    return ({ ...state,
+      expenses: updateExpenses,
     });
   }
   default:

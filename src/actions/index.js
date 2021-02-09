@@ -4,6 +4,11 @@ export const addUserEmail = (value) => ({ type: 'EMAIL', value });
 
 export const addExepenses = (value) => ({ type: 'EXPENSES', value });
 
+export const deleteExp = (id) => ({
+  type: 'DELETE',
+  id,
+});
+
 export const availableCurrencies = (value) => ({
   type: 'CURRENCIES',
   value,
@@ -41,15 +46,11 @@ export function saveExpenses(expensesObj) {
 
     const currentValue = expensesObj.value;
     const currentExchange = data[expensesObj.currency];
-    // const exchangeFormated = parseFloat(currentExchange.ask).toFixed(2);
 
     let totalExpenseConverted = (
       parseFloat(currentValue) * parseFloat(currentExchange.ask)
     );
     totalExpenseConverted = parseFloat(totalExpenseConverted.toFixed(2));
-
-    // expensesObj.currentExpenseConverted = parseFloat(totalExpenseConverted.toFixed(2));
-    // expensesObj.currentExchange = exchangeFormated;
 
     dispatch(controllerExpenses(expensesObj));
     dispatch(addTotalExpense(totalExpenseConverted));
