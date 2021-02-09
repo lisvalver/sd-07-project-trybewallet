@@ -1,4 +1,4 @@
-import { GET_CURRENCIES, ADD_EXPENSES, DEL_EXPENSES, EDIT_EXPENSES } from '../actions';
+import { GET_CURRENCIES, ADD_EXPENSES, DEL_EXPENSES, EDIT_EXPENSES, ADD_EDIT_EXPENSE } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
@@ -29,6 +29,17 @@ export default function wallet(state = INITIAL_STATE, action) {
       ...state,
       editMode: !state.editMode,
       expenseIdToEdit: action.idExpense,
+    };
+  case ADD_EDIT_EXPENSE:
+    return {
+      ...state,
+      editMode: !state.editMode,
+      expenses: state.expenses.map((item) => {
+        if (item.id === action.id) {
+          return action.expense;
+        }
+        return item;
+      }),
     };
   default:
     return state;

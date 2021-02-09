@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addExpensesToStore } from '../actions';
+import { addExpensesToStore, addEditExpenses } from '../actions';
 import FetchAPI from '../services';
 
 class Expenses extends React.Component {
@@ -19,35 +19,30 @@ class Expenses extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.setExpense = this.setExpense.bind(this);
+    this.cleanState = this.cleanState.bind(this);
   }
 
-  handleChange({ target: { name, value } }) {
+  componentDidUpdate(prevProps) {
+    const { editMode } = this.props;
+    if (prevProps.editMode !== editMode) {
+      this.setExpense();
+    }
+  }
+
+  setExpense() {
+    const { expenses, expenseIdToEdit } = this.props;
     this.setState({
-      [name]: value,
+      id: expenses[expenseIdToEdit].id,
+      value: expenses[expenseIdToEdit].value,
+      description: expenses[expenseIdToEdit].description,
+      currency: expenses[expenseIdToEdit].currency,
+      method: expenses[expenseIdToEdit].method,
+      tag: expenses[expenseIdToEdit].tag,
     });
   }
 
-  async handleClick() {
-    // const resultado = await FetchAPI();
-
-    const { addExpenses } = this.props;
-
-    const { id } = this.state;
-    const zero = 0;
-    if (id === '') {
-      this.setState({
-        id: zero,
-        exchangeRates: await FetchAPI(),
-      });
-    } else {
-      this.setState({
-        id: id + 1,
-        exchangeRates: await FetchAPI(),
-      });
-    }
-
-    addExpenses(this.state);
-
+  cleanState() {
     this.setState({
       value: 0,
       description: '',
@@ -57,10 +52,45 @@ class Expenses extends React.Component {
     });
   }
 
+  handleChange({ target: { name, value } }) {
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  async handleClick() {
+    const { addExpenses, editMode } = this.props;
+
+    if (editMode === false) {
+      const { id } = this.state;
+
+      const zero = 0;
+      if (id === '') {
+        this.setState({
+          id: zero,
+          exchangeRates: await FetchAPI(),
+        });
+      } else {
+        this.setState({
+          id: id + 1,
+          exchangeRates: await FetchAPI(),
+        });
+      }
+
+      addExpenses(this.state);
+      this.cleanState();
+    } else {
+      const { editAndAddExpenses } = this.props;
+      const { id } = this.state;
+
+      editAndAddExpenses(this.state, id);
+      this.cleanState();
+    }
+  }
+
   render() {
     const { value, description, currency, method, tag } = this.state;
-    const { currencies, editMode } = this.props; // , expenses, expenseIdToEdit
-    // expenses[expenseIdToEdit]);
+    const { currencies, editMode } = this.props;
 
     return (
       <div className="bg-dark">
@@ -168,14 +198,16 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addExpenses: (expense) => dispatch(addExpensesToStore(expense)),
+  editAndAddExpenses: (expense, id) => dispatch(addEditExpenses(expense, id)),
 });
 
 Expenses.propTypes = {
   addExpenses: PropTypes.func.isRequired,
   currencies: PropTypes.objectOf.isRequired,
   editMode: PropTypes.bool.isRequired,
-  // expenses: PropTypes.objectOf.isRequired,
-  // expenseIdToEdit: PropTypes.string.isRequired,
+  expenses: PropTypes.objectOf.isRequired,
+  expenseIdToEdit: PropTypes.number.isRequired,
+  editAndAddExpenses: PropTypes.func.isRequired,
 };
 
 // export default Expenses;
