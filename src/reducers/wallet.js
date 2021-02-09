@@ -3,6 +3,7 @@ const INITIAL_STATE = {
   currencies: [],
   expenses: [],
   totalValue: 0,
+  edit: false,
   // },
 };
 const ADD_EXPENSE = 'ADD_EXPENSE';
@@ -35,8 +36,8 @@ const wallet = (state = INITIAL_STATE, action) => {
         return acc + total;
       }, 0) };
   case DEL_EXPENSE:
-    return { wallet: { currencies: [],
-      expenses: [...state.expenses.filter((expen) => (expen.id !== action.value))] } };
+    return { ...state,
+      expenses: [...state.expenses.filter((expense) => (expense.id !== action.value))] };
   case EDIT_EXPENSE:
     return { currencies: [],
       expenses: [...editFunc(state, action)] };

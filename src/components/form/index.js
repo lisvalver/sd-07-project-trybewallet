@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addExpenseAction, totalExpenseAction } from '../../actions/index';
 import Table from '../Table/index';
 
@@ -17,9 +17,11 @@ const Form = () => {
     tag: 'Alimentação',
     exchangeRates: {},
   };
+  const total = useSelector((state) => state.wallet.totalValue);
 
   const [expense, setExpense] = useState(innitialState);
-
+  const edit = useSelector((state) => state.wallet.edit);
+  console.log(edit);
   const dispatch = useDispatch();
   const fetchApi = async () => {
     const result = await fetch('https://economia.awesomeapi.com.br/json/all');
@@ -30,7 +32,7 @@ const Form = () => {
 
   useEffect(() => {
     fetchApi();
-  }, [countID]);
+  }, [countID, total]);
 
   const { exchangeRates } = expense;
 
@@ -153,12 +155,11 @@ const Form = () => {
             <option>Saúde</option>
           </select>
         </label>
-
         <button
           type="button"
           onClick={ addButton }
         >
-          Adicionar Despesas
+          {!edit ? 'Adicionar Despesas' : 'Editar Despesas'}
         </button>
       </form>
       <Table />

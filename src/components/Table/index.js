@@ -1,10 +1,14 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { delExpenseAction, totalExpenseAction } from '../../actions/index';
 
 const Table = () => {
   const wallet = useSelector((state) => state.wallet);
-  // const expenses = wallet.expenses
-  // console.log(wallet.expenses)
+  const total = useSelector((state) => state.wallet.totalValue);
+
+  useEffect(() => {
+  }, [total]);
+  const dispatch = useDispatch();
 
   if (wallet.expenses.length === 0) return (<h1>Carregando...</h1>);
 
@@ -46,6 +50,12 @@ const Table = () => {
               <button
                 type="button"
                 data-testid="delete-btn"
+                onClick={ () => {
+                  console.log(id);
+                  dispatch(delExpenseAction(id));
+                  console.log(wallet);
+                  dispatch(totalExpenseAction());
+                } }
               >
                 Excluir
               </button>
@@ -54,6 +64,7 @@ const Table = () => {
               <button
                 type="button"
                 data-testid="edit-btn"
+                // onClick={dispatch(editExpenseAction(id))}
               >
                 Editar
               </button>
