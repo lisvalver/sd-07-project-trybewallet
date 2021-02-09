@@ -1,1 +1,6 @@
-// Coloque aqui suas actions
+export function actionEmail(email) {
+  return {
+    type: 'UPEMAIL',
+    email,
+  };
+}
