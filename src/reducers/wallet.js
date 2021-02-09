@@ -1,4 +1,9 @@
-import { GET_CURRENCIES, ADD_EXPENSES, DEL_EXPENSES, EDIT_EXPENSES, ADD_EDIT_EXPENSE } from '../actions';
+import {
+  GET_CURRENCIES,
+  ADD_EXPENSES,
+  DEL_EXPENSES,
+  EDIT_EXPENSES,
+  ADD_EDIT_EXPENSE } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [],
