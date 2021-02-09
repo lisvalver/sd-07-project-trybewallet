@@ -4,9 +4,13 @@ const INITIAL_USER = {
   email: '',
 };
 
+const Type = {
+  EMAIL: 'EMAIL',
+};
+
 function userReducer(state = INITIAL_USER, action) {
   switch (action.type) {
-  case 'EMAIL':
+  case Type.EMAIL:
     return { ...state, email: action.value };
   default:
     return state;
