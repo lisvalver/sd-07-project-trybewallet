@@ -41,7 +41,7 @@ class ExpensesForm extends React.Component {
       exchangeRates: {},
     };
     submitStateToProps(expensesObj);
-    this.setState({ id: id + 1 });
+    this.setState({ id: id + 1, value: 0 });
   }
 
   render() {
