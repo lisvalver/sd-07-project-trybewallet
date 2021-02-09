@@ -41,11 +41,15 @@ export function saveExpenses(expensesObj) {
 
     const currentValue = expensesObj.value;
     const currentExchange = data[expensesObj.currency];
+    const exchangeFormated = parseFloat(currentExchange.ask).toFixed(2);
 
     let totalExpenseConverted = (
       parseFloat(currentValue) * parseFloat(currentExchange.ask)
     );
     totalExpenseConverted = parseFloat(totalExpenseConverted.toFixed(2));
+
+    expensesObj.currentExpenseConverted = parseFloat(totalExpenseConverted.toFixed(2));
+    expensesObj.currentExchange = exchangeFormated;
 
     dispatch(controllerExpenses(expensesObj));
     dispatch(addTotalExpense(totalExpenseConverted));
