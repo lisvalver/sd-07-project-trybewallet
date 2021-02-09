@@ -26,7 +26,7 @@ class ExpensesTable extends React.Component {
             <td>{item.value}</td>
             <td>{item.exchangeRates[item.currency].name}</td>
             <td>{Number(item.exchangeRates[item.currency].ask).toFixed(2)}</td>
-            <td>{item.exchangeRates[item.currency].ask * item.value}</td>
+            <td>{(item.exchangeRates[item.currency].ask * item.value).toFixed(2)}</td>
 
             <td>Real</td>
             <td>
