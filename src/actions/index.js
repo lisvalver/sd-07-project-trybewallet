@@ -42,7 +42,10 @@ export function saveExpenses(expensesObj) {
     const currentValue = expensesObj.value;
     const currentExchange = data[expensesObj.currency];
 
-    const totalExpenseConverted = currentValue * currentExchange.ask;
+    let totalExpenseConverted = (
+      parseFloat(currentValue) * parseFloat(currentExchange.ask)
+    );
+    totalExpenseConverted = parseFloat(totalExpenseConverted.toFixed(2));
 
     dispatch(controllerExpenses(expensesObj));
     dispatch(addTotalExpense(totalExpenseConverted));

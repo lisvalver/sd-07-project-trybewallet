@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 class Header extends React.Component {
   render() {
     const { userEmail, amount = 0 } = this.props;
-    const amountPrecision = amount.toFixed(2);
 
     return (
       <header>
@@ -16,7 +15,7 @@ class Header extends React.Component {
           { `Email: ${userEmail}` }
         </span>
         <span data-testid="total-field">
-          { `Despesa Total: R$ ${amountPrecision}` }
+          { `Despesa Total: R$ ${amount}` }
         </span>
         <span data-testid="header-currency-field">
           BRL
