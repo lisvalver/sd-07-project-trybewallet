@@ -10,8 +10,8 @@ export const actionExpenses = (expense) => ({ type: EXPENSES, expense });
 const DELETE = 'DELETE';
 export const buttonDelete = (id) => ({ type: DELETE, id });
 
-// const EDITE = 'EDITE';
-// export const buttonEdit = (edit) => ({ type: EDITE, edit });
+const EDITE = 'EDITE';
+export const Edit = (id) => ({ type: EDITE, id });
 
 export function requestApiAndAnsewrs() {
   return async (dispatch) => {

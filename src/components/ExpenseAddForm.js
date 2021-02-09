@@ -18,10 +18,23 @@ class ExpenseAddForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.updateCurrency = this.updateCurrency.bind(this);
     this.addDespesa = this.addDespesa.bind(this);
+    this.addEdit = this.addEdit.bind(this);
   }
 
   componentDidMount() {
     this.updateCurrency();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { editAdd } = this.props;
+    if (editAdd !== prevProps.editAdd && prevProps.editExpenses.length <= 1) {
+      this.addEdit();
+    }
+  }
+
+  addEdit() {
+    const { editAdd } = this.props;
+    this.setState(() => editAdd[0]);
   }
 
   handleChange({ target }) {
@@ -54,7 +67,7 @@ class ExpenseAddForm extends React.Component {
   }
 
   render() {
-    const { moeda } = this.props;
+    const { moeda, edit } = this.props;
     const { value, description, currency, method, tag, exchangeRates } = this.state;
     console.log(exchangeRates);
     delete moeda.USDT;
@@ -62,6 +75,8 @@ class ExpenseAddForm extends React.Component {
 
     return (
       <div>
+        { edit ? <button type="button" onClick={ this.addDespesa }>Editar despesa</button>
+          : <button type="button" onClick={ this.addDespesa }>Adicionar despesa</button> }
         <form>
           <label htmlFor="value">
             Valor:
@@ -136,8 +151,6 @@ class ExpenseAddForm extends React.Component {
               <option value="Saúde">Saúde</option>
             </select>
           </label>
-
-          <button type="button" onClick={ this.addDespesa }>Adicionar despesa</button>
         </form>
       </div>
     );
@@ -146,6 +159,9 @@ class ExpenseAddForm extends React.Component {
 
 const mapStateToProps = (state) => ({
   moeda: state.wallet.currencies,
+  editExpenses: state.wallet.expenses,
+  editAdd: state.wallet.editExpense,
+  edit: state.wallet.edit,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -157,6 +173,9 @@ ExpenseAddForm.propTypes = {
   moeda: PropTypes.arrayOf(PropTypes.object).isRequired,
   fetchApi: PropTypes.func.isRequired,
   addExpenses: PropTypes.func.isRequired,
+  editExpenses: PropTypes.func.isRequired,
+  editAdd: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseAddForm);

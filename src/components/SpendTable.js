@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { buttonDelete } from '../actions';
+import { buttonDelete, Edit } from '../actions';
 
 class SpendTable extends React.Component {
   constructor(props) {
@@ -9,6 +9,12 @@ class SpendTable extends React.Component {
 
     this.renderTable = this.renderTable.bind(this);
     this.handleDel = this.handleDel.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+  }
+
+  handleEdit(id) {
+    const { edit } = this.props;
+    edit(id);
   }
 
   handleDel(id) {
@@ -41,18 +47,17 @@ class SpendTable extends React.Component {
         <td>
           <button
             type="button"
+            data-testid="edit-btn"
+            onClick={ () => this.handleEdit(id) }
+          >
+            Editar
+          </button>
+          <button
+            type="button"
             data-testid="delete-btn"
             onClick={ () => this.handleDel(id) }
           >
             Deletar
-          </button>
-
-          <button
-            type="button"
-            data-testid="edit-btn"
-            onChange={ this.handleEdit }
-          >
-            Editar
           </button>
         </td>
       </tr>
@@ -94,11 +99,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   del: (id) => dispatch(buttonDelete(id)),
+  edit: (id) => dispatch(Edit(id)),
 });
 
 SpendTable.propTypes = {
   expense: PropTypes.arrayOf(PropTypes.object).isRequired,
   del: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SpendTable);
