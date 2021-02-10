@@ -19,7 +19,7 @@ class Header extends Component {
 
     return (
       <div className="walletPanelHeader">
-        <h1>Trybe Wallet 💲💲</h1>
+        <h1>Trybe Wallet</h1>
         <div>
           <h1 data-testid="email-field">{ email }</h1>
           <h3 data-testid="header-currency-field">
