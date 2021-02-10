@@ -45,13 +45,7 @@ function walletReducer(state = INITIAL_WALLET, action) {
   }
   case TYPE.DECREMENT: {
     let amount = 0;
-
-    // console.log('action.value', action.value);
-    // console.log('estado atual', state.expenseValueConverted);
-
     amount = state.expenseValueConverted - action.value;
-
-    // console.log('amount', amount);
 
     return ({ ...state,
       expenseValueConverted: amount,
