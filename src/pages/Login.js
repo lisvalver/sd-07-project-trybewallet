@@ -12,13 +12,11 @@ class Login extends React.Component {
     this.verifyEmail = this.verifyEmail.bind(this);
     this.verifyPassword = this.verifyPassword.bind(this);
     this.verifyStatusButton = this.verifyStatusButton.bind(this);
-
     this.state = {
       email: '',
       password: '',
     };
   }
-
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({
@@ -26,7 +24,7 @@ class Login extends React.Component {
     });
   }
 
-  // Regex utilizado a partir do link: https://www.formget.com/regular-expression-for-email/;
+  // Regex utilizado a partir do link: https://www.w3resource.com/javascript/form/email-validation.php;
   verifyEmail() {
     let statusEmail = false;
     const { email } = this.state;
@@ -37,7 +35,6 @@ class Login extends React.Component {
     }
     return statusEmail;
   }
-
   verifyPassword() {
     let statusPassword = false;
     const { password } = this.state;
@@ -48,7 +45,6 @@ class Login extends React.Component {
     }
     return statusPassword;
   }
-
   verifyStatusButton() {
     let statusDisableButton = true;
     if (this.verifyEmail() && this.verifyPassword()) {
@@ -56,7 +52,6 @@ class Login extends React.Component {
     }
     return statusDisableButton;
   }
-
   render() {
     const { email } = this.state;
     const { sendEmail } = this.props;
@@ -77,8 +72,14 @@ class Login extends React.Component {
           placeholder="Digite aqui a sua senha"
           onChange={ this.handleChange }
         />
-        <Link to="/carteira" onClick={ () => sendEmail(email) }>
-          <button type="button" disabled={ this.verifyStatusButton() }>
+        <Link
+          to="/carteira"
+          onClick={ () => sendEmail(email) }
+        >
+          <button
+            type="button"
+            disabled={ this.verifyStatusButton() }
+          >
             Entrar
           </button>
         </Link>
