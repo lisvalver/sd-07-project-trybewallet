@@ -27,7 +27,12 @@ class ExpensesForm extends Component {
 
   handleSubmit() {
     const { addExpenses } = this.props;
-    this.setState((prevState) => ({ value: '', description: '', currency: '', method: 'Dinheiro', tag: 'Trabalho', id: prevState.id + 1 }));
+    this.setState((prevState) => ({ value: '',
+      description: '',
+      currency: '',
+      method: 'Dinheiro',
+      tag: 'Trabalho',
+      id: prevState.id + 1 }));
     addExpenses(this.state);
   }
 
