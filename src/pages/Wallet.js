@@ -99,20 +99,14 @@ class Wallet extends React.Component {
     let button = null;
     if (id >= 0) {
       button = (
-        <button
-          onClick={ this.editExpense }
-          type="button"
-        >
-        Editar despesa
+        <button onClick={ this.editExpense } type="button">
+          Editar despesa
         </button>
       );
     } else {
       button = (
-        <button
-          onClick={ this.submitExpense }
-          type="button"
-        >
-        Adicionar despesa
+        <button onClick={ this.submitExpense } type="button">
+          Adicionar despesa
         </button>
       );
     }
@@ -218,7 +212,6 @@ Wallet.propTypes = {
   removeExpense: propTypes.func.isRequired,
   fetchCurrencies: propTypes.func.isRequired,
   editExpense: propTypes.func.isRequired,
-  selectExpense: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

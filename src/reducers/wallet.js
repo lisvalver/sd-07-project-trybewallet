@@ -23,7 +23,7 @@ const reducer = (state = initialState, action) => {
       id: state.id + 1,
     };
   case actionTypes.REMOVE_EXPENSE:
-    expense = [...state.expenses].filter((elem) => elem.id === action.id)[0];
+    expense = [...state.expenses].find((elem) => elem.id === action.id);
     return {
       ...state,
       expenses: [...state.expenses].filter((elem) => elem.id !== action.id),
@@ -32,7 +32,7 @@ const reducer = (state = initialState, action) => {
     };
   case actionTypes.EDIT_EXPENSE:
     expenses = [...state.expenses];
-    expense = expenses.filter((elem) => elem.id === action.expense.id)[0];
+    expense = expenses.find((elem) => elem.id === action.expense.id);
     valueDelta = action.expense.value
     * action.expense.exchangeRates[action.expense.currency].ask
     - expense.value * expense.exchangeRates[expense.currency].ask;
