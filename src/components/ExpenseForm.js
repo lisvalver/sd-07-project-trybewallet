@@ -47,11 +47,6 @@ class ExpenseForm extends Component {
         api,
       };
       sendExpense(expense, total);
-      this.setState({
-        id: id + 1,
-        exchangeRates: api,
-        value: 0,
-      });
     } else {
       expenses[idEdit] = {
         id: idEdit,
