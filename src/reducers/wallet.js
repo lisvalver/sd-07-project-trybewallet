@@ -1,24 +1,24 @@
-// Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
 import types from '../services/actionTypes';
 
 const INITIAL_STATE = {
   currencies: [],
   expenses: [],
-  btnChange: false,
-  elementChange: {},
+  btnEdit: false,
+  elementEdit: {},
 };
 
 export default function wallet(state = INITIAL_STATE, action) {
   const index = (action.type === types.EDIT_EXPENSE)
-    ? state.expenses.findIndex((item) => (item.id === action.Expenses.id))
+    ? state.expenses.findIndex((item) => (item.id === action.objExpenses.id))
     : 0;
   const newExpenses = [...state.expenses];
-  newExpenses[index] = action.Expenses;
+  newExpenses[index] = action.objExpenses;
   switch (action.type) {
   case types.RESPONSE:
     return {
       ...state,
       currencies: Object.keys(action.prices),
+      // expenses: action.prices,
     };
   case types.DELETE_EXPENSE:
     return {
@@ -29,20 +29,20 @@ export default function wallet(state = INITIAL_STATE, action) {
     return {
       ...state,
       expenses: newExpenses,
-      btnChange: false,
+      btnEdit: false,
     };
   case types.EDIT_BTN:
     return {
       ...state,
-      btnChange: action.toogle,
-      elementChange: action.Expenses,
+      btnEdit: action.toogle,
+      elementEdit: action.objExpenses,
     };
   case types.EXPENSES:
     return {
       ...state,
       expenses: [...state.expenses,
         {
-          ...action.Expenses,
+          ...action.objExpenses,
           exchangeRates: action.objApi,
         },
       ],
