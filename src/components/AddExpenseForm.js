@@ -14,6 +14,8 @@ class AddExpenseForm extends Component {
       tag: 'Alimentação',
       description: '',
       exchangeRates: {},
+      // addButton: false,
+      // editButton: true,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -54,20 +56,19 @@ class AddExpenseForm extends Component {
     let ask = 0;
     Object.keys(currencies).forEach((item) => {
       if (currency === item) {
-        console.log(`currencies[item]: ${currencies[item]}`);
         ask = currencies[item].ask;
       }
     });
+    // const filteredCurrencies = Object.entries(currencies)
+    //   .filter(([key]) => key !== 'USDT');
     this.setState({ exchangeRates: currencies });
     const newTotal = total + (value * ask);
     this.mountForm(newTotal);
   }
-
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
-
   render() {
     const { currencies } = this.props;
     const { value, currency, method, tag, description } = this.state;
@@ -95,13 +96,11 @@ class AddExpenseForm extends Component {
               onChange={ (event) => this.handleChange(event) }
             >
               <option value="">Selecione</option>
-              {
-                Object.keys(currencies)
-                  .filter((coin) => coin !== 'USDT')
-                  .map((coin, index) => (
-                    <option key={ index } data-testid={ coin }>{ coin }</option>
-                  ))
-              }
+              {Object.keys(currencies)
+                .filter((coin) => coin !== 'USDT')
+                .map((coin, index) => (
+                  <option key={ index } data-testid={ coin }>{ coin }</option>
+                ))}
             </select>
           </label>
           <label htmlFor="method-input">
@@ -148,28 +147,31 @@ class AddExpenseForm extends Component {
             />
           </label>
           <button
-            type="submit"
+            type="button"
             onClick={ () => this.handleSubmit() }
           >
             Adicionar despesa
+          </button>
+          <button
+            type="button"
+            data-testid="delete-btn"
+          >
+            Editar despesa
           </button>
         </form>
       </div>
     );
   }
 }
-
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   expenses: state.wallet.expenses,
   total: state.wallet.total,
 });
-
 const mapDispatchToProps = (dispatch) => ({
   sendCoins: () => dispatch(sendCurrencyThunk()),
   sendExpense: (expense, total) => dispatch(addExpense(expense, total)),
 });
-
 AddExpenseForm.propTypes = {
   sendCoins: PropTypes.func.isRequired,
   sendExpense: PropTypes.func.isRequired,
@@ -177,5 +179,4 @@ AddExpenseForm.propTypes = {
   expenses: PropTypes.objectOf(PropTypes.number).isRequired,
   total: PropTypes.number.isRequired,
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(AddExpenseForm);
