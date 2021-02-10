@@ -1,27 +1,58 @@
 // Coloque aqui suas actions
-// organização retirada do meu colega de grupo Pedro Marques projeto 19
-const USER = 'EMAIL';
-const ADD_EXPENSE = 'ADD_EXPENSE';
-const DEL_EXPENSE = 'DEL_EXPENSE';
-const EDIT_EXPENSE = 'EDIT_EXPENSE';
+// organização retirada do meu colega de grupo {Alvaro, Pedro Marques} projeto 19
+export const LOGIN = 'LOGIN';
+export const FETCHING_DATA = 'FETCHING_DATA';
+export const FETCH_FAIL = 'FETCH_FAIL';
+export const SAVE_RATES = 'SAVE_RATES';
+export const UPDATE_EXPENSES = 'UPDATE_EXPENSES';
+export const EDITING = 'EDITING';
+
+export const saveEmail = (email) => ({
+  type: LOGIN,
+  email,
+});
+
+export const saveRates = (exchangeRates, currencies) => ({
+  type: SAVE_RATES,
+  exchangeRates,
+  currencies,
+});
+
+export const fetchStart = () => ({ type: FETCHING_DATA });
+
+export const fetchFail = (error) => ({ type: FETCH_FAIL, error });
 // chamada de API
-const fetchApi = async () => {
-  const result = await fetch('https://economia.awesomeapi.com.br/json/all');
-  return result.json().then((values) => values);
-};
-const userAction = (value) => ({ type: USER, value });
-const addExpenseToStore = (value) => ({ type: ADD_EXPENSE, value });
-const delExpenseAction = (value) => ({ type: DEL_EXPENSE, value });
-const editExpenseAction = (value) => ({ type: EDIT_EXPENSE, value });
-const addExpenseAction = (value) => {
-  const func = async (dispatch) => {
-    const expense = value;
-    expense.exchangeRates = await fetchApi();
-    delete expense.totalValue;
-    delete expense.editState;
-    delete expense.expenseNumber;
-    dispatch(addExpenseToStore(expense));
+export function fetchCurrencies() {
+  return async (dispatch) => {
+    try {
+      dispatch(fetchStart);
+      const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const jsonRes = await response.json();
+      delete jsonRes.USDT;
+      const currencies = Object.keys(jsonRes);
+      dispatch(saveRates(jsonRes, currencies));
+    } catch (error) {
+      dispatch(fetchFail(error));
+    }
   };
-  return func;
+}
+
+export const saveNewExpenses = (expenses) => {
+  const zero = 0;
+  const unfixedExpenses = expenses.reduce((acc, currentExp) => {
+    const { exchangeRates } = currentExp;
+    const { currency } = currentExp;
+    return acc + (Number(currentExp.value) * exchangeRates[currency].ask);
+  }, zero);
+  const totalExpenses = unfixedExpenses.toFixed(2);
+  return ({
+    type: UPDATE_EXPENSES,
+    expenses,
+    totalExpenses,
+  });
 };
-export default { userAction, addExpenseAction, delExpenseAction, editExpenseAction };
+
+export const setEditing = (editing) => ({
+  type: EDITING,
+  editing,
+});

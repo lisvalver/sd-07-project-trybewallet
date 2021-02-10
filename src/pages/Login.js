@@ -1,89 +1,87 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import actions from '../actions/index';
+import { Redirect } from 'react-router-dom';
+import propTypes from 'prop-types';
 
-// Retirei o Constructor do colega Pedro por não lembrar a sua utilização.
+import { saveEmail } from '../actions';
+
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.validateAcess = this.validateAcess.bind(this);
+  constructor() {
+    super();
     this.state = {
       email: '',
       password: '',
-      itsOk: true,
+      disabled: true,
+      redirect: false,
     };
+    this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.checkInputs = this.checkInputs.bind(this);
   }
 
-  validateAcess() {
-    const re = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+  handleClick() {
+    const { login } = this.props;
+    const { email } = this.state;
+    this.setState({ redirect: true });
+    login(email);
+  }
+
+  checkInputs() {
     const { email, password } = this.state;
-    const result = re.test(email);
-    const maxChar = 6;
-    if (result && password.length >= maxChar) return this.setState({ itsOk: false });
-    this.setState({ itsOk: true });
+    const six = 6;
+    const validEmail = email.match(email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/));
+    if (validEmail && password.length >= six) {
+      return true;
+    }
+    return false;
+  }
+
+  handleChange({ target: { name, value } }) {
+    this.setState({ [name]: value }, () => {
+      const validInputs = this.checkInputs();
+      this.setState({ disabled: !validInputs });
+    });
   }
 
   render() {
-    const { email, password, itsOk } = this.state;
-    const { addEmail, history } = this.props;
+    const { email, password, disabled, redirect } = this.state;
+    if (redirect) return <Redirect to="/carteira" />;
     return (
       <div>
-        <form>
-          <label htmlFor="email">
-            Email
-            <input
-              type="email"
-              data-testid="email-input"
-              id="email"
-              value={ email }
-              placeholder="Digite seu email"
-              onChange={ ({ target }) => {
-                this.setState({ email: target.value });
-              } }
-              onKeyUp={ this.validateAcess }
-              required
-            />
-          </label>
-          <label htmlFor="Password">
-            Senha
-            <input
-              type="password"
-              data-testid="password-input"
-              id="password"
-              value={ password }
-              placeholder="Digite sua senha"
-              onChange={ async ({ target }) => {
-                await this.setState({ password: target.value });
-              } }
-              onKeyUp={ this.validateAcess }
-              required
-            />
-          </label>
-          <button
-            type="button"
-            onClick={ () => {
-              addEmail(email);
-              history.push('/carteira');
-            } }
-            disabled={ itsOk }
-          >
-            Entrar
-          </button>
-        </form>
+        <input
+          type="email"
+          name="email"
+          data-testid="email-input"
+          placeholder="e-mail"
+          value={ email }
+          onChange={ this.handleChange }
+        />
+        <input
+          type="password"
+          name="password"
+          data-testid="password-input"
+          placeholder="senha"
+          value={ password }
+          onChange={ this.handleChange }
+        />
+        <button
+          type="button"
+          disabled={ disabled }
+          onClick={ this.handleClick }
+        >
+          Entrar
+        </button>
       </div>
     );
   }
 }
 
-const { userAction } = actions;
 const mapDispatchToProps = (dispatch) => ({
-  addEmail: (e) => dispatch(userAction(e)),
+  login: (email) => dispatch(saveEmail(email)),
 });
 
 Login.propTypes = {
-  addEmail: PropTypes.func.isRequired,
-  history: PropTypes.shape.isRequired,
+  login: propTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
