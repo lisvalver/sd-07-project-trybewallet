@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import apiCurrenciesDispatch from '../actions';
+import apiCurrenciesDispatch from '../actions/apiCurrencies';
+import newEDataConstructorDispatch from '../actions/newEDataConstructor';
 
 class Formulario extends Component {
   constructor(props) {
     super(props);
 
     this.sendNewExpenseInfos = this.sendNewExpenseInfos.bind(this);
+    this.submitNewExpense = this.submitNewExpense.bind(this);
 
     this.state = {
       expenseValue: 0,
       expenseDescription: '',
       currency: '',
       paymentMethod: '',
+      expenseTag: '',
     };
   }
 
@@ -27,6 +30,29 @@ class Formulario extends Component {
     this.setState({
       [name]: value,
     });
+  }
+
+  submitNewExpense() {
+    const { wallet } = this.props;
+    const { expenses } = wallet;
+    const {
+      expenseValue,
+      expenseDescription,
+      currency,
+      paymentMethod,
+      expenseTag,
+    } = this.state;
+    const { newEDataConstructor } = this.props;
+    const id = expenses.lenght + 1;
+    const newExpense = {
+      id,
+      value: expenseValue,
+      description: expenseDescription,
+      currency,
+      method: paymentMethod,
+      tag: expenseTag,
+    };
+    newEDataConstructor(expenses, newExpense);
   }
 
   render() {
@@ -51,7 +77,7 @@ class Formulario extends Component {
             <form id="addNewExpenseForm">
               <h2>Adicionar Nova Despesa</h2>
               <label htmlFor="expenseValue">
-                Valor da Despesa:
+                Valor:
                 <input
                   type="number"
                   id="expenseValue"
@@ -65,7 +91,7 @@ class Formulario extends Component {
               </label>
               <br />
               <label htmlFor="expenseDescription">
-                Valor da Despesa:
+                Descrição:
                 <input
                   type="text"
                   id="expenseDescription"
@@ -96,7 +122,7 @@ class Formulario extends Component {
               </label>
               <br />
               <label htmlFor="paymentMethod">
-                Moeda:
+                Método de Pagamento:
                 <select
                   id="paymentMethod"
                   name="paymentMethod"
@@ -111,15 +137,13 @@ class Formulario extends Component {
               </label>
               <br />
               <label htmlFor="expenseTag">
-                Moeda:
+                Tag:
                 <select
                   id="expenseTag"
                   name="expenseTag"
                   data-testid="tag-input"
                   value={ expenseTag }
-                  onChange={ () => {
-                    this.sendNewExpenseInfos();
-                  } }
+                  onChange={ this.sendNewExpenseInfos }
                 >
                   <option key="food">Alimentação</option>
                   <option key="recreation">Lazer</option>
@@ -128,6 +152,15 @@ class Formulario extends Component {
                   <option key="health">Saúde</option>
                 </select>
               </label>
+              <br />
+              <button
+                type="submit"
+                name="Adicionar Despesa"
+                data-testid="login-submit-btn"
+                onClick={ this.submitNewExpense() }
+              >
+                Adicionar despesa
+              </button>
             </form>
           )}
       </div>
@@ -141,6 +174,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   apiCurrencies: () => dispatch(apiCurrenciesDispatch()),
+  newEDataConstructor: (expenses, newExpense) => dispatch(
+    newEDataConstructorDispatch(expenses, newExpense),
+  ),
 });
 
 Formulario.propTypes = {
@@ -151,6 +187,7 @@ Formulario.propTypes = {
     error: PropTypes.string,
   }).isRequired,
   apiCurrencies: PropTypes.func.isRequired,
+  newEDataConstructor: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Formulario);
