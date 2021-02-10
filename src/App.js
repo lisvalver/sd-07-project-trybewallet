@@ -2,16 +2,13 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Wallet from './pages/Wallet';
 import Login from './pages/Login';
-import Provider from './context/provider';
 
 function App() {
   return (
-    <Provider>
-      <Switch>
-        <Route exact path="/" component={ Login } />
-        <Route path="/carteira" component={ Wallet } />
-      </Switch>
-    </Provider>
+    <Switch>
+      <Route exact path="/" component={ Login } />
+      <Route path="/carteira" component={ Wallet } />
+    </Switch>
   );
 }
 
