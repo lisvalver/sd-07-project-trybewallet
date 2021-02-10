@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteExp, updateAmount } from '../../actions';
+import { deleteExp, decrementAmount } from '../../actions';
 
 class ExpensesTable extends React.Component {
   constructor(props) {
@@ -11,9 +11,12 @@ class ExpensesTable extends React.Component {
 
   deleteExpense(item) {
     const { deleteAction, expenses, amount } = this.props;
+    const { exchangeRates, value } = item;
     const currentExpense = expenses.filter((expense) => expense.id !== item.id);
     deleteAction(currentExpense);
-    amount((item.exchangeRates[item.currency].ask * item.value));
+    let valueExpense = parseFloat(exchangeRates[item.currency].ask) * parseFloat(value);
+    valueExpense = parseFloat(valueExpense.toFixed(2));
+    amount(valueExpense);
   }
 
   render() {
@@ -63,7 +66,7 @@ class ExpensesTable extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   deleteAction: (currentExpense) => (dispatch(deleteExp(currentExpense))),
-  amount: (value) => (dispatch(updateAmount(value))),
+  amount: (value) => (dispatch(decrementAmount(value))),
 });
 
 const mapStateToProps = (state) => ({

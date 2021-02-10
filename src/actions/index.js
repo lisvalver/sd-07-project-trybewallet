@@ -4,7 +4,7 @@ export const addUserEmail = (value) => ({ type: 'EMAIL', value });
 
 export const addExepenses = (value) => ({ type: 'EXPENSES', value });
 
-export const updateAmount = (value) => ({ type: 'DECREMENT', value });
+export const decrementAmount = (value) => ({ type: 'DECREMENT', value });
 
 export const deleteExp = (currentExpense) => ({
   type: 'DELETE',
