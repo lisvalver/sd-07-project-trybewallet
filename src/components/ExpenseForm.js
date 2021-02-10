@@ -44,11 +44,12 @@ class ExpenseForm extends Component {
         method,
         tag,
         exchangeRates,
+        api,
       };
       sendExpense(expense, total);
       this.setState({
         id: id + 1,
-        exchangeRates: id,
+        exchangeRates: api,
         value: 0,
       });
     } else {
