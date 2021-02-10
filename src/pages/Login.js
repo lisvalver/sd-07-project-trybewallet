@@ -1,111 +1,89 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import actions from '../actions/index';
 
-import { emailUser } from '../actions';
-
-// Retirei o Constructor do colega Alvaro por não lembrar a sua utilização.
+// Retirei o Constructor do colega Pedro por não lembrar a sua utilização.
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.validateAcess = this.validateAcess.bind(this);
     this.state = {
       email: '',
       password: '',
-      disabled: true,
+      itsOk: true,
     };
-    this.validEmail = this.validEmail.bind(this);
-    this.validPassword = this.validPassword.bind(this);
-    this.handleInput = this.handleInput.bind(this);
   }
 
-  validEmail() {
-    const { email } = this.state;
-    const format = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    if (email.match(format)) {
-      return true;
-    }
-    return false;
-  }
-
-  validPassword() {
-    const { password } = this.state;
-    const minChar = 6;
-    if (password.length >= minChar) return true;
-    return false;
-  }
-
-  handleInput({ target }) {
-    const { name, value } = target;
-    this.setState(() => ({
-      [name]: value,
-    }), () => {
-      if (this.validEmail() && this.validPassword()) {
-        this.setState({ disabled: false });
-      } else {
-        this.setState({ disabled: true });
-      }
-    });
-  }
-
-  handleClick() {
-    if (isClicked) {
-      const { login } = this.props;
-      const { email } = this.state;
-      login(email);
-    }
+  validateAcess() {
+    const re = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    const { email, password } = this.state;
+    const result = re.test(email);
+    const maxChar = 6;
+    if (result && password.length >= maxChar) return this.setState({ itsOk: false });
+    this.setState({ itsOk: true });
   }
 
   render() {
-    const { email, password, disabled } = this.state;
+    const { email, password, itsOk } = this.state;
+    const { addEmail, history } = this.props;
     return (
-      <form>
-        <label htmlFor="email">
-          Email
-          <input
-            className="form-control"
-            name="email"
-            type="email"
-            data-testid="email-input"
-            placeholder="Digite seu email"
-            value={ email }
-            onChange={ this.handleInput }
-          />
-        </label>
-        <p>
-          Nós nunca iremos compartilhar seu e-mail com ninguém.
-        </p>
-        <label htmlFor="password">
-          Senha
-          <input
-            className="form-control"
-            data-testid="password-input"
-            type="password"
-            name="password"
-            placeholder="Senha"
-            value={ password }
-            onChange={ this.handleInput }
-          />
-        </label>
-        <button
-          type="button"
-          disabled={ disabled }
-          onClick={ () => setisClicked(true) }
-        >
-          Entrar
-        </button>
-        {isClicked && <Redirect to="/carteira" />}
-      </form>
+      <div>
+        <form>
+          <label htmlFor="email">
+            Email
+            <input
+              type="email"
+              data-testid="email-input"
+              id="email"
+              value={ email }
+              placeholder="Digite seu email"
+              onChange={ ({ target }) => {
+                this.setState({ email: target.value });
+              } }
+              onKeyUp={ this.validateAcess }
+              required
+            />
+          </label>
+          <label htmlFor="Password">
+            Senha
+            <input
+              type="password"
+              data-testid="password-input"
+              id="password"
+              value={ password }
+              placeholder="Digite sua senha"
+              onChange={ async ({ target }) => {
+                await this.setState({ password: target.value });
+              } }
+              onKeyUp={ this.validateAcess }
+              required
+            />
+          </label>
+          <button
+            type="button"
+            onClick={ () => {
+              addEmail(email);
+              history.push('/carteira');
+            } }
+            disabled={ itsOk }
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
     );
   }
 }
 
-Login.propTypes = {
-  login: propTypes.func.isRequired,
-};
-
+const { userAction } = actions;
 const mapDispatchToProps = (dispatch) => ({
-  login: (e) => dispatch(emailUser(e)),
+  addEmail: (e) => dispatch(userAction(e)),
 });
+
+Login.propTypes = {
+  addEmail: PropTypes.func.isRequired,
+  history: PropTypes.shape.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Login);
