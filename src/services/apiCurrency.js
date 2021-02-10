@@ -1,8 +1,8 @@
-const API_CURRENCY = 'https://economia.awesomeapi.com.br';
+const API_CURRENCIES = 'https://economia.awesomeapi.com.br';
 
-const apiCurrency = async () => {
+const apiCurrencies = async () => {
   try {
-    const request = await fetch(`${API_CURRENCY}/json/all`);
+    const request = await fetch(`${API_CURRENCIES}/json/all`);
     const response = await request.json();
     return response;
   } catch (error) {
@@ -10,4 +10,4 @@ const apiCurrency = async () => {
   }
 };
 
-export default apiCurrency;
+export default apiCurrencies;

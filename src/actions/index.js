@@ -2,6 +2,13 @@ import apiCurrency from '../services/apiCurrency';
 
 export const SAVE_EMAIL = 'SAVE_EMAIL';
 export const SAVE_PASSWORD = 'SAVE_PASSWORD';
+export const SAVE_ADD_EXPENSES = 'SAVE_ADD_EXPENSES';
+export const ADD_EXPENSES = 'ADD_EXPENSES';
+export const GET_CURRENCIES = 'GET_CURRENCIES';
+export const REQUEST_CURRENCIES = 'REQUEST_CURRENCIES';
+export const REQUEST_FAILED = 'REQUEST_FAILED';
+export const TOTAL_EXPENSES = 'TOTAL_EXPENSES';
+export const DELETE_EXPENSES = 'DELETE_EXPENSES';
 
 export const saveEmail = (email) => ({
   type: SAVE_EMAIL,
@@ -13,26 +20,44 @@ export const savePassword = (password) => ({
   password,
 });
 
-export const ADD_EXPENSES = 'ADD_EXPENSES';
-export const REQUEST_API = 'REQUEST_API';
-
-export const addExpenses = (expenses) => ({
-  type: ADD_EXPENSES,
+export const saveAddExpenses = (expenses) => ({
+  type: SAVE_ADD_EXPENSES,
   expenses,
 });
 
-export const requestCurrency = (currency) => ({
-  type: REQUEST_API,
-  currency,
+export const totalExpenses = (totalValue) => ({
+  type: TOTAL_EXPENSES,
+  totalValue,
 });
 
-export function requestApi() {
-  return async (dispatch) => {
-    dispatch(requestCurrency());
+export const deleteExpenses = (idExpense) => ({
+  type: DELETE_EXPENSES,
+  idExpense,
+});
 
-    const jsonData = await apiCurrency();
-    const currency = Object.keys(jsonData);
-    currency.splice(1, 1);
-    dispatch(requestCurrency(currency));
+export const getCurrencies = (currencies) => ({
+  type: GET_CURRENCIES,
+  currencies,
+});
+
+export const requestCurrencies = () => ({
+  type: REQUEST_CURRENCIES,
+});
+
+export const failedRequest = (error) => ({
+  type: REQUEST_FAILED,
+  error,
+});
+
+export function fetchCurrencies(object) {
+  return async (dispatch) => {
+    try {
+      const response = await apiCurrency();
+      // object.currencies = response;
+      object.exchangeRates = response;
+      dispatch(saveAddExpenses(object));
+    } catch (error) {
+      dispatch(failedRequest(error));
+    }
   };
 }
