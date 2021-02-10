@@ -17,7 +17,7 @@ class Header extends React.Component {
             <p className="expense-box">
               <strong>Despesa total: </strong>
               <span data-testid="total-field">{ total ? parseFloat(total) : 0 }</span>
-              <span data-testid="header-currency-field">BRL</span>  
+              <span data-testid="header-currency-field">BRL</span>
             </p>
           </div>
         </header>
