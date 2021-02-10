@@ -62,7 +62,7 @@ class ExpenseForm extends Component {
 
   async handleSubmit() {
     const { sendCoins, currencies, total } = this.props;
-    const { currency, value } = this.state;
+    const { currency, value, idEdit } = this.state;
     await sendCoins();
     let ask = 0;
     Object.keys(currencies).forEach((item) => {
@@ -70,7 +70,7 @@ class ExpenseForm extends Component {
         ask = currencies[item].ask;
       }
     });
-    this.setState({ exchangeRates: currencies });
+    this.setState({ id: id + 1, value: 0  });
     const newTotal = Number(total + (value * ask)).toFixed(2);
     this.expenseToAdd(+(newTotal));
   }
