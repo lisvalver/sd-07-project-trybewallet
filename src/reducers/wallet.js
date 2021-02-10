@@ -4,6 +4,7 @@ import {
   RECEIVE_CURRENCY_SUCCESS,
   RECEIVE_CURRENCY_FAILURE,
   COMPLETE_EXPENSES,
+  DELETE_EXPENSES,
 } from '../actions';
 
 const INICIAL_STATE = {
@@ -28,7 +29,16 @@ const walletReducer = (state = INICIAL_STATE, action) => {
     return {
       ...state,
       expenses: [...state.expenses, action.fullData],
-      isFetching: false,
+    };
+  case DELETE_EXPENSES:
+    return {
+      ...state,
+      expenses: action.newExpenses,
+    };
+  case 'teste':
+    return {
+      ...state,
+      teste: action.teste,
     };
   case RECEIVE_CURRENCY_FAILURE:
     return {

@@ -9,6 +9,8 @@ export const RECEIVE_CURRENCY_FAILURE = 'RECEIVE_CURRENCY_FAILURE';
 
 export const COMPLETE_EXPENSES = 'COMPLETE_EXPENSES';
 
+export const DELETE_EXPENSES = 'DELETE_EXPENSES';
+
 export const login = (email, password) => ({
   type: LOGIN,
   email,
@@ -45,6 +47,16 @@ export const completeExpenses = (fullData) => ({
   fullData,
 });
 
+export const UpdateExpenses = (newExpenses, type) => ({
+  type,
+  newExpenses,
+});
+
+export const teste = () => ({
+  type: 'teste',
+  teste: 'oi',
+});
+
 export function expensesWithExchangeRates(expensesData) {
   // console.log(expensesData);
   return async (dispatch) => {
@@ -56,5 +68,17 @@ export function expensesWithExchangeRates(expensesData) {
     } catch (error) {
       dispatch(receiveCurrencyFailure(error));
     }
+  };
+}
+
+export function deleteExpense(idExpense, expenses) {
+  // const expensesCopyV2 = expenses.slice();
+  // console.log(expensesCopyV2);
+  const expensesCopyV1 = [...expenses];
+  const newExpenses = expensesCopyV1.filter((expense) => expense.id !== idExpense);
+  console.log(newExpenses);
+  return {
+    type: DELETE_EXPENSES,
+    newExpenses,
   };
 }

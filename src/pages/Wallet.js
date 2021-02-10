@@ -44,6 +44,12 @@ class Wallet extends React.Component {
     }
   }
 
+  updateState() {
+    this.setState((prevState) => ({
+      expenses: { id: prevState.expenses.id + 1, value: 0 },
+    }));
+  }
+
   inputOnChange({ target: { name, value } }) {
     const { expenses } = this.state;
     this.setState({ expenses: { ...expenses, [name]: value } });
@@ -155,8 +161,8 @@ class Wallet extends React.Component {
             type="button"
             onClick={ async () => {
               await combineExpenses(expenses);
-              this.setState({ expenses: { id: +1, value: 0 } });
               this.totalFieldCalculation();
+              this.updateState();
             } }
           >
             Adicionar despesa
