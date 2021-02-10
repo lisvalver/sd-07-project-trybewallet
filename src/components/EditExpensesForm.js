@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getExchange, addExpense } from '../actions';
+import { getExchange, addEditedExpense } from '../actions';
 
-class ExpensesForm extends Component {
+class EditExpensesForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
       value: '',
       description: '',
       currency: '',
@@ -18,17 +17,21 @@ class ExpensesForm extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSelectedExpense = this.handleSelectedExpense.bind(this);
   }
 
   componentDidMount() {
-    const { handleExpenses } = this.props;
-    handleExpenses();
+    const { selectedExpense } = this.props;
+    this.handleSelectedExpense(selectedExpense);
+  }
+
+  handleSelectedExpense(selectedExpense) {
+    this.setState(selectedExpense);
   }
 
   handleSubmit() {
-    const { addExpenses } = this.props;
-    this.setState((prevState) => ({ id: prevState.id + 1 }));
-    addExpenses(this.state);
+    const { handleAddEditedExpense, expenses } = this.props;
+    handleAddEditedExpense(this.state, expenses);
   }
 
   handleChange(event) {
@@ -42,11 +45,11 @@ class ExpensesForm extends Component {
     const { value, description, currency, method, tag } = this.state;
     const { currencies } = this.props;
     return (
-      <div className="walletPanel AddExpenseFormWrapper">
+      <div className="walletPanel editExpenseFormWrapper">
         <form>
           <label htmlFor="value">
             {' '}
-            Valor da despesa:
+            Valor da despesa
             <input
               data-testid="value-input"
               name="value"
@@ -106,7 +109,7 @@ class ExpensesForm extends Component {
             name=""
             onClick={ this.handleSubmit }
           >
-            Adicionar despesa
+            Editar despesa
           </button>
         </form>
       </div>
@@ -119,17 +122,35 @@ const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
   expenses: state.wallet.expenses,
   exchanges: state.wallet.exchange,
+  selectedExpense: state.wallet.selectedExpense,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addExpenses: (expense, exchanges) => dispatch(addExpense(expense, exchanges)),
+  handleAddEditedExpense:
+  (expense, expenses) => dispatch(addEditedExpense(expense, expenses)),
   handleExpenses: () => dispatch(getExchange()),
 });
 
-ExpensesForm.propTypes = {
+EditExpensesForm.propTypes = {
+  expenses: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+    description: PropTypes.string,
+    currency: PropTypes.string,
+    method: PropTypes.string,
+    tag: PropTypes.string,
+    id: PropTypes.number,
+  })).isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  handleExpenses: PropTypes.func.isRequired,
-  addExpenses: PropTypes.func.isRequired,
+  selectedExpense: PropTypes.shape({
+    value: PropTypes.string,
+    description: PropTypes.string,
+    currency: PropTypes.string,
+    method: PropTypes.string,
+    tag: PropTypes.string,
+    id: PropTypes.number,
+  }).isRequired,
+  handleAddEditedExpense: PropTypes.func.isRequired,
+
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpensesForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EditExpensesForm);

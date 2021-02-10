@@ -86,12 +86,10 @@ const mapDispatchToProps = (dispatch) => ({
   userLogged: (email) => dispatch(loginUser(email)),
 });
 
-const mapStateToProps = (state) => {
-  return {
-    logged: state.user.logged,
-    userEmail: state.user.email,
-  };
-};
+const mapStateToProps = (state) => ({
+  logged: state.user.logged,
+  userEmail: state.user.email,
+});
 
 Login.propTypes = {
   userLogged: PropTypes.func.isRequired,

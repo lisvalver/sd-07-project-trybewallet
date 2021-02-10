@@ -145,7 +145,6 @@ describe('4 - [PÁGINA DA CARTEIRA] Desenvolva um formulário para adicionar uma
   test('Um campo para adicionar o valor da despesa', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const valueInput = await screen.findByTestId('value-input');
-
     expect(valueInput).toBeInTheDocument();
   });
 
@@ -328,6 +327,7 @@ describe('5 - [PÁGINA DA CARTEIRA] Desenvolva uma tabela com os gastos contendo
 
   test('A tabela deve ser alimentada pelo estado da aplicação, que estará disponível na chave expenses que vem do reducer wallet.', () => {
     renderWithRouterAndStore(<Wallet />, '/carteira', initial);
+   
     expect(screen.getAllByRole('cell', { name: 'Dez dólares' })[0]).toBeInTheDocument();
     expect(screen.getAllByRole('cell', { name: 'Lazer' })[0]).toBeInTheDocument();
     expect(screen.getAllByRole('cell', { name: 'Cartão de crédito' })[0]).toBeInTheDocument();
