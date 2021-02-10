@@ -1,17 +1,18 @@
 /* Wallet */
+
+.emptyTable {
+  color: #daa70b;
+  padding: 2rem 0; 
+  text-align: center;
+} 
 .walletPanel{
   padding: 0 0.8rem;
 }
 
-.emptyTable{
-  text-align: center;
-  padding: 2rem 0;  
-  color: #daa70b;
-}
+
 
 .walletPanelHeader{
-  padding: 0 0.8rem;
   display: flex;
   justify-content: space-between;
+  padding: 0 0.8rem;
 }
-
