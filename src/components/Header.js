@@ -6,17 +6,13 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      totalValue: 0,
-    };
-
     this.createTotal = this.createTotal.bind(this);
   }
 
   createTotal() {
     const { expenses } = this.props;
     const total = expenses.reduce((acc, atual) => (
-      return acc + atual.value * atual.exchangeRates[atual.currency].ask;
+      acc + atual.value * atual.exchangeRates[atual.currency].ask
     ), 0);
 
     return total;
