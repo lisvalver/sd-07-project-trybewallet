@@ -71,7 +71,7 @@ class ExpenseForm extends Component {
       }
     });
     this.setState({ exchangeRates: currencies });
-    const newTotal = Number(total + (value * ask)).toFixed(2);
+    const newTotal = parseFloat(total + (value * ask)).toFixed(2);
     this.expenseToAdd(+(newTotal));
     this.setState({ value: 0 });
   }
