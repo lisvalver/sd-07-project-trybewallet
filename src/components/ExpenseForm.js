@@ -62,7 +62,7 @@ class ExpenseForm extends Component {
 
   async handleSubmit() {
     const { sendCoins, currencies, total } = this.props;
-    const { currency, value, idEdit } = this.state;
+    const { currency, value } = this.state;
     await sendCoins();
     let ask = 0;
     Object.keys(currencies).forEach((item) => {
@@ -161,7 +161,7 @@ class ExpenseForm extends Component {
           </label>
           <button
             type="button"
-            onClick={ () => this.handleSubmit()}
+            onClick={ () => this.handleSubmit() }
             disabled={ !(idEdit === undefined) }
           >
             Adicionar despesa
