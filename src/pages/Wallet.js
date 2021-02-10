@@ -94,7 +94,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { currencies, email, money, expenses } = this.props;
+    const { currencies, email, expenses } = this.props;
     const { value, description, currency, method, tag, id } = this.state;
     let button = null;
     if (id >= 0) {
@@ -121,7 +121,8 @@ class Wallet extends React.Component {
           <span
             data-testid="total-field"
           >
-            { money || 0 }
+            { expenses.reduce((acc, cur) => acc + cur.value
+            * cur.exchangeRates[cur.currency].ask, 0)}
           </span>
           <h1 data-testid="header-currency-field">BRL</h1>
         </header>
@@ -205,7 +206,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 Wallet.propTypes = {
   email: propTypes.string.isRequired,
-  money: propTypes.string.isRequired,
   currencies: propTypes.string.isRequired,
   expenses: propTypes.string.isRequired,
   addExpense: propTypes.func.isRequired,
