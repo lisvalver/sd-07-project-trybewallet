@@ -15,7 +15,7 @@ class AddExpenseForm extends Component {
       description: '',
       exchangeRates: {},
     };
-  
+
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -97,10 +97,10 @@ class AddExpenseForm extends Component {
               <option value="">Selecione</option>
               {
                 Object.keys(currencies)
-                .filter((coin) => coin !== 'USDT')
-                .map((coin, index) => (
-                  <option key={ index } data-testid={ coin }>{ coin }</option>
-                ))
+                  .filter((coin) => coin !== 'USDT')
+                  .map((coin, index) => (
+                    <option key={ index } data-testid={ coin }>{ coin }</option>
+                  ));
               }
             </select>
           </label>

@@ -17,6 +17,7 @@ class Login extends React.Component {
       password: '',
     };
   }
+
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({
@@ -35,6 +36,7 @@ class Login extends React.Component {
     }
     return statusEmail;
   }
+
   verifyPassword() {
     let statusPassword = false;
     const { password } = this.state;
@@ -43,15 +45,19 @@ class Login extends React.Component {
     if (isPasswordValid) {
       statusPassword = true;
     }
+
     return statusPassword;
   }
+
   verifyStatusButton() {
     let statusDisableButton = true;
     if (this.verifyEmail() && this.verifyPassword()) {
       statusDisableButton = false;
     }
+
     return statusDisableButton;
   }
+
   render() {
     const { email } = this.state;
     const { sendEmail } = this.props;
