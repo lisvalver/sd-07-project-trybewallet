@@ -1,4 +1,6 @@
 import saveEmail from './user';
-import { addMoney, setCur, addExpense, removeExpense, fetchCurrencies } from './wallet';
+import { addMoney, setCur, addExpense,
+  removeExpense, fetchCurrencies, editExpense } from './wallet';
 
-export { saveEmail, addMoney, setCur, addExpense, removeExpense, fetchCurrencies };
+export { saveEmail, addMoney, setCur, addExpense,
+  removeExpense, fetchCurrencies, editExpense };

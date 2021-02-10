@@ -9,15 +9,19 @@ class Wallet extends React.Component {
     super(props);
 
     this.state = {
+      id: -1,
       value: '',
       description: '',
-      currency: 'BRL',
+      currency: '',
       method: 'Dinheiro',
       tag: 'Alimentação',
+      exchangeRates: {},
     };
     this.submitExpense = this.submitExpense.bind(this);
     this.removeExpense = this.removeExpense.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.selectExpense = this.selectExpense.bind(this);
+    this.editExpense = this.editExpense.bind(this);
   }
 
   componentDidMount() {
@@ -41,12 +45,46 @@ class Wallet extends React.Component {
         };
         const { addExpense } = this.props;
         addExpense(expense);
+        this.setState({
+          value: '',
+          description: '',
+          currency: '',
+          method: 'Dinheiro',
+          tag: 'Alimentação',
+        });
       });
   }
 
   removeExpense(id) {
     const { removeExpense } = this.props;
     removeExpense(id);
+  }
+
+  selectExpense(expense) {
+    this.setState({
+      id: expense.id,
+      value: expense.value,
+      description: expense.description,
+      currency: expense.currency,
+      method: expense.method,
+      tag: expense.tag,
+      exchangeRates: expense.exchangeRates,
+    });
+  }
+
+  editExpense() {
+    const { editExpense } = this.props;
+    const { id, value, description, currency, method, tag, exchangeRates } = this.state;
+    const expense = {
+      id,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      exchangeRates,
+    };
+    editExpense(expense);
   }
 
   handleChange(event, key) {
@@ -57,7 +95,27 @@ class Wallet extends React.Component {
 
   render() {
     const { currencies, email, money, expenses } = this.props;
-    const { value, description, currency, method, tag } = this.state;
+    const { value, description, currency, method, tag, id } = this.state;
+    let button = null;
+    if (id >= 0) {
+      button = (
+        <button
+          onClick={ this.editExpense }
+          type="button"
+        >
+        Editar despesa
+        </button>
+      );
+    } else {
+      button = (
+        <button
+          onClick={ this.submitExpense }
+          type="button"
+        >
+        Adicionar despesa
+        </button>
+      );
+    }
     return (
       <div>
         <header>
@@ -118,13 +176,12 @@ class Wallet extends React.Component {
             <option value="Saúde">Saúde</option>
           </select>
         </div>
-        <button
-          onClick={ this.submitExpense }
-          type="button"
-        >
-          Adicionar despesa
-        </button>
-        <Table value={ expenses } remove={ this.removeExpense } />
+        { button }
+        <Table
+          content={ expenses }
+          remove={ this.removeExpense }
+          edit={ this.selectExpense }
+        />
       </div>
     );
   }
@@ -147,6 +204,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchCurrencies: () => {
     dispatch(actionCreators.fetchCurrencies());
   },
+  editExpense: (expense) => {
+    dispatch(actionCreators.editExpense(expense));
+  },
 });
 
 Wallet.propTypes = {
@@ -157,6 +217,8 @@ Wallet.propTypes = {
   addExpense: propTypes.func.isRequired,
   removeExpense: propTypes.func.isRequired,
   fetchCurrencies: propTypes.func.isRequired,
+  editExpense: propTypes.func.isRequired,
+  selectExpense: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

@@ -8,8 +8,8 @@ export default class Table extends Component {
   }
 
   createRows() {
-    const { value, remove } = this.props;
-    return value.map((expense) => {
+    const { content, remove } = this.props;
+    return content.map((expense) => {
       const currency = expense.exchangeRates[expense.currency];
       return (
         <tr key={ expense.id }>
@@ -36,7 +36,7 @@ export default class Table extends Component {
   }
 
   render() {
-    const { value, remove } = this.props;
+    const { content, remove, edit } = this.props;
     return (
       <div>
         <table>
@@ -54,27 +54,43 @@ export default class Table extends Component {
             </tr>
           </thead>
           <tbody>
-            {value.map((expense) => {
-              const currency = expense.exchangeRates[expense.currency];
+            {content.map((expense) => {
+              const {
+                description,
+                tag,
+                value,
+                currency,
+                exchangeRates,
+                method,
+                id,
+              } = expense;
+              const { name, ask } = exchangeRates[currency];
               return (
-                <tr key={ expense.id }>
-                  <td role="cell">{expense.description}</td>
-                  <td role="cell">{expense.tag}</td>
-                  <td role="cell">{expense.method}</td>
-                  <td role="cell">{expense.value}</td>
-                  <td role="cell">{currency.name}</td>
-                  <td role="cell">{parseFloat(currency.ask).toFixed(2)}</td>
+                <tr key={ id }>
+                  <td role="cell">{description}</td>
+                  <td role="cell">{tag}</td>
+                  <td role="cell">{method}</td>
+                  <td role="cell">{value}</td>
+                  <td role="cell">{name}</td>
+                  <td role="cell">{parseFloat(ask).toFixed(2)}</td>
                   <td role="cell">
-                    {parseFloat(expense.value * currency.ask).toFixed(2)}
+                    {parseFloat(value * ask).toFixed(2)}
                   </td>
                   <td role="cell">Real</td>
                   <td role="cell">
                     <button
-                      onClick={ () => remove(expense.id) }
+                      onClick={ () => remove(id) }
                       data-testid="delete-btn"
                       type="button"
                     >
                       Deletar
+                    </button>
+                    <button
+                      onClick={ () => edit(expense) }
+                      data-testid="edit-btn"
+                      type="button"
+                    >
+                      Editar
                     </button>
                   </td>
                 </tr>
@@ -88,6 +104,7 @@ export default class Table extends Component {
 }
 
 Table.propTypes = {
-  value: propTypes.func.isRequired,
+  content: propTypes.func.isRequired,
   remove: propTypes.func.isRequired,
+  edit: propTypes.func.isRequired,
 };

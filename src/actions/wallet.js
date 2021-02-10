@@ -16,6 +16,10 @@ export const removeExpense = (expenseID) => ({
   type: actionTypes.REMOVE_EXPENSE,
   id: expenseID,
 });
+export const editExpense = (expense) => ({
+  type: actionTypes.EDIT_EXPENSE,
+  expense,
+});
 export const populateCurrencies = (currencies) => ({
   type: actionTypes.POPULATE_CURRENCIES,
   currencies,
