@@ -70,7 +70,7 @@ class ExpenseForm extends Component {
         ask = currencies[item].ask;
       }
     });
-    this.setState({ exchangeRates: currencies });
+    this.setState({ exchangeRates: currencies, value: 0 });
     const newTotal = Number(total + (value * ask)).toFixed(2);
     this.expenseToAdd(+(newTotal));
   }
