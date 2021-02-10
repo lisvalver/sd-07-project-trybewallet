@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import actions from '../actions';
 
+// A cahamada de API foi a base da explicação do Pedro Marques
 class Wallet extends React.Component {
   constructor(props) {
     super(props);
