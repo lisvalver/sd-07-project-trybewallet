@@ -15,11 +15,11 @@ class Header extends React.Component {
 
   createTotal() {
     const { expenses } = this.props;
-    const total = expenses.reduce((acc, atual) => {
+    const total = expenses.reduce((acc, atual) => (
       return acc + atual.value * atual.exchangeRates[atual.currency].ask;
-    }, 0);
+    ), 0);
 
-    return acc;
+    return total;
   }
 
   render() {
