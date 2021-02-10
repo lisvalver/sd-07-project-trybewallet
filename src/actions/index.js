@@ -4,6 +4,7 @@ const USER = 'EMAIL';
 const ADD_EXPENSE = 'ADD_EXPENSE';
 const DEL_EXPENSE = 'DEL_EXPENSE';
 const EDIT_EXPENSE = 'EDIT_EXPENSE';
+// chamada de API
 const fetchApi = async () => {
   const result = await fetch('https://economia.awesomeapi.com.br/json/all');
   return result.json().then((values) => values);
