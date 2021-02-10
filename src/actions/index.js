@@ -8,8 +8,8 @@ export const RECEIVE_CURRENCY_SUCCESS = 'RECEIVE_CURRENCY_SUCCESS';
 export const RECEIVE_CURRENCY_FAILURE = 'RECEIVE_CURRENCY_FAILURE';
 
 export const COMPLETE_EXPENSES = 'COMPLETE_EXPENSES';
-
 export const DELETE_EXPENSES = 'DELETE_EXPENSES';
+export const EDIT_EXPENSES = 'EDIT_EXPENSES';
 
 export const login = (email, password) => ({
   type: LOGIN,
@@ -52,11 +52,6 @@ export const UpdateExpenses = (newExpenses, type) => ({
   newExpenses,
 });
 
-export const teste = () => ({
-  type: 'teste',
-  teste: 'oi',
-});
-
 export function expensesWithExchangeRates(expensesData) {
   // console.log(expensesData);
   return async (dispatch) => {
@@ -76,9 +71,21 @@ export function deleteExpense(idExpense, expenses) {
   // console.log(expensesCopyV2);
   const expensesCopyV1 = [...expenses];
   const newExpenses = expensesCopyV1.filter((expense) => expense.id !== idExpense);
-  console.log(newExpenses);
+  // console.log(newExpenses);
+  //   return {
+  //     type: DELETE_EXPENSES,
+  //     newExpenses,
+  //   };
+  return (dispatch) => {
+    dispatch(UpdateExpenses(newExpenses, DELETE_EXPENSES));
+  };
+}
+
+export function editExpense(expenses) {
+  const editExp = expenses.slice();
+
   return {
-    type: DELETE_EXPENSES,
-    newExpenses,
+    type: EDIT_EXPENSES,
+    editExp,
   };
 }

@@ -5,10 +5,12 @@ import {
   RECEIVE_CURRENCY_FAILURE,
   COMPLETE_EXPENSES,
   DELETE_EXPENSES,
+  EDIT_EXPENSES,
 } from '../actions';
 
 const INICIAL_STATE = {
   isFetching: false,
+  isEditing: true,
   expenses: [],
 };
 
@@ -35,10 +37,11 @@ const walletReducer = (state = INICIAL_STATE, action) => {
       ...state,
       expenses: action.newExpenses,
     };
-  case 'teste':
+  case EDIT_EXPENSES:
     return {
       ...state,
-      teste: action.teste,
+      editExpense: action.editExp,
+      isEditing: true,
     };
   case RECEIVE_CURRENCY_FAILURE:
     return {

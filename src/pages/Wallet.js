@@ -18,7 +18,6 @@ class Wallet extends React.Component {
         method: 'Dinheiro',
         tag: 'Alimentação',
       },
-      totalField: '0.00',
     };
 
     this.inputOnChange = this.inputOnChange.bind(this);
@@ -31,17 +30,15 @@ class Wallet extends React.Component {
 
   totalFieldCalculation() {
     const { state: { wallet: { expenses } } } = this.props;
-    const { totalField } = this.state;
-    let total;
+    let total = 0;
     if (expenses.length > 0) {
       expenses.forEach((expense) => {
         const { currency, value, exchangeRates: { [currency]: { ask } } } = expense;
-        total = Math.round((ask * value) * 100) / 100;
+        total += (ask * value);
         // const total = Math.round(((ask * value) + Number.EPSILON) * 100) / 100; i dont know...
-        total += Number(totalField);
-        this.setState({ totalField: total });
       });
     }
+    return total.toFixed(2);
   }
 
   updateState() {
@@ -56,7 +53,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { currencyData, totalField, expenses } = this.state;
+    const { currencyData, expenses } = this.state;
     const { state: { user: { email } }, combineExpenses } = this.props;
     return (
       <div>
@@ -73,7 +70,7 @@ class Wallet extends React.Component {
             >
               Despesa Total: R$
               {' '}
-              { totalField }
+              { this.totalFieldCalculation() }
               {' '}
               <span
                 data-testid="header-currency-field"
@@ -103,6 +100,7 @@ class Wallet extends React.Component {
               name="description"
               data-testid="description-input"
               onChange={ this.inputOnChange }
+              value={ expenses.description }
             />
           </label>
           <label htmlFor="currency">
@@ -112,6 +110,7 @@ class Wallet extends React.Component {
               id="currency"
               data-testid="currency-input"
               onChange={ this.inputOnChange }
+              value={ expenses.currency }
             >
               {currencyData.map((currency) => {
                 if (currency[0] !== 'USDT') {
@@ -136,6 +135,7 @@ class Wallet extends React.Component {
               id="method"
               data-testid="method-input"
               onChange={ this.inputOnChange }
+              value={ expenses.method }
             >
               <option value="Dinheiro">Dinheiro</option>
               <option value="Cartão de crédito">Cartão de crédito</option>
@@ -149,6 +149,7 @@ class Wallet extends React.Component {
               id="tag"
               data-testid="tag-input"
               onChange={ this.inputOnChange }
+              value={ expenses.tag }
             >
               <option value="Alimentação">Alimentação</option>
               <option value="Lazer">Lazer</option>
@@ -161,7 +162,6 @@ class Wallet extends React.Component {
             type="button"
             onClick={ async () => {
               await combineExpenses(expenses);
-              this.totalFieldCalculation();
               this.updateState();
             } }
           >
