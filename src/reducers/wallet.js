@@ -13,6 +13,7 @@ const TYPE = {
   EXPENSES: 'EXPENSES',
   AMOUNT: 'AMOUNT',
   DELETE: 'DELETE',
+  DECREMENT: 'DECREMENT',
 };
 
 function walletReducer(state = INITIAL_WALLET, action) {
@@ -34,6 +35,13 @@ function walletReducer(state = INITIAL_WALLET, action) {
   case TYPE.AMOUNT: {
     let amount = 0;
     amount = state.expenseValueConverted + action.value;
+    return ({ ...state,
+      expenseValueConverted: amount,
+    });
+  }
+  case TYPE.DECREMENT: {
+    let amount = 0;
+    amount = state.expenseValueConverted - action.value;
     return ({ ...state,
       expenseValueConverted: amount,
     });
