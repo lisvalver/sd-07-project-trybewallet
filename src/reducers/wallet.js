@@ -41,13 +41,13 @@ function walletReducer(state = INITIAL_WALLET, action) {
   }
   case TYPE.DECREMENT: {
     let amount = 0;
-    amount = (state.expenseValueConverted - action.value).toFixed(2);
+    amount = parseFloat((state.expenseValueConverted - action.value).toFixed(2));
+    console.log(amount);
     return ({ ...state,
       expenseValueConverted: amount,
     });
   }
   case TYPE.DELETE: {
-    console.log(action);
     return ({ ...state,
       expenses: [...action.currentExpense],
     });
