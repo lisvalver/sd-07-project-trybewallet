@@ -148,17 +148,10 @@ class AddExpenseForm extends Component {
             />
           </label>
           <button
-            type="button"
+            type="submit"
             onClick={ () => this.handleSubmit() }
           >
             Adicionar despesa
-          </button>
-
-          <button
-            type="button"
-            data-testid="delete-btn"
-          >
-            Editar despesa
           </button>
         </form>
       </div>
