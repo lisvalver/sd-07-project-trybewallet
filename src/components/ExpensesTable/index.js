@@ -42,10 +42,10 @@ class ExpensesTable extends React.Component {
               <td>{(item.exchangeRates[item.currency].ask * item.value).toFixed(2)}</td>
               <td>Real</td>
               <td>
-                <button data-testid="delete-btn" type="button">Editar</button>
+                <button data-testid="edit-btn" type="button">Editar</button>
                 <button
                   id={ item.id }
-                  data-testid="edit-btn"
+                  data-testid="delete-btn"
                   type="button"
                   onClick={ () => this.deleteExpense(item) }
                 >
