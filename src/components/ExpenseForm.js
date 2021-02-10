@@ -70,7 +70,7 @@ class ExpenseForm extends Component {
         ask = currencies[item].ask;
       }
     });
-    this.setState({ exchangeRates: currencies, idEdit: idEdit + 1, value: 0 });
+    this.setState({ exchangeRates: currencies });
     const newTotal = Number(total + (value * ask)).toFixed(2);
     this.expenseToAdd(+(newTotal));
   }
@@ -161,7 +161,7 @@ class ExpenseForm extends Component {
           </label>
           <button
             type="button"
-            onClick={ () => this.handleSubmit() }
+            onClick={ () => this.handleSubmit()}
             disabled={ !(idEdit === undefined) }
           >
             Adicionar despesa
