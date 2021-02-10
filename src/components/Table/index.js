@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { delExpenseAction, totalExpenseAction } from '../../actions/index';
+import {
+  delExpenseAction,
+  totalExpenseAction,
+  stateEditExpenseAction,
+  editExpenseAction,
+} from '../../actions/index';
 
 const Table = () => {
   const wallet = useSelector((state) => state.wallet);
@@ -10,7 +15,7 @@ const Table = () => {
   }, [total]);
   const dispatch = useDispatch();
 
-  if (wallet.expenses.length === 0) return (<h1>Carregando...</h1>);
+  if (wallet.expenses.length === 0) return (<h1>Adicione sua despesa...</h1>);
 
   return (
     <table>
@@ -51,9 +56,7 @@ const Table = () => {
                 type="button"
                 data-testid="delete-btn"
                 onClick={ () => {
-                  console.log(id);
                   dispatch(delExpenseAction(id));
-                  console.log(wallet);
                   dispatch(totalExpenseAction());
                 } }
               >
@@ -64,7 +67,11 @@ const Table = () => {
               <button
                 type="button"
                 data-testid="edit-btn"
-                // onClick={dispatch(editExpenseAction(id))}
+                onClick={ () => {
+                  dispatch(stateEditExpenseAction(true));
+                  dispatch(editExpenseAction(id));
+                  dispatch(totalExpenseAction());
+                } }
               >
                 Editar
               </button>

@@ -1,29 +1,16 @@
 const INITIAL_STATE = {
-  // wallet: {
   currencies: [],
   expenses: [],
   totalValue: 0,
   edit: false,
-  // },
+  expenseEdit: [],
 };
 const ADD_EXPENSE = 'ADD_EXPENSE';
 const DEL_EXPENSE = 'DEL_EXPENSE';
 const EDIT_EXPENSE = 'EDIT_EXPENSE';
 const TOTAL_EXPENSE = 'TOTAL_EXPENSE';
-
-const editFunc = (state, { value }) => {
-  const arrayIndex = state.wallet.expenses.map((element, index) => {
-    if (element.id === value.id) return index;
-    return element.id === value.id;
-  });
-  const indexElement = arrayIndex.filter((element) => typeof element === ('number'));
-  delete value.expenseNumber;
-  delete value.totalValue;
-  delete value.editState;
-  const newObject = Object.assign(state.wallet.expenses[indexElement], value);
-  const newState = Object.assign(state.wallet.expenses, newObject);
-  return newState;
-};
+const STATEEDIT_EXPENSE = 'STATEEDIT_EXPENSE';
+const ADD_ALTERED_EXPENSE = 'ADD_ALTERED_EXPENSE';
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -38,9 +25,14 @@ const wallet = (state = INITIAL_STATE, action) => {
   case DEL_EXPENSE:
     return { ...state,
       expenses: [...state.expenses.filter((expense) => (expense.id !== action.value))] };
+  case STATEEDIT_EXPENSE:
+    return { ...state,
+      edit: action.value };
   case EDIT_EXPENSE:
-    return { currencies: [],
-      expenses: [...editFunc(state, action)] };
+    return { ...state,
+      expenseEdit: { ...state.expenses.filter((exp) => (exp.id === action.value)) } };
+  case ADD_ALTERED_EXPENSE:
+    return { ...state, expenses: [...action.value] };
   default:
     return state;
   }
