@@ -10,6 +10,7 @@ export const RECEIVE_CURRENCY_FAILURE = 'RECEIVE_CURRENCY_FAILURE';
 export const COMPLETE_EXPENSES = 'COMPLETE_EXPENSES';
 export const DELETE_EXPENSES = 'DELETE_EXPENSES';
 export const EDIT_EXPENSES = 'EDIT_EXPENSES';
+export const ATUALIZAR_EXPENSES = 'ATUALIZAR_EXPENSES';
 
 export const login = (email, password) => ({
   type: LOGIN,
@@ -81,11 +82,22 @@ export function deleteExpense(idExpense, expenses) {
   };
 }
 
-export function editExpense(expenses) {
-  const editExp = expenses.slice();
+export function editExpense(expense) {
+  const editExp = expense;
+  console.log(editExp);
 
   return {
     type: EDIT_EXPENSES,
     editExp,
+  };
+}
+
+export function updateExpense(expense, expenses) {
+  const expensesCopy = expenses.slice();
+  const expenseIndex = expenses.findIndex((exp) => exp.id === expense.id);
+  expensesCopy[expenseIndex] = expense;
+  return {
+    type: ATUALIZAR_EXPENSES,
+    expensesCopy,
   };
 }

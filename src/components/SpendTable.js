@@ -35,7 +35,7 @@ class Table extends React.Component {
                   <td>{ method }</td>
                   <td>{ value }</td>
                   <td>{ name }</td>
-                  <td>{ Math.round(ask * 100) / 100 }</td>
+                  <td>{ Number(ask).toFixed(2) }</td>
                   <td>{ res }</td>
                   <td>Real</td>
                   <td>
@@ -69,7 +69,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   deleteExp: (id, expenses) => dispatch(deleteExpense(id, expenses)),
-  editExp: () => dispatch(editExpense()),
+  editExp: (expense) => dispatch(editExpense(expense)),
 });
 
 Table.propTypes = {
