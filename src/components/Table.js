@@ -27,7 +27,6 @@ class Table extends Component {
 
   render() {
     const { expenses } = this.props;
-    console.log(expenses)
     return (
       <table>
         <thead>
@@ -103,7 +102,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Table.propTypes = {
-  expenses: PropTypes.arrayOf.isRequired,
+  expenses: PropTypes.arrayOf().isRequired,
   deleteExpense: PropTypes.func.isRequired,
 };
 
