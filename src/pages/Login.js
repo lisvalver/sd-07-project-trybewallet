@@ -1,100 +1,93 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { salveEmail } from '../actions';
+import { saveEmail } from '../actions';
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+
+    this.handlerInputChange = this.handlerInputChange.bind(this);
+    this.handlerSubmit = this.handlerSubmit.bind(this);
+
     this.state = {
-      disabled: true,
       email: '',
       password: '',
+      disabled: true,
+      backgroundButton: 'button-login button-disabled',
     };
-    this.enableButton = this.enableButton.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.redirect = this.redirect.bind(this);
   }
 
-  handleChange({ target }) {
-    const { name, value } = target;
-    this.setState({
-      [name]: value,
-    });
-    this.enableButton();
-  }
-
-  enableButton() {
-    const { email, password } = this.state;
-    const regexForEmail = /\S+@\S+\.\S+/;
-    const length = 5;
-    const passwordIsValid = password.length >= length;
-    const emailIsValid = regexForEmail.test(email);
-    if (passwordIsValid && emailIsValid === true) {
-      this.setState({ disabled: false });
-    } else {
-      this.setState({ disabled: true });
-    }
-  }
-
-  redirect(e) {
-    e.preventDefault();
+  handlerSubmit() {
+    const { dispatchEmail, history } = this.props;
     const { email } = this.state;
-    console.log(email);
-    const { dispatchEmail } = this.props;
     dispatchEmail(email);
-    const { history } = this.props;
     history.push('/carteira');
   }
 
+  handlerInputChange({ target: { name, value } }) {
+    this.setState({ [name]: value }, this.validateInputs);
+  }
+
+  validateInputs() {
+    const { email, password } = this.state;
+    const six = 6;
+    if (email.match(/\S+@\S+\.\S+/) && password.length >= six) {
+      this.setState({
+        disabled: false,
+        backgroundButton: 'button-login button-enabled',
+      });
+    } else {
+      this.setState({
+        disabled: true,
+        backgroundButton: 'button-login button-disabled',
+      });
+    }
+  }
+
   render() {
-    const { disabled, email, password } = this.state;
+    const { disabled, backgroundButton } = this.state;
     return (
-      <form>
-        <label htmlFor="email">
-          Email:
+      <div>
+        <form className="form">
+          <h3>TRYBE WALLET</h3>
           <input
-            id="email"
             type="text"
             name="email"
-            value={ email }
-            onChange={ this.handleChange }
             data-testid="email-input"
+            className="input-login"
+            placeholder="insira aqui o seu e-mail"
+            onChange={ (e) => this.handlerInputChange(e) }
           />
-        </label>
-        <label htmlFor="password">
-          Senha:
           <input
             type="password"
-            id="password"
             name="password"
-            value={ password }
-            onChange={ this.handleChange }
             data-testid="password-input"
+            className="input-login"
+            placeholder="insira aqui a sua senha"
+            onChange={ (e) => this.handlerInputChange(e) }
           />
-        </label>
-        <button
-          type="submit"
-          disabled={ disabled }
-          onClick={ this.redirect }
-        >
-          Entrar
-
-        </button>
-      </form>
+          <button
+            type="button"
+            className={ backgroundButton }
+            disabled={ disabled }
+            onClick={ this.handlerSubmit }
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dispatchEmail: (e) => dispatch(salveEmail(e)),
+  dispatchEmail: (e) => dispatch(saveEmail(e)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
   dispatchEmail: PropTypes.func.isRequired,
+  history: PropTypes.func.isRequired,
 };
