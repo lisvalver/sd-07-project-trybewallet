@@ -1,14 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Header extends React.Component {
   constructor() {
     super();
-    this.expenseValue = this.expenseValue.bind(this);
+    this.totalExpenses = this.totalExpenses.bind(this);
   }
 
-  expenseValue() {
+  totalExpenses() {
     const { expensesState } = this.props;
     if (expensesState.length > 0) {
       const total = expensesState.reduce((acc, element) => {
@@ -22,7 +22,7 @@ class Header extends React.Component {
 
   render() {
     const { email } = this.props;
-    const total = this.expenseValue();
+    const total = this.totalExpenses();
     return (
       <header>
         <div>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import emailToState from '../actions';
 
 class Login extends React.Component {
@@ -9,50 +9,50 @@ class Login extends React.Component {
     super();
     this.state = {
       email: '',
-      KeyCode: '',
-      emailValue: false,
-      keyCodeValue: false,
-      DisableButton: true,
-      newValue: false,
+      password: '',
+      emailOk: false,
+      passwordOk: false,
+      btnDisabled: true,
+      newValues: false,
     };
     this.updateState = this.updateState.bind(this);
     this.loginRules = this.loginRules.bind(this);
-    this.newValueUpdated = this.newValueUpdated.bind(this);
+    this.newValuesUpdated = this.newValuesUpdated.bind(this);
     this.btnLog = this.btnLog.bind(this);
   }
 
   componentDidUpdate() {
-    const { email, KeyCode, newValue } = this.state;
-    if (newValue) {
-      this.loginRules(email, KeyCode);
-      this.newValueUpdated();
+    const { email, password, newValues } = this.state;
+    if (newValues) {
+      this.loginRules(email, password);
+      this.newValuesUpdated();
     }
   }
 
   updateState(name, value) {
-    this.setState({ [name]: value, newValue: true });
+    this.setState({ [name]: value, newValues: true });
   }
 
-  newValueUpdated() {
-    this.setState({ newValue: false });
+  newValuesUpdated() {
+    this.setState({ newValues: false });
   }
 
-  loginRules(email, KeyCode) {
+  loginRules(email, password) {
     const emailIsValid = (/\S+@\S+\.\S+/);
     const passwordMinLenght = 6;
-    if (KeyCode.length < passwordMinLenght) {
-      this.setState({ keyCodeValue: false });
+    if (password.length < passwordMinLenght) {
+      this.setState({ passwordOk: false });
     }
 
     if (email.match(emailIsValid) && email !== '') {
-      if (KeyCode.length >= passwordMinLenght) {
-        this.setState({ DisableButton: false, keyCodeValue: false }); // email e password ok!(msg ñ) => libera btn
+      if (password.length >= passwordMinLenght) {
+        this.setState({ btnDisabled: false, passwordOk: false });
       } else {
-        this.setState({ DisableButton: true, keyCodeValue: true });
+        this.setState({ btnDisabled: true, passwordOk: true });
       }
-      this.setState({ emailValue: false });
+      this.setState({ emailOk: false });
     } else {
-      this.setState({ DisableButton: true, emailValue: true });
+      this.setState({ btnDisabled: true, emailOk: true });
     }
   }
 
@@ -63,7 +63,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { email, KeyCode, emailValue, keyCodeValue, DisableButton } = this.state;
+    const { email, password, emailOk, passwordOk, btnDisabled } = this.state;
     const { logState } = this.props;
     const emailFail = 'E-mail inválido ( Ex: abracadabra@gmail.com )';
     const passwordFail = 'A senha precisa ter no mínimo 6 caracteres';
@@ -80,20 +80,20 @@ class Login extends React.Component {
             onChange={ ({ target }) => this.updateState(target.name, target.value) }
             required="required"
           />
-          {(emailValue) ? <span>{emailFail}</span> : null}
+          {(emailOk) ? <span>{emailFail}</span> : null}
           <input
             type="password"
             name="password"
             data-testid="password-input"
             placeholder="Password"
-            value={ KeyCode }
+            value={ password }
             onChange={ ({ target }) => this.updateState(target.name, target.value) }
             required="required"
           />
-          {(keyCodeValue) ? <span>{passwordFail}</span> : null}
+          {(passwordOk) ? <span>{passwordFail}</span> : null}
           <button
             type="button"
-            disabled={ DisableButton }
+            disabled={ btnDisabled }
             onClick={ () => this.btnLog() }
           >
             Entrar
