@@ -4,9 +4,9 @@ export const addUserEmail = (value) => ({ type: 'EMAIL', value });
 
 export const addExepenses = (value) => ({ type: 'EXPENSES', value });
 
-export const deleteExp = (id) => ({
+export const deleteExp = (currentExpense) => ({
   type: 'DELETE',
-  id,
+  currentExpense,
 });
 
 export const availableCurrencies = (value) => ({

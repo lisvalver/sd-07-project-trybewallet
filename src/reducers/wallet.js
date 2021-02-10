@@ -39,11 +39,9 @@ function walletReducer(state = INITIAL_WALLET, action) {
     });
   }
   case TYPE.DELETE: {
-    const actionFomarted = Number(action.id);
-    const updateExpenses = state.expenses.filter(({ id }) => id !== actionFomarted);
-    // console.log(updateExpenses);
+    console.log(action);
     return ({ ...state,
-      expenses: updateExpenses,
+      expenses: [...action.currentExpense],
     });
   }
   default:

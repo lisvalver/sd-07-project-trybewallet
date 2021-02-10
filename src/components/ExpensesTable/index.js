@@ -9,9 +9,10 @@ class ExpensesTable extends React.Component {
     this.deleteExpense = this.deleteExpense.bind(this);
   }
 
-  deleteExpense({ target: { id } }) {
-    const { deleteAction } = this.props;
-    deleteAction(id);
+  deleteExpense(item) {
+    const { deleteAction, expenses } = this.props;
+    const currentExpense = expenses.filter((expense) => expense.id !== item.id);
+    deleteAction(currentExpense);
   }
 
   render() {
@@ -29,37 +30,38 @@ class ExpensesTable extends React.Component {
           <th>Moeda de conversão</th>
           <th>Editar/Excluir</th>
         </tr>
-        {expenses.map((item, index) => (
-          <tr key={ index }>
-            <td>{item.description}</td>
-            <td>{item.tag}</td>
-            <td>{item.method}</td>
-            <td>{item.value}</td>
-            <td>{item.exchangeRates[item.currency].name}</td>
-            <td>{Number(item.exchangeRates[item.currency].ask).toFixed(2)}</td>
-            <td>{(item.exchangeRates[item.currency].ask * item.value).toFixed(2)}</td>
-
-            <td>Real</td>
-            <td>
-              <button data-testid="delete-btn" type="button">Editar</button>
-              <button
-                id={ item.id }
-                data-testid="edit-btn"
-                type="button"
-                onClick={ this.deleteExpense }
-              >
-                Excluir
-              </button>
-            </td>
-          </tr>
-        ))}
+        <tbody>
+          {expenses.map((item, index) => (
+            <tr key={ index }>
+              <td>{item.description}</td>
+              <td>{item.tag}</td>
+              <td>{item.method}</td>
+              <td>{item.value}</td>
+              <td>{item.exchangeRates[item.currency].name}</td>
+              <td>{Number(item.exchangeRates[item.currency].ask).toFixed(2)}</td>
+              <td>{(item.exchangeRates[item.currency].ask * item.value).toFixed(2)}</td>
+              <td>Real</td>
+              <td>
+                <button data-testid="delete-btn" type="button">Editar</button>
+                <button
+                  id={ item.id }
+                  data-testid="edit-btn"
+                  type="button"
+                  onClick={ () => this.deleteExpense(item) }
+                >
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteAction: (id) => (dispatch(deleteExp(id))),
+  deleteAction: (currentExpense) => (dispatch(deleteExp(currentExpense))),
 });
 
 const mapStateToProps = (state) => ({
