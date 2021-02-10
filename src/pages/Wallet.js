@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { fetchCurrencies, saveNewExpenses, setEditing } from '../actions';
+// O Header foi retirado do Alvaro, utilizado para estilo
+// Achei mais conveniente utilizar o projeto dele como base
 import Header from '../components/Header';
 import ExpensesTable from '../components/ExpensesTable';
 
