@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       totalValue: 0,
-    }
+    };
 
     this.createTotal = this.createTotal.bind(this);
   }
@@ -19,11 +19,11 @@ class Header extends React.Component {
       return total + atual.value * atual.exchangeRates[atual.currency].ask;
     }, 0);
 
-    return total
+    return total;
   }
 
   render() {
-    const { email, total } = this.props;
+    const { email } = this.props;
     // const INITIAL_VALUE = (zeroTotal = 0) => zeroTotal;
     return (
       <div>
@@ -35,7 +35,7 @@ class Header extends React.Component {
             </p>
             <p className="expense-box">
               <strong>Despesa total: </strong>
-              <span data-testid="total-field">{ this.createTotal() }</span>
+              <span data-testid="total-field">{ this.createTotal() }</span> 
               <span data-testid="header-currency-field">BRL</span>
             </p>
           </div>
@@ -53,6 +53,7 @@ const mapStateToProps = (state) => ({
 });
 
 Header.propTypes = {
+  expenses: PropTypes.arrayOf().isRequired,
   email: PropTypes.string.isRequired,
   total: PropTypes.number.isRequired,
 };
