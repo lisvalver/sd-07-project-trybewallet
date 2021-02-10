@@ -9,13 +9,11 @@ class AddExpenseForm extends Component {
 
     this.state = {
       value: 0,
+      description: '',
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      description: '',
       exchangeRates: {},
-      // addButton: false,
-      // editButton: true,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -40,10 +38,10 @@ class AddExpenseForm extends Component {
     const expense = {
       id,
       value,
+      description,
       currency,
       method,
       tag,
-      description,
       exchangeRates,
     };
     sendExpense(expense, total);
@@ -59,11 +57,9 @@ class AddExpenseForm extends Component {
         ask = currencies[item].ask;
       }
     });
-    // const filteredCurrencies = Object.entries(currencies)
-    //   .filter(([key]) => key !== 'USDT');
     this.setState({ exchangeRates: currencies });
-    const newTotal = total + (value * ask);
-    this.mountForm(newTotal);
+    const newTotal = Number(total + (value * ask)).toFixed(2);
+    this.mountForm(+newTotal);
   }
 
   handleChange(event) {
@@ -78,7 +74,7 @@ class AddExpenseForm extends Component {
       <div>
         <form action="">
           <label htmlFor="value-input">
-            Valore
+            Valor:
             <input
               type="number"
               name="value"
@@ -89,7 +85,7 @@ class AddExpenseForm extends Component {
             />
           </label>
           <label htmlFor="currency-input">
-            Moedo
+            Moeda:
             <select
               name="currency"
               id="currency-input"
@@ -106,7 +102,7 @@ class AddExpenseForm extends Component {
             </select>
           </label>
           <label htmlFor="method-input">
-            Metodo de pagamento
+            Metodo de pagamento:
             <select
               name="method"
               id="method-input"
@@ -121,7 +117,7 @@ class AddExpenseForm extends Component {
             </select>
           </label>
           <label htmlFor="tag-input">
-            Categoria
+            Categoria:
             <select
               name="tag"
               id="tag-input"
@@ -138,7 +134,7 @@ class AddExpenseForm extends Component {
             </select>
           </label>
           <label htmlFor="description-input">
-            Descricão da despesa
+            Descricão da despesa:
             <input
               type="text"
               name="description"
@@ -153,12 +149,6 @@ class AddExpenseForm extends Component {
             onClick={ () => this.handleSubmit() }
           >
             Adicionar despesa
-          </button>
-          <button
-            type="button"
-            data-testid="delete-btn"
-          >
-            Editar despesa
           </button>
         </form>
       </div>
