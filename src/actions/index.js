@@ -5,6 +5,7 @@ export const ADD_EMAIL = 'ADD_EMAIL';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 export const EDIT_EXPENSE = 'EDIT_EXPENSE';
+export const ADD_ID = 'ADD_ID';
 export const ADD_CURRENCY = 'ADD_CURRENCY';
 
 export const addEmail = (email) => ({
@@ -22,6 +23,11 @@ export const removeExpense = (expense, total) => ({
   type: REMOVE_EXPENSE,
   expense,
   total,
+});
+
+export const idToEdit = (id) => ({
+  type: ADD_ID,
+  id,
 });
 
 export const editExpense = (expense) => ({

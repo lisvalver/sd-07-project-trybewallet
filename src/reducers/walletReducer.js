@@ -3,6 +3,7 @@ import {
   REMOVE_EXPENSE,
   EDIT_EXPENSE,
   ADD_CURRENCY,
+  ADD_ID,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -28,7 +29,16 @@ function wallet(state = INITIAL_STATE, action) {
       total: state.total - action.total,
     };
   case EDIT_EXPENSE:
-    return { ...state, expenses: [] };
+    return {
+      ...state,
+      expenses: action.expense,
+      id: undefined,
+    };
+  case ADD_ID:
+    return {
+      ...state,
+      id: action.id,
+    };
   case ADD_CURRENCY:
     return { ...state, currencies: action.currencies };
   default:
