@@ -100,7 +100,7 @@ class AddExpenseForm extends Component {
                   .filter((coin) => coin !== 'USDT')
                   .map((coin, index) => (
                     <option key={ index } data-testid={ coin }>{ coin }</option>
-                  ));
+                  ))
               }
             </select>
           </label>
