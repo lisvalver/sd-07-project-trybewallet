@@ -44,7 +44,6 @@ class ExpenseForm extends Component {
         method,
         tag,
         exchangeRates,
-        api,
       };
       sendExpense(expense, total);
     } else {
