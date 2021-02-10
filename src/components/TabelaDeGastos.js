@@ -48,6 +48,20 @@ class TabelaDeGastos extends Component {
                   <td>{exchangeValue}</td>
                   <td>{convertedValue}</td>
                   <td>Real</td>
+                  <td>
+                    <button
+                      type="button"
+                      data-testid="edit-btn"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      data-testid="delete-btn"
+                    >
+                      Excluir
+                    </button>
+                  </td>
                 </tr>
               );
             })}
