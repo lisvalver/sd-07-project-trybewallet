@@ -81,7 +81,6 @@ class Table extends Component {
                     data-testid="edit-btn"
                     id={ id }
                     type="button"
-                    data-testid="edit-btn"
                     onClick={ this.getIdExpense }
                   >
                     Editar
