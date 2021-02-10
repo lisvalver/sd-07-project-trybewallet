@@ -1,18 +1,16 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-
-import { addEmail } from "../actions/index";
-import Logo from "./images/trybeWallet.png";
-import "../styles/Login.css";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { addEmail } from '../actions/index';
+import '../styles/Login.css';
 
 class Login extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      email: "",
+      email: '',
       // password: '',
       // disableButton: true,
     };
@@ -30,14 +28,13 @@ class Login extends React.Component {
     const { sendEmail } = this.props;
     return (
       <div className="login-container">
-        <img src={Logo} alt="Logo Trybe" width="200px" />
         <input
           data-testid="email-input"
           type="email"
           name="email"
           placeholder="Digite aqui o seu email"
-          value={email}
-          onChange={this.handleChange}
+          value={ email }
+          onChange={ this.handleChange }
         />
         <input
           data-testid="password-input"
@@ -45,7 +42,7 @@ class Login extends React.Component {
           name="password"
           placeholder="Digite aqui a sua senha"
         />
-        <Link to="/carteira" onClick={() => sendEmail(email)}>
+        <Link to="/carteira" onClick={ () => sendEmail(email) }>
           <button type="button">Entrar</button>
         </Link>
       </div>

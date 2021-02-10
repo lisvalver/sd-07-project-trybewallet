@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Logo from './images/logo-trybe.png';
-
 class Wallet extends React.Component {
   render() {
     const INITIAL_VALUE = 0;
@@ -12,7 +10,6 @@ class Wallet extends React.Component {
     return (
       <div>
         <header>
-          <img src={ Logo } alt="logomarca trybe" width="100px" />
           <p>
             Email:
             <span data-testid="email-field">{ email }</span>
