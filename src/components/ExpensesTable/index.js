@@ -13,7 +13,7 @@ class ExpensesTable extends React.Component {
     const { deleteAction, expenses, amount } = this.props;
     const currentExpense = expenses.filter((expense) => expense.id !== item.id);
     deleteAction(currentExpense);
-    amount((item.exchangeRates[item.currency].ask * item.value).toFixed(2));
+    amount((item.exchangeRates[item.currency].ask * item.value));
   }
 
   render() {
