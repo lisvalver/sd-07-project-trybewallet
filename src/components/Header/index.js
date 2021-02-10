@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 class Header extends React.Component {
   render() {
     const { userEmail, amount = 0 } = this.props;
-    // console.log(Number(amount.toFixed(2)));
+    console.log(amount);
 
     return (
       <header>

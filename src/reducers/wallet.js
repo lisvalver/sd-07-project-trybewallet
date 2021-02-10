@@ -5,6 +5,8 @@ const INITIAL_WALLET = {
   currencies: [],
   expenses: [],
   expenseValueConverted: 0,
+  editing: false,
+  idToEdit: undefined,
 };
 
 const TYPE = {
@@ -14,6 +16,8 @@ const TYPE = {
   AMOUNT: 'AMOUNT',
   DELETE: 'DELETE',
   DECREMENT: 'DECREMENT',
+  EDIT: 'EDIT',
+  UPDATE: 'UPDATE',
 };
 
 function walletReducer(state = INITIAL_WALLET, action) {
@@ -41,12 +45,14 @@ function walletReducer(state = INITIAL_WALLET, action) {
   }
   case TYPE.DECREMENT: {
     let amount = 0;
-    console.log('action.value', action.value);
-    console.log('estado atual', state.expenseValueConverted);
-    const currentAmount = (state.expenseValueConverted).toFixed(2);
-    console.log('estado atual formatado', currentAmount);
-    amount = currentAmount - action.value;
-    console.log('amount', amount);
+
+    // console.log('action.value', action.value);
+    // console.log('estado atual', state.expenseValueConverted);
+
+    amount = state.expenseValueConverted - action.value;
+
+    // console.log('amount', amount);
+
     return ({ ...state,
       expenseValueConverted: amount,
     });
@@ -54,6 +60,22 @@ function walletReducer(state = INITIAL_WALLET, action) {
   case TYPE.DELETE: {
     return ({ ...state,
       expenses: [...action.currentExpense],
+    });
+  }
+  case TYPE.EDIT:
+    return ({
+      ...state,
+      editing: true,
+      idToEdit: action.id,
+    });
+  case TYPE.UPDATE: {
+    const id = state.idToEdit;
+    const expensesUp = [...state.expenses];
+    expensesUp[id] = action.value;
+    return ({
+      ...state,
+      expenses: expensesUp,
+      editing: false,
     });
   }
   default:

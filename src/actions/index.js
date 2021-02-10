@@ -6,9 +6,19 @@ export const addExepenses = (value) => ({ type: 'EXPENSES', value });
 
 export const decrementAmount = (value) => ({ type: 'DECREMENT', value });
 
+export const updateExpenseAction = (value) => ({
+  type: 'UPDATE',
+  value,
+});
+
 export const deleteExp = (currentExpense) => ({
   type: 'DELETE',
   currentExpense,
+});
+
+export const editAction = (id) => ({
+  type: 'EDIT',
+  id,
 });
 
 export const availableCurrencies = (value) => ({
