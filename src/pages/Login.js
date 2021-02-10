@@ -5,6 +5,7 @@ import propTypes from 'prop-types';
 
 import { saveEmail } from '../actions';
 
+// Construtor montanda a base do projeto do Alvaro, colega de grupo projeto 19
 class Login extends React.Component {
   constructor() {
     super();

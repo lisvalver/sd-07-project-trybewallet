@@ -1,37 +1,47 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-// Organização Reducers compreendido { Pedro Marques }
-const INITIAL_STATE = { currencies: [], expenses: [] };
-const ADD_EXPENSE = 'ADD_EXPENSE';
-const DEL_EXPENSE = 'DEL_EXPENSE';
-const EDIT_EXPENSE = 'EDIT_EXPENSE';
+// Organização Reducers compreendido - tive que seguir um padrão { Alvaro }
+import {
+  SAVE_RATES,
+  FETCHING_DATA,
+  FETCH_FAIL,
+  UPDATE_EXPENSES,
+  EDITING,
+} from '../actions';
 
-const editFunc = (state, { value }) => {
-  const arrayIndex = state.expenses.map((element, index) => {
-    if (element.id === value.id) return index;
-    return element.id === value.id;
-  });
-  const indexElement = arrayIndex.filter((element) => typeof element === ('number'));
-  delete value.expenseNumber;
-  delete value.totalValue;
-  delete value.editState;
-  const newObject = Object.assign(state.expenses[indexElement], value);
-  const newState = Object.assign(state.expenses, newObject);
-  console.log(newState);
-  return newState;
+const initialState = {
+  currencies: [],
+  expenses: [],
+  exchangeRates: {},
+  fetching: false,
+  error: '',
+  totalExpenses: 0,
+  editing: false,
 };
-const walletReducer = (state = INITIAL_STATE, action) => {
+
+const wallet = (state = initialState, action) => {
   switch (action.type) {
-  case ADD_EXPENSE:
-    return { currencies: [], expenses: [...state.expenses, action.value] };
-  case DEL_EXPENSE:
-    return { currencies: [],
-      expenses: [...state.expenses.filter((expen) => (expen.id !== action.value))] };
-  case EDIT_EXPENSE:
-    return { currencies: [],
-      expenses: [...editFunc(state, action)] };
-  default:
-    return state;
+  case SAVE_RATES:
+    return {
+      ...state,
+      fetching: false,
+      exchangeRates: action.exchangeRates,
+      currencies: action.currencies,
+    };
+
+  case FETCHING_DATA:
+    return { ...state, fetching: true };
+
+  case FETCH_FAIL:
+    return { ...state, fetching: false, error: action.error };
+
+  case UPDATE_EXPENSES:
+    return { ...state, expenses: action.expenses, totalExpenses: action.totalExpenses };
+
+  case EDITING:
+    return { ...state, editing: action.editing };
+
+  default: return state;
   }
 };
 
-export default walletReducer;
+export default wallet;

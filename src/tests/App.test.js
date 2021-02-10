@@ -397,7 +397,6 @@ describe('7 - [BÔNUS] Crie um botão para editar uma despesa da tabela contendo
     const { store } = renderWithRouterAndStore(<Wallet />, '/carteira', initial);
     const toggleEditBtn = screen.getAllByTestId('edit-btn')[0];
     fireEvent.click(toggleEditBtn);
-    console.log(store.getState().wallet.expenses)
 
     const valueInput = await screen.findByTestId('value-input');
     const currencyInput = await screen.findByTestId('currency-input');
@@ -413,7 +412,7 @@ describe('7 - [BÔNUS] Crie um botão para editar uma despesa da tabela contendo
     userEvent.type(descriptionInput, 'Cem dólares canadenses');
 
     fireEvent.click(editButton);
-    console.log(store.getState().wallet.expenses)
+
     await waitFor(() => {
       expect(
         screen.getByRole('cell', { name: 'Cem dólares canadenses' })
