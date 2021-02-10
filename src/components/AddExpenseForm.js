@@ -65,10 +65,12 @@ class AddExpenseForm extends Component {
     const newTotal = total + (value * ask);
     this.mountForm(newTotal);
   }
+
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
   }
+
   render() {
     const { currencies } = this.props;
     const { value, currency, method, tag, description } = this.state;
@@ -179,4 +181,5 @@ AddExpenseForm.propTypes = {
   expenses: PropTypes.objectOf(PropTypes.number).isRequired,
   total: PropTypes.number.isRequired,
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(AddExpenseForm);
