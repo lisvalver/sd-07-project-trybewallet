@@ -31,6 +31,10 @@ const wallet = (state = INITIAL_STATE, action) => {
   case UPDATE_CURRENCIES:
     return { ...state, currencies: action.exchangeRates };
   case DELETE_EXPENSE:
+    console.log({
+      ...state,
+      expenses: state.expenses.filter((expense) => expense.id !== action.id),
+    });
     return {
       ...state,
       expenses: state.expenses.filter((expense) => expense.id !== action.id),

@@ -38,6 +38,10 @@ class Wallet extends Component {
     this.fetchCurrencyType();
   }
 
+  componentDidUpdate(prevProps) {
+    this.calcExpenses(prevProps);
+  }
+
   handleChange({ target }) {
     const { expense } = this.state;
     const { value, name } = target;
@@ -55,15 +59,18 @@ class Wallet extends Component {
     });
   }
 
-  calcExpenses() {
+  calcExpenses(prevProps) {
+    console.log(prevProps);
     const { expenses } = this.props;
-    const totalExpenses = expenses
-      .reduce((acc, curr) => (
-        acc + (curr.value * curr.exchangeRates[curr.currency].ask)
-      ), 0);
-    this.setState({
-      totalExpenses,
-    });
+    if (prevProps && prevProps.expenses !== expenses) {
+      const totalExpenses = expenses
+        .reduce((acc, curr) => (
+          acc + (curr.value * curr.exchangeRates[curr.currency].ask)
+        ), 0);
+      this.setState({
+        totalExpenses,
+      });
+    }
   }
 
   eraseState() {
