@@ -5,6 +5,7 @@ import actions from '../actions';
 
 const MIN_PASSWORD_LENGTH = 6;
 
+// function from https://ui.dev/validate-email-address-javascript/
 function emailIsValid(email) {
   return /\S+@\S+\.\S+/.test(email);
 }
