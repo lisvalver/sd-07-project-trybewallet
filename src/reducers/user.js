@@ -6,13 +6,15 @@ const INITIAL_STATE = {
   email: '',
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+function userReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
   case LOGIN:
-    return { ...state, login: true, email: action.email };
+    return {
+      ...state, email: action.email };
+
   default:
     return state;
   }
-};
+}
 
 export default userReducer;

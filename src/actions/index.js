@@ -1,4 +1,5 @@
 // Coloque aqui suas actions
+// thanks to Thiago  :)
 export const LOGIN = 'LOGIN';
 export const NEW_EXPENSE = 'NEW_EXPENSE';
 export const EXCLUDE_EXPENSE = 'EXCLUDE_EXPENSE';
