@@ -1,82 +1,102 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { login } from '../actions';
-// Project based-@ThiagoPederzolli-Thx :)
-class Login extends React.Component {
-  constructor() {
-    super();
 
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       email: '',
       password: '',
-      authentication: false,
     };
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+
+    this.handleChange = this.handleChange.bind(this);
+    this.emailIsValid = this.emailIsValid.bind(this);
+    this.click = this.click.bind(this);
   }
 
-  handleEmailChange({ target }) {
-    const { value } = target;
-    this.setState({ email: value }, () => {
-      const { email } = this.state;
-      const regexEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-      const verifyEmail = email.match(regexEmail);
-      if (verifyEmail) {
-        this.setState({ authentication: true });
-      } else {
-        this.setState({ authentication: false });
-      }
+  emailIsValid() {
+    const { email, password } = this.state;
+    const regex = /\S+@\S+\.\S+/;
+    const validate = regex.test(email);
+    const minLength = 6;
+    const validatePassword = password.length >= minLength;
+
+    if (validate && validatePassword) {
+      return true;
+    }
+    return false;
+  }
+
+  handleChange({ target }) {
+    this.setState({
+      [target.name]: target.value,
     });
   }
+  // Nicholas Torres J. Vasconcelos
 
-  handlePasswordChange({ target }) {
-    const { value } = target;
-    this.setState({ password: value });
+  click() {
+    const { loginDispatch, history } = this.props;
+
+    const { email } = this.state;
+    loginDispatch(email);
+    history.push('/carteira');
   }
 
   render() {
-    const { authentication, email, password } = this.state;
-    const { loggingin, logged } = this.props;
-    const numberCharacters = 6;
-
-    if (logged) {
-      return <Redirect to="/carteira" />;
-    }
     return (
-      <div>
-        <input
-          data-testid="email-input"
-          onChange={ (event) => this.handleEmailChange(event) }
-        />
-        <input
-          data-testid="password-input"
-          onChange={ (event) => this.handlePasswordChange(event) }
-        />
-        <button
-          disabled={ !authentication || password.length < numberCharacters }
-          type="button"
-          onClick={ () => loggingin(email) }
-        >
-          Entrar
-        </button>
+      <div className="body">
+        <form className="formulario">
+          <label
+            htmlFor="email"
+            className="input"
+          >
+            E-mail
+            <input
+              className="caixa"
+              id="email"
+              data-testid="email-input"
+              type="email"
+              onChange={ this.handleChange }
+              placeholder="email"
+              name="email"
+            />
+          </label>
+          <label htmlFor="password" className="senha">
+            Senha
+            <input
+              className="caixa"
+              id="password"
+              data-testid="password-input"
+              type="password"
+              placeholder="password"
+              onChange={ this.handleChange }
+              name="password"
+            />
+          </label>
+          <button
+            className="button"
+            type="submit"
+            disabled={ !this.emailIsValid() }
+            onClick={ this.click }
+          >
+            Entrar
+          </button>
+        </form>
       </div>
     );
   }
 }
-
 const mapDispatchToProps = (dispatch) => ({
-  loggingin: (email) => dispatch(login(email)),
+  loginDispatch: (email) => dispatch(login(email)),
 });
 
-const mapStateToProps = (state) => ({
-  logged: state.user.login,
-});
+export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
-  loggingin: PropTypes.func.isRequired,
-  logged: PropTypes.bool.isRequired,
+  loginDispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
